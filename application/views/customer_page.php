@@ -75,7 +75,7 @@
 								<td>0812345678</td>
 								<td>
 									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-									<button class="btn btn-outline-success mt-10 mb-10">Edit</button>
+									<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
 									<button class="btn btn-danger mt-10 mb-10">Delete</button>
 								</td>
 							</tr>
@@ -138,6 +138,7 @@
     </div>
   </div>
 
+  <?php include('edit_modal.php')?>
   <!-- Bootstrap core JavaScript-->
   <script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
   <script src="<?php echo base_url('dist/vendor/bootstrap/js/bootstrap.bundle.min.js');?>"></script>
