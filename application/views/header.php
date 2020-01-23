@@ -38,7 +38,7 @@
       <hr class="sidebar-divider my-0">
 
        <!-- Nav Item - perumahan -->
-       <li class="nav-item active">
+       <li class="nav-item">
         <a class="nav-link" href="index.html">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Perumahan</span></a>
