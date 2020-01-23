@@ -14,8 +14,9 @@ class Main extends CI_Controller {
 		$this->load->view('dashboard');
 	}
     
-
+	public function customer()
+	{
+		$this->load->view('customer_page');
+	}
 	
-
-    
 }
