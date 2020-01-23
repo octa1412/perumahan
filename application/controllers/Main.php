@@ -10,6 +10,7 @@ class Main extends CI_Controller {
 	
 	public function login()
 	{
+		$this->load->view('header');
 		$this->load->view('dashboard');
 	}
     
