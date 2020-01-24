@@ -19,4 +19,15 @@ class Main extends CI_Controller {
 		$this->load->view('customer_page');
 	}
 	
+	public function transaksi()
+	{
+		$this->load->view('transaksi_page');
+	}
+
+	public function arsip()
+	{
+		$this->load->view('arsip_staff_page');
+	}
+
+	
 }
