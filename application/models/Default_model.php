@@ -7,7 +7,7 @@ class Default_model extends CI_Model {
 
 	//GET DATABASE
 	public function get_data_user($id = NULL){
-		$this->db->select('username,password,pangkat');
+		$this->db->select('*');
 		$this->db->from('user');
 		if ($id != NULL){
 			$this->db->where('username',$id);
