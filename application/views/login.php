@@ -72,7 +72,7 @@
   <script src="<?=base_url('dist/vendor/jquery-easing/jquery.easing.min.js')?>"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="<?=base_url('dist/js/sb-admin-2.min.js');?>"></script>
+  <script src="<?=base_url('dist/js/sb-admin-2.min.js');?>"></script> 
 
   <script>
     $(document).on('submit', '#form', function (event) {
