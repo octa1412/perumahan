@@ -39,28 +39,28 @@
 
        <!-- Nav Item - perumahan -->
        <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="<?php echo base_url('index.php/Main/login');?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Perumahan</span></a>
       </li>
          
       <!-- Nav Item - cluster -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="<?php echo base_url('index.php/Main/cluster');?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Cluster</span></a>
       </li>
 
       <!-- Nav Item - blok -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="<?php echo base_url('index.php/Main/blok');?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Blok</span></a>
       </li>
 
       <!-- Nav Item - customer -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="<?php echo base_url('index.php/Main/customer');?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Customer</span></a>
       </li>
