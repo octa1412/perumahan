@@ -1,11 +1,6 @@
 <?php
 class CustomerModel extends CI_Model {
 
-    public $idCustomer;
-    public $nama;
-    public $nomor;
-    public $email;
-
 	public function __construct(){
 		$this->load->database();
     }
