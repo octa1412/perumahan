@@ -7,7 +7,7 @@ class Default_model extends CI_Model {
 
 	//GET DATABASE
 	public function get_data_user($id = NULL){
-		$this->db->select('username,password,pangkat');
+		$this->db->select('*');
 		$this->db->from('user');
 		if ($id != NULL){
 			$this->db->where('username',$id);
@@ -38,9 +38,6 @@ class Default_model extends CI_Model {
 		return $return_message;
 	}
 
-
-
-
 	//UPDATE DATABASE
 	public function update_user($id, $data){
 		$this->db->where('username', $id);
@@ -52,7 +49,6 @@ class Default_model extends CI_Model {
 		}
 		return $return_message;
 	}
-
 
 	//DELETE DATABASE
 	public function delete_user($id){

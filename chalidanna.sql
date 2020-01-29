@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2020 at 06:58 AM
+-- Generation Time: Jan 29, 2020 at 02:32 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sementara`
+-- Database: `chalidanna`
 --
 
 -- --------------------------------------------------------
@@ -128,6 +128,14 @@ CREATE TABLE `user` (
   `nama` varchar(255) DEFAULT NULL,
   `nomor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`username`, `password`, `pangkat`, `nama`, `nomor`) VALUES
+('admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin', 'Budi', 99999),
+('staff1', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Siti', 99901010);
 
 --
 -- Indexes for dumped tables

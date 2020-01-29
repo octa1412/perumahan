@@ -3,7 +3,7 @@
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-center mb-4">
-                <h1 class="h1 mb-0 text-gray-800 ">Data Blok</h1>
+                <h1 class="h1 mb-0 text-gray-800 ">Data Staff</h1>
             </div>
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -24,9 +24,9 @@
             <table id="table" class="display">
                 <thead>
                     <tr>
-                        <th>Nama Blok</th>
-                        <th>Nama Customer</th>
-                        <th>Harga</th>
+                        <th>ID Staff</th>
+                        <th>Nama Staff</th>
+                        <th>Perumahan</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -34,9 +34,8 @@
                     <tr>
                         <td>A2</td>
                         <td>Budi Setiawan</td>
-                        <td>85.000</td>
+                        <td>Anggrek/td>
                         <td>
-                            <button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
                             <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
                             <button class="btn btn-danger mt-10 mb-10">Delete</button>
                         </td>
@@ -44,9 +43,8 @@
                     <tr>
                         <td>A3</td>
                         <td>Siti</td>
-                        <td>78.000</td>
+                        <td>Melati</td>
                         <td>
-                            <button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
                             <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
                             <button class="btn btn-danger mt-10 mb-10">Delete</button>
                         </td>

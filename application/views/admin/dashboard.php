@@ -2,83 +2,54 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800"><b>Data Perumahan</b></h1></br>
+          <div class="d-sm-flex align-items-center justify-content-center mb-4">
+            <h1 class="h1 mb-0 text-gray-800 ">Data Perumahan</h1>
+          </div>
 
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <button class="btn btn-primary">Add</button>
             <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-							<div class="input-group">
-								<input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-								<div class="input-group-append">
-										<button class="btn btn-primary" type="button">
-										<i class="fas fa-search fa-sm"></i>
-										</button>
-								</div>
-							</div>
+                <div class="input-group">
+                    <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                            </button>
+                    </div>
+                </div>
             </form>
           </div>
 
           
 
           <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <button>add</button>
-              
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="table" width="100%" cellspacing="0">
-                  <thead>
+          <table id="table" class="display">
+                <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
+                        <th>Nama Perumahan</th>
+                        <th>Kota</th>                        
+                        <th>Action</th>
                     </tr>
-                  </thead>
-                  <tfoot>
+                </thead>
+                <tbody>
                     <tr>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                    <tr>
-                      <td>Tiger Nixon</td>
-                      <td>System Architect</td>
-                      <td>Edinburgh</td>
-                      <td>61</td>
-                      <td>2011/04/25</td>
-                      <td>$320,800</td>
+                        <td>Anggrek</td>
+                        <td>Malang</td>
+                        <td>
+                            <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
+                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
+                        </td>
                     </tr>
                     <tr>
-                      <td>Garrett Winters</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>63</td>
-                      <td>2011/07/25</td>
-                      <td>$170,750</td>
+                        <td>Melati</td>
+                        <td>Surabaya</td>
+                        <td>
+                            <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
+                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
+                        </td>
                     </tr>
-                    <tr>
-                      <td>Ashton Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+                </tbody>
+            </table>
 
         </div>
         <!-- /.container-fluid -->
@@ -96,7 +67,7 @@
   <!-- End of Page Wrapper -->
 
   <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
+  <a class="scroll-to-top rounded" href="#page-top"> 
     <i class="fas fa-angle-up"></i>
   </a>
 
@@ -113,7 +84,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="<?=base_url("index.php/Main/logoutuser");?>">Logout</a>
         </div>
       </div>
     </div>
