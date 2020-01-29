@@ -38,9 +38,6 @@ class Default_model extends CI_Model {
 		return $return_message;
 	}
 
-
-
-
 	//UPDATE DATABASE
 	public function update_user($id, $data){
 		$this->db->where('username', $id);
@@ -52,7 +49,6 @@ class Default_model extends CI_Model {
 		}
 		return $return_message;
 	}
-
 
 	//DELETE DATABASE
 	public function delete_user($id){

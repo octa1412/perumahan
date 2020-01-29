@@ -39,7 +39,7 @@
 
        <!-- Nav Item - perumahan -->
        <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/login');?>">
+        <a class="nav-link" href="<?php echo base_url('index.php/Main/dashboardadmin');?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Perumahan</span></a>
       </li>
@@ -67,7 +67,7 @@
 
       <!-- Nav Item - staff -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/transaksi');?>">
+        <a class="nav-link" href="<?php echo base_url('index.php/Main/staff');?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Staff</span></a>
       </li>

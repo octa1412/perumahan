@@ -85,7 +85,7 @@
         data: dataString,
         success: function (response) {
           if (response == "berhasil login1") {
-            window.location.replace("<?php echo base_url() ?>index.php/Main/login");
+            window.location.replace("<?php echo base_url() ?>index.php/Main/dashboardadmin");
           } else {
             alert(response);
             $("#submit").prop("disabled", false);
