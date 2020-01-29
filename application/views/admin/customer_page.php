@@ -51,7 +51,7 @@
 								<td>
 									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
 									<button class="btn btn-outline-success mt-10 mb-10">Edit</button>
-									<button class="btn btn-danger mt-10 mb-10">Delete</button>
+									<button class="btn btn-danger mt-10 mb-10"><span onclick="delete_customer(getCookie(''))">Delete</span></button>
 								</td>
 							</tr>
 						</tbody>
@@ -61,6 +61,23 @@
 
       </div>
       <!-- End of Main Content -->
+
+      <script>
+                  
+        function delete_customer(id) {
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/delete_kamar/" + id,
+            success: function (response) {
+              if (response === "success") {
+                location.reload();
+              }
+            }
+          });
+        }
+
+      
+      </script>
+
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
@@ -96,7 +113,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="<?=base_url("index.php/Main/logoutuser");?>">Logout</a>
         </div>
       </div>
     </div>

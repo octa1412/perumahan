@@ -2,37 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Main extends CI_Controller { 
-	    
-	public function customer()
-	{
-		$this->load->view('header');
-		$this->load->view('admin/customer_page');
-	}
-
-	public function cluster()
-	{
-		$this->load->view('header');
-		$this->load->view('admin/cluster_page');
-	}
-
-	public function blok()
-	{
-		$this->load->view('header');
-		$this->load->view('admin/blok_page');
-	}
-	
-	public function transaksi()
-	{
-		$this->load->view('header');
-		$this->load->view('transaksi_page');
-	}
-
-	public function arsip()
-	{
-		$this->load->view('header');
-		$this->load->view('arsip_staff_page');
-	}
-
+	    	
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Default_model');
@@ -48,23 +18,84 @@ class Main extends CI_Controller {
 		$this->load->view('login');
 	}
 	
-	//login
-	public function login()
-	{
-		$this->load->view('header');
-		$this->load->view('admin/dashboard');
-	}
 
 	//Dashboard
 	public function dashboardadmin(){
 		if ($this->checkcookieuser()) {
-			$this->load->view('dashboard');
+			$this->load->view('header');
+			$this->load->view('admin/dashboard');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
 		}
 	}
 
+	//Cluster
+	public function cluster(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/cluster_page');
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
+	//Blok
+	public function blok(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/blok_page');
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
+	//Customer
+	public function customer(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/customer_page');		
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
+	//Staff
+	public function staff(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/staff_page');		
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
+	//Arsip
+	public function arsip(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/arsip_staff_page');
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
+	//Transaksi
+	public function transaksi(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/transaksi_page');
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+	
 
 	
 	//GET DATA
@@ -171,6 +202,14 @@ class Main extends CI_Controller {
 		}
 	}
 
+	public function delete_customer($id) {
+		if ($this->checkcookieadmin()) {
+			$deleteStatus = $this->CustomerModel->delete($id);
+			echo $deleteStatus;
+		}else{
+			echo "access denied";
+		}
+	}
 
 	//OTHER
 
