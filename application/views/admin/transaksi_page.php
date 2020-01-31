@@ -84,36 +84,16 @@
 					<table id="table" class="display">
 						<thead>
 							<tr>
-								<th>ID Customer</th>
-								<th>Nama</th>
-								<th>Email</th>
-								<th>Nomor</th>
+								<th>ID Nota</th>
+								<th>Tanggal Pembayaran</th>
+								<th>Total Awal</th>
+								<th>Diskon</th>
+								<th>Total Akhir</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>01222020</td>
-								<td>Dudi Shopee</td>
-								<td>DudiShope3@mail.com</td>
-								<td>0812345678</td>
-								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-									<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-									<button class="btn btn-danger mt-10 mb-10">Delete</button>
-								</td>
-							</tr>
-							<tr>
-								<td>02222020</td>
-								<td>Dadang Kecap</td>
-								<td>dadangkecap@mail.com</td>
-								<td>0812345678</td>
-								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-									<button class="btn btn-outline-success mt-10 mb-10">Edit</button>
-									<button class="btn btn-danger mt-10 mb-10">Delete</button>
-								</td>
-							</tr>
+							
 						</tbody>
 					</table>
         </div>
@@ -185,7 +165,41 @@
 	<script>
 		$('.input-daterange').datepicker();
 
-		</script>
+  </script>
+  <script>
+    $(document).ready(function () {
+      dTable = $('#table').DataTable();
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/1",
+        type: 'POST',
+        success: function (json) {
+          console.log(json);
+          var response = JSON.parse(json);
+          response.forEach((data)=>{
+            dTable.row.add([
+              data.IDNota,
+              data.tanggal,
+              data.total_awal,
+              data.diskon,
+              data.total_setelah_diskon,
+              '<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>'
+              + '<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>'
+              + '<button class="btn btn-danger mt-10 mb-10"><span onclick="delete_customer(getCookie(""))">Delete</span></button>'
+            
+            ]).draw(false);
+            
+          })
+          // $("tbody").append()
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+    });
+
+  </script>
+
 </body>
 
 </html>

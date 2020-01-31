@@ -1,3 +1,5 @@
+        <script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
+        
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
@@ -32,17 +34,6 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>01222020</td>
-								<td>Dudi Shopee</td>
-								<td>DudiShope3@mail.com</td>
-								<td>0812345678</td>
-								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-									<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-									<button class="btn btn-danger mt-10 mb-10">Delete</button>
-								</td>
-							</tr>
 							<tr>
 								<td>02222020</td>
 								<td>Dadang Kecap</td>
@@ -121,7 +112,6 @@
 
   <?php include('edit_modal.php')?>
   <!-- Bootstrap core JavaScript-->
-  <script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
   <script src="<?php echo base_url('dist/vendor/bootstrap/js/bootstrap.bundle.min.js');?>"></script>
 
   <!-- Core plugin JavaScript-->
@@ -139,6 +129,41 @@
 
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
+
+
+  <script>
+        $(document).ready(function () {
+          dTable = $('#table').DataTable();
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/get_all_customer",
+            type: 'POST',
+            success: function (json) {
+              var response = JSON.parse(json);
+              response.forEach((data)=>{
+                dTable.row.add([
+                  data.IDCustomer,
+                  data.nama,
+                  data.email,
+                  data.nomor,
+                  '<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>'
+									+ '<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>'
+									+ '<button class="btn btn-danger mt-10 mb-10"><span onclick="delete_customer(getCookie(""))">Delete</span></button>'
+                
+                ]).draw(false);
+                
+              })
+              // $("tbody").append()
+              console.log(response[0]);
+            },
+            error: function (xhr, status, error) {
+              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              $("#submit").prop("disabled", false);
+            }
+          });
+        });
+
+      </script>
+
 </body>
 
 </html>

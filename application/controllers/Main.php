@@ -6,6 +6,8 @@ class Main extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Default_model');
+		$this->load->model('CustomerModel');
+		$this->load->model('TagihanModel');
 		$this->load->helper('url_helper');
 		date_default_timezone_set('Asia/Jakarta');
 	}
@@ -131,7 +133,39 @@ class Main extends CI_Controller {
 		}
 	}
 
-	
+	//ambil data customer
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_all_customer($return_var = NULL){
+		$data = $this->CustomerModel->get_all();
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
+	//ambil data arsip
+	//parameter 1: true bila priviledge akses adalah dari admin
+	//parameter 2: true bila ingin return array, kosongi bila ingin Json
+	public function get_all_arsip($isAdmin, $return_var = NULL){
+		$username = $this->get_cookie_decrypt("userCookie");
+		if($isAdmin){
+			$data = $this->TagihanModel->get_all(NULL,1);
+		} else{
+			$data = $this->TagihanModel->get_all($username, 1);
+		}
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
 
 	//INSERT
 
@@ -336,7 +370,7 @@ class Main extends CI_Controller {
 	public function get_cookie_decrypt($name){
 		$this->load->helper('cookie');
 		if ($this->input->cookie($name,true)!=NULL) {
-			echo str_rot13($this->input->cookie($name,true));
+			return str_rot13($this->input->cookie($name,true));
 		}else{
 			echo "no cookie";
 		}
