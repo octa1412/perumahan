@@ -3,11 +3,11 @@
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-center mb-4">
-                <h1 class="h1 mb-0 text-gray-800 ">Data Blok</h1>
+                <h1 class="h1 mb-0 text-gray-800 ">Data Blok Staff</h1>
             </div>
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <button class="btn btn-primary">Add</button>
+               
                 <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
                         <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -26,7 +26,6 @@
                     <tr>
                         <th>Nama Blok</th>
                         <th>Nama Customer</th>
-                        <th>Harga</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -34,21 +33,17 @@
                     <tr>
                         <td>A2</td>
                         <td>Budi Setiawan</td>
-                        <td>85.000</td>
                         <td>
-                            <a href="<?php echo base_url('index.php/Main/blokdetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>
-                            <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
+                        <a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>
+                            <a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>                            
                         </td>
                     </tr>
                     <tr>
                         <td>A3</td>
                         <td>Siti</td>
-                        <td>78.000</td>
                         <td>
-                            <a href="<?php echo base_url('index.php/Main/blokdetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>
-                            <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
-                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
+                            <a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>
+                            <a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>                            
                         </td>
                     </tr>
                 </tbody>

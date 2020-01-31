@@ -1,14 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin 2 - Dashboard</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="<?php echo base_url('dist/vendor/fontawesome-free/css/all.min.css');?>" rel="stylesheet" type="text/css">
+  <link href="<?php echo base_url('dist/vendor/datetimepicker/css/bootstrap-datepicker.min.css');?>" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+
+  <!-- Custom styles for this template-->
+  <link href="<?php echo base_url('dist/css/sb-admin-2.min.css');?>" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-center mb-4">
-            <h1 class="h1 mb-0 text-gray-800 ">Customer</h1>
+            <h1 class="h1 mb-0 text-gray-800 ">Arsip Blok A2</h1>
           </div>
 
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <button class="btn btn-primary">Add</button>
-            <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <div class="d-sm-flex align-items-center mb-4">
+						
+						
+						<div class="id-none form-inline ml-md-3 input-daterange">
+							<input type="text" class="form-control" value="2012-04-05">
+							<div class="input-group-text justify-content-sm-center">to</div>
+							<input type="text" class="form-control" value="2012-04-19">
+						</div>
+						
+            <form class="d-none d-sm-inline-block form-inline ml-auto my-2 my-md-0 mw-100 navbar-search">
 							<div class="input-group">
 								<input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
 								<div class="input-group-append">
@@ -24,34 +68,24 @@
 					<table id="table" class="display">
 						<thead>
 							<tr>
-								<th>ID Customer</th>
-								<th>Nama</th>
-								<th>Email</th>
-								<th>Nomor</th>
+								<th>ID Nota</th>
+								<th>Tanggal Pembayaran</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>01222020</td>
-								<td>Dudi Shopee</td>
-								<td>DudiShope3@mail.com</td>
-								<td>0812345678</td>
+								<td>9 November 2019</td>
 								<td>
 									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-									<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-									<button class="btn btn-danger mt-10 mb-10">Delete</button>
 								</td>
 							</tr>
 							<tr>
 								<td>02222020</td>
-								<td>Dadang Kecap</td>
-								<td>dadangkecap@mail.com</td>
-								<td>0812345678</td>
+								<td>12 Desember 2019</td>
 								<td>
 									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-									<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-									<button class="btn btn-danger mt-10 mb-10"><span onclick="delete_customer(getCookie(''))">Delete</span></button>
 								</td>
 							</tr>
 						</tbody>
@@ -61,23 +95,6 @@
 
       </div>
       <!-- End of Main Content -->
-
-      <script>
-                  
-        function delete_customer(id) {
-          $.ajax({
-            url: "<?php echo base_url() ?>index.php/delete_kamar/" + id,
-            success: function (response) {
-              if (response === "success") {
-                location.reload();
-              }
-            }
-          });
-        }
-
-      
-      </script>
-
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
@@ -119,7 +136,6 @@
     </div>
   </div>
 
-  <?php include('edit_modal.php')?>
   <!-- Bootstrap core JavaScript-->
   <script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
   <script src="<?php echo base_url('dist/vendor/bootstrap/js/bootstrap.bundle.min.js');?>"></script>
@@ -139,6 +155,11 @@
 
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
+	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>
+	<script>
+		$('.input-daterange').datepicker();
+
+		</script>
 </body>
 
 </html>

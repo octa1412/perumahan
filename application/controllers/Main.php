@@ -19,11 +19,22 @@ class Main extends CI_Controller {
 	}
 	
 
-	//Dashboard
+	//Dashboard admin
 	public function dashboardadmin(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/dashboard');
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
+	//Dashboard staff
+	public function dashboardstaff(){
+		if ($this->checkcookiestaff()) {
+			$this->load->view('header1');
+			$this->load->view('staff/blok_page');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -52,11 +63,24 @@ class Main extends CI_Controller {
 		}
 	}
 
+	//Blok detail
+	public function blokdetail(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/blok_detail_page');
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
 	//Customer
 	public function customer(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
+			$this->load->view('edit_modal');
 			$this->load->view('admin/customer_page');		
+
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -65,7 +89,7 @@ class Main extends CI_Controller {
 
 	//Staff
 	public function staff(){
-		if ($this->checkcookieuser()) {
+		if ($this->checkcookieser()) {
 			$this->load->view('header');
 			$this->load->view('admin/staff_page');		
 		}else{
@@ -79,7 +103,10 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/arsip_staff_page');
-		}else{
+		}else if ($this->checkcookiestaff()) {
+			$this->load->view('header1');
+			$this->load->view('staff/arsip_staff_page');
+		}else {
 			header("Location: ".base_url()."index.php/login");
 			die();
 		}
@@ -90,12 +117,25 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/transaksi_page');
+		}else if ($this->checkcookiestaff()) {
+			$this->load->view('header1');
+			$this->load->view('admin/transaksi_page');
+		}else {
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
+	//Detail iuran 
+	public function iurandetail(){
+		if ($this->checkcookiestaff()) {
+			$this->load->view('header1');
+			$this->load->view('staff/detail_iuran_page');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
 		}
 	}
-	
 
 	
 	//GET DATA
@@ -121,6 +161,22 @@ class Main extends CI_Controller {
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_user_by_id($id, $return_var = NULL){
 		$data = $this->Default_model->get_data_user_nopassword($id);
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
+
+	//ambil data customer berdasarkan username
+	//note: password tidak diambil
+	//parameter 1: username
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_customer($id = null){
+		$data = $this->CustomerModel->get_all($id);
 		if (empty($data)){
 			$data = [];
 		}
@@ -226,30 +282,46 @@ class Main extends CI_Controller {
 		foreach ($data as $row){
 			if ($username == $row['username'] && $password == $row['password']) {
 				if($row['pangkat'] == 'admin'){
-					$this->create_cookie_encrypt("userCookie",$username);
+					$this->create_cookie_encrypt("adminCookie",$username);
 					$status = 'admin';
 					$is_login = true;
 					break;
 
+				} else if($row['pangkat'] == 'staff'){
+					$this->create_cookie_encrypt("staffCookie",$username);
+					$status = 'staff';
+					$is_login = true;
+					break;
 				}
 				
 			}
 		}
 		if ($is_login && $status == 'admin') {
-			echo "berhasil login1";
+			echo "Selamat Datang Admin";
 		} else if ($is_login && $status == 'staff') {
-			echo "berhasil login";
+			echo "Login Berhasil";
 		} else{
 			echo "gagal login";
 		}
 	}
 
 
-	//Check cookie
+	//Check cookie admin
 	//note: tidak untuk front end
 	public function checkcookieuser(){
 		$this->load->helper('cookie');
-		if ($this->input->cookie('userCookie',true)!=NULL) {
+		if ($this->input->cookie('adminCookie',true)!=NULL) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	//Check cookie staff
+	//note: tidak untuk front end
+	public function checkcookiestaff(){
+		$this->load->helper('cookie');
+		if ($this->input->cookie('staffCookie',true)!=NULL) {
 			return true;
 		}else{
 			return false;
@@ -260,7 +332,12 @@ class Main extends CI_Controller {
 	//note: menghapus cookie dan langsung redirect ke halaman login
 	public function logoutuser(){
 		$this->load->helper('cookie');
-		delete_cookie("userCookie");
+		if ($this->input->cookie('adminCookie',true)!=NULL) {
+			delete_cookie("adminCookie");
+		}else if ($this->input->cookie('staffCookie',true)!=NULL){
+			delete_cookie("staffCookie");
+		}
+		
 		header("Location: ".base_url()."index.php");
 		die();
 	}
