@@ -3,7 +3,7 @@
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-center mb-4">
-                <h1 class="h1 mb-0 text-gray-800 ">Data Blok</h1>
+                <h1 class="h1 mb-0 text-gray-800 ">Data Detail Blok Customer</h1>
             </div>
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -24,29 +24,27 @@
             <table id="table" class="display">
                 <thead>
                     <tr>
+                        <th>Nama Perumahan</th>
+                        <th>Nama Cluster</th>
                         <th>Nama Blok</th>
-                        <th>Nama Customer</th>
-                        <th>Harga</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>A2</td>
-                        <td>Budi Setiawan</td>
-                        <td>85.000</td>
+                        <td>B3</td>
+                        <td>Tata</td>
                         <td>
-                            <a href="<?php echo base_url('index.php/Main/blokdetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>
                             <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
                             <button class="btn btn-danger mt-10 mb-10">Delete</button>
                         </td>
                     </tr>
                     <tr>
                         <td>A3</td>
-                        <td>Siti</td>
-                        <td>78.000</td>
+                        <td>B2</td>
+                        <td>Toto</td>
                         <td>
-                            <a href="<?php echo base_url('index.php/Main/blokdetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>
                             <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
                             <button class="btn btn-danger mt-10 mb-10">Delete</button>
                         </td>
