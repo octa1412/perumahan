@@ -3,75 +3,41 @@
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-center mb-4">
-                <h1 class="h1 mb-0 text-gray-800 ">Data Blok</h1>
-            </div>
-
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <button class="btn btn-primary">Add</button>
-                <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                                </button>
-                        </div>
-                    </div>
-                </form>
+                <h1 class="h1 mb-0 text-gray-800 ">Tanggungan Iuran</h1>
             </div>
 
             <!--table-->
-            <table id="table" class="table table-bordered table-striped">
+            <table id="table" class="display">
                 <thead>
                     <tr>
-                        <th>Nama Blok</th>
-                        <th>Nama Customer</th>
+                        <th>Tanggal</th>
                         <th>Harga</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>A2</td>
-                        <td>Budi Setiawan</td>
+                        <td>Oktober 2019</td>
                         <td>85.000</td>
                         <td>
-                            <a href="<?php echo base_url('index.php/Main/blokdetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>
-                            <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-                            <button id="deletebutton" class="btn btn-danger mt-10 mb-10" onclick="deleteblok(get_cookie_decrypt('')">Delete</button>
+                           <input type="checkbox" name="bayar"></input>
                         </td>
                     </tr>
                     <tr>
-                        <td>A3</td>
-                        <td>Siti</td>
+                        <td>November 2019</td>
                         <td>78.000</td>
                         <td>
-                            <a href="<?php echo base_url('index.php/Main/blokdetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>
-                            <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
-                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
+                            <input type="checkbox" name="bayar"></input>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <br>
         </div>
         <!-- /.container-fluid -->
 
       </div>
       <!-- End of Main Content -->
-
-        <script>
-
-        function deleteblok(id) {
-            $.ajax({
-                    url: "<?php echo base_url() ?>index.php/delete_blok/" + id,
-                    success: function (response) {
-                        if (response==="success") {
-                            location.reload();
-                        }
-                    }
-                });
-        }
-        </script>
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">

@@ -40,7 +40,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-center mb-4">
-            <h1 class="h1 mb-0 text-gray-800 ">Transaksi</h1>
+            <h1 class="h1 mb-0 text-gray-800 ">Data Arsip Pembayaran</h1>
           </div>
 
           <div class="d-sm-flex align-items-center mb-4">
@@ -84,16 +84,28 @@
 					<table id="table" class="display">
 						<thead>
 							<tr>
-								<th>ID Nota</th>
-								<th>Tanggal Pembayaran</th>
-								<th>Total Awal</th>
-								<th>Diskon</th>
-								<th>Total Akhir</th>
+								<th>ID Customer</th>
+								<th>Nama Blok</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							
+							<tr>
+								<td>01222020</td>
+								<td>Dudi</td>
+						    <td>
+                  <a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>
+									<a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-success mt-10 mb-10">Tagihan</button></a>
+								</td>
+							</tr>
+							<tr>
+								<td>02222020</td>
+								<td>Dadang</td>
+								<td>
+									<button class="btn btn-outline-primary mt-10 mb-10">Arsip</button>
+									<button class="btn btn-outline-success mt-10 mb-10">Tagihan</button>
+								</td>
+							</tr>
 						</tbody>
 					</table>
         </div>
