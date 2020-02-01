@@ -89,7 +89,7 @@ class Main extends CI_Controller {
 
 	//Staff
 	public function staff(){
-		if ($this->checkcookieser()) {
+		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/staff_page');		
 		}else{
@@ -116,10 +116,7 @@ class Main extends CI_Controller {
 	public function transaksi(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
-			$this->load->view('admin/transaksi_page');
-		}else if ($this->checkcookiestaff()) {
-			$this->load->view('header1');
-			$this->load->view('admin/transaksi_page');
+			$this->load->view('admin/arsip_page');
 		}else {
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -128,7 +125,10 @@ class Main extends CI_Controller {
 
 	//Detail iuran 
 	public function iurandetail(){
-		if ($this->checkcookiestaff()) {
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/detail_iuran_page');
+		} else if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('staff/detail_iuran_page');
 		}else{
@@ -261,6 +261,15 @@ class Main extends CI_Controller {
 	public function delete_customer($id) {
 		if ($this->checkcookieadmin()) {
 			$deleteStatus = $this->CustomerModel->delete($id);
+			echo $deleteStatus;
+		}else{
+			echo "access denied";
+		}
+	}
+
+	public function delete_blok($id){
+		if ($this->checkcookieadmin()) {
+			$deleteStatus = $this->Default_model->delete_blok($id);
 			echo $deleteStatus;
 		}else{
 			echo "access denied";

@@ -61,5 +61,17 @@ class Default_model extends CI_Model {
 		}
 		return $return_message;
 	}
+
+	public function delete_blok($id){
+		$this->db->where('IDBlok', $id);
+		$this->db->delete('blok');
+		if ($this->db->affected_rows() > 0 ) {
+			$return_message = 'success';
+		}else{
+			$return_message = 'failed';
+		}
+		return $return_message;
+	}
+
 	
 }

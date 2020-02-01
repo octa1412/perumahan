@@ -10,7 +10,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Dashboard</title>
+  <title>Chalidanna</title>
 
   <!-- Custom fonts for this template-->
   <link href="<?php echo base_url('dist/vendor/fontawesome-free/css/all.min.css');?>" rel="stylesheet" type="text/css">
@@ -40,7 +40,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-center mb-4">
-            <h1 class="h1 mb-0 text-gray-800 ">Arsip</h1>
+            <h1 class="h1 mb-0 text-gray-800 ">Kuintansi</h1>
           </div>
 
           <div class="d-sm-flex align-items-center mb-4">
@@ -65,37 +65,31 @@
           </div>
 
 					<!--table-->
-					<table id="table" class="display">
+					<!-- <table id="table" class="display">
 						<thead>
 							<tr>
-								<th>ID Customer</th>
-								<th>Nama</th>
-								<th>Email</th>
-								<th>Nomor</th>
+								<th>Bulan Iuran</th>
+								<th>Tanggal Pembayaran</th>								
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>01222020</td>
-								<td>Dudi Shopee</td>
-								<td>DudiShope3@mail.com</td>
-								<td>0812345678</td>
+								<td>November</td>
+								<td>12 Desember 2019</td>							
 								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
+									<button class="btn btn-outline-primary mt-10 mb-10">Nota</button>
 								</td>
 							</tr>
 							<tr>
-								<td>02222020</td>
-								<td>Dadang Kecap</td>
-								<td>dadangkecap@mail.com</td>
-								<td>0812345678</td>
+								<td>Desember</td>
+								<td>2 Januari 2020</td>
 								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
+									<button class="btn btn-outline-primary mt-10 mb-10">Nota</button>
 								</td>
 							</tr>
 						</tbody>
-					</table>
+					</table> -->
         </div>
         <!-- /.container-fluid -->
 

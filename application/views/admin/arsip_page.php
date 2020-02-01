@@ -40,7 +40,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-center mb-4">
-            <h1 class="h1 mb-0 text-gray-800 ">Transaksi</h1>
+            <h1 class="h1 mb-0 text-gray-800 ">Data Arsip Pembayaran</h1>
           </div>
 
           <div class="d-sm-flex align-items-center mb-4">
@@ -85,33 +85,25 @@
 						<thead>
 							<tr>
 								<th>ID Customer</th>
-								<th>Nama</th>
-								<th>Email</th>
-								<th>Nomor</th>
+								<th>Nama Blok</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>01222020</td>
-								<td>Dudi Shopee</td>
-								<td>DudiShope3@mail.com</td>
-								<td>0812345678</td>
-								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-									<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-									<button class="btn btn-danger mt-10 mb-10">Delete</button>
+								<td>Dudi</td>
+						    <td>
+                  <a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>
+									<a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-success mt-10 mb-10">Tagihan</button></a>
 								</td>
 							</tr>
 							<tr>
 								<td>02222020</td>
-								<td>Dadang Kecap</td>
-								<td>dadangkecap@mail.com</td>
-								<td>0812345678</td>
+								<td>Dadang</td>
 								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-									<button class="btn btn-outline-success mt-10 mb-10">Edit</button>
-									<button class="btn btn-danger mt-10 mb-10">Delete</button>
+									<button class="btn btn-outline-primary mt-10 mb-10">Arsip</button>
+									<button class="btn btn-outline-success mt-10 mb-10">Tagihan</button>
 								</td>
 							</tr>
 						</tbody>
