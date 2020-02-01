@@ -102,7 +102,7 @@ class Main extends CI_Controller {
 	public function arsip(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
-			$this->load->view('admin/arsip_staff_page');
+			$this->load->view('admin/arsip_admin_page');
 		}else if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('staff/arsip_staff_page');
@@ -123,11 +123,11 @@ class Main extends CI_Controller {
 		}
 	}
 
-	//Detail iuran 
+	//Detail iuran tagihan
 	public function iurandetail(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
-			$this->load->view('admin/detail_iuran_page');
+			$this->load->view('admin/tagihan_page');
 		} else if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('staff/detail_iuran_page');
