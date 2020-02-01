@@ -65,7 +65,7 @@
           </div>
 
 					<!--table-->
-					<!-- <table id="table" class="display">
+					<table id="table" class="display">
 						<thead>
 							<tr>
 								<th>Bulan Iuran</th>
@@ -89,7 +89,7 @@
 								</td>
 							</tr>
 						</tbody>
-					</table> -->
+					</table>
         </div>
         <!-- /.container-fluid -->
 
@@ -164,22 +164,16 @@
     $(document).ready(function () {
       dTable = $('#table').DataTable();
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/0",
+        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/1",
         type: 'POST',
         success: function (json) {
           console.log(json);
           var response = JSON.parse(json);
           response.forEach((data)=>{
             dTable.row.add([
-              data.IDNota,
+              data.bulan+' '+ data.tahun, 
               data.tanggal,
-              data.total_awal,
-              data.diskon,
-              data.total_setelah_diskon,
-              '<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>'
-              + '<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>'
-              + '<button class="btn btn-danger mt-10 mb-10"><span onclick="delete_customer(getCookie(""))">Delete</span></button>'
-            
+              '<button class="btn btn-outline-primary mt-10 mb-10">Nota</button>'
             ]).draw(false);
             
           })

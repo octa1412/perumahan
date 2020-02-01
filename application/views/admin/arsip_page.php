@@ -182,22 +182,18 @@
     $(document).ready(function () {
       dTable = $('#table').DataTable();
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/1",
+        url: "<?php echo base_url() ?>index.php/Main/get_transaksi",
         type: 'POST',
         success: function (json) {
           console.log(json);
           var response = JSON.parse(json);
           response.forEach((data)=>{
             dTable.row.add([
-              data.IDNota,
-              data.tanggal,
-              data.total_awal,
-              data.diskon,
-              data.total_setelah_diskon,
-              '<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>'
-              + '<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>'
-              + '<button class="btn btn-danger mt-10 mb-10"><span onclick="delete_customer(getCookie(""))">Delete</span></button>'
-            
+              data.nama,
+              data.IDBlok,
+              
+              '<a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>'
+              + '<a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-success mt-10 mb-10">Tagihan</button></a>'
             ]).draw(false);
             
           })
