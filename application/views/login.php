@@ -10,7 +10,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Login</title>
+  <title>Chalidanna</title>
 
   <!-- Custom fonts for this template-->
   <link href="<?=base_url('dist/vendor/fontawesome-free/css/all.min.css');?>" rel="stylesheet" type="text/css">
@@ -84,15 +84,15 @@
         type: 'POST',
         data: dataString,
         success: function (response) {
-          if (response == "berhasil login1") {
+          if (response == "Selamat Datang Admin") {
             window.location.replace("<?php echo base_url() ?>index.php/Main/dashboardadmin");
           } else {
             alert(response);
             $("#submit").prop("disabled", false);
           }
 
-          if (response == "berhasil login") {
-            window.location.replace("<?php echo base_url() ?>index.php/Main/index");
+          if (response == "Login Berhasil") {
+            window.location.replace("<?php echo base_url() ?>index.php/Main/dashboardstaff");
           } else {
             alert(response);
             $("#submit").prop("disabled", false);

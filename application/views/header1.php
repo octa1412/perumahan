@@ -31,54 +31,18 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-text mx-3">Admin Master</div>
+        <div class="sidebar-brand-text mx-3">Staff</div>
       </a>
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-       <!-- Nav Item - perumahan -->
-       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/dashboardadmin');?>">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Data Perumahan</span></a>
-      </li>
-         
-      <!-- Nav Item - cluster -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/cluster');?>">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Data Cluster</span></a>
-      </li>
-
-      <!-- Nav Item - blok -->
-      <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/blok');?>">
+        <a class="nav-link" href="<?php echo base_url('index.php/Main/dashboardstaff');?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Blok</span></a>
       </li>
-
-      <!-- Nav Item - customer -->
-      <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/customer');?>">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Data Customer</span></a>
-      </li>
-
-      <!-- Nav Item - staff -->
-      <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/staff');?>">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Data Staff</span></a>
-      </li>
-
-      <!-- Nav Item - arsip -->
-      <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/transaksi');?>">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Data Arsip</span></a>
-      </li>
-
+         
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
@@ -110,7 +74,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin Master</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Staff</span>
                 <img class="img-profile rounded-circle" src="https://videoin.id/vendor/avkit/uikit/img/avatar.png">
               </a>
               <!-- Dropdown - User Information -->
