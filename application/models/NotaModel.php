@@ -6,11 +6,13 @@ class NotaModel extends CI_Model {
 
     //This model can be used in arsip page, transaksi page
 
-    public function get_all($username){
+    public function get_all($username = NULL){
         $this->db->select();
         $this->db->from('nota');
-        $this->db->where($username);
-		$query = $this->db->get();
+        if($username != NULL){
+            $this->db->where('username',$username);
+        }
+        $query = $this->db->get();
 		return $query->result_array();
     }
 

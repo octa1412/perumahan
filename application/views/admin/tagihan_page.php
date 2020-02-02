@@ -99,6 +99,35 @@
 
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
+
+    <script>
+    $(document).ready(function () {
+      dTable = $('#table').DataTable();
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_tagihan/1",
+        type: 'POST',
+        success: function (json) {
+          console.log(json);
+          var response = JSON.parse(json);
+          response.forEach((data)=>{
+            dTable.row.add([
+              data.bulan+' '+ data.tahun, 
+              data.Harga,
+              '<input type="checkbox" name="bayar"></input>'
+              ]).draw(false);
+            
+          })
+          // $("tbody").append()
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+    });
+
+  </script>
+
 </body>
 
 </html>

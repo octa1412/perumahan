@@ -177,7 +177,37 @@
 	<script>
 		$('.input-daterange').datepicker();
 
-		</script>
+  </script>
+  <script>
+    $(document).ready(function () {
+      dTable = $('#table').DataTable();
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_transaksi",
+        type: 'POST',
+        success: function (json) {
+          console.log(json);
+          var response = JSON.parse(json);
+          response.forEach((data)=>{
+            dTable.row.add([
+              data.nama,
+              data.IDBlok,
+              
+              '<a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>'
+              + '<a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-success mt-10 mb-10">Tagihan</button></a>'
+            ]).draw(false);
+            
+          })
+          // $("tbody").append()
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+    });
+
+  </script>
+
 </body>
 
 </html>
