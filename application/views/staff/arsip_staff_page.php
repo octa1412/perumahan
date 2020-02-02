@@ -159,7 +159,37 @@
 	<script>
 		$('.input-daterange').datepicker();
 
-		</script>
+  </script>
+
+
+    <script>
+    $(document).ready(function () {
+      dTable = $('#table').DataTable();
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/0",
+        type: 'POST',
+        success: function (json) {
+          console.log(json);
+          var response = JSON.parse(json);
+          response.forEach((data)=>{
+            dTable.row.add([
+              data.bulan+' '+ data.tahun, 
+              data.tanggal,
+              '<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>'
+            ]).draw(false);
+            
+          })
+          // $("tbody").append()
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+    });
+
+  </script>
+
 </body>
 
 </html>

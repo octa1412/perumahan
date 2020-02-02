@@ -6,6 +6,9 @@ class Main extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Default_model');
+		$this->load->model('CustomerModel');
+		$this->load->model('TagihanModel');
+		$this->load->model('TransaksiModel');
 		$this->load->helper('url_helper');
 		date_default_timezone_set('Asia/Jakarta');
 	}
@@ -113,7 +116,7 @@ class Main extends CI_Controller {
 	}
 
 	//Transaksi
-	public function transaksi(){
+	public function arsipdata(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/arsip_page');
@@ -161,6 +164,70 @@ class Main extends CI_Controller {
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_user_by_id($id, $return_var = NULL){
 		$data = $this->Default_model->get_data_user_nopassword($id);
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
+
+	//ambil data customer
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_all_customer($return_var = NULL){
+		$data = $this->CustomerModel->get_all();
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
+	//ambil data arsip
+	//parameter 1: true bila priviledge akses adalah dari admin
+	//parameter 2: true bila ingin return array, kosongi bila ingin Json
+	public function get_all_arsip($isAdmin, $return_var = NULL){
+		if($isAdmin){
+			$username = $this->get_cookie_decrypt("adminCookie");
+			$data = $this->TagihanModel->get_all(NULL,1);
+		} else{
+			$username = $this->get_cookie_decrypt("staffCookie");
+			$data = $this->TagihanModel->get_all($username, 1);
+		}
+		
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
+
+	public function get_transaksi(){
+		$data = $this->TransaksiModel->get_all();
+		
+		if (empty($data)){
+			$data = [];
+		}
+		echo json_encode($data);
+	}
+
+	public function get_tagihan($isAdmin, $return_var = NULL){
+		if($isAdmin){
+			$username = $this->get_cookie_decrypt("adminCookie");
+			$data = $this->TagihanModel->get_all(NULL,0);
+		} else{
+			$username = $this->get_cookie_decrypt("staffCookie");
+			$data = $this->TagihanModel->get_all($username, 0);
+		}
+		
 		if (empty($data)){
 			$data = [];
 		}
@@ -422,7 +489,7 @@ class Main extends CI_Controller {
 	public function get_cookie_decrypt($name){
 		$this->load->helper('cookie');
 		if ($this->input->cookie($name,true)!=NULL) {
-			echo str_rot13($this->input->cookie($name,true));
+			return str_rot13($this->input->cookie($name,true));
 		}else{
 			echo "no cookie";
 		}

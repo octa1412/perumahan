@@ -74,7 +74,7 @@
 
       <!-- Nav Item - arsip -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/transaksi');?>">
+        <a class="nav-link" href="<?php echo base_url('index.php/Main/arsipdata');?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Arsip</span></a>
       </li>

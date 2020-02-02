@@ -6,7 +6,7 @@ class TagihanModel extends CI_Model {
 		$this->load->database();
     }
     
-    public function get_all($username, $status = NULL){
+    public function get_all($username = NULL, $status){
 
         $this->db->select();
 		$this->db->from('tagihan');
@@ -15,10 +15,10 @@ class TagihanModel extends CI_Model {
 		$this->db->join('nota',
 		'nota_detail.IDNota = nota.IDNota');
 		
-		$this->db->where('nota.username',$username)
+		$this->db->where('tagihan.status',$status);
 
-		if($status != NULL){
-			$this->db->where('tagihan.status',$status)
+		if($username != NULL){
+			$this->db->where('nota.username',$username);
 		}
 
 		$query = $this->db->get();
