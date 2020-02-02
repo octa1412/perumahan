@@ -90,7 +90,22 @@
 							</tr>
 						</thead>
 						<tbody>
-							
+							<tr>
+								<td>01222020</td>
+								<td>Dudi</td>
+						    <td>
+                  <a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>
+									<a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-success mt-10 mb-10">Tagihan</button></a>
+								</td>
+							</tr>
+							<tr>
+								<td>02222020</td>
+								<td>Dadang</td>
+								<td>
+									<button class="btn btn-outline-primary mt-10 mb-10">Arsip</button>
+									<button class="btn btn-outline-success mt-10 mb-10">Tagihan</button>
+								</td>
+							</tr>
 						</tbody>
 					</table>
         </div>
@@ -163,7 +178,6 @@
 		$('.input-daterange').datepicker();
 
   </script>
-
   <script>
     $(document).ready(function () {
       dTable = $('#table').DataTable();
