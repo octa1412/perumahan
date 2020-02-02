@@ -116,7 +116,7 @@ class Main extends CI_Controller {
 	}
 
 	//Transaksi
-	public function transaksi(){
+	public function arsipdata(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/arsip_page');

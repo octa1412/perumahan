@@ -7,7 +7,7 @@
             </div>
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <button class="btn btn-primary">Add</button>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add</button>
                 <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
                         <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -34,7 +34,7 @@
                     <tr>
                         <td>A2</td>
                         <td>Budi Setiawan</td>
-                        <td>Anggrek/td>
+                        <td>Anggrek</td>
                         <td>
                             <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
                             <button class="btn btn-danger mt-10 mb-10">Delete</button>
@@ -53,6 +53,96 @@
             </table>
         </div>
         <!-- /.container-fluid -->
+
+        <!-- modal edit -->
+        <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title w-100 text-center" id="editTitle">Edit Staff</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="id-staff" class="col-form-label">Id Staff:</label>
+                        <input type="text" class="form-control" id="id-staff" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama" class="col-form-label">Nama:</label>
+                        <input type="text" class="form-control" id="nama" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="nomor" class="col-form-label">Nomor Telepon:</label>
+                        <input type="text" class="form-control" id="nomor" >
+                    </div>
+                    <div class="form-group">
+                        <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                        <select class="custom-select">
+                            <option selected>Zero</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div> 
+                 
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Update</button>
+              </div>
+            </div>
+          </div>
+        </div> 
+
+        <!-- modal add -->
+        <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title w-100 text-center" id="addTitle">Add Staff</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="id-staff" class="col-form-label">Id Staff:</label>
+                    <input type="text" class="form-control" id="id-staff" placeholder="ID Staff...">
+                  </div>
+                  <div class="form-group">
+                    <label for="nama" class="col-form-label">Nama:</label>
+                    <input type="text" class="form-control" id="nama" placeholder="Nama...">
+                  </div>
+                  <div class="form-group">
+                    <label for="nomor" class="col-form-label">Nomor Telepon:</label>
+                    <input type="text" class="form-control" id="nomor" placeholder="Nomor Telepon...">
+                  </div>
+                  <div class="form-group">
+                    <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                    <select class="custom-select">
+                        <option selected>Zero</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                  </div>                
+                  
+                 
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>  
+
 
       </div>
       <!-- End of Main Content -->

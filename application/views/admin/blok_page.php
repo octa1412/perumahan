@@ -6,8 +6,29 @@
                 <h1 class="h1 mb-0 text-gray-800 ">Data Blok</h1>
             </div>
 
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <button class="btn btn-primary">Add</button>
+            <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add</button>
+            </div>
+
+            <div class="d-sm-flex align-items-center justify-content-left mb-4">
+                
+                <div class="btn-group">
+                    <select class="custom-select">
+                        <option selected>Perumahan</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="btn-group">
+                    <select class="custom-select">
+                        <option selected>Cluster</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+
                 <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
                         <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -55,6 +76,104 @@
             </table>
         </div>
         <!-- /.container-fluid -->
+
+        <!-- modal edit -->
+        <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title w-100 text-center" id="editTitle">Edit Blok</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="id-blok" class="col-form-label">Id Blok:</label>
+                        <input type="text" class="form-control" id="id-blok" value="" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                        <select class="custom-select">
+                            <option selected>Zero</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
+                        <select class="custom-select">
+                            <option selected>Zero</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama-blok" class="col-form-label">Nama Blok:</label>
+                        <input type="text" class="form-control" id="nama-blok">
+                    </div>
+                 
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Update</button>
+              </div>
+            </div>
+          </div>
+        </div> 
+
+        <!-- modal add -->
+        <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title w-100 text-center" id="addTitle">Add Blok</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="id-cluster" class="col-form-label">Id Blok:</label>
+                    <input type="text" class="form-control" id="id-cluster" placeholder="ID Blok...">
+                  </div>
+                  <div class="form-group">
+                    <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                    <select class="custom-select">
+                        <option selected>Zero</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
+                    <select class="custom-select">
+                        <option selected>Zero</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="nama-blok" class="col-form-label">Nama Blok:</label>
+                    <input type="text" class="form-control" id="nama-blok" placeholder="Nama Blok...">
+                  </div>
+                 
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>  
 
       </div>
       <!-- End of Main Content -->
