@@ -9,6 +9,7 @@ class Main extends CI_Controller {
 		$this->load->model('CustomerModel');
 		$this->load->model('TagihanModel');
 		$this->load->model('TransaksiModel');
+		$this->load->model('PerumahanModel');
 		$this->load->helper('url_helper');
 		date_default_timezone_set('Asia/Jakarta');
 	}
@@ -174,6 +175,20 @@ class Main extends CI_Controller {
 		}
 	}
 
+	//ambil data perumahan
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_all_perumahan($return_var = NULL){
+		$data = $this->PerumahanModel->get_all();
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
 	//ambil data customer
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_customer($return_var = NULL){
@@ -320,6 +335,15 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$deleteStatus = $this->Default_model->delete_user($id);
 			echo $deleteStatus;
+		}else{
+			echo "access denied";
+		}
+	}
+
+	public function delete_perumahan() {
+		if ($this->checkcookieadmin()) {
+			$id = $this->input->post('id');
+			$deleteStatus = $this->PerumahanModel->delete($id);
 		}else{
 			echo "access denied";
 		}

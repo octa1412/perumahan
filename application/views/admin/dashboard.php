@@ -22,6 +22,7 @@
 
           <!-- DataTales Example -->
           <table id="table" class="display">
+
                 <thead>
                     <tr>
                         <th>Nama Perumahan</th>
@@ -29,8 +30,9 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody id="target">
+           
+                    <!-- <tr>
                         <td>Anggrek</td>
                         <td>Malang</td>
                         <td>
@@ -45,7 +47,7 @@
                             <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
                             <button class="btn btn-danger mt-10 mb-10">Delete</button>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
 
@@ -66,15 +68,15 @@
                 <form>
                   <div class="form-group">
                     <label for="id-perumahan" class="col-form-label">Id Perumahan:</label>
-                    <input type="text" class="form-control" id="id-perumahan" value="" readonly>
+                    <input type="text" class="form-control" id="id-perumahan1" value="" readonly>
                   </div>
                   <div class="form-group">
                     <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <input type="text" class="form-control" id="nama-perumahan">
+                    <input type="text" class="form-control" id="nama-perumahan1">
                   </div>
                   <div class="form-group">
                     <label for="nama-kota" class="col-form-label">Kota:</label>
-                    <input type="text" class="form-control" id="nama-kota">
+                    <input type="text" class="form-control" id="nama-kota1">
                   </div>
                  
                 </form>
@@ -100,15 +102,15 @@
               <div class="modal-body">
                 <form>
                   <div class="form-group">
-                    <label for="id-perumahan" class="col-form-label">Id Perumahan:</label>
+                    <label class="col-form-label">Id Perumahan:</label>
                     <input type="text" class="form-control" id="id-perumahan" placeholder="ID Perumahan...">
                   </div>
                   <div class="form-group">
-                    <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                    <label class="col-form-label">Nama Perumahan:</label>
                     <input type="text" class="form-control" id="nama-perumahan" placeholder="Nama Perumahan..." >
                   </div>
                   <div class="form-group">
-                    <label for="nama-kota" class="col-form-label">Kota:</label>
+                    <label class="col-form-label">Kota:</label>
                     <input type="text" class="form-control" id="nama-kota" placeholder="Kota...">
                   </div>
                  
@@ -177,6 +179,54 @@
   <script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 
+  
+  <script>
+        $(document).ready(function () { 
+          dTable = $('#table').DataTable();
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
+            type: 'POST',
+            success: function (json) {
+              var response = JSON.parse(json);
+              var no = null;
+              response.forEach((data)=>{
+                no = data.IDPerumahan
+                dTable.row.add([
+                  data.nama,
+                  data.kota,
+                  '<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>'
+									+ '<button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>'
+									+ '<button class="btn btn-danger mt-10 mb-10" ><a onclick="hapusdata('+ no +')" >Delete</a></button>'
+                
+                ]).draw(false);
+                
+              })
+              // $("tbody").append()
+              console.log(response[0]);
+            },
+            error: function (xhr, status, error) {
+              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              $("#submit").prop("disabled", false);
+            }
+          });
+        });
+
+        function hapusdata(id) {
+           var tanya = confirm("hapus?");
+
+           if(tanya){
+             $.ajax({
+               type: 'POST',
+               data: 'id=' +id,
+               url: '<?php echo base_url() ?>index.php/Main/delete_perumahan',
+               success:function(){
+                   
+               }
+             });
+           }
+        }
+
+      </script>
 
 </body>
 

@@ -132,16 +132,18 @@
 
 
   <script>
-        $(document).ready(function () {
+        $(document).ready(function () { 
           dTable = $('#table').DataTable();
           $.ajax({
             url: "<?php echo base_url() ?>index.php/Main/get_all_customer",
             type: 'POST',
             success: function (json) {
               var response = JSON.parse(json);
+              var no = 0;
               response.forEach((data)=>{
+                no++;
                 dTable.row.add([
-                  data.IDCustomer,
+                  no,
                   data.nama,
                   data.email,
                   data.nomor,
