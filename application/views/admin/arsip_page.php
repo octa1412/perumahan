@@ -212,11 +212,6 @@
         cluster = null;
       }
 
-      var date = []
-      $('.input-daterange input').each(function() {
-        date.push($(this).datepicker('getDate'))
-      });
-
       return {
         perumahan: perumahan,
         cluster: cluster

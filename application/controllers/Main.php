@@ -11,6 +11,7 @@ class Main extends CI_Controller {
 		$this->load->model('TransaksiModel');
 		$this->load->model('PerumahanModel');
 		$this->load->model('ClusterModel');
+		$this->load->model('BlokModel');
 		$this->load->helper('url_helper');
 		date_default_timezone_set('Asia/Jakarta');
 	}
@@ -40,6 +41,17 @@ class Main extends CI_Controller {
 		if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('staff/blok_page');
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
+	///profile
+	public function profileadmin(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/profile_page');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -190,14 +202,69 @@ class Main extends CI_Controller {
 			}
 	}
 
+	//ambil data user berdasarkan username
+	//note: ambil data user dari database berdasarkan username
+	public function get_perumahan_by_id($return_var = NULL){
+		$id = $this->input->post('id');
+		$data = $this->PerumahanModel->get_all($id);
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
+
+	//ambil list nama perumahan
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_list_perumahan($return_var = NULL){
+		$data = $this->BlokModel->get_list_perumahan();
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
+	//ambil list nama cluster
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_list_cluster($return_var = NULL){
+		$data = $this->BlokModel->get_list_cluster();
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
 	//ambil data cluster
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_cluster($return_var = NULL){
+		$perumahan = $this->input->post('perumahan');
+		$data = $this->ClusterModel->get_all(null, $perumahan);
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
+	//ambil data user berdasarkan username
+	//note: ambil data user dari database berdasarkan username
+	public function get_cluster_by_id($return_var = NULL){
 		$id = $this->input->post('id');
-		if($id!=NULL)
-			$data = $this->ClusterModel->get_all($id);
-		else
-			$data = $this->ClusterModel->get_all();
+		$data = $this->ClusterModel->get_all($id);
 		if (empty($data)){
 			$data = [];
 		}
@@ -211,6 +278,37 @@ class Main extends CI_Controller {
 	public function get_cluster_by_perumahan($return_var = NULL){
 		$id = $this->input->post('id');
 		$data = $this->ClusterModel->get_by_perumahan($id);
+		
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
+	//ambil data blok
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_all_blok($return_var = NULL){
+		$perumahan = $this->input->post('perumahan');
+		$cluster = $this->input->post('cluster');
+		$data = $this->BlokModel->get_all(null, $perumahan, $cluster);
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
+	//ambil data user berdasarkan username
+	//note: ambil data user dari database berdasarkan username
+	public function get_blok_by_id($return_var = NULL){
+		$id = $this->input->post('id');
+		$data = $this->BlokModel->get_all($id);
 		if (empty($data)){
 			$data = [];
 		}
@@ -325,6 +423,54 @@ class Main extends CI_Controller {
 		}
 	}
 	
+	public function insert_perumahan() {
+		if ($this->checkcookieuser()) {
+			$data = array(
+				'IDPerumahan' => $this->input->post('id'),
+				'nama' => $this->input->post('nama'),
+				'kota' => $this->input->post('kota')
+			);
+			$insertStatus = $this->PerumahanModel->insert($data);
+			echo $insertStatus;
+		}else{
+			echo "access denied";
+		}
+	}
+
+	public function insert_cluster() {
+		if ($this->checkcookieuser()) {
+			$perumahan =  $this->input->post('perum');
+			$idperum = $this->ClusterModel->get_perumahan($perumahan);
+
+			$data = array(
+				'IDCluster' => $this->input->post('id'),
+				'IDPerumahan' => $idperum,
+				'nama' => $this->input->post('nama')
+			);
+			$insertStatus = $this->ClusterModel->insert($data);
+			echo $insertStatus;
+		}else{
+			echo "access denied";
+		}
+	}
+
+	public function insert_blok() {
+		if ($this->checkcookieuser()) {
+			$perumahan =  $this->input->post('perumahan');
+			$cluster =  $this->input->post('cluster');
+			$customer =  $this->input->post('customer');
+			$idperum = $this->ClusterModel->get_perumahan($perumahan);
+			
+			$data = array(
+				'IDCluster' => $this->input->post('id'),
+				'IDPerumahan' => $idperum,
+			);
+			$insertStatus = $this->ClusterModel->insert($data);
+			echo $insertStatus;
+		}else{
+			echo "access denied";
+		}
+	}
 
 	//UPDATE
 
@@ -359,6 +505,62 @@ class Main extends CI_Controller {
 		}
 	}
 
+	//Edit data perumahan
+	public function update_perumahan(){
+		$id = $this->input->post('id');
+		$nama = $this->input->post('nama');
+		$kota = $this->input->post('kota');
+
+		$data = array(
+            'nama' => $nama,
+            'kota' => $kota,
+		);
+		
+		$where= array('IDPerumahan' => $id );
+        $this->PerumahanModel->update($where, $data);
+	}
+
+	//Edit data cluster
+	public function update_cluster(){
+		$id = $this->input->post('id');
+		$perumahan = $this->input->post('perumahan');
+		$nama = $this->input->post('nama');
+
+		$idperum = $this->ClusterModel->get_perumahan($perumahan);
+
+		$data = array(
+			'nama' => $nama,
+			'IDPerumahan' => $idperum
+		);
+		
+		$where= array('IDCluster' => $id );
+        $this->ClusterModel->update($where, $data);
+
+		echo $idperum;
+	}
+
+	//Edit data blok
+	public function update_blok(){
+		$id = $this->input->post('id');
+		$perumahan = $this->input->post('perumahan');
+		$cluster = $this->input->post('cluster');
+		$customer = $this->input->post('nama');
+
+		$idperum = $this->BlokModel->get_perumahan($perumahan);
+		$idcluster = $this->Blokmodel->get_cluster($cluster);
+		
+
+		$data = array(
+			'IDBlok' => $id,
+			'IDCluster' => $idcluster,
+		);
+		
+		$where= array('IDBlok' => $id );
+        $this->BlokModel->update($where, $data);
+
+		echo $idperum;
+	}
+
 
 	//DELETE
 
@@ -376,16 +578,18 @@ class Main extends CI_Controller {
 	}
 
 	public function delete_perumahan() {
-		if ($this->checkcookieadmin()) {
-			$id = $this->input->post('id');
-			$deleteStatus = $this->PerumahanModel->delete($id);
+		if ($this->checkcookieuser()) {
+			$username = $this->input->post('id');
+			$where = array('IDPerumahan'=>$username);
+			$deleteStatus = $this->PerumahanModel->delete($where);
+			echo $deleteStatus;
 		}else{
 			echo "access denied";
 		}
 	}
 
 	public function delete_customer($id) {
-		if ($this->checkcookieadmin()) {
+		if ($this->checkcookieuser()) {
 			$deleteStatus = $this->CustomerModel->delete($id);
 			echo $deleteStatus;
 		}else{
@@ -394,7 +598,7 @@ class Main extends CI_Controller {
 	}
 
 	public function delete_blok($id){
-		if ($this->checkcookieadmin()) {
+		if ($this->checkcookieuser()) {
 			$deleteStatus = $this->Default_model->delete_blok($id);
 			echo $deleteStatus;
 		}else{
