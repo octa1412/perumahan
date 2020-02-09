@@ -13,19 +13,13 @@
             <div class="d-sm-flex align-items-center justify-content-left mb-4">
                 
                 <div class="btn-group">
-                    <select class="custom-select">
-                        <option selected>Perumahan</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select id='fl-perumahan' class="custom-select">
+                        <option selected value="default">Perumahan</option>
                     </select>
                 </div>
                 <div class="btn-group">
-                    <select class="custom-select">
-                        <option selected>Cluster</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select id='fl-cluster' class="custom-select">
+                        <option selected value="default">Cluster</option>
                     </select>
                 </div>
 

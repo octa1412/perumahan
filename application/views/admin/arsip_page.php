@@ -46,28 +46,16 @@
           <div class="d-sm-flex align-items-center mb-4">
 						
 						<div class="btn-group">
-							<select class="custom-select">
-								<option selected>Perumahan</option>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
+							<select id='fl-perumahan' class="custom-select">
+								<option selected value="default">Perumahan</option>
 							</select>
 						</div>
 						<div class="btn-group">
-							<select class="custom-select">
-								<option selected>Cluster</option>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
+							<select id='fl-cluster' class="custom-select">
+								<option selected value="default">Cluster</option>
 							</select>
 						</div>
-						
-						<div class="id-none form-inline ml-md-3 input-daterange">
-							<input type="text" class="form-control" value="2012-04-05">
-							<div class="input-group-text justify-content-sm-center">to</div>
-							<input type="text" class="form-control" value="2012-04-19">
-						</div>
-						
+												
             <form class="d-none d-sm-inline-block form-inline ml-auto my-2 my-md-0 mw-100 navbar-search">
 							<div class="input-group">
 								<input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -160,18 +148,90 @@
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>
 	<script>
-		$('.input-daterange').datepicker();
+    $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
+        type: 'POST',
+        success: function (json) {
+          var response = JSON.parse(json);
+          response.forEach((data)=>{
+            $('#fl-perumahan').append(new Option(data.nama, data.IDPerumahan))
+          })
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
 
-  </script>
-  <script>
-    $(document).ready(function () {
-      dTable = $('#table').DataTable();
+
+      $('.input-daterange').datepicker();
+
+      $("#fl-perumahan").change(function (e) { 
+        e.preventDefault();
+        if($("#fl-perumahan").val() != "default"){
+          getClusterofPerumahan($("#fl-perumahan").val());
+        }
+        else{
+          $("#fl-cluster option[value!=default]").remove();
+        }
+        get_transaksi();
+      });
+
+      $("#fl-cluster").change(function (e) { 
+        e.preventDefault();
+        get_transaksi();
+      });
+      
+      function getClusterofPerumahan(id){
+        $.ajax({
+          url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
+          type: 'POST',
+          data: {id: id},
+          success: function (json) {
+            $("#fl-cluster option[value!=default]").remove();
+            var response = JSON.parse(json);
+            response.forEach((data)=>{
+              $('#fl-cluster').append(new Option(data.nama, data.IDCluster))
+            })
+          },
+          error: function (xhr, status, error) {
+            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            $("#submit").prop("disabled", false);
+          }
+        });
+      }
+      
+
+    function get_filter_value(){
+      var perumahan = $("#fl-perumahan").val();
+      if(perumahan == "default"){
+        perumahan = null;
+      }
+      var cluster = $("#fl-cluster").val();
+      if(cluster == "default"){
+        cluster = null;
+      }
+
+      var date = []
+      $('.input-daterange input').each(function() {
+        date.push($(this).datepicker('getDate'))
+      });
+
+      return {
+        perumahan: perumahan,
+        cluster: cluster
+      }
+    }
+
+    function get_transaksi(){
+      var data = get_filter_value()
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_transaksi",
         type: 'POST',
+        data: data,
         success: function (json) {
-          console.log(json);
           var response = JSON.parse(json);
+          dTable.clear().draw();
           response.forEach((data)=>{
             dTable.row.add([
               data.nama,
@@ -189,6 +249,11 @@
           $("#submit").prop("disabled", false);
         }
       });
+    }
+
+    $(document).ready(function () {
+      dTable = $('#table').DataTable();
+      get_transaksi();
     });
 
   </script>
