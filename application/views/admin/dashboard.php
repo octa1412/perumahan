@@ -22,6 +22,7 @@
 
           <!-- DataTales Example -->
           <table id="table" class="display">
+
                 <thead>
                     <tr>
                         <th>Nama Perumahan</th>
@@ -29,23 +30,8 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Anggrek</td>
-                        <td>Malang</td>
-                        <td>
-                            <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Melati</td>
-                        <td>Surabaya</td>
-                        <td>
-                            <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
-                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
-                        </td>
-                    </tr>
+                <tbody id="target">
+          
                 </tbody>
             </table>
 
@@ -63,25 +49,25 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form id="editform">
                   <div class="form-group">
-                    <label for="id-perumahan" class="col-form-label">Id Perumahan:</label>
-                    <input type="text" class="form-control" id="id-perumahan" value="" readonly>
+                    <label class="col-form-label">Id Perumahan:</label>
+                    <input type="text" class="form-control" id="id-perumahan1" value="" readonly>
                   </div>
                   <div class="form-group">
-                    <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <input type="text" class="form-control" id="nama-perumahan">
+                    <label class="col-form-label">Nama Perumahan:</label>
+                    <input type="text" class="form-control" id="nama-perumahan1">
                   </div>
                   <div class="form-group">
-                    <label for="nama-kota" class="col-form-label">Kota:</label>
-                    <input type="text" class="form-control" id="nama-kota">
+                    <label class="col-form-label">Kota:</label>
+                    <input type="text" class="form-control" id="nama-kota1">
                   </div>
                  
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-primary" id="updatedata">Update</button>
               </div>
             </div>
           </div>
@@ -100,15 +86,15 @@
               <div class="modal-body">
                 <form>
                   <div class="form-group">
-                    <label for="id-perumahan" class="col-form-label">Id Perumahan:</label>
+                    <label class="col-form-label">Id Perumahan:</label>
                     <input type="text" class="form-control" id="id-perumahan" placeholder="ID Perumahan...">
                   </div>
                   <div class="form-group">
-                    <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                    <label class="col-form-label">Nama Perumahan:</label>
                     <input type="text" class="form-control" id="nama-perumahan" placeholder="Nama Perumahan..." >
                   </div>
                   <div class="form-group">
-                    <label for="nama-kota" class="col-form-label">Kota:</label>
+                    <label class="col-form-label">Kota:</label>
                     <input type="text" class="form-control" id="nama-kota" placeholder="Kota...">
                   </div>
                  
@@ -116,7 +102,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
               </div>
             </div>
           </div>
@@ -167,16 +153,124 @@
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('dist/js/sb-admin-2.min.js');?>"></script>
 
-  <!-- Page level plugins -->
-  <script src="<?php echo base_url('dist/vendor/chart.js/Chart.min.js');?>"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="<?php echo base_url('dist/js/demo/chart-area-demo.js');?>"></script>
-  <script src="<?php echo base_url('dist/js/demo/chart-pie-demo.js');?>"></script>
+  
 
   <script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 
+  
+  <script>
+        $(document).ready(function () { 
+          dTable = $('#table').DataTable();
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
+            type: 'POST',
+            success: function (json) {
+              var response = JSON.parse(json);
+              response.forEach((data)=>{
+                no = data.IDPerumahan
+                dTable.row.add([
+                  data.nama_perumahan,
+                  data.kota,
+                    '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
+									+ '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
+                
+                ]).draw(false);
+                
+              })
+              // $("tbody").append()
+              console.log(response[0]);
+            },
+            error: function (xhr, status, error) {
+              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              $("#submit").prop("disabled", false);
+            }
+          });
+        });
+
+        function hapusdata(id) {
+           var tanya = confirm("hapus?");
+
+           if(tanya){
+              $.ajax({
+                url: "<?php echo base_url() ?>index.php/Main/delete_perumahan/",
+                type: 'POST',
+                data: {id: id},
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function () {
+                    console.log("gagal menghapus");
+
+                }
+             });
+           }
+        }
+
+        function tampildata(id) {
+          var dataString = $("#editform").serialize();
+
+          $.ajax({
+            url: "<?php echo base_url()?>index.php/Main/get_perumahan_by_id",
+            type: 'POST',
+            data: {id: id},
+            success: function (response) {
+              console.log(response);
+
+              var response = JSON.parse(response);
+              response.forEach((data)=>{
+                console.log(dataString);
+                $('#editmodal').modal();
+                $("#id-perumahan1").val(data.IDPerumahan);
+                $('#nama-perumahan1').val(data.nama_perumahan);
+                $('#nama-kota1').val(data.kota);
+                $('#updatedata').click(function editdata() {
+                
+                var inputid = document.getElementById("id-perumahan1").value
+                var inputnama = document.getElementById("nama-perumahan1").value
+                var inputkota = document.getElementById("nama-kota1").value
+
+                  $.ajax({
+                    url: "<?php echo base_url()?>index.php/Main/update_perumahan/",
+                    type: 'POST',
+                    data: {id:inputid, nama:inputnama, kota:inputkota},
+                    success: function (response) {
+                      console.log(response);
+                      window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
+                    },
+                    error: function () {
+                      console.log("gagal update");
+                    }
+                  });
+                });
+              })                
+            },
+            error: function () {
+                console.log("gagal menghapus");
+            }
+          });          
+        }
+
+        function insertdata() {
+          var inputid = document.getElementById("id-perumahan").value
+          var inputnama = document.getElementById("nama-perumahan").value
+          var inputkota = document.getElementById("nama-kota").value
+
+          $.ajax({
+            url: "<?php echo base_url()?>index.php/Main/insert_perumahan/",
+            type: 'POST',
+            data: {id:inputid, nama:inputnama, kota:inputkota},
+            success: function (response) {
+              console.log(response);
+              window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
+            },
+            error: function () {
+              console.log("gagal update");
+            }
+          });
+
+        }
+      </script>
 
 </body>
 

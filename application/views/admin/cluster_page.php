@@ -12,11 +12,8 @@
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <div class="btn-group">
-                    <select class="custom-select">
-                        <option selected>Perumahan</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select id="fl-perumahan" class="custom-select">
+                        <option selected value="default">Perumahan</option>
                     </select>
                 </div>
                 
@@ -40,21 +37,8 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Anggrek</td>
-                        <td>
-                            <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Melati</td>
-                        <td>
-                            <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
-                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
-                        </td>
-                    </tr>
+                <tbody id="data">
+                    
                 </tbody>
             </table>
         </div>
@@ -74,27 +58,24 @@
                 <form>
                     <div class="form-group">
                         <label for="id-cluster" class="col-form-label">Id Cluster:</label>
-                        <input type="text" class="form-control" id="id-cluster" value="" readonly>
+                        <input type="text" class="form-control" id="id-cluster1" value="" readonly>
                     </div>
                     <div class="form-group">
                         <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
-                        <select class="custom-select">
-                            <option selected>Zero</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="custom-select" id="perumahan1">
+                           
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
-                        <input type="text" class="form-control" id="nama-cluster">
+                        <input type="text" class="form-control" id="nama-cluster1">
                     </div>
                  
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-primary" id="updatedata">Update</button>
               </div>
             </div>
           </div>
@@ -118,11 +99,8 @@
                   </div>
                   <div class="form-group">
                     <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <select class="custom-select">
-                        <option selected>Zero</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="custom-select" id="perumahan">
+                        
                     </select>
                   </div>
                   <div class="form-group">
@@ -134,12 +112,13 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
               </div>
             </div>
           </div>
         </div>  
 
+        
 
 
       </div>
@@ -195,15 +174,163 @@
     <!-- Custom scripts for all pages-->
     <script src="<?php echo base_url('dist/js/sb-admin-2.min.js');?>"></script>
 
-    <!-- Page level plugins -->
-    <script src="<?php echo base_url('dist/vendor/chart.js/Chart.min.js');?>"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="<?php echo base_url('dist/js/demo/chart-area-demo.js');?>"></script>
-    <script src="<?php echo base_url('dist/js/demo/chart-pie-demo.js');?>"></script>
-
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
+  
+  <script>
+    $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
+        type: 'POST',
+        success: function (json) {
+          var response = JSON.parse(json);
+          response.forEach((data)=>{
+            $('#fl-perumahan').append(new Option(data.nama, data.IDPerumahan))
+          })
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+
+    $("#fl-perumahan").change(function (e) { 
+      e.preventDefault();
+      get_data();
+    });
+
+    function get_filter_value(){
+      var perumahan = $("#fl-perumahan").val();
+      if(perumahan == "default"){
+        perumahan = null;
+      }
+      return {
+        perumahan: perumahan
+      }
+    }
+
+    function get_data(){
+      var data = get_filter_value();
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_cluster",
+        type: 'POST',
+        data: data,
+        success: function (json) {
+          var response = JSON.parse(json);
+          dTable.clear().draw();
+          response.forEach((data)=>{
+            no = data.IDCluster
+            $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
+            $('#perumahan').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>');             
+            if(data.IDCluster != null) {
+              dTable.row.add([
+                data.nama,
+                  '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
+                + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
+              
+              ]).draw(false);
+            }
+            
+          })
+          // $("tbody").append()
+          console.log(response[0]);
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+    }
+
+    $(document).ready(function () { 
+      dTable = $('#table').DataTable();
+      get_data()
+    });
+
+    function hapusdata(id) {
+      var tanya = confirm("hapus?");
+
+      if(tanya){
+        $.ajax({
+          url: "<?php echo base_url() ?>index.php/Main//",
+          type: 'POST',
+          data: {id: id},
+          success: function (response) {
+              console.log(response);
+          },
+          error: function () {
+              console.log("gagal menghapus");
+
+          }
+        });
+      }
+    }
+
+    function tampildata(id) {
+      var dataString = $("#editform").serialize();
+
+      $.ajax({
+        url: "<?php echo base_url()?>index.php/Main/get_cluster_by_id",
+        type: 'POST',
+        data: {id: id},
+        success: function (response) {
+          var response = JSON.parse(response);
+          response.forEach((data)=>{
+            console.log(dataString);
+            $('#editmodal').modal();
+            $("#id-cluster1").val(data.IDCluster);
+            $('#nama-cluster1').val(data.nama_cluster);
+            $('#perumahan1').val(data.nama_perumahan);
+            $('#updatedata').click(function editdata() {
+            
+            var inputid = document.getElementById("id-cluster1").value
+            var inputperumahan = document.getElementById("perumahan1").value
+            var inputnama = document.getElementById("nama-cluster1").value
+                        
+              $.ajax({
+                url: "<?php echo base_url()?>index.php/Main/update_cluster/",
+                type: 'POST',
+                data: {id:inputid, nama:inputnama, perumahan:inputperumahan},
+                success: function (response) {
+                  console.log(response);
+                  window.location = "<?php echo base_url() ?>index.php/Main/cluster";
+                },
+                error: function () {
+                  console.log("gagal update");
+                }
+              });
+            });
+          })                
+        },
+        error: function () {
+            console.log("gagal menghapus");
+        }
+      });          
+    }
+
+    function insertdata() {
+      var inputid = document.getElementById("id-cluster").value
+      var inputperum = document.getElementById("perumahan").value
+      var inputnama = document.getElementById("nama-cluster").value
+
+      $.ajax({
+        url: "<?php echo base_url()?>index.php/Main/insert_cluster/",
+        type: 'POST',
+        data: {id:inputid, perum:inputperum, nama:inputnama},
+        success: function (response) {
+          console.log(response);
+          window.location = "<?php echo base_url() ?>index.php/Main/cluster";
+        },
+        error: function () {
+          console.log("gagal update");
+        }
+      });
+
+    }
+  
+  </script>
+
+
+
 </body>
 
 </html>
