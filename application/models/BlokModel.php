@@ -5,7 +5,7 @@ class BlokModel extends CI_Model {
 		$this->load->database();
     }
     
-    public function get_all($id = NULL){
+    public function get_all($id = NULL, $perumahan=NULL, $cluster=NULL){
         $this->db->select('*');
 		$this->db->from('cluster c');
 		$this->db->join('perumahan p','p.IDPerumahan = c.IDPerumahan', 'left');
@@ -13,6 +13,12 @@ class BlokModel extends CI_Model {
 		$this->db->join('customer o','o.IDCustomer = b.IDCustomer', 'left');
 		if ($id != NULL){
 			$this->db->where('b.IDBlok',$id);
+		}
+		if ($perumahan != NULL){
+			$this->db->where('p.IDPerumahan',$perumahan);
+		}
+		if ($cluster != NULL){
+			$this->db->where('c.IDCluster',$cluster);
 		}
 		$query = $this->db->get();
 		return $query->result_array();

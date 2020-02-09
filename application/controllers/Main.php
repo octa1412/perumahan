@@ -248,7 +248,8 @@ class Main extends CI_Controller {
 	//ambil data cluster
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_cluster($return_var = NULL){
-		$data = $this->ClusterModel->get_all();
+		$perumahan = $this->input->post('perumahan');
+		$data = $this->ClusterModel->get_all(null, $perumahan);
 			if (empty($data)){
 				$data = [];
 			}
@@ -274,10 +275,25 @@ class Main extends CI_Controller {
 		}
 	}
 
+	public function get_cluster_by_perumahan($return_var = NULL){
+		$id = $this->input->post('id');
+		$data = $this->ClusterModel->get_by_perumahan($id);
+		
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
 	//ambil data blok
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_blok($return_var = NULL){
-		$data = $this->BlokModel->get_all();
+		$perumahan = $this->input->post('perumahan');
+		$cluster = $this->input->post('cluster');
+		$data = $this->BlokModel->get_all(null, $perumahan, $cluster);
 			if (empty($data)){
 				$data = [];
 			}
@@ -302,7 +318,6 @@ class Main extends CI_Controller {
 			echo json_encode($data);
 		}
 	}
-
 	//ambil data customer
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_customer($return_var = NULL){
@@ -321,12 +336,14 @@ class Main extends CI_Controller {
 	//parameter 1: true bila priviledge akses adalah dari admin
 	//parameter 2: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_arsip($isAdmin, $return_var = NULL){
+		$startDate = $this->input->post('startDate');
+		$endDate = $this->input->post('endDate');
 		if($isAdmin){
 			$username = $this->get_cookie_decrypt("adminCookie");
-			$data = $this->TagihanModel->get_all(NULL,1);
+			$data = $this->TagihanModel->get_all(NULL,1,$startDate,$endDate);
 		} else{
 			$username = $this->get_cookie_decrypt("staffCookie");
-			$data = $this->TagihanModel->get_all($username, 1);
+			$data = $this->TagihanModel->get_all($username, 1,$startDate,$endDate);
 		}
 		
 		if (empty($data)){
@@ -340,7 +357,9 @@ class Main extends CI_Controller {
 	}
 
 	public function get_transaksi(){
-		$data = $this->TransaksiModel->get_all();
+		$perumahan = $this->input->post('perumahan');
+		$cluster = $this->input->post('cluster');
+		$data = $this->TransaksiModel->get_all($perumahan, $cluster);
 		
 		if (empty($data)){
 			$data = [];

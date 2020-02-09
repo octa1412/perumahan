@@ -6,7 +6,7 @@ class TransaksiModel extends CI_Model {
 		$this->load->database();
     }
     
-    public function get_all($perumahan = NULL, $cluster = NULL, $rangeTanggal = NULL){
+    public function get_all($perumahan = NULL, $cluster = NULL, $startDate = NULL, $endDate = NULL){
 
         $this->db->select('customer.nama, blok.IDBlok');
 		$this->db->from('blok');
@@ -17,10 +17,13 @@ class TransaksiModel extends CI_Model {
             $this->db->where('blok.IDCluster', $cluster);
         }
         if($perumahan != NULL){
+            $this->db->join('cluster',
+             'blok.IDCluster = cluster.IDCluster');
             $this->db->join('perumahan',
-             'blok.IDCluster = perumahan.IDCluster');
+             'cluster.IDPerumahan = perumahan.IDPerumahan');
             $this->db->where('perumahan.IDPerumahan', $perumahan);
         }
+
 		// $this->db->join('nota',
 		// 'nota_detail.IDNota = nota.IDNota');
 		

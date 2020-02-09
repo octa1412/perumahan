@@ -6,7 +6,7 @@ class TagihanModel extends CI_Model {
 		$this->load->database();
     }
     
-    public function get_all($username = NULL, $status){
+    public function get_all($username = NULL, $status, $startDate = NULL, $endDate = NULL){
 
         $this->db->select();
 		$this->db->from('tagihan');
@@ -19,6 +19,11 @@ class TagihanModel extends CI_Model {
 
 		if($username != NULL){
 			$this->db->where('nota.username',$username);
+		}
+
+		if($startDate != NULL && $endDate != NULL){
+			$this->db->where('nota.tanggal >=',$startDate);
+			$this->db->where('nota.tanggal <=',$endDate);
 		}
 
 		$query = $this->db->get();

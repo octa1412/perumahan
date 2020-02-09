@@ -5,12 +5,15 @@ class ClusterModel extends CI_Model {
 		$this->load->database();
     }
     
-    public function get_all($id = NULL){
+    public function get_all($id = NULL, $perumahan=NULL){
 		$this->db->select('perumahan.*, cluster.*');
 		$this->db->join('cluster','perumahan.IDPerumahan = cluster.IDPerumahan', 'left');
 		$this->db->from('perumahan');
 		if ($id != NULL){
 			$this->db->where('IDCluster',$id);
+		}
+		if ($perumahan != NULL){
+			$this->db->where('cluster.IDPerumahan',$perumahan);
 		}
 		$query = $this->db->get();
 		return $query->result_array();
@@ -51,6 +54,14 @@ class ClusterModel extends CI_Model {
 		$this->db->where($where);
         $this->db->update('cluster', $data);
 	}
-
+	public function get_by_perumahan($id = NULL){
+        $this->db->select('*');
+		$this->db->from('cluster');
+		if ($id != NULL){
+			$this->db->where('IDPerumahan',$id);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }
 ?>

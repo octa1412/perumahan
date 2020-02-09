@@ -47,9 +47,9 @@
 						
 						
 						<div class="id-none form-inline ml-md-3 input-daterange">
-							<input type="text" class="form-control" value="2012-04-05">
+							<input type="text" class="form-control" >
 							<div class="input-group-text justify-content-sm-center">to</div>
-							<input type="text" class="form-control" value="2012-04-19">
+							<input type="text" class="form-control" >
 						</div>
 						
             <form class="d-none d-sm-inline-block form-inline ml-auto my-2 my-md-0 mw-100 navbar-search">
@@ -157,19 +157,36 @@
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>
 	<script>
-		$('.input-daterange').datepicker();
+  
+    $('.input-daterange').datepicker({
+        format: 'yyyy-mm-dd'    // pass here your desired format
+    });
+    $('.input-daterange').change(function(e){
+      get_arsip();
+    })
 
-  </script>
-
-
-    <script>
-    $(document).ready(function () {
-      dTable = $('#table').DataTable();
+    function get_filter_value(){
+      var date = []
+      $('.input-daterange input').each(function() {
+        date.push($(this).datepicker('getDate'))
+      });
+      if(date[0]!=null){
+        return {
+          startDate: date[0].getFullYear() +'-'+ date[0].getMonth()+1 +'-'+ date[0].getDate(),
+          endDate: date[1].getFullYear() +'-'+ date[1].getMonth()+1 +'-'+ date[1].getDate()
+        }
+      } else{
+        return {
+          startDate: null,
+          endDate: null
+        }
+      }
+    }
+    function get_arsip(){
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/0",
         type: 'POST',
         success: function (json) {
-          console.log(json);
           var response = JSON.parse(json);
           response.forEach((data)=>{
             dTable.row.add([
@@ -186,6 +203,11 @@
           $("#submit").prop("disabled", false);
         }
       });
+    }
+
+    $(document).ready(function () {
+      dTable = $('#table').DataTable();
+      get_arsip();
     });
 
   </script>

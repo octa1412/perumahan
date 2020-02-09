@@ -13,19 +13,13 @@
             <div class="d-sm-flex align-items-center justify-content-left mb-4">
                 
                 <div class="btn-group">
-                    <select class="custom-select">
-                        <option selected>Perumahan</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select id='fl-perumahan' class="custom-select">
+                        <option selected value="default">Perumahan</option>
                     </select>
                 </div>
                 <div class="btn-group">
-                    <select class="custom-select">
-                        <option selected>Cluster</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select id='fl-cluster' class="custom-select">
+                        <option selected value="default">Cluster</option>
                     </select>
                 </div>
 
@@ -197,15 +191,89 @@
     <script src="<?php echo base_url('dist/js/table.js');?>"></script>
 
     <script>
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
+        type: 'POST',
+        success: function (json) {
+          var response = JSON.parse(json);
+          response.forEach((data)=>{
+            $('#fl-perumahan').append(new Option(data.nama, data.IDPerumahan))
+          })
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+
+      $("#fl-perumahan").change(function (e) { 
+        e.preventDefault();
+        if($("#fl-perumahan").val() != "default"){
+          getClusterofPerumahan($("#fl-perumahan").val());
+        }
+        else{
+          $("#fl-cluster option[value!=default]").remove();
+        }
+        get_data();
+      });
+
+      $("#fl-cluster").change(function (e) { 
+        e.preventDefault();
+        get_data();
+      });
+      
+      function getClusterofPerumahan(id){
+        $.ajax({
+          url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
+          type: 'POST',
+          data: {id: id},
+          success: function (json) {
+            $("#fl-cluster option[value!=default]").remove();
+            var response = JSON.parse(json);
+            response.forEach((data)=>{
+              $('#fl-cluster').append(new Option(data.nama, data.IDCluster))
+            })
+          },
+          error: function (xhr, status, error) {
+            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            $("#submit").prop("disabled", false);
+          }
+        });
+      }
+      
+
+    function get_filter_value(){
+      var perumahan = $("#fl-perumahan").val();
+      if(perumahan == "default"){
+        perumahan = null;
+      }
+      var cluster = $("#fl-cluster").val();
+      if(cluster == "default"){
+        cluster = null;
+      }
+
+      return {
+        perumahan: perumahan,
+        cluster: cluster
+      }
+    }
+
     $(document).ready(function () { 
       dTable = $('#table').DataTable();
       listperumahan();
       list();
+      get_data()
+    });
+
+    function get_data(){
+      var data = get_filter_value()
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_all_blok",
         type: 'POST',
+        data:data,
         success: function (json) {
           var response = JSON.parse(json);
+          dTable.clear().draw();
           response.forEach((data)=>{
             no = data.IDBlok
             // $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
@@ -232,7 +300,7 @@
           $("#submit").prop("disabled", false);
         }
       });
-    });
+    }
 
     function listperumahan(){
       $.ajax({

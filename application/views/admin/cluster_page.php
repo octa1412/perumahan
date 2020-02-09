@@ -12,11 +12,8 @@
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <div class="btn-group">
-                    <select class="custom-select">
-                        <option selected>Perumahan</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select id="fl-perumahan" class="custom-select">
+                        <option selected value="default">Perumahan</option>
                     </select>
                 </div>
                 
@@ -181,13 +178,45 @@
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
   
   <script>
-    $(document).ready(function () { 
-      dTable = $('#table').DataTable();
-      $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_all_cluster",
+    $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
         type: 'POST',
         success: function (json) {
           var response = JSON.parse(json);
+          response.forEach((data)=>{
+            $('#fl-perumahan').append(new Option(data.nama, data.IDPerumahan))
+          })
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+
+    $("#fl-perumahan").change(function (e) { 
+      e.preventDefault();
+      get_data();
+    });
+
+    function get_filter_value(){
+      var perumahan = $("#fl-perumahan").val();
+      if(perumahan == "default"){
+        perumahan = null;
+      }
+      return {
+        perumahan: perumahan
+      }
+    }
+
+    function get_data(){
+      var data = get_filter_value();
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_cluster",
+        type: 'POST',
+        data: data,
+        success: function (json) {
+          var response = JSON.parse(json);
+          dTable.clear().draw();
           response.forEach((data)=>{
             no = data.IDCluster
             $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
@@ -210,6 +239,11 @@
           $("#submit").prop("disabled", false);
         }
       });
+    }
+
+    $(document).ready(function () { 
+      dTable = $('#table').DataTable();
+      get_data()
     });
 
     function hapusdata(id) {
