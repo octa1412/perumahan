@@ -493,12 +493,13 @@ class Main extends CI_Controller {
 		$kota = $this->input->post('kota');
 
 		$data = array(
-            'nama' => $nama,
+            'nama_perumahan' => $nama,
             'kota' => $kota,
 		);
 		
 		$where= array('IDPerumahan' => $id );
-        $this->PerumahanModel->update($where, $data);
+		$this->PerumahanModel->update($where, $data);
+		
 	}
 
 	//Edit data cluster

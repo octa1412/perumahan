@@ -194,7 +194,7 @@
             $('#perumahan').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>');             
             if(data.IDCluster != null) {
               dTable.row.add([
-                data.nama,
+                data.nama_cluster,
                   '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
                 + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
               
