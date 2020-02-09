@@ -52,24 +52,7 @@
 
       </div>
       <!-- End of Main Content -->
-
-      <script>
-                  
-        function delete_customer(id) {
-          $.ajax({
-            url: "<?php echo base_url() ?>index.php/delete_kamar/" + id,
-            success: function (response) {
-              if (response === "success") {
-                location.reload();
-              }
-            }
-          });
-        }
-
-      
-      </script>
-
-
+     
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
@@ -119,13 +102,6 @@
 
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('dist/js/sb-admin-2.min.js');?>"></script>
-
-  <!-- Page level plugins -->
-  <script src="<?php echo base_url('dist/vendor/chart.js/Chart.min.js');?>"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="<?php echo base_url('dist/js/demo/chart-area-demo.js');?>"></script>
-  <script src="<?php echo base_url('dist/js/demo/chart-pie-demo.js');?>"></script>
 
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
