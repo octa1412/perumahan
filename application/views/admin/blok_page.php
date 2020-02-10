@@ -1,56 +1,62 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+        <div class="card shadow mb-12">
+          <div class="card-header py-3">
+
             <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-center mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h1 class="h1 mb-0 text-gray-800 ">Data Blok</h1>
             </div>
 
-            <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
-                <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add</button>
+            <div class="card-body" style="background-color: #FFFFFF;">
+              <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add Blok</button>
+              </div>
+
+              <div class="d-sm-flex align-items-center mb-4">                
+                  <div class="btn-group">
+                      <select id='fl-perumahan' class="custom-select">
+                          <option selected value="default">Perumahan</option>
+                      </select>
+                  </div>
+                  <div class="btn-group">
+                      <select id='fl-cluster' class="custom-select">
+                          <option selected value="default">Cluster</option>
+                      </select>
+                  </div>
+
+                  <form class="d-none d-sm-inline-block form-inline ml-auto my-2 my-md-0 mw-100 navbar-search">
+                      <div class="input-group">
+                          <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                          <div class="input-group-append">
+                                  <button class="btn btn-primary" type="button">
+                                  <i class="fas fa-search fa-sm"></i>
+                                  </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+
+              <!--table-->
+              <table id="table" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                          <th>Nama Blok</th>
+                          <th>Nama Customer</th>
+                          <th>Harga</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>                      
+                  </tbody>
+              </table>
             </div>
-
-            <div class="d-sm-flex align-items-center justify-content-left mb-4">
-                
-                <div class="btn-group">
-                    <select id='fl-perumahan' class="custom-select">
-                        <option selected value="default">Perumahan</option>
-                    </select>
-                </div>
-                <div class="btn-group">
-                    <select id='fl-cluster' class="custom-select">
-                        <option selected value="default">Cluster</option>
-                    </select>
-                </div>
-
-                <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                                </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <!--table-->
-            <table id="table" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Nama Blok</th>
-                        <th>Nama Customer</th>
-                        <th>Harga</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
+          </div>        
         </div>
-        <!-- /.container-fluid -->
+        <!-- card body -->
+      </div>
+      <!-- /.container-fluid -->
 
         <!-- modal edit -->
         <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
@@ -197,7 +203,9 @@
         success: function (json) {
           var response = JSON.parse(json);
           response.forEach((data)=>{
-            $('#fl-perumahan').append(new Option(data.nama, data.IDPerumahan))
+            $('#fl-perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))
+            $('#perumahan1').append(new Option(data.nama_perumahan, data.IDPerumahan))
+            $('#perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))            
           })
         },
         error: function (xhr, status, error) {
@@ -206,6 +214,7 @@
         }
       });
 
+// fl-perumahan
       $("#fl-perumahan").change(function (e) { 
         e.preventDefault();
         if($("#fl-perumahan").val() != "default"){
@@ -221,7 +230,42 @@
         e.preventDefault();
         get_data();
       });
-      
+
+//perumahan1
+      $("#perumahan1").change(function (e) { 
+        e.preventDefault();
+        if($("#perumahan1").val() != "default"){
+          getClusterofPerumahan($("#perumahan1").val());
+        }
+        else{
+          $("#cluster1 option[value!=default]").remove();
+        }
+        get_data();
+      });
+
+      $("#cluster1").change(function (e) { 
+        e.preventDefault();
+        get_data();
+      });
+
+// perumahan
+      $("#perumahan").change(function (e) { 
+        e.preventDefault();
+        if($("#perumahan").val() != "default"){
+          getClusterofPerumahan($("#perumahan").val());
+        }
+        else{
+          $("#cluster option[value!=default]").remove();
+        }
+        get_data();
+      });
+
+      $("#cluster1").change(function (e) { 
+        e.preventDefault();
+        get_data();
+      });
+
+
       function getClusterofPerumahan(id){
         $.ajax({
           url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
@@ -229,9 +273,13 @@
           data: {id: id},
           success: function (json) {
             $("#fl-cluster option[value!=default]").remove();
+            $("#cluster1 option[value!=default]").remove();
+            $("#cluster option[value!=default]").remove();
             var response = JSON.parse(json);
             response.forEach((data)=>{
-              $('#fl-cluster').append(new Option(data.nama, data.IDCluster))
+              $('#fl-cluster').append(new Option(data.nama_cluster, data.IDCluster))
+              $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
+              $('#cluster').append(new Option(data.nama_cluster, data.IDCluster))
             })
           },
           error: function (xhr, status, error) {
@@ -260,8 +308,6 @@
 
     $(document).ready(function () { 
       dTable = $('#table').DataTable();
-      listperumahan();
-      list();
       get_data()
     });
 
@@ -275,24 +321,17 @@
           var response = JSON.parse(json);
           dTable.clear().draw();
           response.forEach((data)=>{
-            no = data.IDBlok
-            // $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
-            // $('#perumahan').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>');   
-            // $('#cluster1').append('<option value="'+ data.nama_cluster +'">'+ data.nama_cluster +'</option>'); 
-            // $('#cluster').append('<option value="'+ data.nama_cluster +'">'+ data.nama_cluster +'</option>');              
+            no = data.IDBlok  
             if(data.IDBlok != null) {
               dTable.row.add([
                 data.IDBlok,
                 data.nama,
                 data.Harga,                
                   '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
-                + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
-              
+                + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'              
               ]).draw(false);
-            }
-            
+            }            
           })
-          // $("tbody").append()
           console.log(response[0]);
         },    
         error: function (xhr, status, error) {
@@ -300,52 +339,6 @@
           $("#submit").prop("disabled", false);
         }
       });
-    }
-
-    function listperumahan(){
-      $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_list_perumahan",
-        type: 'POST',
-        success: function (response) {
-              console.log(response);
-              var hasil = JSON.parse(response);
-              hasil.forEach((data)=>{
-                $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
-                $('#perumahan').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>');   
-                // $('#cluster1').append('<option value="'+ data.nama_cluster +'">'+ data.nama_cluster +'</option>'); 
-                // $('#cluster').append('<option value="'+ data.nama_cluster +'">'+ data.nama_cluster +'</option>');              
-              
-              })
-          },
-          error: function () {
-              console.log("gagal menghapus");
-
-          }
-      });
-    }
-
-    function list(){
-      $.ajax({
-            url: "<?php echo base_url() ?>index.php/Main/get_list_cluster",
-            type: 'POST',
-            success: function (response) {
-                  console.log(response);
-                  var hasil = JSON.parse(response);
-                  hasil.forEach((data)=>{
-                    // $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
-                    // $('#perumahan').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>');   
-                    $('#cluster1').append('<option value="'+ data.nama_cluster +'">'+ data.nama_cluster +'</option>'); 
-                    $('#cluster').append('<option value="'+ data.nama_cluster +'">'+ data.nama_cluster +'</option>');              
-                  
-                  })
-              },
-              error: function () {
-                  console.log("gagal menghapus");
-
-              }
-
-          });
-
     }
 
     function hapusdata(id) {
@@ -381,6 +374,8 @@
             $('#cluster1').val(data.nama_cluster);
             $('#nama-customer1').val(data.nama);
             $('#updatedata').click(function editdata() {
+            
+            consoler.log("data.nama_perumahan");
             
             var inputperumahan = document.getElementById("perumahan1").value
             var inputcluster = document.getElementById("nama-cluster1").value

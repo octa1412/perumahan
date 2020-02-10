@@ -12,6 +12,7 @@ class Main extends CI_Controller {
 		$this->load->model('PerumahanModel');
 		$this->load->model('ClusterModel');
 		$this->load->model('BlokModel');
+		$this->load->model('StaffModel');
 		$this->load->helper('url_helper');
 		date_default_timezone_set('Asia/Jakarta');
 	}
@@ -95,7 +96,6 @@ class Main extends CI_Controller {
 	public function customer(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
-			$this->load->view('edit_modal');
 			$this->load->view('admin/customer_page');		
 
 		}else{
@@ -318,6 +318,37 @@ class Main extends CI_Controller {
 			echo json_encode($data);
 		}
 	}
+
+	//ambil data staff
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_all_staff($return_var = NULL){
+		$data = $this->StaffModel->get_all();
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
+	//ambil data user berdasarkan username
+	//note: ambil data user dari database berdasarkan username
+	public function get_staff_by_id($return_var = NULL){
+		$id = $this->input->post('id');
+		$data = $this->StaffModel->get_all($id);
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
+
+
 	//ambil data customer
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_customer($return_var = NULL){
@@ -330,6 +361,21 @@ class Main extends CI_Controller {
 			}else{
 				echo json_encode($data);
 			}
+	}
+
+	//ambil data user berdasarkan username
+	//note: ambil data user dari database berdasarkan username
+	public function get_customer_by_id($return_var = NULL){
+		$id = $this->input->post('id');
+		$data = $this->CustomerModel->get_all($id);
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
 	}
 
 	//ambil data arsip
@@ -427,8 +473,9 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$data = array(
 				'IDPerumahan' => $this->input->post('id'),
-				'nama' => $this->input->post('nama'),
-				'kota' => $this->input->post('kota')
+				'nama_perumahan' => $this->input->post('nama'),
+				'kota' => $this->input->post('kota'),
+				'status' => '0'
 			);
 			$insertStatus = $this->PerumahanModel->insert($data);
 			echo $insertStatus;
@@ -445,7 +492,7 @@ class Main extends CI_Controller {
 			$data = array(
 				'IDCluster' => $this->input->post('id'),
 				'IDPerumahan' => $idperum,
-				'nama' => $this->input->post('nama')
+				'nama_cluster' => $this->input->post('nama')
 			);
 			$insertStatus = $this->ClusterModel->insert($data);
 			echo $insertStatus;
@@ -466,6 +513,53 @@ class Main extends CI_Controller {
 				'IDPerumahan' => $idperum,
 			);
 			$insertStatus = $this->ClusterModel->insert($data);
+			echo $insertStatus;
+		}else{
+			echo "access denied";
+		}
+	}
+
+	public function insert_customer() {
+		if ($this->checkcookieuser()) {
+			$data = array(
+				'IDCustomer' => $this->input->post('id'),
+				'nama' => $this->input->post('nama'),
+				'nomor' => $this->input->post('nomor'),
+				'email' => $this->input->post('email')
+			);
+			$insertStatus = $this->CustomerModel->insert($data);
+			echo $insertStatus;
+		}else{
+			echo "access denied";
+		}
+	}
+
+	public function insert_staff() {
+		if ($this->checkcookieuser()) {
+			$username =  $this->input->post('id');
+			$pass =  md5($this->input->post('password'));
+			$nama =  $this->input->post('nama');
+			$nomor =  $this->input->post('nomor');
+			$perumahan = $this->input->post('perum');
+			$staff = "staff";
+			$idperum = $this->ClusterModel->get_perumahan($perumahan);
+
+			$data = array(
+				'username' => $username,
+				'password' => $pass,
+				'nama' => $nama,
+				'pangkat' => $staff,
+				'nomor' => $nomor
+			);
+
+			$data1 = array(
+				'username' => $username,
+				'status' => '1'
+			);
+
+			$where= array('IDPerumahan' => $idperum );
+			// $updateperumahan = $this->PerumahanModel->update($where, $data1);
+			$insertStatus = $this->StaffModel->insert($data);
 			echo $insertStatus;
 		}else{
 			echo "access denied";
@@ -530,7 +624,7 @@ class Main extends CI_Controller {
 		$idperum = $this->ClusterModel->get_perumahan($perumahan);
 
 		$data = array(
-			'nama' => $nama,
+			'nama_cluster' => $nama,
 			'IDPerumahan' => $idperum
 		);
 		
@@ -562,6 +656,52 @@ class Main extends CI_Controller {
 		echo $idperum;
 	}
 
+	//Edit data staff
+	public function update_staff(){
+		$username = $this->input->post('id');
+		$nama = $this->input->post('nama');
+		$nomor = $this->input->post('nomor');
+		$perumahan = $this->input->post('perum');
+		$idlama = $this->input->post('idlama');
+
+		$idperum = $this->BlokModel->get_perumahan($perumahan);
+
+		// $pass = md5('12345');
+
+		// $idperum = $this->ClusterModel->get_perumahan($perumahan);
+
+		$data = array(
+			'username' => $username,
+			'nama' => $nama,
+			'nomor' => $nomor,
+			'pangkat' => 'staff'
+		);
+
+		$data1 = array(
+			'username' => $username,
+			'status' => '1'
+		);
+
+		$data2 = array(
+			'username' => null,
+			'status' => '0'
+		);
+
+		$where= array('username' => $username );
+		$this->StaffModel->update($where, $data);
+		echo $idperum;
+		echo $idlama;
+		$where1= array('IDPerumahan' => $idperum );
+		$this->PerumahanModel->update($where, $data1);
+		$where1= array('IDPerumahan' => $idlama );
+		$this->PerumahanModel->update($where, $data2);
+		
+
+		
+	}
+	
+
+
 
 	//DELETE
 
@@ -581,9 +721,10 @@ class Main extends CI_Controller {
 	public function delete_perumahan() {
 		if ($this->checkcookieuser()) {
 			$username = $this->input->post('id');
-			$where = array('IDPerumahan'=>$username);
-			$deleteStatus = $this->PerumahanModel->delete($where);
-			echo $deleteStatus;
+			$kd = array('IDPerumahan' => $username);
+
+			$deleteStatus = $this->PerumahanModel->delete_perumahan1($kd);
+			echo $deleteStatus ;
 		}else{
 			echo "access denied";
 		}

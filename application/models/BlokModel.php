@@ -25,7 +25,7 @@ class BlokModel extends CI_Model {
 	}
 
 	public function get_list_perumahan() {
-		$this->db->select('nama_perumahan');
+		$this->db->select('nama_perumahan, status');
 		$this->db->from('perumahan');
 		$query = $this->db->get();
 		return $query->result_array();

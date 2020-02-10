@@ -1,50 +1,37 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-            <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-center mb-4">
-                <h1 class="h1 mb-0 text-gray-800 ">Profile</h1>
-            </div>
-
-            <!--form-->
             <div class="card shadow mb-12">
-              <div class="card-header py-3">
-              <form>
-                  <div class="form-group">
-                      <label for="nama" class="col-form-label">Nama:</label>
-                      <input type="text" class="form-control" id="nama" value="" readonly>
-                  </div>
-                  <div class="form-group">
-                      <label for="id-blok" class="col-form-label">Id Blok:</label>
-                      <input type="text" class="form-control" id="id-blok" value="" readonly>
-                  </div>
-                  <div class="form-group">
-                      <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
-                      <select class="custom-select">
-                          <option selected>Zero</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
-                      <select class="custom-select">
-                          <option selected>Zero</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="nama-blok" class="col-form-label">Nama Blok:</label>
-                      <input type="text" class="form-control" id="nama-blok">
-                  </div>
+                <div class="card-header py-3">
+                    <!-- Page Heading -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h1 class="h1 mb-0 text-gray-800 ">Profile</h1>
+                    </div>
 
-                  <button class="btn btn-primary">Edit</button>
-                  
-              </form>
-              </div>
+                
+                    <!--form-->
+                    <div class="card-body" style="background-color: #FFFFFF;">
+                        <form>
+                                <div class="form-group">
+                                    <label for="nama" class="col-form-label">Nama:</label>
+                                    <input type="text" class="form-control" id="nama" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nomor" class="col-form-label">Nomor:</label>
+                                    <input type="text" class="form-control" id="nomor" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="col-form-label">Email:</label>
+                                    <input type="text" class="form-control" id="email" value="">
+                                </div>                    
+                                <div class="form-group">
+                                    <label for="password" class="col-form-label">Password:</label>
+                                    <input type="password" class="form-control" id="password" readonly>
+                                </div>
+                                <button class="btn btn-primary">Edit</button>                  
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /.container-fluid -->
@@ -52,20 +39,6 @@
 
       </div>
       <!-- End of Main Content -->
-
-        <script>
-
-        function deleteblok(id) {
-            $.ajax({
-                    url: "<?php echo base_url() ?>index.php/delete_blok/" + id,
-                    success: function (response) {
-                        if (response==="success") {
-                            location.reload();
-                        }
-                    }
-                });
-        }
-        </script>
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
@@ -117,15 +90,29 @@
     <!-- Custom scripts for all pages-->
     <script src="<?php echo base_url('dist/js/sb-admin-2.min.js');?>"></script>
 
-    <!-- Page level plugins -->
-    <script src="<?php echo base_url('dist/vendor/chart.js/Chart.min.js');?>"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="<?php echo base_url('dist/js/demo/chart-area-demo.js');?>"></script>
-    <script src="<?php echo base_url('dist/js/demo/chart-pie-demo.js');?>"></script>
-
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
+
+    <script>
+        $(document).ready(function () { 
+          dTable = $('#table').DataTable();
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
+            type: 'POST',
+            success: function (json) {
+              var response = JSON.parse(json);
+             
+              // $("tbody").append()
+              console.log(response[0]);
+            },
+            error: function (xhr, status, error) {
+              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              $("#submit").prop("disabled", false);
+            }
+          });
+        });
+    </script>
+
 </body>
 
 </html>

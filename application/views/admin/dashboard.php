@@ -1,40 +1,44 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-center mb-4">
-            <h1 class="h1 mb-0 text-gray-800 ">Data Perumahan</h1>
-          </div>
+        <div class="card shadow mb-12">
+          <div class="card-header py-3">
 
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add</button>
-            <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                <div class="input-group">
-                    <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                            </button>
+            <!-- Page Heading -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h1 class="h1 mb-0 text-gray-800 ">Data Perumahan</h1>
+            </div>
+
+            <div class="card-body" style="background-color: #FFFFFF;">
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add Perumahan</button>
+                <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <div class="input-group">
+                        <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                                </button>
+                        </div>
                     </div>
-                </div>
-            </form>
-          </div>        
+                </form>
+              </div>        
 
-          <!-- DataTales Example -->
-          <table id="table" class="display">
-
-                <thead>
-                    <tr>
-                        <th>Nama Perumahan</th>
-                        <th>Kota</th>                        
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="target">
-          
-                </tbody>
-            </table>
-
+              <!-- DataTales Example -->
+              <table id="table" class="display">
+                  <thead>
+                      <tr>
+                          <th>Nama Perumahan</th>
+                          <th>Kota</th>                        
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody id="target">          
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
         </div>
         <!-- /.container-fluid -->
 

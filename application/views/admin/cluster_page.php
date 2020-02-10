@@ -1,49 +1,54 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+        <div class="card shadow mb-12">
+          <div class="card-header py-3">
             <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-center mb-4">
+            <div  class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h1 class="h1 mb-0 text-gray-800 ">Data Cluster</h1>
             </div>
 
-            <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
-                <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add</button>
-            </div>
+            <div class="card-body" style="background-color: #FFFFFF;">
+              <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add Cluster</button>
+              </div>
 
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <div class="btn-group">
-                    <select id="fl-perumahan" class="custom-select">
-                        <option selected value="default">Perumahan</option>
-                    </select>
-                </div>
-                
-                <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                                </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                  <div class="btn-group">
+                      <select id="fl-perumahan" class="custom-select">
+                          <option selected value="default">Perumahan</option>
+                      </select>
+                  </div>
+                  
+                  <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                      <div class="input-group">
+                          <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                          <div class="input-group-append">
+                                  <button class="btn btn-primary" type="button">
+                                  <i class="fas fa-search fa-sm"></i>
+                                  </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
 
-            <!--table-->
-            <table id="table" class="display">
-                <thead>
-                    <tr>
-                        <th>Nama Cluster</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="data">
-                    
-                </tbody>
-            </table>
+              <!--table-->
+              <table id="table" class="display">
+                  <thead>
+                      <tr>
+                          <th>Nama Cluster</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody id="data">
+                      
+                  </tbody>
+              </table>
+          </div>
         </div>
         <!-- /.container-fluid -->
-
+        </div>
+      </div>
         <!-- modal edit -->
         <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
@@ -184,7 +189,7 @@
         success: function (json) {
           var response = JSON.parse(json);
           response.forEach((data)=>{
-            $('#fl-perumahan').append(new Option(data.nama, data.IDPerumahan))
+            $('#fl-perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))
           })
         },
         error: function (xhr, status, error) {
@@ -218,9 +223,7 @@
           var response = JSON.parse(json);
           dTable.clear().draw();
           response.forEach((data)=>{
-            no = data.IDCluster
-            $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
-            $('#perumahan').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>');             
+            no = data.IDCluster                       
             if(data.IDCluster != null) {
               dTable.row.add([
                 data.nama_cluster,
@@ -243,8 +246,29 @@
 
     $(document).ready(function () { 
       dTable = $('#table').DataTable();
+      listperumahan();
       get_data()
     });
+
+    function listperumahan(){
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_list_perumahan",
+        type: 'POST',
+        success: function (response) {
+              console.log(response);
+              var hasil = JSON.parse(response);
+              hasil.forEach((data)=>{
+                $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
+                $('#perumahan').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>');                  
+              })
+          },
+          error: function () {
+              console.log("gagal menghapus");
+
+          }
+      });
+    }
+
 
     function hapusdata(id) {
       var tanya = confirm("hapus?");
