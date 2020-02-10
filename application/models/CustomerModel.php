@@ -36,5 +36,10 @@ class CustomerModel extends CI_Model {
 		return $return_message;
 	}
 
+	public function update($where, $data){
+		$this->db->where($where);
+        $this->db->update('customer', $data);
+	}
+
 }
 ?>

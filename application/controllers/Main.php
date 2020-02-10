@@ -656,6 +656,26 @@ class Main extends CI_Controller {
 		echo $idperum;
 	}
 
+	//Edit data customer
+	public function update_customer(){
+		$id = $this->input->post('id');
+		$nama = $this->input->post('nama');
+		$email = $this->input->post('email');
+		$nomor = $this->input->post('nomor');
+
+		$data = array(
+            'IDCustomer' => $id,
+			'nama' => $nama,
+			'nomor' => $nomor,
+			'email' => $email
+		);
+		
+		$where= array('IDCustomer' => $id );
+		$this->CustomerModel->update($where, $data);
+		
+	}
+
+
 	//Edit data staff
 	public function update_staff(){
 		$username = $this->input->post('id');
@@ -691,10 +711,10 @@ class Main extends CI_Controller {
 		$this->StaffModel->update($where, $data);
 		echo $idperum;
 		echo $idlama;
-		$where1= array('IDPerumahan' => $idperum );
-		$this->PerumahanModel->update($where, $data1);
-		$where1= array('IDPerumahan' => $idlama );
-		$this->PerumahanModel->update($where, $data2);
+		// $where1= array('IDPerumahan' => $idperum );
+		// $this->PerumahanModel->update($where, $data1);
+		// $where1= array('IDPerumahan' => $idlama );
+		// $this->PerumahanModel->update($where, $data2);
 		
 
 		

@@ -296,7 +296,7 @@
                     data: {id:inputid, nama:inputnama, nomor:inputnomor, perum:inputperumahan, idlama:dataidperum},
                     success: function (response) {
                       console.log(response);
-                      // window.location = "<?php echo base_url() ?>index.php/Main/staff";
+                      window.location = "<?php echo base_url() ?>index.php/Main/staff";
                     },
                     error: function () {
                       console.log("gagal update");

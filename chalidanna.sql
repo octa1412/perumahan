@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2020 at 03:21 PM
+-- Generation Time: Feb 10, 2020 at 03:59 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -236,6 +236,7 @@ INSERT INTO `customer` (`IDCustomer`, `nama`, `nomor`, `email`) VALUES
 ('Cust10', 'Anang Riswanto / Lelita', '26087', '63346@gmail.com'),
 ('Cust100', 'Muhammad Khaiyan/ Egidio', '67571', '70810@gmail.com'),
 ('Cust1000', 'Aladin', '0987654321', 'aladin@gmail.com'),
+('Cust1001', 'Dian', '08976543214', 'dian@gmail.com'),
 ('Cust101', 'Muhammad Reza Norman/Andi oktafianto', '65507', '90407@gmail.com'),
 ('Cust102', 'Nancy Pasaribu', '33620', '7460@gmail.com'),
 ('Cust103', 'Naniek Iyatiningsih', '61750', '50265@gmail.com'),
@@ -427,7 +428,7 @@ CREATE TABLE `perumahan` (
 --
 
 INSERT INTO `perumahan` (`IDPerumahan`, `nama_perumahan`, `kota`, `username`, `status`) VALUES
-('A1', 'Anggrek', 'Sidoarjo', NULL, '0'),
+('A1', 'Anggrek', 'Sidoarjo', 'staff1', '1'),
 ('A2', 'Melati', 'Malang', 'staff2', '1'),
 ('A3', 'Tulip', 'Malang', 'staff3', '1'),
 ('A4', 'Mawar', 'Surabaya', NULL, '0'),
@@ -469,7 +470,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`username`, `password`, `pangkat`, `nama`, `nomor`) VALUES
 ('admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin', 'Budi', 99999),
-('staff1', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Sitio', 99901010),
+('staff1', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Sitiop', 99901010),
 ('staff2', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Didii', 9707080),
 ('staff3', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Memet', 898989);
 
