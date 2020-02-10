@@ -15,8 +15,8 @@ class CustomerModel extends CI_Model {
 		return $query->result_array();
     }
 
-    public function insert_one($data){
-        $this->db->insert('user', $data);
+    public function insert($data){
+        $this->db->insert('customer', $data);
         if ($this->db->affected_rows() > 0 ) {
 			$return_message = 'success';
 		}else{

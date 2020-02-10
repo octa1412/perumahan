@@ -1,56 +1,45 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+        <div class="card shadow mb-12">
+          <div class="card-header py-3">
             <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-center mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h1 class="h1 mb-0 text-gray-800 ">Data Staff</h1>
             </div>
 
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add</button>
-                <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                                </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <div class="card-body" style="background-color: #FFFFFF;">
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add Staff</button>
+                  <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                      <div class="input-group">
+                          <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                          <div class="input-group-append">
+                                  <button class="btn btn-primary" type="button">
+                                  <i class="fas fa-search fa-sm"></i>
+                                  </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
 
-            <!--table-->
-            <table id="table" class="display">
-                <thead>
-                    <tr>
-                        <th>ID Staff</th>
-                        <th>Nama Staff</th>
-                        <th>Perumahan</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>A2</td>
-                        <td>Budi Setiawan</td>
-                        <td>Anggrek</td>
-                        <td>
-                            <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>A3</td>
-                        <td>Siti</td>
-                        <td>Melati</td>
-                        <td>
-                            <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
-                            <button class="btn btn-danger mt-10 mb-10">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+              <!--table-->
+              <table id="table" class="display">
+                  <thead>
+                      <tr>
+                          <th>ID Staff</th>
+                          <th>Nama Staff</th>
+                          <th>Perumahan</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    
+                  </tbody>
+              </table>
+            </div>
+            </div>
+          </div>
         </div>
         <!-- /.container-fluid -->
 
@@ -68,23 +57,23 @@
                 <form>
                     <div class="form-group">
                         <label for="id-staff" class="col-form-label">Id Staff:</label>
-                        <input type="text" class="form-control" id="id-staff" readonly>
+                        <input type="text" class="form-control" id="id-staff1" readonly>
                     </div>
                     <div class="form-group">
                         <label for="nama" class="col-form-label">Nama:</label>
-                        <input type="text" class="form-control" id="nama" value="">
+                        <input type="text" class="form-control" id="nama1" value="">
                     </div>
                     <div class="form-group">
                         <label for="nomor" class="col-form-label">Nomor Telepon:</label>
-                        <input type="text" class="form-control" id="nomor" >
+                        <input type="text" class="form-control" id="nomor1" >
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Password:</label>
+                        <input type="password" class="form-control" id="password1" readonly>
                     </div>
                     <div class="form-group">
                         <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
-                        <select class="custom-select">
-                            <option selected>Zero</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="custom-select" id="perumahan1">                      
                         </select>
                     </div> 
                  
@@ -92,7 +81,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-primary" id="updatedata">Update</button>
               </div>
             </div>
           </div>
@@ -123,21 +112,20 @@
                     <input type="text" class="form-control" id="nomor" placeholder="Nomor Telepon...">
                   </div>
                   <div class="form-group">
+                    <label for="password" class="col-form-label">Password:</label>
+                    <input type="text" class="form-control" id="password" >
+                  </div>
+                  <div class="form-group">
                     <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <select class="custom-select">
-                        <option selected>Zero</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="custom-select" id="perumahan">                                            
                     </select>
                   </div>                
-                  
-                 
+                                   
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
               </div>
             </div>
           </div>
@@ -187,7 +175,6 @@
         </div>
     </div>
 
-    <?php include('edit_modal.php')?>
     <!-- Bootstrap core JavaScript-->
     <script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
     <script src="<?php echo base_url('dist/vendor/bootstrap/js/bootstrap.bundle.min.js');?>"></script>
@@ -198,15 +185,155 @@
     <!-- Custom scripts for all pages-->
     <script src="<?php echo base_url('dist/js/sb-admin-2.min.js');?>"></script>
 
-    <!-- Page level plugins -->
-    <script src="<?php echo base_url('dist/vendor/chart.js/Chart.min.js');?>"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="<?php echo base_url('dist/js/demo/chart-area-demo.js');?>"></script>
-    <script src="<?php echo base_url('dist/js/demo/chart-pie-demo.js');?>"></script>
-
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
+
+  <script>
+        $(document).ready(function () { 
+          dTable = $('#table').DataTable();
+          // listperumahan().remove;
+          listperumahan();
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/get_all_staff",
+            type: 'POST',
+            success: function (json) {
+              var response = JSON.parse(json);
+              response.forEach((data)=>{
+                no = data.username
+                dTable.row.add([
+                  data.username,
+                  data.nama,
+                  data.nama_perumahan,
+                    '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
+									+ '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
+                
+                ]).draw(false);
+                
+              })
+              // $("tbody").append()
+              console.log(response[0]);
+            },
+            error: function (xhr, status, error) {
+              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              $("#submit").prop("disabled", false);
+            }
+          });
+        });
+
+        function listperumahan(){
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/get_list_perumahan",
+            type: 'POST',
+            success: function (response) {
+                  console.log(response);
+                  var hasil = JSON.parse(response);
+                  hasil.forEach((data)=>{
+                    if(data.status == '0') {
+                    $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
+                    $('#perumahan').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>');                  
+                    }
+                  })
+              },
+              error: function () {
+                  console.log("gagal menghapus");
+
+              }
+          });
+        }
+
+
+        function hapusdata(id) {
+           var tanya = confirm("hapus?");
+
+           if(tanya){
+              $.ajax({
+                url: "<?php echo base_url() ?>index.php/Main/delete_perumahan/",
+                type: 'POST',
+                data: {id: id},
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function () {
+                    console.log("gagal menghapus");
+                }
+             });
+           }
+        }
+
+        function tampildata(id) {
+          var dataString = $("#editform").serialize();
+
+          $.ajax({
+            url: "<?php echo base_url()?>index.php/Main/get_staff_by_id",
+            type: 'POST',
+            data: {id: id},
+            success: function (response) {
+              console.log(response);
+           
+
+              var response = JSON.parse(response);
+              response.forEach((data)=>{
+                console.log(dataString);
+                $('#editmodal').modal();
+                $("#id-staff1").val(data.username);
+                $('#nama1').val(data.nama);
+                $('#nomor1').val(data.nomor);
+                $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
+                $('#perumahan1').val(data.nama_perumahan);
+                $('#password1').val(data.password);
+                $('#updatedata').click(function editdata() {
+                
+                var inputid = document.getElementById("id-staff1").value
+                var inputnama = document.getElementById("nama1").value
+                var inputnomor = document.getElementById("nomor1").value
+                var inputperumahan = document.getElementById("perumahan1").value
+                var dataidperum = data.IDPerumahan
+
+
+                  $.ajax({
+                    url: "<?php echo base_url()?>index.php/Main/update_staff/",
+                    type: 'POST',
+                    data: {id:inputid, nama:inputnama, nomor:inputnomor, perum:inputperumahan, idlama:dataidperum},
+                    success: function (response) {
+                      console.log(response);
+                      // window.location = "<?php echo base_url() ?>index.php/Main/staff";
+                    },
+                    error: function () {
+                      console.log("gagal update");
+                    }
+                  });
+                });
+              })                
+            },
+            error: function () {
+                console.log("gagal edit");
+            }
+          });          
+        }
+
+        function insertdata() {
+          var inputid = document.getElementById("id-staff").value
+          var inputnama = document.getElementById("nama").value
+          var inputpass = document.getElementById("password").value          
+          var inputnomor = document.getElementById("nomor").value
+          var inputperumahan = document.getElementById("perumahan").value
+
+          $.ajax({
+            url: "<?php echo base_url()?>index.php/Main/insert_staff/",
+            type: 'POST',
+            data: {id:inputid, nama:inputnama, nomor:inputnomor, perum:inputperumahan, password:inputpass},
+            success: function (response) {
+              console.log(response);
+              window.location = "<?php echo base_url() ?>index.php/Main/staff";
+            },
+            error: function () {
+              console.log("gagal insert");
+            }
+          });
+
+        }
+      </script>
+
 </body>
 
 </html>
