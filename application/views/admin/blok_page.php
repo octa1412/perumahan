@@ -332,7 +332,6 @@
               ]).draw(false);
             }            
           })
-          console.log(response[0]);
         },    
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
@@ -375,7 +374,6 @@
             $('#nama-customer1').val(data.nama);
             $('#updatedata').click(function editdata() {
             
-            consoler.log("data.nama_perumahan");
             
             var inputperumahan = document.getElementById("perumahan1").value
             var inputcluster = document.getElementById("nama-cluster1").value
@@ -387,7 +385,6 @@
                 type: 'POST',
                 data: {customer:inputcust, nama:inputnama, perumahan:inputperumahan, cluster:inputcluster},
                 success: function (response) {
-                  console.log(response);
                   window.location = "<?php echo base_url() ?>index.php/Main/blok";
                 },
                 error: function () {

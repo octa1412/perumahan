@@ -52,7 +52,7 @@
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title w-100 text-center" id="editTitle">Edit Cluster</h5>
+                <h5 class="modal-title w-100 text-center" id="editTitle">Edit Customer</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -256,14 +256,15 @@
                 $('#nomor1').val(data.nomor);
                 $('#updatedata').click(function editdata() {
                 
-                var inputid = document.getElementById("id-perumahan1").value
-                var inputnama = document.getElementById("nama-perumahan1").value
-                var inputkota = document.getElementById("nama-kota1").value
-
+                var inputid = document.getElementById("id-customer1").value
+                var inputnama = document.getElementById("nama1").value
+                var inputemail = document.getElementById("email1").value
+                var inputnomor = document.getElementById("nomor1").value
+                
                   $.ajax({
-                    url: "<?php echo base_url()?>index.php/Main/update_perumahan/",
+                    url: "<?php echo base_url()?>index.php/Main/update_customer/",
                     type: 'POST',
-                    data: {id:inputid, nama:inputnama, kota:inputkota},
+                    data: {id:inputid, nama:inputnama, email:inputemail,nomor:inputnomor},
                     success: function (response) {
                       console.log(response);
                       window.location = "<?php echo base_url() ?>index.php/Main/customer";
