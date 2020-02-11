@@ -81,7 +81,8 @@
                     </div>
                     <div class="form-group">
                         <label for="cluster1" class="col-form-label">Nama Cluster:</label>
-                        <select class="custom-select" id="cluster1">                            
+                        <select class="custom-select" id="cluster1">
+                        <option value="default">Cluster</option>                
                         </select>
                     </div>                    
                     <div class="form-group">
@@ -376,6 +377,7 @@
             $('#editmodal').modal();
             $('#nama-blok1').val(data.IDBlok);
             $('#perumahan1').val(data.IDPerumahan);
+            $('#cluster1 option[value!=default]').remove()
             $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
             $('#nama-customer1').val(data.IDCustomer);
             $('#harga1').val(data.Harga);
