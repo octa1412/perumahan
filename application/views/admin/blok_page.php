@@ -85,7 +85,7 @@
                         </select>
                     </div>                    
                     <div class="form-group">
-                        <label for="nama-customer1" class="col-form-label">Nama Customer:</label>
+                        <label for="nama-customer1" class="col-form-label">ID Customer:</label>
                         <input type="text" class="form-control" id="nama-customer1">
                     </div>
                     <div class="form-group">
@@ -129,13 +129,9 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="nama-blok" class="col-form-label">Nama Blok:</label>
-                    <input type="text" class="form-control" id="nama-blok" placeholder="Nama Blok...">
+                    <label for="harga" class="col-form-label">Harga:</label>
+                    <input type="text" class="form-control" id="harga">
                   </div>
-                  <div class="form-group">
-                        <label for="harga" class="col-form-label">Harga:</label>
-                        <input type="text" class="form-control" id="harga">
-                    </div>
                  
                 </form>
               </div>
@@ -357,6 +353,8 @@
           data: {id: id},
           success: function (response) {
               console.log(response);
+              window.location = "<?php echo base_url() ?>index.php/Main/blok";
+
           },
           error: function () {
               console.log("gagal menghapus");
@@ -379,9 +377,9 @@
             $('#nama-blok1').val(data.IDBlok);
             $('#perumahan1').val(data.IDPerumahan);
             $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
-            $('#nama-customer1').val(data.nama);
+            $('#nama-customer1').val(data.IDCustomer);
             $('#harga1').val(data.Harga);
-            console.log(response);
+            // console.log(response);
             $('#updatedata').click(function editdata() {
             
             var inputperumahan = document.getElementById("perumahan1").value
@@ -394,8 +392,7 @@
                 url: "<?php echo base_url()?>index.php/Main/update_blok/",
                 type: 'POST',
                 data: {customer:inputcust, id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga},
-                success: function (response) {
-                  console.log("oo");
+                success: function (response) {                           
                   window.location = "<?php echo base_url() ?>index.php/Main/blok";
                 },
                 error: function () {
@@ -406,7 +403,7 @@
           })                
         },
         error: function () {
-            console.log("gagal menghapus");
+            console.log("gagal tampil");
         }
       });          
     }
@@ -414,12 +411,14 @@
     function insertdata() {
       var inputid = document.getElementById("id-cluster").value
       var inputperum = document.getElementById("perumahan").value
-      var inputnama = document.getElementById("nama-cluster").value
+      var inputcluster = document.getElementById("cluster").value
+      var inputharga = document.getElementById("harga").value
 
+      console.log(inputcluster);
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_blok/",
         type: 'POST',
-        data: {id:inputid, perum:inputperum, nama:inputnama},
+        data: {id:inputid, perum:inputperum, cluster:inputcluster, harga:inputharga},
         success: function (response) {
           console.log(response);
           window.location = "<?php echo base_url() ?>index.php/Main/blok";
