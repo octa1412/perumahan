@@ -288,6 +288,7 @@ class Main extends CI_Controller {
 			echo json_encode($data);
 		}
 	}
+
 	//ambil data blok
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_blok($return_var = NULL){
@@ -318,6 +319,23 @@ class Main extends CI_Controller {
 			echo json_encode($data);
 		}
 	}
+
+	//ambil data blok punya customer
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_blok_detail($return_var = NULL){
+		$perumahan = $this->input->post('perumahan');
+		$cluster = $this->input->post('cluster');
+		$data = $this->BlokModel->get_all(null, $perumahan, $cluster);
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
 
 	//ambil data staff
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
@@ -487,7 +505,7 @@ class Main extends CI_Controller {
 	public function insert_cluster() {
 		if ($this->checkcookieuser()) {
 			$perumahan =  $this->input->post('perum');
-			$idperum = $this->ClusterModel->get_perumahan($perumahan);
+			$idperum = $this->PerumahanModel->get_perumahan($perumahan);
 
 			$data = array(
 				'IDCluster' => $this->input->post('id'),
@@ -623,7 +641,7 @@ class Main extends CI_Controller {
 		$perumahan = $this->input->post('perumahan');
 		$nama = $this->input->post('nama');
 
-		$idperum = $this->ClusterModel->get_perumahan($perumahan);
+		$idperum = $this->PerumahanModel->get_perumahan($perumahan);
 
 		$data = array(
 			'nama_cluster' => $nama,
@@ -632,8 +650,6 @@ class Main extends CI_Controller {
 		
 		$where= array('IDCluster' => $id );
         $this->ClusterModel->update($where, $data);
-
-		echo $idperum;
 	}
 
 	//Edit data blok
@@ -642,9 +658,7 @@ class Main extends CI_Controller {
 		$perumahan = $this->input->post('perumahan');
 		$cluster = $this->input->post('cluster');
 		$customer = $this->input->post('customer');
-		$harga = $this->input->post('harga');
-				
-		// $idcustomer = $this->CustomerModel->get_customer($customer);
+		$harga = $this->input->post('harga');		
 
 		$data = array(
 			'IDCustomer' => $customer,
@@ -752,9 +766,10 @@ class Main extends CI_Controller {
 		}
 	}
 
-	public function delete_customer($id) {
+	public function delete_customer() {
 		if ($this->checkcookieuser()) {
-			$deleteStatus = $this->CustomerModel->delete($id);
+			$username = $this->input->post('id');
+			$deleteStatus = $this->CustomerModel->delete($username);
 			echo $deleteStatus;
 		}else{
 			echo "access denied";

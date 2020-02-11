@@ -15,6 +15,15 @@ class PerumahanModel extends CI_Model {
 		return $query->result_array();
     }
 
+	public function get_perumahan($id) {
+		$this->db->select('*');
+		$this->db->from('perumahan');
+		$this->db->where('nama_perumahan', $id);
+		$query = $this->db->get();
+		$final = $query->row(); 
+		return $final->IDPerumahan;
+	}
+
     public function insert($data){
         $this->db->insert('perumahan', $data);
         if ($this->db->affected_rows() > 0 ) {

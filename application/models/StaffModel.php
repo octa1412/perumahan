@@ -18,7 +18,7 @@ class StaffModel extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-	
+		
 	public function get_staff(){
 		$this->db->select('*');
 		$this->db->from('user');

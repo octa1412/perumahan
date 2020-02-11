@@ -352,7 +352,6 @@
           type: 'POST',
           data: {id: id},
           success: function (response) {
-              console.log(response);
               window.location = "<?php echo base_url() ?>index.php/Main/blok";
 
           },
@@ -371,7 +370,6 @@
         data: {id: id},
         success: function (response) {
           var response = JSON.parse(response);
-          console.log('ooo');
           response.forEach((data)=>{
             $('#editmodal').modal();
             $('#nama-blok1').val(data.IDBlok);
@@ -379,7 +377,6 @@
             $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
             $('#nama-customer1').val(data.IDCustomer);
             $('#harga1').val(data.Harga);
-            // console.log(response);
             $('#updatedata').click(function editdata() {
             
             var inputperumahan = document.getElementById("perumahan1").value
@@ -414,13 +411,11 @@
       var inputcluster = document.getElementById("cluster").value
       var inputharga = document.getElementById("harga").value
 
-      console.log(inputcluster);
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_blok/",
         type: 'POST',
         data: {id:inputid, perum:inputperum, cluster:inputcluster, harga:inputharga},
         success: function (response) {
-          console.log(response);
           window.location = "<?php echo base_url() ?>index.php/Main/blok";
         },
         error: function () {

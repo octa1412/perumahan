@@ -190,7 +190,7 @@
           dTable.clear().draw();
           response.forEach((data)=>{
             dTable.row.add([
-              data.nama,
+              data.nama, 
               data.IDBlok,
               
               '<a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>'

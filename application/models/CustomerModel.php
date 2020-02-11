@@ -35,7 +35,7 @@ class CustomerModel extends CI_Model {
 	}
 	
 	public function delete($id){
-		$this->db->where('user', $id);
+		$this->db->where('IDCustomer', $id);
 		$this->db->delete('customer');
 		if ($this->db->affected_rows() > 0 ) {
 			$return_message = 'success';

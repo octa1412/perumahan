@@ -204,11 +204,8 @@
 									+ '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ data.IDCustomer +'")>Edit</a></button>'
 									+ '<button class="btn btn-danger mt-10 mb-10"><a onclick=hapusdata("'+ data.IDCustomer +'") >Delete</a></button>'
                 
-                ]).draw(false);
-                
+                ]).draw(false);                
               })
-              // $("tbody").append()
-              console.log(response[0]);
             },
             error: function (xhr, status, error) {
               alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
@@ -222,11 +219,11 @@
 
            if(tanya){
               $.ajax({
-                url: "<?php echo base_url() ?>index.php/Main/delete_perumahan/",
+                url: "<?php echo base_url() ?>index.php/Main/delete_customer/",
                 type: 'POST',
                 data: {id: id},
                 success: function (response) {
-                    console.log(response);
+                  window.location = "<?php echo base_url() ?>index.php/Main/customer";
                 },
                 error: function () {
                     console.log("gagal menghapus");
@@ -237,18 +234,13 @@
         }
 
         function tampildata(id) {
-          var dataString = $("#editform").serialize();
-
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/get_customer_by_id",
             type: 'POST',
             data: {id: id},
             success: function (response) {
-              console.log(response);
-
               var response = JSON.parse(response);
               response.forEach((data)=>{
-                console.log(dataString);
                 $('#editmodal').modal();
                 $("#id-customer1").val(data.IDCustomer);
                 $('#nama1').val(data.nama);
@@ -266,7 +258,6 @@
                     type: 'POST',
                     data: {id:inputid, nama:inputnama, email:inputemail,nomor:inputnomor},
                     success: function (response) {
-                      console.log(response);
                       window.location = "<?php echo base_url() ?>index.php/Main/customer";
                     },
                     error: function () {
@@ -293,7 +284,6 @@
             type: 'POST',
             data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail},
             success: function (response) {
-              console.log(response);
               window.location = "<?php echo base_url() ?>index.php/Main/customer";
             },
             error: function () {
@@ -301,6 +291,22 @@
             }
           });
 
+        }
+
+        function detaildata(id) {
+          $.ajax({
+            url: "<?php echo base_url()?>index.php/Main/insert_customer/",
+            type: 'POST',
+            data:{id:id},
+            success: function (response) {
+              console.log(response);
+              window.location = "<?php echo base_url() ?>index.php/Main/blok";
+            },
+            error: function () {
+              console.log("gagal update");
+            }
+
+          });
         }
 
 
