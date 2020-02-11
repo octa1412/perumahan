@@ -234,8 +234,6 @@
             }
             
           })
-          // $("tbody").append()
-          console.log(response[0]);
         },
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
@@ -255,7 +253,6 @@
         url: "<?php echo base_url() ?>index.php/Main/get_list_perumahan",
         type: 'POST',
         success: function (response) {
-              console.log(response);
               var hasil = JSON.parse(response);
               hasil.forEach((data)=>{
                 $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
@@ -279,7 +276,7 @@
           type: 'POST',
           data: {id: id},
           success: function (response) {
-              console.log(response);
+              window.location = "<?php echo base_url() ?>index.php/Main/cluster";
           },
           error: function () {
               console.log("gagal menghapus");
@@ -290,8 +287,6 @@
     }
 
     function tampildata(id) {
-      var dataString = $("#editform").serialize();
-
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/get_cluster_by_id",
         type: 'POST',
@@ -299,7 +294,6 @@
         success: function (response) {
           var response = JSON.parse(response);
           response.forEach((data)=>{
-            console.log(dataString);
             $('#editmodal').modal();
             $("#id-cluster1").val(data.IDCluster);
             $('#nama-cluster1').val(data.nama_cluster);
@@ -315,7 +309,6 @@
                 type: 'POST',
                 data: {id:inputid, nama:inputnama, perumahan:inputperumahan},
                 success: function (response) {
-                  console.log(response);
                   window.location = "<?php echo base_url() ?>index.php/Main/cluster";
                 },
                 error: function () {
@@ -341,7 +334,6 @@
         type: 'POST',
         data: {id:inputid, perum:inputperum, nama:inputnama},
         success: function (response) {
-          console.log(response);
           window.location = "<?php echo base_url() ?>index.php/Main/cluster";
         },
         error: function () {

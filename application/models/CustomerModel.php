@@ -6,8 +6,21 @@ class CustomerModel extends CI_Model {
     }
     
     public function get_all($id = NULL){
-        $this->db->select();
+        $this->db->select("*");
 		$this->db->from('customer');
+		if ($id != NULL){
+			$this->db->where('IDCustomer',$id);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+    }
+
+	public function get_detail($id = NULL){
+		$this->db->select('*');
+		$this->db->from('perumahan p');
+		$this->db->join('cluster c','p.IDPerumahan = c.IDPerumahan', 'left');
+		$this->db->join('blok b','b.IDCluster = c.IDCluster', 'right');
+		$this->db->join('customer o','o.IDCustomer = b.IDCustomer', 'left');
 		if ($id != NULL){
 			$this->db->where('IDCustomer',$id);
 		}
@@ -35,7 +48,7 @@ class CustomerModel extends CI_Model {
 	}
 	
 	public function delete($id){
-		$this->db->where('user', $id);
+		$this->db->where('IDCustomer', $id);
 		$this->db->delete('customer');
 		if ($this->db->affected_rows() > 0 ) {
 			$return_message = 'success';

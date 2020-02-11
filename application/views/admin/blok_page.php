@@ -353,7 +353,6 @@
           type: 'POST',
           data: {id: id},
           success: function (response) {
-              console.log(response);
               window.location = "<?php echo base_url() ?>index.php/Main/blok";
 
           },
@@ -399,7 +398,6 @@
             
             $('#nama-customer1').val(data.IDCustomer);
             $('#harga1').val(data.Harga);
-
             $('#updatedata').click(function editdata() {
             
             var inputperumahan = document.getElementById("perumahan1").value
@@ -434,17 +432,15 @@
       var inputcluster = document.getElementById("cluster").value
       var inputharga = document.getElementById("harga").value
 
-      console.log(inputcluster);
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_blok/",
         type: 'POST',
         data: {id:inputid, perum:inputperum, cluster:inputcluster, harga:inputharga},
         success: function (response) {
-          console.log(response);
           window.location = "<?php echo base_url() ?>index.php/Main/blok";
         },
         error: function () {
-          console.log("gagal update");
+          console.log("gagal insert");
         }
       });
 
