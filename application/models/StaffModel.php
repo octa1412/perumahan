@@ -27,7 +27,7 @@ class StaffModel extends CI_Model {
 	}
 
     public function insert($data){
-        $this->db->insert('perumahan', $data);
+        $this->db->insert('user', $data);
         if ($this->db->affected_rows() > 0 ) {
 			$return_message = 'success';
 		}else{

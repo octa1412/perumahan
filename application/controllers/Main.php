@@ -466,7 +466,17 @@ class Main extends CI_Controller {
 		}
 	}
 
-	
+	public function get_my_profile(){
+		$username = $this->get_cookie_decrypt("adminCookie");
+		if($username == NULL){
+			$username = $this->get_cookie_decrypt("staffCookie");
+		}
+		$data = $this->Default_model->get_data_user_nopassword($username);
+		if (empty($data)){
+			$data = [];
+		}
+		echo json_encode($data);
+	}
 
 	//INSERT
 
@@ -562,7 +572,7 @@ class Main extends CI_Controller {
 			$nomor =  $this->input->post('nomor');
 			$perumahan = $this->input->post('perum');
 			$staff = "staff";
-			$idperum = $this->ClusterModel->get_perumahan($perumahan);
+			// $idperum = $this->PerumahanModel->get_perumahan($perumahan);
 
 			$data = array(
 				'username' => $username,
@@ -572,12 +582,12 @@ class Main extends CI_Controller {
 				'nomor' => $nomor
 			);
 
-			$data1 = array(
-				'username' => $username,
-				'status' => '1'
-			);
+			// $data1 = array(
+			// 	'username' => $username,
+			// 	'status' => '1'
+			// );
 
-			$where= array('IDPerumahan' => $idperum );
+			// $where= array('IDPerumahan' => $idperum );
 			// $updateperumahan = $this->PerumahanModel->update($where, $data1);
 			$insertStatus = $this->StaffModel->insert($data);
 			echo $insertStatus;
@@ -736,7 +746,35 @@ class Main extends CI_Controller {
 		
 	}
 	
+	public function update_profile(){
+		$nama = $this->input->post('nama');
+		$nomor = $this->input->post('nomor');
+		$email = $this->input->post('email');
+		$password = $this->input->post('password');
 
+		$id = $this->get_cookie_decrypt("adminCookie");
+		if($id == NULL){
+			$id = $this->get_cookie_decrypt("staffCookie");
+		}
+		
+		if($password == NULL){
+			$data = array(
+				'nama' => $nama,
+				'nomor' => $nomor,
+				'email' => $email
+			);
+		} else{
+			$data = array(
+				'nama' => $nama,
+				'nomor' => $nomor,
+				'email' => $email,
+				'password'=> $password
+			);
+		}
+		$deleteStatus = $this->Default_model->update_user($id, $data);
+
+		echo "Data saved !";
+	}
 
 
 	//DELETE

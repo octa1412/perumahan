@@ -26,9 +26,9 @@
                                 </div>                    
                                 <div class="form-group">
                                     <label for="password" class="col-form-label">Password:</label>
-                                    <input type="password" class="form-control" id="password" readonly>
+                                    <input type="password" class="form-control" id="password">
                                 </div>
-                                <button class="btn btn-primary">Edit</button>                  
+                                <button class="btn btn-primary" onclick="doSave(event)">Edit</button>                  
                         </form>
                     </div>
                 </div>
@@ -94,16 +94,45 @@
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 
     <script>
+      function doSave(e){
+        e.preventDefault()
+        var data = {}
+        data.nama = $("#nama").val();
+        data.nomor = $("#nomor").val();
+        data.email = $("#email").val();
+        
+        if($("#password").val() != ""){
+          data.password = $("#password").val();
+        }
+
+        $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/update_profile",
+            type: 'POST',
+            data: data,
+            success: function (json) {
+                alert(json)
+            },
+            error: function (xhr, status, error) {
+              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              $("#submit").prop("disabled", false);
+            }
+          });
+      }
+
         $(document).ready(function () { 
           dTable = $('#table').DataTable();
           $.ajax({
-            url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
+            url: "<?php echo base_url() ?>index.php/Main/get_my_profile",
             type: 'POST',
             success: function (json) {
               var response = JSON.parse(json);
-             
-              // $("tbody").append()
-              console.log(response[0]);
+              console.log(response)
+              response.forEach((data)=>{
+                $("#nama").val(data.username);
+                $("#nomor").val(data.nomor);
+                $("#email").val(data.email);
+              })
+            
             },
             error: function (xhr, status, error) {
               alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
