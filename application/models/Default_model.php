@@ -17,7 +17,7 @@ class Default_model extends CI_Model {
 	}
 
 	public function get_data_user_nopassword($id = NULL){
-		$this->db->select('username');
+		$this->db->select('*');
 		$this->db->from('user');
 		if ($id != NULL){
 			$this->db->where('username',$id);
