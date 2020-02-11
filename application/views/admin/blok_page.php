@@ -421,7 +421,7 @@
           window.location = "<?php echo base_url() ?>index.php/Main/blok";
         },
         error: function () {
-          console.log("gagal update");
+          console.log("gagal insert");
         }
       });
 

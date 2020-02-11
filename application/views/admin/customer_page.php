@@ -200,7 +200,7 @@
                   data.nama,
                   data.email,
                   data.nomor,
-                  '<a href="<?php echo base_url('index.php/Main/blokdetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>'
+                  '<button class="btn btn-outline-primary mt-10 mb-10"><a onclick=detaildata("'+ data.IDCustomer +'")>Detail</button></a>'
 									+ '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ data.IDCustomer +'")>Edit</a></button>'
 									+ '<button class="btn btn-danger mt-10 mb-10"><a onclick=hapusdata("'+ data.IDCustomer +'") >Delete</a></button>'
                 
@@ -295,12 +295,12 @@
 
         function detaildata(id) {
           $.ajax({
-            url: "<?php echo base_url()?>index.php/Main/insert_customer/",
+            url: "<?php echo base_url()?>index.php/Main/create_cookie",
             type: 'POST',
-            data:{id:id},
+            data:{name: "editMember", value:id},
             success: function (response) {
               console.log(response);
-              window.location = "<?php echo base_url() ?>index.php/Main/blok";
+              window.location = "<?php echo base_url() ?>index.php/Main/blokdetail";
             },
             error: function () {
               console.log("gagal update");

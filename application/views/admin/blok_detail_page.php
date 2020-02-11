@@ -283,13 +283,26 @@
 
     $(document).ready(function () { 
       dTable = $('#table').DataTable();
-      get_data()
+      getCookie("editblok", get_data);
+        function getCookie(cname, callBack){
+            $.ajax({
+                url: "<?php echo base_url() ?>index.php/get_cookie/" + cname,
+                type: 'post',
+                success: function (response) {
+                    callBack(response);
+                }
+            })
+        }
+
+
     });
 
-    function get_data(){
+    function get_data(response){
     //   var data = get_filter_value()
+        userCookie = response;
+
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_all_blok",
+        url: "<?php echo base_url() ?>index.php/Main/get_blok_customer/" + userCookie,
         type: 'POST',
         data:data,
         success: function (json) {

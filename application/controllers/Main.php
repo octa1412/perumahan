@@ -336,6 +336,19 @@ class Main extends CI_Controller {
 			}
 	}
 
+	//detailblok customer
+	public function get_blok_customer($id, $return_var = NULL){
+		$data = $this->Default_model->get_detail($id);
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
+
 
 	//ambil data staff
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
@@ -673,7 +686,7 @@ class Main extends CI_Controller {
 		$data = array(
 			'IDCustomer' => $customer,
 			'IDCluster' => $cluster,
-			'harga' => $harga
+			'Harga' => $harga
 		);
 		
 		$where= array('IDBlok' => $id );
