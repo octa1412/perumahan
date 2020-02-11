@@ -375,8 +375,27 @@
             $('#editmodal').modal();
             $('#nama-blok1').val(data.IDBlok);
             $('#perumahan1').val(data.IDPerumahan);
-            $('#cluster1 option[value!=default]').remove()
-            $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
+
+            $.ajax({
+              url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
+              type: 'POST',
+              data: {id: $("#perumahan1").val()},
+              success: function (json) {
+                $("#cluster1 option[value!=default]").remove();
+                var response = JSON.parse(json);
+                response.forEach((dt)=>{
+                  $('#cluster1').append(new Option(dt.nama_cluster, dt.IDCluster))
+                })
+                $('#cluster1').val(data.IDCluster);
+              },
+              error: function (xhr, status, error) {
+                alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+                $("#submit").prop("disabled", false);
+              }
+            });
+
+            // $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster, true, true))
+            
             $('#nama-customer1').val(data.IDCustomer);
             $('#harga1').val(data.Harga);
             $('#updatedata').click(function editdata() {
