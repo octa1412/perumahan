@@ -639,21 +639,23 @@ class Main extends CI_Controller {
 		$id = $this->input->post('id');
 		$perumahan = $this->input->post('perumahan');
 		$cluster = $this->input->post('cluster');
-		$customer = $this->input->post('nama');
-
-		$idperum = $this->BlokModel->get_perumahan($perumahan);
-		$idcluster = $this->Blokmodel->get_cluster($cluster);
+		$customer = $this->input->post('customer');
+		$harga = $this->input->post('harga');
+				
+		$idcustomer = $this->CustomerModel->get_customer($customer);
+		$idcluster = $this->ClusterModel->get_cluster($cluster);
 		
 
 		$data = array(
-			'IDBlok' => $id,
+			'IDCustomer' => $idcustomer,
 			'IDCluster' => $idcluster,
+			'harga' => $harga
 		);
 		
 		$where= array('IDBlok' => $id );
         $this->BlokModel->update($where, $data);
 
-		echo $idperum;
+		echo $idcustomer;
 	}
 
 	//Edit data customer
@@ -707,8 +709,8 @@ class Main extends CI_Controller {
 			'status' => '0'
 		);
 
-		$where= array('username' => $username );
-		$this->StaffModel->update($where, $data);
+		// $where= array('username' => $username );
+		// $this->StaffModel->update($where, $data);
 		echo $idperum;
 		echo $idlama;
 		// $where1= array('IDPerumahan' => $idperum );
@@ -743,8 +745,8 @@ class Main extends CI_Controller {
 			$username = $this->input->post('id');
 			$kd = array('IDPerumahan' => $username);
 
-			$deleteStatus = $this->PerumahanModel->delete_perumahan1($kd);
-			echo $deleteStatus ;
+			$deleteStatus = $this->PerumahanModel->delete_perumahan1($username);
+			echo $deleteStatus;
 		}else{
 			echo "access denied";
 		}
@@ -759,9 +761,30 @@ class Main extends CI_Controller {
 		}
 	}
 
-	public function delete_blok($id){
+	public function delete_cluster(){
 		if ($this->checkcookieuser()) {
-			$deleteStatus = $this->Default_model->delete_blok($id);
+			$username = $this->input->post('id');
+			$deleteStatus = $this->ClusterModel->delete($username);
+			echo $deleteStatus;
+		}else{
+			echo "access denied";
+		}
+	}
+
+	public function delete_blok(){
+		if ($this->checkcookieuser()) {
+			$username = $this->input->post('id');
+			$deleteStatus = $this->BlokModel->delete($username);
+			echo $deleteStatus;
+		}else{
+			echo "access denied";
+		}
+	}
+
+	public function delete_staff(){
+		if ($this->checkcookieuser()) {
+			$username = $this->input->post('id');
+			$deleteStatus = $this->StaffModel->delete($username);
 			echo $deleteStatus;
 		}else{
 			echo "access denied";

@@ -7,8 +7,8 @@ class BlokModel extends CI_Model {
     
     public function get_all($id = NULL, $perumahan=NULL, $cluster=NULL){
         $this->db->select('*');
-		$this->db->from('cluster c');
-		$this->db->join('perumahan p','p.IDPerumahan = c.IDPerumahan', 'left');
+		$this->db->from('perumahan p');
+		$this->db->join('cluster c','p.IDPerumahan = c.IDPerumahan', 'left');
 		$this->db->join('blok b','b.IDCluster = c.IDCluster', 'right');
 		$this->db->join('customer o','o.IDCustomer = b.IDCustomer', 'left');
 		if ($id != NULL){
@@ -68,14 +68,14 @@ class BlokModel extends CI_Model {
 	}
 	
 	public function delete($id){
-		// $this->db->where('IDPerumahan', $id);
-		// $this->db->delete('perumahan');
+		$this->db->where('IDBlok', $id);
+		$this->db->delete('blok');
 		if ($this->db->affected_rows() > 0 ) {
 			$return_message = 'success';
 		}else{
 			$return_message = 'failed';
 		}
-		return $return_message = $id;
+		return $return_message;
 	}
 
 	public function update($where, $data){

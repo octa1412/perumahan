@@ -19,14 +19,14 @@ class ClusterModel extends CI_Model {
 		return $query->result_array();
     }
 
-	public function get_perumahan($id) {
+	public function get_cluster($id) {
 		$this->db->select('perumahan.IDPerumahan, cluster.IDPerumahan');
-		$this->db->join('cluster','perumahan.IDPerumahan = cluster.IDPerumahan','left');
+		$this->db->join('cluster','perumahan.IDPerumahan = cluster.IDPerumahan','right');
 		$this->db->from('perumahan');
-		$this->db->where('nama_perumahan', $id);
+		$this->db->where('nama_cluster', $id);
 		$query = $this->db->get();
 		$final = $query->row(); 
-		return $final->IDPerumahan;
+		return $final->IDCluster;
 	}
 
     public function insert($data){
@@ -40,14 +40,14 @@ class ClusterModel extends CI_Model {
 	}
 	
 	public function delete($id){
-		// $this->db->where('IDPerumahan', $id);
-		// $this->db->delete('perumahan');
+		$this->db->where('IDCluster', $id);
+		$this->db->delete('cluster');
 		if ($this->db->affected_rows() > 0 ) {
 			$return_message = 'success';
 		}else{
 			$return_message = 'failed';
 		}
-		return $return_message = $id;
+		return $return_message;
 	}
 
 	public function update($where, $data){

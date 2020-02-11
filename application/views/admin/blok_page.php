@@ -71,29 +71,32 @@
               <div class="modal-body">
                 <form>          
                     <div class="form-group">
-                        <label for="nama-blok" class="col-form-label">Nama Blok:</label>
-                        <input type="text" class="form-control" id="nama-blok1">
+                        <label for="nama-blok1" class="col-form-label">Nama Blok:</label>
+                        <input type="text" class="form-control" id="nama-blok1" readonly>
                     </div>          
                     <div class="form-group">
-                        <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                        <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
                         <select class="custom-select" id="perumahan1">                            
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
+                        <label for="cluster1" class="col-form-label">Nama Cluster:</label>
                         <select class="custom-select" id="cluster1">                            
                         </select>
                     </div>                    
                     <div class="form-group">
-                        <label for="nama-customer" class="col-form-label">Nama Customer:</label>
+                        <label for="nama-customer1" class="col-form-label">Nama Customer:</label>
                         <input type="text" class="form-control" id="nama-customer1">
                     </div>
-                 
+                    <div class="form-group">
+                        <label for="harga1" class="col-form-label">Harga:</label>
+                        <input type="text" class="form-control" id="harga1">
+                    </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-primary" id="updatedata">Update</button>
               </div>
             </div>
           </div>
@@ -116,12 +119,12 @@
                     <input type="text" class="form-control" id="id-cluster" placeholder="ID Blok...">
                   </div>
                   <div class="form-group">
-                    <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                    <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
                     <select class="custom-select" id="perumahan">                
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
+                    <label for="cluster" class="col-form-label">Nama Cluster:</label>
                     <select class="custom-select" id="cluster">
                     </select>
                   </div>
@@ -129,6 +132,10 @@
                     <label for="nama-blok" class="col-form-label">Nama Blok:</label>
                     <input type="text" class="form-control" id="nama-blok" placeholder="Nama Blok...">
                   </div>
+                  <div class="form-group">
+                        <label for="harga" class="col-form-label">Harga:</label>
+                        <input type="text" class="form-control" id="harga">
+                    </div>
                  
                 </form>
               </div>
@@ -260,7 +267,7 @@
         get_data();
       });
 
-      $("#cluster1").change(function (e) { 
+      $("#cluster").change(function (e) { 
         e.preventDefault();
         get_data();
       });
@@ -341,11 +348,11 @@
     }
 
     function hapusdata(id) {
-      var tanya = confirm("hapus?");
+      var tanya = confirm("hapus data?");
 
       if(tanya){
         $.ajax({
-          url: "<?php echo base_url() ?>index.php/Main//",
+          url: "<?php echo base_url() ?>index.php/Main/delete_blok",
           type: 'POST',
           data: {id: id},
           success: function (response) {
@@ -366,25 +373,29 @@
         data: {id: id},
         success: function (response) {
           var response = JSON.parse(response);
+          console.log('ooo');
           response.forEach((data)=>{
             $('#editmodal').modal();
             $('#nama-blok1').val(data.IDBlok);
-            $('#perumahan1').val(data.nama_perumahan);
-            $('#cluster1').val(data.nama_cluster);
+            $('#perumahan1').val(data.IDPerumahan);
+            $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
             $('#nama-customer1').val(data.nama);
+            $('#harga1').val(data.Harga);
+            console.log(response);
             $('#updatedata').click(function editdata() {
             
-            
             var inputperumahan = document.getElementById("perumahan1").value
-            var inputcluster = document.getElementById("nama-cluster1").value
-            var inputnama = document.getElementById("nama-blok1").value
+            var inputcluster = document.getElementById("cluster1").value
+            var inputid = document.getElementById("nama-blok1").value
             var inputcust = document.getElementById("nama-customer1").value
-                                                            
+            var inputharga = document.getElementById("harga1").value
+                               
               $.ajax({
                 url: "<?php echo base_url()?>index.php/Main/update_blok/",
                 type: 'POST',
-                data: {customer:inputcust, nama:inputnama, perumahan:inputperumahan, cluster:inputcluster},
+                data: {customer:inputcust, id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga},
                 success: function (response) {
+                  console.log("oo");
                   window.location = "<?php echo base_url() ?>index.php/Main/blok";
                 },
                 error: function () {

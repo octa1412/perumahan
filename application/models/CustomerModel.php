@@ -15,6 +15,15 @@ class CustomerModel extends CI_Model {
 		return $query->result_array();
     }
 
+	public function get_customer($id) {
+		$this->db->select('*');
+		$this->db->from('customer');
+		$this->db->where('nama', $id);
+		$query = $this->db->get();
+		$final = $query->row(); 
+		return $final->IDCustomer;
+	}
+
     public function insert($data){
         $this->db->insert('customer', $data);
         if ($this->db->affected_rows() > 0 ) {

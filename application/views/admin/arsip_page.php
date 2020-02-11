@@ -105,13 +105,6 @@
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('dist/js/sb-admin-2.min.js');?>"></script>
 
-  <!-- Page level plugins -->
-  <script src="<?php echo base_url('dist/vendor/chart.js/Chart.min.js');?>"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="<?php echo base_url('dist/js/demo/chart-area-demo.js');?>"></script>
-  <script src="<?php echo base_url('dist/js/demo/chart-pie-demo.js');?>"></script>
-
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>

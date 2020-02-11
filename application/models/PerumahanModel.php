@@ -26,12 +26,9 @@ class PerumahanModel extends CI_Model {
 	}
 	
 	public function delete_perumahan1($id){
-		// $this->db->delete('perumahan', 'IDPerumahan', $id); 
-
-		$this->db->delete('perumahan', $id);
-
-		// $this->db->where('IDPerumahan', $id);
-   		// $this->db->delete('perumahan'); 
+	
+		$this->db->where('IDPerumahan', $id);
+   		$this->db->delete('perumahan'); 
 
 		if ($this->db->affected_rows() > 0 ) {
 			$return_message = 'success';
