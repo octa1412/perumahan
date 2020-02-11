@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2020 at 03:59 PM
+-- Generation Time: Feb 11, 2020 at 06:54 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -41,7 +41,7 @@ CREATE TABLE `blok` (
 --
 
 INSERT INTO `blok` (`IDBlok`, `IDCluster`, `IDCustomer`, `Harga`, `type`) VALUES
-('101B4/27', 'B3', 'Cust148', 75000, '10'),
+('101B4/27', NULL, 'Cust148', 75000, '10'),
 ('101B4/28', 'B3', 'Cust147', 75000, '10'),
 ('103A2/17', 'B3', 'Cust146', 75000, '10'),
 ('103A2/18', 'B3', 'Cust145', 75000, '10'),
@@ -211,8 +211,7 @@ INSERT INTO `cluster` (`IDCluster`, `IDPerumahan`, `nama_cluster`) VALUES
 ('B2', 'A2', 'Dedek'),
 ('B3', 'A3', 'Toto'),
 ('B4', 'A4', 'Dian'),
-('B5', 'A3', 'Pokoo'),
-('B6', 'A1', 'Koko');
+('B5', 'A3', 'Pokoo');
 
 -- --------------------------------------------------------
 
@@ -232,7 +231,7 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`IDCustomer`, `nama`, `nomor`, `email`) VALUES
-('Cust1', 'Abisujak Ilyas', '31797', '82230@gmail.com'),
+('Cust1', 'Abisujak Ilyasa', '31797', '82230@gmail.com'),
 ('Cust10', 'Anang Riswanto / Lelita', '26087', '63346@gmail.com'),
 ('Cust100', 'Muhammad Khaiyan/ Egidio', '67571', '70810@gmail.com'),
 ('Cust1000', 'Aladin', '0987654321', 'aladin@gmail.com'),
@@ -428,7 +427,7 @@ CREATE TABLE `perumahan` (
 --
 
 INSERT INTO `perumahan` (`IDPerumahan`, `nama_perumahan`, `kota`, `username`, `status`) VALUES
-('A1', 'Anggrek', 'Sidoarjo', 'staff1', '1'),
+('A1', 'Anggrek', 'Malang', NULL, '0'),
 ('A2', 'Melati', 'Malang', 'staff2', '1'),
 ('A3', 'Tulip', 'Malang', 'staff3', '1'),
 ('A4', 'Mawar', 'Surabaya', NULL, '0'),
@@ -543,33 +542,33 @@ ALTER TABLE `user`
 -- Constraints for table `blok`
 --
 ALTER TABLE `blok`
-  ADD CONSTRAINT `blok_ibfk_1` FOREIGN KEY (`IDCluster`) REFERENCES `cluster` (`IDCluster`),
-  ADD CONSTRAINT `blok_ibfk_2` FOREIGN KEY (`IDCustomer`) REFERENCES `customer` (`IDCustomer`);
+  ADD CONSTRAINT `blok_ibfk_1` FOREIGN KEY (`IDCluster`) REFERENCES `cluster` (`IDCluster`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `blok_ibfk_2` FOREIGN KEY (`IDCustomer`) REFERENCES `customer` (`IDCustomer`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cluster`
 --
 ALTER TABLE `cluster`
-  ADD CONSTRAINT `cluster_ibfk_1` FOREIGN KEY (`IDPerumahan`) REFERENCES `perumahan` (`IDPerumahan`);
+  ADD CONSTRAINT `cluster_ibfk_1` FOREIGN KEY (`IDPerumahan`) REFERENCES `perumahan` (`IDPerumahan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `nota_detail`
 --
 ALTER TABLE `nota_detail`
-  ADD CONSTRAINT `nota_detail_ibfk_1` FOREIGN KEY (`IDNota`) REFERENCES `nota` (`IDNota`),
-  ADD CONSTRAINT `nota_detail_ibfk_2` FOREIGN KEY (`IDTagihan`) REFERENCES `tagihan` (`IDTagihan`);
+  ADD CONSTRAINT `nota_detail_ibfk_1` FOREIGN KEY (`IDNota`) REFERENCES `nota` (`IDNota`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `nota_detail_ibfk_2` FOREIGN KEY (`IDTagihan`) REFERENCES `tagihan` (`IDTagihan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `perumahan`
 --
 ALTER TABLE `perumahan`
-  ADD CONSTRAINT `perumahan_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
+  ADD CONSTRAINT `perumahan_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tagihan`
 --
 ALTER TABLE `tagihan`
-  ADD CONSTRAINT `tagihan_ibfk_1` FOREIGN KEY (`IDBlok`) REFERENCES `blok` (`IDBlok`);
+  ADD CONSTRAINT `tagihan_ibfk_1` FOREIGN KEY (`IDBlok`) REFERENCES `blok` (`IDBlok`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

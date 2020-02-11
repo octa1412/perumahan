@@ -7,7 +7,7 @@ class StaffModel extends CI_Model {
     
     public function get_all($id = NULL){
         $this->db->select('perumahan.*, user.*');
-        $this->db->join('user','perumahan.username = user.username', 'rigth');
+        $this->db->join('user','perumahan.username = user.username','right');
         $this->db->from('perumahan');
         
 		if ($id != NULL){
@@ -17,7 +17,14 @@ class StaffModel extends CI_Model {
         }
 		$query = $this->db->get();
 		return $query->result_array();
-    }
+	}
+	
+	public function get_staff(){
+		$this->db->select('*');
+		$this->db->from('user');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 
     public function insert($data){
         $this->db->insert('perumahan', $data);
@@ -30,10 +37,8 @@ class StaffModel extends CI_Model {
 	}
 	
 	public function delete($id){
-		$this->db->delete('perumahan', array('IDPerumahan' => $id)); 
-
-		// $this->db->where('IDPerumahan', $id);
-		// $this->db->delete('perumahan');
+		$this->db->where('IDStaff', $id);
+		$this->db->delete('staff');
 		if ($this->db->affected_rows() > 0 ) {
 			$return_message = 'success';
 		}else{

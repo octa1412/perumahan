@@ -275,7 +275,7 @@
 
       if(tanya){
         $.ajax({
-          url: "<?php echo base_url() ?>index.php/Main//",
+          url: "<?php echo base_url() ?>index.php/Main/delete_cluster",
           type: 'POST',
           data: {id: id},
           success: function (response) {

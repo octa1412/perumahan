@@ -193,7 +193,7 @@
         });
 
         function hapusdata(id) {
-           var tanya = confirm("hapus?");
+           var tanya = confirm("hapus data?");
 
            if(tanya){
               $.ajax({
@@ -201,7 +201,7 @@
                 type: 'POST',
                 data: {id: id},
                 success: function (response) {
-                    console.log(response);
+                    window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
                 },
                 error: function () {
                     console.log("gagal menghapus");

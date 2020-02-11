@@ -189,10 +189,105 @@
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 
   <script>
+        $.ajax({
+          url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
+          type: 'POST',
+          success: function (json) {
+            var response = JSON.parse(json);
+            response.forEach((data)=>{
+              $('#fl-perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))
+              $('#perumahan1').append(new Option(data.nama_perumahan, data.IDPerumahan))
+              $('#perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))            
+            })
+          },
+          error: function (xhr, status, error) {
+            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            $("#submit").prop("disabled", false);
+          }
+        });
+
+        // fl-perumahan
+        $("#fl-perumahan").change(function (e) { 
+          e.preventDefault();
+          if($("#fl-perumahan").val() != "default"){
+            getClusterofPerumahan($("#fl-perumahan").val());
+          }
+          else{
+            $("#fl-cluster option[value!=default]").remove();
+          }
+          get_data();
+        });
+
+        $("#fl-cluster").change(function (e) { 
+          e.preventDefault();
+          get_data();
+        });
+
+        function getClusterofPerumahan(id){
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
+            type: 'POST',
+            data: {id: id},
+            success: function (json) {
+              $("#fl-cluster option[value!=default]").remove();
+              $("#cluster1 option[value!=default]").remove();
+              $("#cluster option[value!=default]").remove();
+              var response = JSON.parse(json);
+              response.forEach((data)=>{
+                $('#fl-cluster').append(new Option(data.nama_cluster, data.IDCluster))
+                $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
+                $('#cluster').append(new Option(data.nama_cluster, data.IDCluster))
+              })
+            },
+            error: function (xhr, status, error) {
+              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              $("#submit").prop("disabled", false);
+            }
+          });
+        }
+
+        function get_filter_value(){
+          var perumahan = $("#fl-perumahan").val();
+          if(perumahan == "default"){
+            perumahan = null;
+          }
+          var cluster = $("#fl-cluster").val();
+          if(cluster == "default"){
+            cluster = null;
+          }
+
+          var perumahan1 = $("#perumahan1").val();
+          if(perumahan1 == "default"){
+            perumahan1 = null;
+          }
+          var cluster1 = $("#cluster1").val();
+          if(cluster1 == "default"){
+            cluster1 = null;
+          }
+
+          var perumahan2 = $("#perumahan").val();
+          if(perumahan2 == "default"){
+            perumahan2 = null;
+          }
+          var cluster2 = $("#cluster").val();
+          if(cluster2 == "default"){
+            cluster2 = null;
+          }
+
+          return {
+            perumahan: perumahan,
+            cluster: cluster
+          }
+        }
+
         $(document).ready(function () { 
           dTable = $('#table').DataTable();
-          // listperumahan().remove;
-          listperumahan();
+          get_data();
+        });
+
+        function get_data() {
+          var data = get_filter_value()
+
           $.ajax({
             url: "<?php echo base_url() ?>index.php/Main/get_all_staff",
             type: 'POST',
@@ -200,15 +295,24 @@
               var response = JSON.parse(json);
               response.forEach((data)=>{
                 no = data.username
-                dTable.row.add([
-                  data.username,
-                  data.nama,
-                  data.nama_perumahan,
-                    '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
-									+ '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
-                
-                ]).draw(false);
-                
+                if(data.nama_perumahan == null){
+                  dTable.row.add([
+                    data.username,
+                    data.nama,
+                    '-',
+                      '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
+                    + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'                
+                  ]).draw(false);
+                } else {
+                  dTable.row.add([
+                    data.username,
+                    data.nama,
+                    data.nama_perumahan,
+                      '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
+                    + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
+                  
+                  ]).draw(false);
+                }
               })
               // $("tbody").append()
               console.log(response[0]);
@@ -218,7 +322,7 @@
               $("#submit").prop("disabled", false);
             }
           });
-        });
+        };
 
         function listperumahan(){
           $.ajax({
@@ -247,7 +351,7 @@
 
            if(tanya){
               $.ajax({
-                url: "<?php echo base_url() ?>index.php/Main/delete_perumahan/",
+                url: "<?php echo base_url() ?>index.php/Main/delete_staff/",
                 type: 'POST',
                 data: {id: id},
                 success: function (response) {
