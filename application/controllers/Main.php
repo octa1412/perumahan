@@ -503,16 +503,18 @@ class Main extends CI_Controller {
 
 	public function insert_blok() {
 		if ($this->checkcookieuser()) {
+			$id = $this->input->post('id');
 			$perumahan =  $this->input->post('perumahan');
 			$cluster =  $this->input->post('cluster');
-			$customer =  $this->input->post('customer');
-			$idperum = $this->ClusterModel->get_perumahan($perumahan);
+			$harga =  $this->input->post('harga');
+
 			
 			$data = array(
-				'IDCluster' => $this->input->post('id'),
-				'IDPerumahan' => $idperum,
+				'IDBlok' => $id,
+				'IDCluster' => $cluster,
+				'Harga' => $harga
 			);
-			$insertStatus = $this->ClusterModel->insert($data);
+			$insertStatus = $this->BlokModel->insert($data);
 			echo $insertStatus;
 		}else{
 			echo "access denied";
@@ -642,20 +644,18 @@ class Main extends CI_Controller {
 		$customer = $this->input->post('customer');
 		$harga = $this->input->post('harga');
 				
-		$idcustomer = $this->CustomerModel->get_customer($customer);
-		$idcluster = $this->ClusterModel->get_cluster($cluster);
-		
+		// $idcustomer = $this->CustomerModel->get_customer($customer);
 
 		$data = array(
-			'IDCustomer' => $idcustomer,
-			'IDCluster' => $idcluster,
+			'IDCustomer' => $customer,
+			'IDCluster' => $cluster,
 			'harga' => $harga
 		);
 		
 		$where= array('IDBlok' => $id );
         $this->BlokModel->update($where, $data);
 
-		echo $idcustomer;
+		echo $cluster;
 	}
 
 	//Edit data customer
