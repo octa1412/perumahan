@@ -683,11 +683,18 @@ class Main extends CI_Controller {
 		$customer = $this->input->post('customer');
 		$harga = $this->input->post('harga');		
 
-		$data = array(
-			'IDCustomer' => $customer,
-			'IDCluster' => $cluster,
-			'Harga' => $harga
-		);
+		if ($customer==null){
+			$data = array(
+				'IDCluster' => $cluster,
+				'Harga' => $harga
+			);
+		} else {
+			$data = array(
+				'IDCustomer' => $customer,
+				'IDCluster' => $cluster,
+				'Harga' => $harga
+			);
+		}
 		
 		$where= array('IDBlok' => $id );
         $this->BlokModel->update($where, $data);
