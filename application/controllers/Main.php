@@ -295,6 +295,21 @@ class Main extends CI_Controller {
 		}
 	}
 
+	
+	public function get_blok_by_cluster($return_var = NULL){
+		$id = $this->input->post('id');
+		$data = $this->BlokModel->get_by_cluster($id);
+		
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
+	}
+
 	//ambil data blok
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_blok($return_var = NULL){
@@ -750,40 +765,41 @@ class Main extends CI_Controller {
 		$username = $this->input->post('id');
 		$nama = $this->input->post('nama');
 		$nomor = $this->input->post('nomor');
-		$perumahan = $this->input->post('perum');
+		$email = $this->input->post('email');
+		$idperum = $this->input->post('perum');
 		$idlama = $this->input->post('idlama');
-
-		$idperum = $this->BlokModel->get_perumahan($perumahan);
-
-		// $pass = md5('12345');
-
-		// $idperum = $this->ClusterModel->get_perumahan($perumahan);
 
 		$data = array(
 			'username' => $username,
 			'nama' => $nama,
 			'nomor' => $nomor,
-			'pangkat' => 'staff'
+			'email' => $email
 		);
 
+		//update tabel perumahan utk username ada staff
 		$data1 = array(
 			'username' => $username,
 			'status' => '1'
 		);
 
+		//update tabel perumahan hapus staff
 		$data2 = array(
 			'username' => null,
 			'status' => '0'
 		);
 
-		// $where= array('username' => $username );
-		// $this->StaffModel->update($where, $data);
-		echo $idperum;
-		echo $idlama;
-		// $where1= array('IDPerumahan' => $idperum );
-		// $this->PerumahanModel->update($where, $data1);
-		// $where1= array('IDPerumahan' => $idlama );
-		// $this->PerumahanModel->update($where, $data2);
+		if($idperum != null) {
+			if($idperum != $idlama) {
+				$where1= array('IDPerumahan' => $idperum );
+				$this->PerumahanModel->update($where1, $data1);
+				$where2= array('IDPerumahan' => $idlama );
+				$this->PerumahanModel->update($where2, $data2);
+			} 
+		}
+		$where= array('username' => $username );
+		$this->StaffModel->update($where, $data);
+		
+		
 		
 
 		

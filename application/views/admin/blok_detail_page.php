@@ -11,7 +11,7 @@
 
             <div class="card-body" style="background-color: #FFFFFF;">
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <button class="btn btn-primary">Add</button>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal">Add</button>
                     <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -103,8 +103,9 @@
                   </div>
                   <div class="form-group">
                     <label for="blok" class="col-form-label">Nama Blok:</label>
-                    <input type="text" class="form-control" id="blok" placeholder="ID Blok...">
-                  </div>                 
+                    <select class="custom-select" id="blok">
+                    </select>
+                  </div>               
                 </form>
               </div>
               <div class="modal-footer">
@@ -180,7 +181,6 @@
         success: function (json) {
           var response = JSON.parse(json);
           response.forEach((data)=>{
-            $('#perumahan1').append(new Option(data.nama_perumahan, data.IDPerumahan))
             $('#perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))            
           })
         },
@@ -190,24 +190,6 @@
         }
       });
 
-//perumahan1
-      $("#perumahan1").change(function (e) { 
-        e.preventDefault();
-        if($("#perumahan1").val() != "default"){
-          getClusterofPerumahan($("#perumahan1").val());
-        }
-        else{
-          $("#cluster1 option[value!=default]").remove();
-        }
-        get_data();
-      });
-
-      $("#cluster1").change(function (e) { 
-        e.preventDefault();
-        get_data();
-      });
-
-// perumahan
       $("#perumahan").change(function (e) { 
         e.preventDefault();
         if($("#perumahan").val() != "default"){
@@ -216,12 +198,16 @@
         else{
           $("#cluster option[value!=default]").remove();
         }
-        get_data();
       });
 
       $("#cluster").change(function (e) { 
         e.preventDefault();
-        get_data();
+        if($("#cluster").val() != "default"){
+          getBlokofCluster($("#cluster").val());
+        }
+        else{
+          $("#blok option[value!=default]").remove();
+        }
       });
 
 
@@ -231,12 +217,29 @@
           type: 'POST',
           data: {id: id},
           success: function (json) {
-            $("#cluster1 option[value!=default]").remove();
             $("#cluster option[value!=default]").remove();
             var response = JSON.parse(json);
             response.forEach((data)=>{
-              $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
               $('#cluster').append(new Option(data.nama_cluster, data.IDCluster))
+            })
+          },
+          error: function (xhr, status, error) {
+            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            $("#submit").prop("disabled", false);
+          }
+        });
+      }
+
+      function getBlokofCluster(id){
+        $.ajax({
+          url: "<?php echo base_url() ?>index.php/Main/get_blok_by_cluster",
+          type: 'POST',
+          data: {id: id},
+          success: function (json) {
+            $("#cluster option[value!=default]").remove();
+            var response = JSON.parse(json);
+            response.forEach((data)=>{
+              $('#cluster').append(new Option(data.IDBlok, data.IDBlok))
             })
           },
           error: function (xhr, status, error) {
@@ -347,11 +350,10 @@
       var inputid = document.getElementById("id-cluster").value
       var inputperum = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
-      var inputharga = document.getElementById("harga").value
 
       console.log(inputcluster);
       $.ajax({
-        url: "<?php echo base_url()?>index.php/Main/insert_blok/",
+        url: "<?php echo base_url()?>index.php/Main/",
         type: 'POST',
         data: {id:inputid, perum:inputperum, cluster:inputcluster, harga:inputharga},
         success: function (response) {
