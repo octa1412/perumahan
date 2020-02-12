@@ -30,6 +30,7 @@
                           <th>ID Staff</th>
                           <th>Nama Staff</th>
                           <th>Perumahan</th>
+                          <th>Email</th>
                           <th>Action</th>
                       </tr>
                   </thead>
@@ -56,23 +57,27 @@
               <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="id-staff" class="col-form-label">Id Staff:</label>
+                        <label for="id-staff1" class="col-form-label">Id Staff:</label>
                         <input type="text" class="form-control" id="id-staff1" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="nama" class="col-form-label">Nama:</label>
+                        <label for="nama1" class="col-form-label">Nama:</label>
                         <input type="text" class="form-control" id="nama1" value="">
                     </div>
                     <div class="form-group">
-                        <label for="nomor" class="col-form-label">Nomor Telepon:</label>
+                        <label for="nomor1" class="col-form-label">Nomor Telepon:</label>
                         <input type="text" class="form-control" id="nomor1" >
+                    </div>
+                    <div class="form-group">
+                        <label for="email1" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="email1" >
                     </div>
                     <div class="form-group">
                         <label for="password" class="col-form-label">Password:</label>
                         <input type="password" class="form-control" id="password1" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                        <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
                         <select class="custom-select" id="perumahan1">                      
                         </select>
                     </div> 
@@ -112,11 +117,15 @@
                     <input type="text" class="form-control" id="nomor" placeholder="Nomor Telepon...">
                   </div>
                   <div class="form-group">
+                    <label for="email" class="col-form-label">Email:</label>
+                    <input type="text" class="form-control" id="email" >
+                  </div>
+                  <div class="form-group">
                     <label for="password" class="col-form-label">Password:</label>
                     <input type="text" class="form-control" id="password" >
                   </div>
                   <div class="form-group">
-                    <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                    <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
                     <select class="custom-select" id="perumahan">                                            
                     </select>
                   </div>                
@@ -300,6 +309,7 @@
                     data.username,
                     data.nama,
                     '-',
+                    data.email,
                       '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
                     + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'                
                   ]).draw(false);
@@ -308,6 +318,7 @@
                     data.username,
                     data.nama,
                     data.nama_perumahan,
+                    data.email,
                       '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
                     + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
                   
@@ -382,24 +393,25 @@
                 $("#id-staff1").val(data.username);
                 $('#nama1').val(data.nama);
                 $('#nomor1').val(data.nomor);
-                $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
-                $('#perumahan1').val(data.nama_perumahan);
+                $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
+                $('#perumahan1').val(data.IDPerumahan);
                 $('#password1').val(data.password);
+                $('#email1').val(data.email);                
                 $('#updatedata').click(function editdata() {
                 
                 var inputid = document.getElementById("id-staff1").value
                 var inputnama = document.getElementById("nama1").value
                 var inputnomor = document.getElementById("nomor1").value
+                var inputemail = document.getElementById("email1").value
                 var inputperumahan = document.getElementById("perumahan1").value
-                var dataidperum = data.IDPerumahan
-
+                var dataidperum = data.IDPerumahan              
 
                   $.ajax({
                     url: "<?php echo base_url()?>index.php/Main/update_staff/",
                     type: 'POST',
-                    data: {id:inputid, nama:inputnama, nomor:inputnomor, perum:inputperumahan, idlama:dataidperum},
+                    data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail, perum:inputperumahan, idlama:dataidperum},
                     success: function (response) {
-                      console.log(response);
+                      // console.log(response);
                       window.location = "<?php echo base_url() ?>index.php/Main/staff";
                     },
                     error: function () {

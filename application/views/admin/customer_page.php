@@ -295,11 +295,11 @@
 
         function detaildata(id) {
           $.ajax({
-            url: "<?php echo base_url()?>index.php/Main/create_cookie",
+            url: "<?php echo base_url()?>index.php/Main/create_cookie_encrypt",
             type: 'POST',
             data:{name: "editblok", value:id},
             success: function (response) {
-              console.log(response);
+              console.log(response); 
               window.location = "<?php echo base_url() ?>index.php/Main/blokdetail";
             },
             error: function () {
