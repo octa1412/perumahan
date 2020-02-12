@@ -16,20 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Oktober 2019</td>
-                        <td>85.000</td>
-                        <td>
-                           <input type="checkbox" name="bayar"></input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>November 2019</td>
-                        <td>78.000</td>
-                        <td>
-                            <input type="checkbox" name="bayar"></input>
-                        </td>
-                    </tr>
+                    
                 </tbody>
             </table>
             <br>
@@ -95,9 +82,11 @@
     <script>
     $(document).ready(function () {
       dTable = $('#table').DataTable();
+      var data = {id: "<?php echo $idBlok?>"}
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_tagihan/1",
+        url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
         type: 'POST',
+        data: data,
         success: function (json) {
           console.log(json);
           var response = JSON.parse(json);
