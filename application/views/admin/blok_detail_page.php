@@ -34,25 +34,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>A2</td>
-                            <td>B3</td>
-                            <td>Tata</td>
-                            <td>
-                                <button class="btn btn-outline-success mt-10 mb-10" data-toggle="modal" data-target="#editmodal">Edit</button>
-                                <button class="btn btn-danger mt-10 mb-10">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>A3</td>
-                            <td>B2</td>
-                            <td>Toto</td>
-                            <td>
-                                <button class="btn btn-outline-success mt-10 mb-10">Edit</button>
-                                <button class="btn btn-danger mt-10 mb-10">Delete</button>
-                            </td>
-                        </tr>
+                    <tbody>                        
                     </tbody>
                 </table>
             </div>
@@ -264,62 +246,30 @@
         });
       }
       
-
-    // function get_filter_value(){
-    //   var perumahan = $("#fl-perumahan").val();
-    //   if(perumahan == "default"){
-    //     perumahan = null;
-    //   }
-    //   var cluster = $("#fl-cluster").val();
-    //   if(cluster == "default"){
-    //     cluster = null;
-    //   }
-
-    //   return {
-    //     perumahan: perumahan,
-    //     cluster: cluster
-    //   }
-    // }
-
     $(document).ready(function () { 
       dTable = $('#table').DataTable();
-      getCookie("editblok", get_data);
-        function getCookie(cname, callBack){
-            $.ajax({
-                url: "<?php echo base_url() ?>index.php/get_cookie/" + cname,
-                type: 'post',
-                success: function (response) {
-                    callBack(response);
-                }
-            })
-        }
-
-
+      get_data();
     });
 
-    function get_data(response){
+    function get_data(){
     //   var data = get_filter_value()
-        userCookie = response;
 
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_blok_customer/" + userCookie,
+        url: "<?php echo base_url() ?>index.php/Main/get_my_blok/",
         type: 'POST',
-        data:data,
         success: function (json) {
           var response = JSON.parse(json);
-          dTable.clear().draw();
-          response.forEach((data)=>{
-            no = data.IDBlok  
-            if(data.IDBlok != null) {
-              dTable.row.add([
-                data.IDBlok,
-                data.nama,
-                data.Harga,                
-                  '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
-                + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'              
-              ]).draw(false);
-            }            
-          })
+              var no = 0;
+              response.forEach((data)=>{
+                no++;
+                dTable.row.add([
+                  data.nama_perumahan,
+                  data.nama_cluster,
+                  data.IDBlok,
+									 '<button class="btn btn-danger mt-10 mb-10"><a onclick=hapusdata("'+ data.IDBlok +'") >Delete</a></button>'
+                
+                ]).draw(false);                
+              })
         },    
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
@@ -329,11 +279,11 @@
     }
 
     function hapusdata(id) {
-      var tanya = confirm("hapus data?");
+      var tanya = confirm("hapus Blok?");
 
       if(tanya){
         $.ajax({
-          url: "<?php echo base_url() ?>index.php/Main/delete_blok_detail",
+          url: "<?php echo base_url() ?>index.php/Main/update_blok_detail",
           type: 'POST',
           data: {id: id},
           success: function (response) {

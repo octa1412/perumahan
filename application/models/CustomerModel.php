@@ -22,7 +22,7 @@ class CustomerModel extends CI_Model {
 		$this->db->join('blok b','b.IDCluster = c.IDCluster', 'right');
 		$this->db->join('customer o','o.IDCustomer = b.IDCustomer', 'left');
 		if ($id != NULL){
-			$this->db->where('IDCustomer',$id);
+			$this->db->where('o.IDCustomer',$id);
 		}
 		$query = $this->db->get();
 		return $query->result_array();
