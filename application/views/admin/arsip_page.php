@@ -187,14 +187,15 @@
         data: data,
         success: function (json) {
           var response = JSON.parse(json);
+          console.log(response)
           dTable.clear().draw();
           response.forEach((data)=>{
             dTable.row.add([
               data.nama, 
               data.IDBlok,
               
-              '<a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>'
-              + '<a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-success mt-10 mb-10">Tagihan</button></a>'
+              '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'
+              + '<button class="btn btn-outline-success mt-10 mb-10" onclick=goToTagihan("'+data.IDBlok+'")>Tagihan</button></a>'
             ]).draw(false);
             
           })
@@ -205,6 +206,36 @@
           $("#submit").prop("disabled", false);
         }
       });
+    }
+
+    function goToArsip(id){
+      var form = document.createElement('form');
+      document.body.appendChild(form);
+      form.method = 'post';
+      form.action = "<?php echo base_url('index.php/Main/arsip/');?>";
+
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id';
+      input.value = id;
+      form.appendChild(input);
+
+      form.submit();
+    }
+
+    function goToTagihan(id){
+      var form = document.createElement('form');
+      document.body.appendChild(form);
+      form.method = 'post';
+      form.action = "<?php echo base_url('index.php/Main/iurandetail');?>"
+
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id';
+      input.value = id;
+      form.appendChild(input);
+
+      form.submit();
     }
 
     $(document).ready(function () {

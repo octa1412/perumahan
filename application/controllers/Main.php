@@ -117,12 +117,15 @@ class Main extends CI_Controller {
 
 	//Arsip
 	public function arsip(){
+		$idBlok = $this->input->post('id');
 		if ($this->checkcookieuser()) {
+			$data['idBlok'] = $idBlok;
 			$this->load->view('header');
-			$this->load->view('admin/arsip_admin_page');
+			$this->load->view('admin/arsip_admin_page', $data);
 		}else if ($this->checkcookiestaff()) {
+			$data['idBlok'] = $idBlok;
 			$this->load->view('header1');
-			$this->load->view('staff/arsip_staff_page');
+			$this->load->view('staff/arsip_staff_page', $data);
 		}else {
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -142,12 +145,15 @@ class Main extends CI_Controller {
 
 	//Detail iuran tagihan
 	public function iurandetail(){
+		$idBlok = $this->input->post('id');
 		if ($this->checkcookieuser()) {
+			$data['idBlok'] = $idBlok;
 			$this->load->view('header');
-			$this->load->view('admin/tagihan_page');
+			$this->load->view('admin/tagihan_page',$data);
 		} else if ($this->checkcookiestaff()) {
+			$data['idBlok'] = $idBlok;
 			$this->load->view('header1');
-			$this->load->view('staff/detail_iuran_page');
+			$this->load->view('staff/detail_iuran_page',$data);
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -412,16 +418,12 @@ class Main extends CI_Controller {
 	//ambil data arsip
 	//parameter 1: true bila priviledge akses adalah dari admin
 	//parameter 2: true bila ingin return array, kosongi bila ingin Json
-	public function get_all_arsip($isAdmin, $return_var = NULL){
+	public function get_all_arsip($return_var = NULL){
 		$startDate = $this->input->post('startDate');
 		$endDate = $this->input->post('endDate');
-		if($isAdmin){
-			$username = $this->get_cookie_decrypt("adminCookie");
-			$data = $this->TagihanModel->get_all(NULL,1,$startDate,$endDate);
-		} else{
-			$username = $this->get_cookie_decrypt("staffCookie");
-			$data = $this->TagihanModel->get_all($username, 1,$startDate,$endDate);
-		}
+		$id = $this->input->post('id');
+
+		$data = $this->TagihanModel->get_all($id,1,$startDate,$endDate);
 		
 		if (empty($data)){
 			$data = [];
@@ -444,14 +446,9 @@ class Main extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function get_tagihan($isAdmin, $return_var = NULL){
-		if($isAdmin){
-			$username = $this->get_cookie_decrypt("adminCookie");
-			$data = $this->TagihanModel->get_all(NULL,0);
-		} else{
-			$username = $this->get_cookie_decrypt("staffCookie");
-			$data = $this->TagihanModel->get_all($username, 0);
-		}
+	public function get_tagihan($return_var = NULL){
+		$id = $this->input->post('id');
+		$data = $this->TagihanModel->get_all($id,0);
 		
 		if (empty($data)){
 			$data = [];
