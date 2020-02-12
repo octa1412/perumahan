@@ -177,13 +177,15 @@
 
     function get_arsip(){
       var data = get_filter_value();
+      data.id = "<?php echo $idBlok?>"
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/1",
+        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/",
         type: 'POST',
         data: data,
         success: function (json) {
           dTable.clear().draw();
           var response = JSON.parse(json);
+          console.log(response)
           response.forEach((data)=>{
             dTable.row.add([
               data.bulan+' '+ data.tahun, 
