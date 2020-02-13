@@ -84,11 +84,7 @@
                         <select class="custom-select" id="cluster1">
                         <option value="default">Cluster</option>                
                         </select>
-                    </div>                    
-                    <div class="form-group">
-                        <label for="nama-customer1" class="col-form-label">ID Customer:</label>
-                        <input type="text" class="form-control" id="nama-customer1">
-                    </div>
+                    </div>  
                     <div class="form-group">
                         <label for="harga1" class="col-form-label">Harga:</label>
                         <input type="text" class="form-control" id="harga1">
@@ -133,7 +129,10 @@
                     <label for="harga" class="col-form-label">Harga:</label>
                     <input type="text" class="form-control" id="harga">
                   </div>
-                 
+                  <div class="form-group">
+                    <label for="type" class="col-form-label">Type:</label>
+                    <input type="text" class="form-control" id="type">
+                  </div>
                 </form>
               </div>
               <div class="modal-footer">
@@ -396,20 +395,18 @@
 
             // $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster, true, true))
             
-            $('#nama-customer1').val(data.IDCustomer);
             $('#harga1').val(data.Harga);
             $('#updatedata').click(function editdata() {
             
             var inputperumahan = document.getElementById("perumahan1").value
             var inputcluster = document.getElementById("cluster1").value
             var inputid = document.getElementById("nama-blok1").value
-            var inputcust = document.getElementById("nama-customer1").value
             var inputharga = document.getElementById("harga1").value
                                
               $.ajax({
                 url: "<?php echo base_url()?>index.php/Main/update_blok/",
                 type: 'POST',
-                data: {customer:inputcust, id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga},
+                data: {id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga},
                 success: function (response) {                           
                   window.location = "<?php echo base_url() ?>index.php/Main/blok";
                 },
@@ -431,11 +428,12 @@
       var inputperum = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
       var inputharga = document.getElementById("harga").value
+      var inputtype = document.getElementById("type").value
 
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_blok/",
         type: 'POST',
-        data: {id:inputid, perum:inputperum, cluster:inputcluster, harga:inputharga},
+        data: {id:inputid, perum:inputperum, cluster:inputcluster, harga:inputharga, type:inputtype},
         success: function (response) {
           window.location = "<?php echo base_url() ?>index.php/Main/blok";
         },
