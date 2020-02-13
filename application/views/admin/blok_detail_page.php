@@ -42,43 +42,7 @@
         </div>
         </div>
         <!-- /.container-fluid -->
-
-         <!-- modal edit -->
-         <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title w-100 text-center" id="editTitle">Edit Blokail Det</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form>         
-                    <div class="form-group">
-                        <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
-                        <select class="custom-select" id="perumahan1">                            
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="cluster1" class="col-form-label">Nama Cluster:</label>
-                        <select class="custom-select" id="cluster1">                            
-                        </select>
-                    </div>                  
-                    <div class="form-group">
-                        <label for="blok1" class="col-form-label">Nama Blok:</label>
-                        <input type="text" class="form-control" id="blok1" readonly>
-                    </div>                    
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="updatedata">Update</button>
-              </div>
-            </div>
-          </div>
-        </div> 
-
+        
         <!-- modal add -->
         <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
@@ -236,10 +200,12 @@
           type: 'POST',
           data: {id: id},
           success: function (json) {
-            $("#cluster option[value!=default]").remove();
+            $("#blok option[value!=default]").remove();
             var response = JSON.parse(json);
             response.forEach((data)=>{
-              $('#cluster').append(new Option(data.IDBlok, data.IDBlok))
+              if(data.IDCustomer == null) {
+                $('#blok').append(new Option(data.IDBlok, data.IDBlok))
+              }
             })
           },
           error: function (xhr, status, error) {
@@ -302,63 +268,20 @@
       }
     }
 
-    function tampildata(id) {
-      $.ajax({
-        url: "<?php echo base_url()?>index.php/Main/get_blok_by_id",
-        type: 'POST',
-        data: {id: id},
-        success: function (response) {
-          var response = JSON.parse(response);
-          console.log('ooo');
-          response.forEach((data)=>{
-            $('#editmodal').modal();
-            $('#nama-blok1').val(data.IDBlok);
-            $('#perumahan1').val(data.IDPerumahan);
-            $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
-            $('#nama-customer1').val(data.IDCustomer);
-            $('#harga1').val(data.Harga);
-            // console.log(response);
-            $('#updatedata').click(function editdata() {
-            
-            var inputperumahan = document.getElementById("perumahan1").value
-            var inputcluster = document.getElementById("cluster1").value
-            var inputid = document.getElementById("nama-blok1").value
-            var inputcust = document.getElementById("nama-customer1").value
-            var inputharga = document.getElementById("harga1").value
-                               
-              $.ajax({
-                url: "<?php echo base_url()?>index.php/Main/update_blok/",
-                type: 'POST',
-                data: {customer:inputcust, id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga},
-                success: function (response) {                           
-                  window.location = "<?php echo base_url() ?>index.php/Main/blok";
-                },
-                error: function () {
-                  console.log("gagal update");
-                }
-              });
-            });
-          })                
-        },
-        error: function () {
-            console.log("gagal tampil");
-        }
-      });          
-    }
-
+    
     function insertdata() {
-      var inputid = document.getElementById("id-cluster").value
+      var inputblok = document.getElementById("blok").value
       var inputperum = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
 
       console.log(inputcluster);
       $.ajax({
-        url: "<?php echo base_url()?>index.php/Main/",
+        url: "<?php echo base_url()?>index.php/Main/insert_blok_detail",
         type: 'POST',
-        data: {id:inputid, perum:inputperum, cluster:inputcluster, harga:inputharga},
+        data: {perum:inputperum, cluster:inputcluster, blok:inputblok},
         success: function (response) {
           console.log(response);
-          window.location = "<?php echo base_url() ?>index.php/Main/blok";
+          window.location = "<?php echo base_url() ?>index.php/Main/blokdetail";
         },
         error: function () {
           console.log("gagal update");

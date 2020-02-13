@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2020 at 06:54 AM
+-- Generation Time: Feb 13, 2020 at 07:53 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -41,9 +41,9 @@ CREATE TABLE `blok` (
 --
 
 INSERT INTO `blok` (`IDBlok`, `IDCluster`, `IDCustomer`, `Harga`, `type`) VALUES
-('101B4/27', NULL, 'Cust148', 75000, '10'),
-('101B4/28', 'B3', 'Cust147', 75000, '10'),
-('103A2/17', 'B3', 'Cust146', 75000, '10'),
+('101B4/27', 'B5', '-', 85000, '10'),
+('101B4/28', 'B2', '-', 75000, '10'),
+('103A2/17', 'B3', '-', 75000, '10'),
 ('103A2/18', 'B3', 'Cust145', 75000, '10'),
 ('103A2/20', 'B3', 'Cust144', 75000, '10'),
 ('103A2/27', 'B3', 'Cust143', 75000, '10'),
@@ -66,6 +66,8 @@ INSERT INTO `blok` (`IDBlok`, `IDCluster`, `IDCustomer`, `Harga`, `type`) VALUES
 ('110B2/02', 'B3', 'Cust126', 75000, '11'),
 ('110B2/03', 'B3', 'Cust125', 75000, '11'),
 ('110B4/21', 'B3', 'Cust124', 75000, '11'),
+('12345/18', 'B1', NULL, 90000, NULL),
+('191919/09', 'B5', NULL, 89000, NULL),
 ('40C5/08', 'B3', 'Cust123', 75000, '40'),
 ('40C5/10', 'B3', 'Cust122', 75000, '40'),
 ('44A1/02', 'B3', 'Cust121', 75000, '44'),
@@ -86,7 +88,7 @@ INSERT INTO `blok` (`IDBlok`, `IDCluster`, `IDCustomer`, `Harga`, `type`) VALUES
 ('48B6/24', 'B3', 'Cust106', 75000, '48'),
 ('48B6/25', 'B3', 'Cust105', 75000, '48'),
 ('48B6/26', 'B3', 'Cust104', 75000, '48'),
-('48B6/28', 'B3', 'Cust103', 75000, '48'),
+('48B6/28', 'B3', NULL, 75000, '48'),
 ('48B6/29', 'B3', 'Cust102', 75000, '48'),
 ('48B6/30', 'B3', 'Cust101', 75000, '48'),
 ('48B6/31', 'B2', 'Cust100', 85000, '48'),
@@ -179,7 +181,7 @@ INSERT INTO `blok` (`IDBlok`, `IDCluster`, `IDCustomer`, `Harga`, `type`) VALUES
 ('80B3/09', 'B1', 'Cust13', 80000, '80'),
 ('80B3/10', 'B1', 'Cust12', 80000, '80'),
 ('80B3/11', 'B1', 'Cust11', 80000, '80'),
-('80B3/12a', 'B1', 'Cust10', 80000, '80'),
+('80B3/12a', 'B1', NULL, 80000, '80'),
 ('80B3/12b', 'B1', 'Cust9', 80000, '80'),
 ('80B3/14', 'B1', 'Cust8', 80000, '80'),
 ('80B3/15', 'B1', 'Cust7', 80000, '80'),
@@ -188,7 +190,10 @@ INSERT INTO `blok` (`IDBlok`, `IDCluster`, `IDCustomer`, `Harga`, `type`) VALUES
 ('85A1/06', 'B1', 'Cust4', 80000, '85'),
 ('90B1/09', 'B1', 'Cust3', 80000, '90'),
 ('98A1/01', 'B1', 'Cust2', 80000, '98'),
-('KVB5/17', 'B1', 'Cust1', 80000, 'KV');
+('baru', 'B5', 'Cust10', 80900, NULL),
+('jkdhka', 'B5', NULL, 90000, NULL),
+('koko', 'B3', NULL, 90000, NULL),
+('la', 'B1', NULL, 90000, NULL);
 
 -- --------------------------------------------------------
 
@@ -207,8 +212,9 @@ CREATE TABLE `cluster` (
 --
 
 INSERT INTO `cluster` (`IDCluster`, `IDPerumahan`, `nama_cluster`) VALUES
-('B1', 'A2', 'Amira'),
-('B2', 'A2', 'Dedek'),
+('a', 'A1', 'kkk'),
+('B1', 'A2', 'Amiraa'),
+('B2', 'A1', 'Dedek'),
 ('B3', 'A3', 'Toto'),
 ('B4', 'A4', 'Dian'),
 ('B5', 'A3', 'Pokoo');
@@ -231,11 +237,11 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`IDCustomer`, `nama`, `nomor`, `email`) VALUES
-('Cust1', 'Abisujak Ilyasa', '31797', '82230@gmail.com'),
 ('Cust10', 'Anang Riswanto / Lelita', '26087', '63346@gmail.com'),
 ('Cust100', 'Muhammad Khaiyan/ Egidio', '67571', '70810@gmail.com'),
 ('Cust1000', 'Aladin', '0987654321', 'aladin@gmail.com'),
-('Cust1001', 'Dian', '08976543214', 'dian@gmail.com'),
+('Cust1002', 'kkk', '98070', 'kkkk@jhgj.com'),
+('Cust1003', 'ooooooooo', '81273918732', 'oooooo@gmail.com'),
 ('Cust101', 'Muhammad Reza Norman/Andi oktafianto', '65507', '90407@gmail.com'),
 ('Cust102', 'Nancy Pasaribu', '33620', '7460@gmail.com'),
 ('Cust103', 'Naniek Iyatiningsih', '61750', '50265@gmail.com'),
@@ -285,9 +291,6 @@ INSERT INTO `customer` (`IDCustomer`, `nama`, `nomor`, `email`) VALUES
 ('Cust143', 'Wenny Hersilatty', '85666', '87726@gmail.com'),
 ('Cust144', 'Yayuk Rahmawati', '19537', '71299@gmail.com'),
 ('Cust145', 'Yelis Agustina', '39133', '44975@gmail.com'),
-('Cust146', 'Yonny Herdyanto S Pd M kes', '89017', '70892@gmail.com'),
-('Cust147', 'Yulius Catur Adi Wijaya', '3843', '58872@gmail.com'),
-('Cust148', 'Yusnita/Azwar P', '19377', '55246@gmail.com'),
 ('Cust15', 'Antonius  Budianto / Gatut B.S/Agus Dwi Hartanto', '96206', '92381@gmail.com'),
 ('Cust16', 'Antonius Budianto / lukman ( kontrak)', '4827', '28900@gmail.com'),
 ('Cust17', 'Antonius Budianto/ Teguh Rusdianto', '60585', '17594@gmail.com'),
@@ -397,6 +400,13 @@ CREATE TABLE `nota` (
   `total_setelah_diskon` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `nota`
+--
+
+INSERT INTO `nota` (`IDNota`, `tanggal`, `username`, `total_awal`, `diskon`, `total_setelah_diskon`) VALUES
+('test1', '2020-02-05', 'staff1', 80000, 0, 80000);
+
 -- --------------------------------------------------------
 
 --
@@ -407,6 +417,13 @@ CREATE TABLE `nota_detail` (
   `IDNota` varchar(255) NOT NULL,
   `IDTagihan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `nota_detail`
+--
+
+INSERT INTO `nota_detail` (`IDNota`, `IDTagihan`) VALUES
+('test1', 'pay11');
 
 -- --------------------------------------------------------
 
@@ -427,12 +444,13 @@ CREATE TABLE `perumahan` (
 --
 
 INSERT INTO `perumahan` (`IDPerumahan`, `nama_perumahan`, `kota`, `username`, `status`) VALUES
-('A1', 'Anggrek', 'Malang', NULL, '0'),
+('A1', 'Anggrek', 'Surabaya', NULL, '0'),
 ('A2', 'Melati', 'Malang', 'staff2', '1'),
 ('A3', 'Tulip', 'Malang', 'staff3', '1'),
 ('A4', 'Mawar', 'Surabaya', NULL, '0'),
 ('A5', 'Cempedak', 'Jakarta', NULL, '0'),
-('A6', 'Manggis', 'Surabaya', NULL, '0');
+('A6', 'Manggis', 'Surabaya', 'staff1', '1'),
+('A7', 'Merak', 'Surabaya', NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -449,6 +467,16 @@ CREATE TABLE `tagihan` (
   `status` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tagihan`
+--
+
+INSERT INTO `tagihan` (`IDTagihan`, `IDBlok`, `bulan`, `tahun`, `Harga`, `status`) VALUES
+('Pay1', '103A2/20', 'januari', '2020', 75000, '0'),
+('pay11', '103A2/20', 'november', '2019', 70000, '1'),
+('Pay12', '103A2/20', 'desember', '2019', 70000, '1'),
+('pay2', '103A2/20', 'febuari', '2020', 75000, '0');
+
 -- --------------------------------------------------------
 
 --
@@ -460,18 +488,21 @@ CREATE TABLE `user` (
   `password` varchar(255) DEFAULT NULL,
   `pangkat` varchar(255) DEFAULT NULL,
   `nama` varchar(255) DEFAULT NULL,
-  `nomor` int(11) DEFAULT NULL
+  `nomor` int(11) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`username`, `password`, `pangkat`, `nama`, `nomor`) VALUES
-('admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin', 'Budi', 99999),
-('staff1', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Sitiop', 99901010),
-('staff2', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Didii', 9707080),
-('staff3', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Memet', 898989);
+INSERT INTO `user` (`username`, `password`, `pangkat`, `nama`, `nomor`, `email`) VALUES
+('admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin', 'admin1', 99999, 'oo@gmail.com'),
+('PO', '827ccb0eea8a706c4c34a16891f84e7b', 'staff', 'tata', 987765544, 'oo@gmail.com'),
+('staff1', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Siti', 99901010, 'oo@gmail.com'),
+('staff2', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Didio', 9707080, 'oo@gmail.com'),
+('staff3', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Memet', 898989, NULL),
+('yy', '827ccb0eea8a706c4c34a16891f84e7b', 'staff', 'yyy', 9879879, 'oo@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -542,8 +573,7 @@ ALTER TABLE `user`
 -- Constraints for table `blok`
 --
 ALTER TABLE `blok`
-  ADD CONSTRAINT `blok_ibfk_1` FOREIGN KEY (`IDCluster`) REFERENCES `cluster` (`IDCluster`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `blok_ibfk_2` FOREIGN KEY (`IDCustomer`) REFERENCES `customer` (`IDCustomer`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `blok_ibfk_1` FOREIGN KEY (`IDCluster`) REFERENCES `cluster` (`IDCluster`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cluster`
@@ -557,18 +587,6 @@ ALTER TABLE `cluster`
 ALTER TABLE `nota_detail`
   ADD CONSTRAINT `nota_detail_ibfk_1` FOREIGN KEY (`IDNota`) REFERENCES `nota` (`IDNota`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `nota_detail_ibfk_2` FOREIGN KEY (`IDTagihan`) REFERENCES `tagihan` (`IDTagihan`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `perumahan`
---
-ALTER TABLE `perumahan`
-  ADD CONSTRAINT `perumahan_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tagihan`
---
-ALTER TABLE `tagihan`
-  ADD CONSTRAINT `tagihan_ibfk_1` FOREIGN KEY (`IDBlok`) REFERENCES `blok` (`IDBlok`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
