@@ -33,7 +33,23 @@ class TagihanModel extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function get_by_id($idTagihan){
 
+        $this->db->select();
+		$this->db->from('tagihan');
+		
+		$this->db->or_where_in('IDTagihan',$idTagihan);
+
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function update_status($id){
+		$this->db->set('status',"1");
+		$this->db->or_where_in('IDTagihan', $id);
+		$this->db->update('tagihan');
+	}
+	
 
 }
 ?>

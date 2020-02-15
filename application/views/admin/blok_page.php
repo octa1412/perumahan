@@ -317,7 +317,7 @@
     function get_data(){
       var data = get_filter_value()
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_all_blok",
+        url: "<?php echo base_url() ?>index.php/Main/get_all_blok/1",
         type: 'POST',
         data:data,
         success: function (json) {

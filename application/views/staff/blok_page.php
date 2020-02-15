@@ -8,6 +8,11 @@
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                
+                <div class="btn-group">
+                    <select id='fl-cluster' class="custom-select">
+                        <option selected value="default">Cluster</option>
+                    </select>
+                </div>
                 <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
                         <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -30,22 +35,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>A2</td>
-                        <td>Budi Setiawan</td>
-                        <td>
-                        <a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>
-                            <a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>                            
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>A3</td>
-                        <td>Siti</td>
-                        <td>
-                            <a href="<?php echo base_url('index.php/Main/arsip');?>"><button class="btn btn-outline-primary mt-10 mb-10">Arsip</button></a>
-                            <a href="<?php echo base_url('index.php/Main/iurandetail');?>"><button class="btn btn-outline-primary mt-10 mb-10">Detail</button></a>                            
-                        </td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>
@@ -94,7 +84,7 @@
         </div>
     </div>
 
-    <?php include('edit_modal.php')?>
+    <!-- <?php include('edit_modal.php')?> -->
     <!-- Bootstrap core JavaScript-->
     <script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
     <script src="<?php echo base_url('dist/vendor/bootstrap/js/bootstrap.bundle.min.js');?>"></script>
@@ -107,6 +97,103 @@
 
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
+
+    <script>
+    
+    $(document).ready(function () { 
+      dTable = $('#table').DataTable();
+      get_data()
+      
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_cluster",
+        type: 'POST',
+        success: function (json) {
+          var response = JSON.parse(json);
+          response.forEach((data)=>{
+            $('#fl-cluster').append(new Option(data.nama_cluster, data.IDCluster))
+          })
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+    });
+
+    $("#fl-cluster").change(function (e) { 
+        e.preventDefault();
+        get_data();
+    });
+
+
+    function get_filter_value(){
+      var cluster = $("#fl-cluster").val();
+      if(cluster == "default"){
+        cluster = null;
+      }
+
+      return {
+        cluster: cluster
+      }
+    }
+
+    function get_data(){
+      var data = get_filter_value()
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_all_blok/0",
+        type: 'POST',
+        data:data,
+        success: function (json) {
+          var response = JSON.parse(json);
+          dTable.clear().draw();
+          response.forEach((data)=>{
+            no = data.IDBlok  
+            if(data.IDBlok != null) {
+              dTable.row.add([
+                data.IDBlok,
+                data.nama,
+                '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'
+              + '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToTagihan("'+data.IDBlok+'")>Detail</button></a>'
+            ]).draw(false);
+            }            
+          })
+        },    
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+    }
+    function goToArsip(id){
+      var form = document.createElement('form');
+      document.body.appendChild(form);
+      form.method = 'post';
+      form.action = "<?php echo base_url('index.php/Main/arsip/');?>";
+
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id';
+      input.value = id;
+      form.appendChild(input);
+
+      form.submit();
+    }
+
+    function goToTagihan(id){
+      var form = document.createElement('form');
+      document.body.appendChild(form);
+      form.method = 'post';
+      form.action = "<?php echo base_url('index.php/Main/iurandetail');?>"
+
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id';
+      input.value = id;
+      form.appendChild(input);
+
+      form.submit();
+    }
+    </script>
 </body>
 
 </html>

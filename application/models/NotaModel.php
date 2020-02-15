@@ -40,6 +40,22 @@ class NotaModel extends CI_Model {
             'cluster.IDCluster = blok.IDCluster');
         }
     }
-
+    public function insert_one($username, $total_awal, $diskon){
+        if($diskon == ""){
+            $diskon = 0;
+        }
+        $row = $this->db->count_all("nota");
+        $data = array(
+            'IDNota' => $row,
+            'tanggal' => date("Y-m-d"),
+            'username' => $username,
+            'total_awal' => $total_awal,
+            'diskon' => $diskon,
+            'total_setelah_diskon' => $total_awal - $diskon
+        );
+        $this->db->insert('nota', $data);
+        
+        return  $row;
+    }
 }
 ?>
