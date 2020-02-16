@@ -61,6 +61,20 @@ class Main extends CI_Controller {
 		}
 	}
 
+	//change password
+	public function changepassword(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('change_password');
+		}else if ($this->checkcookiestaff()) {
+			$this->load->view('header1');
+			$this->load->view('change_password');
+		}else {
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
 	//Cluster
 	public function cluster(){
 		if ($this->checkcookieuser()) {

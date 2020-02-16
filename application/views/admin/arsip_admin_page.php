@@ -52,20 +52,10 @@
 							<input type="text" class="form-control">
 						</div>
 						
-            <form class="d-none d-sm-inline-block form-inline ml-auto my-2 my-md-0 mw-100 navbar-search">
-							<div class="input-group">
-								<input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-								<div class="input-group-append">
-										<button class="btn btn-primary" type="button">
-										<i class="fas fa-search fa-sm"></i>
-										</button>
-								</div>
-							</div>
-            </form>
           </div>
 
 					<!--table-->
-					<table id="table" class="display">
+					<table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
 						<thead>
 							<tr>
 								<th>Bulan Iuran</th>
@@ -73,21 +63,7 @@
 								<th>Action</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td>November</td>
-								<td>12 Desember 2019</td>							
-								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Nota</button>
-								</td>
-							</tr>
-							<tr>
-								<td>Desember</td>
-								<td>2 Januari 2020</td>
-								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Nota</button>
-								</td>
-							</tr>
+						<tbody>						
 						</tbody>
 					</table>
         </div>
@@ -145,6 +121,13 @@
 
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('dist/js/sb-admin-2.min.js');?>"></script>
+
+  <!-- responsive  -->
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+  <script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
 
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
@@ -204,7 +187,9 @@
     }
     
     $(document).ready(function () {
-      dTable = $('#table').DataTable();
+      dTable = $('#table1').DataTable({
+        responsive: true
+      });
       get_arsip()
     });
 
