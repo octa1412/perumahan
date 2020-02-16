@@ -3,16 +3,15 @@
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-center mb-4">
-                <h1 class="h1 mb-0 text-gray-800 ">Tanggungan Iuran</h1>
+                <h1 class="h1 mb-0 text-gray-800 ">Review</h1>
             </div>
 
             <!--table-->
             <table id="table" class="display">
                 <thead>
                     <tr>
-                        <th>Tanggal</th>
+                        <th>Bulan Tagihan</th>
                         <th>Harga</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,7 +19,7 @@
                 </tbody>
             </table>
             <br>
-            <button class="btn btn-primary" onclick="submit(event)">Submit</button>
+            <button class="btn btn-primary" onclick=doBayar()>Submit</button>
         </div>
         <!-- /.container-fluid -->
 
@@ -78,70 +77,91 @@
     <!-- Custom scripts for all pages-->
     <script src="<?php echo base_url('dist/js/sb-admin-2.min.js');?>"></script>
 
-    <!-- Page level plugins -->
-    <script src="<?php echo base_url('dist/vendor/chart.js/Chart.min.js');?>"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="<?php echo base_url('dist/js/demo/chart-area-demo.js');?>"></script>
-    <script src="<?php echo base_url('dist/js/demo/chart-pie-demo.js');?>"></script>
-
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
     <script>
+        var total_tagihan = 0;
         $(document).ready(function () {
         dTable = $('#table').DataTable();
-        var data = {id: "<?php echo $idBlok?>"}
-
-            $.ajax({
-                url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
-                type: 'POST',
-                data: data,
-                success: function (json) {
+        var idtagihan = <?php 
+            $idTagihan = explode(",",$idTagihan);
+            $idTagihan = json_encode($idTagihan);
+            echo $idTagihan;
+        ?>;
+        var data = {id:[]};
+        idtagihan.forEach((datum)=>{
+            data.id.push(datum);
+        })
+        
+        $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
+            type: 'POST',
+            data: data,
+            success: function (json) {
                 console.log(json);
                 var response = JSON.parse(json);
+                if(response.length > 0){
+                    $("#table").append(
+                        $('<tfoot/>').append( "<tr><td>Diskon "+
+                        '<td><input type="number" id="diskon" name="diskon" step=100></input>' )
+                    );
+                }
                 response.forEach((data)=>{
                     dTable.row.add([
                     data.bulan+' '+ data.tahun, 
-                    data.Harga,
-                    '<input type="checkbox" name="bayar" value="'+data.IDTagihan+'"></input>'
+                    data.Harga,         
                     ]).draw(false);
-                    
+                    total_tagihan += parseInt(data.Harga)
                 })
-                // $("tbody").append()
-                },
-                error: function (xhr, status, error) {
-                alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
-                $("#submit").prop("disabled", false);
-                }
-            });
-        });
-
-
-        function submit(e){
-            e.preventDefault();
-            var checked = []
-            $("input[type=checkbox]").each(function() {
-                if($(this).prop("checked"))
-                    checked.push($(this).val());
-            });
-            if(checked.length == 0){
-                alert("select one")
-            } else{
-                var form = document.createElement('form');
-                document.body.appendChild(form);
-                form.method = 'post';
-                form.action = "<?php echo base_url('index.php/Main/iuranreview');?>";
-
-                var input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'data';
-                input.value = checked;
-                form.appendChild(input);
-                form.submit();
+                
+            },
+            error: function (xhr, status, error) {
+            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            $("#submit").prop("disabled", false);
             }
+        });
+        });
+        function doBayar(){
+            var idtagihan = <?php 
+                echo $idTagihan;
+            ?>;
+            var data = {id:[]};
+            idtagihan.forEach((datum)=>{
+                data.id.push(datum);
+            })
+            data.diskon = $("#diskon").val();
+            data.total_awal = total_tagihan
+            console.log(data)
+            $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/do_bayar/",
+            type: 'POST',
+            data: data,
+            success: function (json) {
+                if(json == "success"){
+                    alert("data saved")
+                    window.location.href = "dashboardstaff";
+                }
+            },
+            error: function (xhr, status, error) {
+            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            $("#submit").prop("disabled", false);
+            }
+        });
         }
     </script>
+    <style>
+    /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
 
+        /* Firefox */
+        input[type=number] {
+        -moz-appearance:textfield;
+        }
+    </style>
 </body>
 
 </html>

@@ -13,6 +13,8 @@ class Main extends CI_Controller {
 		$this->load->model('ClusterModel');
 		$this->load->model('BlokModel');
 		$this->load->model('StaffModel');
+		$this->load->model('NotaModel');
+		$this->load->model('NotaDetailModel');
 		$this->load->helper('url_helper');
 		date_default_timezone_set('Asia/Jakarta');
 	}
@@ -174,7 +176,19 @@ class Main extends CI_Controller {
 		}
 	}
 
-	
+	//Review iuran tagihan
+	public function iuranreview(){
+		$idTagihan = $this->input->post('data');
+		if ($this->checkcookiestaff()) {
+			$data['idTagihan'] = $idTagihan;
+			$this->load->view('header1');
+			$this->load->view('staff/review_iuran',$data);
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
 	//GET DATA
 
 	//ambil data user
@@ -269,15 +283,21 @@ class Main extends CI_Controller {
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
 	public function get_all_cluster($return_var = NULL){
 		$perumahan = $this->input->post('perumahan');
-		$data = $this->ClusterModel->get_all(null, $perumahan);
-			if (empty($data)){
-				$data = [];
-			}
-			if ($return_var == true) {
-				return $data;
-			}else{
-				echo json_encode($data);
-			}
+		$username = $this->get_cookie_decrypt("staffCookie");
+
+		if($username != NULL){
+			$data = $this->ClusterModel->get_all(null, $perumahan, $username);
+		}else{
+			$data = $this->ClusterModel->get_all(null, $perumahan);
+		}
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
 	}
 
 	//ambil data user berdasarkan username
@@ -326,18 +346,24 @@ class Main extends CI_Controller {
 
 	//ambil data blok
 	//parameter 1: true bila ingin return array, kosongi bila ingin Json
-	public function get_all_blok($return_var = NULL){
+	public function get_all_blok($isAdmin, $return_var = NULL){
 		$perumahan = $this->input->post('perumahan');
 		$cluster = $this->input->post('cluster');
-		$data = $this->BlokModel->get_all(null, $perumahan, $cluster);
-			if (empty($data)){
-				$data = [];
-			}
-			if ($return_var == true) {
-				return $data;
-			}else{
-				echo json_encode($data);
-			}
+		$username = $this->get_cookie_decrypt("staffCookie");
+
+		if(!$isAdmin){
+			$data = $this->BlokModel->get_all(null, $perumahan, $cluster,null,$username);
+		}else{
+			$data = $this->BlokModel->get_all(null, $perumahan, $cluster);
+		}
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			echo json_encode($data);
+		}
 	}
 
 	//ambil data user berdasarkan username
@@ -477,8 +503,11 @@ class Main extends CI_Controller {
 
 	public function get_tagihan($return_var = NULL){
 		$id = $this->input->post('id');
-		$data = $this->TagihanModel->get_all($id,0);
-		
+		if(is_array($id)){
+			$data = $this->TagihanModel->get_by_id($id);
+		}else{
+			$data = $this->TagihanModel->get_all($id,0);
+		}
 		if (empty($data)){
 			$data = [];
 		}
@@ -825,13 +854,22 @@ class Main extends CI_Controller {
 		}
 		$where= array('username' => $username );
 		$this->StaffModel->update($where, $data);
-		
-		
-		
-
-		
+				
 	}
 	
+	public function do_bayar(){
+		if($this->checkcookiestaff()){
+			$username = $this->get_cookie_decrypt("staffCookie");
+			$id = $this->input->post("id");
+			$diskon = $this->input->post("diskon");
+			$total_awal = $this->input->post("total_awal");
+			$this->TagihanModel->update_status($id);
+			$notaID = $this->NotaModel->insert_one($username,$total_awal,$diskon);
+			$this->NotaDetailModel->insert_one($notaID, $id);
+			echo "success";
+		}
+	}
+
 	public function update_profile(){
 		$nama = $this->input->post('nama');
 		$nomor = $this->input->post('nomor');
@@ -1087,7 +1125,7 @@ class Main extends CI_Controller {
 		if ($this->input->cookie($name,true)!=NULL) {
 			return str_rot13($this->input->cookie($name,true));
 		}else{
-			echo "no cookie";
+			return null;
 		}
 	}
 
