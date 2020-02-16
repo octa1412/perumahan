@@ -6,10 +6,15 @@
 
             <!-- Page Heading -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h1 class="h1 mb-0 text-gray-800 ">Data Arsip Pembayaran</h1>
+              <h1 class="h1 mb-0 text-gray-800">Data Arsip Pembayaran</h1>
             </div>
 
             <div class="card-body" style="background-color: #FFFFFF;">
+
+              <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
+                  <button class="btn btn-primary" onclick=tambah()>Add Blok</button>
+              </div>
+
               <div class="d-sm-flex align-items-center mb-4">						
                 <div class="btn-group">
                   <select id='fl-perumahan' class="custom-select">
@@ -233,6 +238,27 @@
       form.appendChild(input);
 
       form.submit();
+    }
+
+    function tambah(){
+      var month = new Array();
+      month[0] = "January";
+      month[1] = "February";
+      month[2] = "March";
+      month[3] = "April";
+      month[4] = "May";
+      month[5] = "June";
+      month[6] = "July";
+      month[7] = "August";
+      month[8] = "September";
+      month[9] = "October";
+      month[10] = "November";
+      month[11] = "December";
+
+      var d = new Date();
+      var n = month[d.getMonth()];
+
+      console.log(n);
     }
 
     $(document).ready(function () {
