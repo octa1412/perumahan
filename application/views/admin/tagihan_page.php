@@ -7,7 +7,7 @@
             </div>
 
             <!--table-->
-            <table id="table" class="display">
+            <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
                 <thead>
                     <tr>
                         <th>Tanggal</th>
@@ -75,13 +75,22 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?php echo base_url('dist/js/sb-admin-2.min.js');?>"></script>
+    
+    <!-- responsive  -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
 
-	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
-	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
+    <script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
+    <script src="<?php echo base_url('dist/js/table.js');?>"></script>
 
     <script>
     $(document).ready(function () {
-      dTable = $('#table').DataTable();
+      dTable = $('#table1').DataTable({
+        responsive: true
+      });
       var data = {id: "<?php echo $idBlok?>"}
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
