@@ -26,6 +26,25 @@
       </div>
       <!-- End of Main Content -->
 
+    <!-- pdf Modal-->
+    <div class="modal fade" id="pdfmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Print Laporan?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="<?=base_url("index.php/Main/cetak_pdf/" );?>" id="pdfdata" target="_blank">Print</a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
@@ -65,8 +84,8 @@
         </div>
         </div>
     </div>
+    
 
-    <?php include('edit_modal.php')?>
     <!-- Bootstrap core JavaScript-->
     <script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
     <script src="<?php echo base_url('dist/vendor/bootstrap/js/bootstrap.bundle.min.js');?>"></script>
@@ -110,7 +129,7 @@
                 console.log(json);
                 var response = JSON.parse(json);
                 if(response.length > 0){
-                    $("#table").append(
+                    $("#table1").append(
                         $('<tfoot/>').append( "<tr><td>Diskon "+
                         '<td><input type="number" id="diskon" name="diskon" step=100></input>' )
                     );
@@ -146,10 +165,27 @@
             type: 'POST',
             data: data,
             success: function (json) {
-                if(json == "success"){
-                    alert("data saved")
-                    window.location.href = "dashboardstaff";
-                }
+                    var o = json;
+                    console.log(o);
+                    var ah = 'awas';
+                    console.log(ah);
+                    // window.location.href = "dashboardstaff";
+                    $('#pdfmodal').modal();
+                    $('#pdfdata').click(function pdftampil() {
+                        $.ajax({
+                            url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
+                            type: 'POST',
+                            data: {id:o, po:ah},
+                            success: function (hasil) {
+                                console.log(hasil);
+
+                            },
+                            error: function (xhr, status, error) {
+                            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+                            $("#submit").prop("disabled", false);
+                            }
+                        });
+                    });                                                                    
             },
             error: function (xhr, status, error) {
             alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

@@ -20,7 +20,7 @@
                                     <label for="re-password" class="col-form-label">Retype Password:</label>
                                     <input type="text" class="form-control" id="re-password" value="">
                                 </div>                               
-                                <button class="btn btn-primary" onclick="doSave(event)">Edit</button>                  
+                                <button class="btn btn-primary" onclick="doSave()">Edit</button>                  
                         </form>
                     </div>
                 </div>
@@ -86,52 +86,29 @@
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 
     <script>
-      function doSave(e){
-        e.preventDefault()
-        var data = {}
-        data.nama = $("#nama").val();
-        data.nomor = $("#nomor").val();
-        data.email = $("#email").val();
+      function doSave(){
+        var pass = $("#password").val();
+        var repass = $("#re-password").val()
         
-        if($("#password").val() != ""){
-          data.password = $("#password").val();
-        }
-
-        $.ajax({
-            url: "<?php echo base_url() ?>index.php/Main/update_profile",
-            type: 'POST',
-            data: data,
-            success: function (json) {
-                alert(json)
-            },
-            error: function (xhr, status, error) {
-              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
-              $("#submit").prop("disabled", false);
-            }
-          });
+        if($("#password").val() != $("#re-password").val()){
+          alert('password tidak sama!')
+        } else {
+            $.ajax({
+              url: "<?php echo base_url() ?>index.php/Main/update_password_user",
+              type: 'POST',
+              data: {passw:pass},
+              success: function (json) {
+                  alert("berhasil diubah");
+                  console.log(json);
+              },
+              error: function (xhr, status, error) {
+                alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+                $("#submit").prop("disabled", false);
+              }
+            });
+        }       
       }
 
-        $(document).ready(function () { 
-          dTable = $('#table').DataTable();
-          $.ajax({
-            url: "<?php echo base_url() ?>index.php/Main/get_my_profile",
-            type: 'POST',
-            success: function (json) {
-              var response = JSON.parse(json);
-              console.log(response)
-              response.forEach((data)=>{
-                $("#nama").val(data.username);
-                $("#nomor").val(data.nomor);
-                $("#email").val(data.email);
-              })
-            
-            },
-            error: function (xhr, status, error) {
-              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
-              $("#submit").prop("disabled", false);
-            }
-          });
-        });
     </script>
 
 </body>

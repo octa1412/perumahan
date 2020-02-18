@@ -26,7 +26,7 @@
                                 </div>                    
                                 <div class="form-group">
                                     <label for="password" class="col-form-label">Password:</label>
-                                    <input type="password" class="form-control" id="password">
+                                    <input type="password" class="form-control" id="password" readonly>
                                 </div>
                                 <button class="btn btn-primary" onclick="doSave(event)">Edit</button>                  
                         </form>
@@ -131,6 +131,8 @@
                 $("#nama").val(data.username);
                 $("#nomor").val(data.nomor);
                 $("#email").val(data.email);
+                $("#password").val(data.password);
+                
               })
             
             },

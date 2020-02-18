@@ -12,7 +12,7 @@
             <div class="card-body" style="background-color: #FFFFFF;">
 
               <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
-                  <button class="btn btn-primary" onclick=tambah()>Add Blok</button>
+                  <button class="btn btn-primary">Add Blok</button>
               </div>
 
               <div class="d-sm-flex align-items-center mb-4">						
@@ -258,7 +258,33 @@
       var d = new Date();
       var n = month[d.getMonth()];
 
-      console.log(n);
+      alert("data masuk");
+
+
+
+      // $.ajax({
+      //   url: "<?php echo base_url() ?>index.php/Main/add_tagihan",
+      //   type: 'POST',
+      //   data: {bulan: n},
+      //   success: function (json) {
+      //     var response = JSON.parse(json);
+      //     response.forEach((data)=>{
+      //       dTable.row.add([
+      //         data.bulan+' '+ data.tahun, 
+      //         data.tanggal,
+      //         '<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>'
+      //       ]).draw(false);
+            
+      //     })
+      //     // $("tbody").append()
+      //   },
+      //   error: function (xhr, status, error) {
+      //     alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+      //     $("#submit").prop("disabled", false);
+      //   }
+      // });
+
+      // console.log(n);
     }
 
     $(document).ready(function () {

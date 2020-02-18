@@ -37,14 +37,14 @@ class StaffModel extends CI_Model {
 	}
 	
 	public function delete($id){
-		$this->db->where('IDStaff', $id);
-		$this->db->delete('staff');
+		$this->db->where('username', $id);
+		$this->db->delete('user');
 		if ($this->db->affected_rows() > 0 ) {
 			$return_message = 'success';
 		}else{
 			$return_message = 'failed';
 		}
-		return $return_message = $id;
+		return $return_message;
 	}
 
 	public function update($where, $data){
