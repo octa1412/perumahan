@@ -169,7 +169,9 @@
             type: 'POST',
             success: function (json) {
               var response = JSON.parse(json);
+              var array={};
               response.forEach((data)=>{
+                // console.log(jml);
                 no = data.IDPerumahan
                 dTable.row.add([
                   data.nama_perumahan,

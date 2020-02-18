@@ -67,7 +67,6 @@
         </div>
     </div>
 
-    <?php include('edit_modal.php')?>
     <!-- Bootstrap core JavaScript-->
     <script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
     <script src="<?php echo base_url('dist/vendor/bootstrap/js/bootstrap.bundle.min.js');?>"></script>
@@ -110,7 +109,6 @@
                     ]).draw(false);
                     
                 })
-                // $("tbody").append()
                 },
                 error: function (xhr, status, error) {
                 alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

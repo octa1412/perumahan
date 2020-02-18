@@ -50,6 +50,19 @@ class TagihanModel extends CI_Model {
 		$this->db->update('tagihan');
 	}
 	
+	public function kuintansi($id){
+		$this->db->select('*');
+		$this->db->from('tagihan t');
+		$this->db->join('nota_detail n','n.IDTagihan = t.IDTagihan', 'left');
+		$this->db->join('nota o','o.IDNota = n.IDNota', 'left');
+		$this->db->where('n.IDNota', $id);
+		$this->db->limit(1);
+		$query = $this->db->get();
+        return $query->result();
+
+
+	}
+
 
 }
 ?>
