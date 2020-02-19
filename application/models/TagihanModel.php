@@ -24,10 +24,10 @@ class TagihanModel extends CI_Model {
 			$this->db->where('tagihan.IDBlok',$idBlok);
 		}
 
-		// if($startDate != NULL && $endDate != NULL){
-		// 	$this->db->where('nota.tanggal >=',$startDate);
-		// 	$this->db->where('nota.tanggal <=',$endDate);
-		// }
+		if($startDate != NULL && $endDate != NULL){
+			$this->db->where('nota.tanggal >=',$startDate);
+			$this->db->where('nota.tanggal <=',$endDate);
+		}
 
 		$query = $this->db->get();
 		return $query->result_array();
