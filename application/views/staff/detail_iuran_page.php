@@ -1,26 +1,33 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+        <div class="card shadow mb-12">
+          <div class="card-header py-3">
+
             <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-center mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h1 class="h1 mb-0 text-gray-800 ">Tanggungan Iuran</h1>
             </div>
 
-            <!--table-->
-            <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Tanggal</th>
-                        <th>Harga</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                
-                </tbody>
-            </table>
-            <br>
-            <button class="btn btn-primary" onclick="submit(event)">Submit</button>
+            <div class="card-body" style="background-color: #FFFFFF;">
+                <!--table-->
+                <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Harga</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                    </tbody>
+                </table>
+                <br>
+                <button class="btn btn-primary" onclick="submit(event)">Submit</button>
+            </div>
+          </div>
+        </div>
         </div>
         <!-- /.container-fluid -->
 

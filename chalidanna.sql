@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2020 at 10:05 AM
+-- Generation Time: Feb 19, 2020 at 02:09 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -484,7 +484,7 @@ CREATE TABLE `user` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
   `pangkat` varchar(255) DEFAULT NULL,
-  `nama` varchar(255) DEFAULT NULL,
+  `nama_user` varchar(255) DEFAULT NULL,
   `nomor` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -493,7 +493,7 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`username`, `password`, `pangkat`, `nama`, `nomor`, `email`) VALUES
+INSERT INTO `user` (`username`, `password`, `pangkat`, `nama_user`, `nomor`, `email`) VALUES
 ('admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin', 'admin1', '0897654321', 'admin@gmail.com'),
 ('PO', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'tata', '08765432123', 'tata@gmail.com'),
 ('staff1', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'siti', '0897654321', 'siti@gmail.com'),
