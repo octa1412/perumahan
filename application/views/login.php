@@ -90,7 +90,9 @@
           } else if (response == "staff") {
             window.location.replace("<?php echo base_url() ?>index.php/Main/dashboardstaff");
             alert("Selamat Datang Staff");
-          } else {          
+          } else {    
+            alert("password atau email salah!");
+      
             $("#submit").prop("disabled", false);
           }
         

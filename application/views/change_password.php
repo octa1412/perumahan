@@ -98,7 +98,7 @@
               type: 'POST',
               data: {passw:pass},
               success: function (json) {
-                  alert("berhasil diubah");
+                  alert('berhasil diubah');
                   console.log(json);
               },
               error: function (xhr, status, error) {
