@@ -202,10 +202,11 @@
         type: 'POST',
         success: function (json) {
           var response = JSON.parse(json);
-          response.forEach((data)=>{
-            $('#fl-perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))
-            $('#perumahan1').append(new Option(data.nama_perumahan, data.IDPerumahan))
-            $('#perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))            
+          response.forEach((data)=>{ 
+            var res = data.nama_perumahan.replace(/_/g, " ");
+            $('#fl-perumahan').append(new Option(res, data.IDPerumahan))
+            $('#perumahan1').append(new Option(res, data.IDPerumahan))
+            $('#perumahan').append(new Option(res, data.IDPerumahan))            
           })
         },
         error: function (xhr, status, error) {
@@ -277,9 +278,10 @@
             $("#cluster option[value!=default]").remove();
             var response = JSON.parse(json);
             response.forEach((data)=>{
-              $('#fl-cluster').append(new Option(data.nama_cluster, data.IDCluster))
-              $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster))
-              $('#cluster').append(new Option(data.nama_cluster, data.IDCluster))
+              var tes = data.nama_cluster.replace(/_/g, " ");
+              $('#fl-cluster').append(new Option(tes, data.IDCluster))
+              $('#cluster1').append(new Option(tes, data.IDCluster))
+              $('#cluster').append(new Option(tes, data.IDCluster))
             })
           },
           error: function (xhr, status, error) {
@@ -370,6 +372,7 @@
         success: function (response) {
           var response = JSON.parse(response);
           response.forEach((data)=>{
+
             $('#editmodal').modal();
             $('#nama-blok1').val(data.IDBlok);
             $('#perumahan1').val(data.IDPerumahan);
@@ -382,7 +385,8 @@
                 $("#cluster1 option[value!=default]").remove();
                 var response = JSON.parse(json);
                 response.forEach((dt)=>{
-                  $('#cluster1').append(new Option(dt.nama_cluster, dt.IDCluster))
+                  var tes = dt.nama_cluster.replace(/_/g, " ");
+                  $('#cluster1').append(new Option(tes, dt.IDCluster))
                 })
                 $('#cluster1').val(data.IDCluster);
               },
@@ -406,7 +410,8 @@
                 url: "<?php echo base_url()?>index.php/Main/update_blok/",
                 type: 'POST',
                 data: {id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga},
-                success: function (response) {                           
+                success: function (response) {         
+                  alert('Berhasil diupdate!');                  
                   window.location = "<?php echo base_url() ?>index.php/Main/blok";
                 },
                 error: function () {
@@ -432,8 +437,9 @@
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_blok/",
         type: 'POST',
-        data: {id:inputid, perum:inputperum, cluster:inputcluster, harga:inputharga, type:inputtype},
+        data: {id:inputid, cluster:inputcluster, harga:inputharga, type:inputtype},
         success: function (response) {
+          alert('Berhasil ditambahkan!');
           window.location = "<?php echo base_url() ?>index.php/Main/blok";
         },
         error: function () {

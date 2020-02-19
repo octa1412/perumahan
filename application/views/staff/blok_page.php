@@ -119,7 +119,8 @@
         success: function (json) {
           var response = JSON.parse(json);
           response.forEach((data)=>{
-            $('#fl-cluster').append(new Option(data.nama_cluster, data.IDCluster))
+            var tes = data.nama_cluster.replace(/_/g, " ");
+            $('#fl-cluster').append(new Option(tes, data.IDCluster))
           })
         },
         error: function (xhr, status, error) {

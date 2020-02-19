@@ -139,13 +139,13 @@ class Main extends CI_Controller {
 	public function arsip(){
 		$idBlok = $this->input->post('id');
 		if ($this->checkcookieuser()) {
-			// $data['idBlok'] = $idBlok;
+			$data['idBlok'] = $idBlok;
 			$this->load->view('header');
-			$this->load->view('admin/arsip_admin_page');
+			$this->load->view('admin/arsip_admin_page', $data);
 		}else if ($this->checkcookiestaff()) {
-			// $data['idBlok'] = $idBlok;
+			$data['idBlok'] = $idBlok;
 			$this->load->view('header1');
-			$this->load->view('staff/arsip_staff_page');
+			$this->load->view('staff/arsip_staff_page', $data);
 		}else {
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -586,12 +586,14 @@ class Main extends CI_Controller {
 
 	public function insert_cluster() {
 		if ($this->checkcookieuser()) {
-			$perumahan =  $this->input->post('perum');
+			$perumahan =  str_replace(" ", "_", $this->input->post('perum'));
+
 			$idperum = $this->PerumahanModel->get_perumahan($perumahan);
+			$cluster = str_replace(" ", "_", $this->input->post('nama'));
 
 			$data = array(
 				'IDPerumahan' => $idperum,
-				'nama_cluster' => $this->input->post('nama')
+				'nama_cluster' => $cluster
 			);
 			$insertStatus = $this->ClusterModel->insert($data);
 			echo $insertStatus;
@@ -603,7 +605,6 @@ class Main extends CI_Controller {
 	public function insert_blok() {
 		if ($this->checkcookieuser()) {
 			$id = $this->input->post('id');
-			$perumahan =  $this->input->post('perumahan');
 			$cluster =  $this->input->post('cluster');
 			$harga =  $this->input->post('harga');
 			$type =  $this->input->post('type');
@@ -612,6 +613,7 @@ class Main extends CI_Controller {
 				'IDBlok' => $id,
 				'IDCluster' => $cluster,
 				'Harga' => $harga,
+				'IDCustomer' => null,
 				'type' => $type
 			);
 			$insertStatus = $this->BlokModel->insert($data);
@@ -734,9 +736,10 @@ class Main extends CI_Controller {
 		$id = $this->input->post('id');
 		$nama = $this->input->post('nama');
 		$kota = $this->input->post('kota');
+		$spasi = str_replace(" ", "_", $nama);
 
 		$data = array(
-            'nama_perumahan' => $nama,
+            'nama_perumahan' => $spasi,
             'kota' => $kota,
 		);
 		
@@ -748,8 +751,8 @@ class Main extends CI_Controller {
 	//Edit data cluster
 	public function update_cluster(){
 		$id = $this->input->post('id');
-		$perumahan = $this->input->post('perumahan');
-		$nama = $this->input->post('nama');
+		$perumahan = str_replace(" ", "_", $this->input->post('perumahan'));
+		$nama = str_replace(" ", "_", $this->input->post('nama'));
 
 		$idperum = $this->PerumahanModel->get_perumahan($perumahan);
 

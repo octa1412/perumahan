@@ -180,7 +180,8 @@
         success: function (json) {
           var response = JSON.parse(json);
           response.forEach((data)=>{
-            $('#fl-perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))
+            var res = data.nama_perumahan.replace(/_/g, " ");
+            $('#fl-perumahan').append(new Option(res, data.IDPerumahan))
           })
         },
         error: function (xhr, status, error) {
@@ -214,10 +215,12 @@
           var response = JSON.parse(json);
           dTable.clear().draw();
           response.forEach((data)=>{
+            var tes = data.nama_cluster.replace(/_/g, " ");
+            
             no = data.IDCluster                       
             if(data.IDCluster != null) {
               dTable.row.add([
-                data.nama_cluster,
+                tes,
                   '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
                 + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
               
@@ -248,8 +251,9 @@
         success: function (response) {
               var hasil = JSON.parse(response);
               hasil.forEach((data)=>{
-                $('#perumahan1').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>'); 
-                $('#perumahan').append('<option value="'+ data.nama_perumahan +'">'+ data.nama_perumahan +'</option>');                  
+                var res = data.nama_perumahan.replace(/_/g, " ");
+                $('#perumahan1').append('<option value="'+ res +'">'+ res +'</option>'); 
+                $('#perumahan').append('<option value="'+ res +'">'+ res +'</option>');                  
               })
           },
           error: function () {
@@ -287,10 +291,13 @@
         success: function (response) {
           var response = JSON.parse(response);
           response.forEach((data)=>{
+            var res = data.nama_perumahan.replace(/_/g, " ");
+            var tes = data.nama_cluster.replace(/_/g, " ");
+            
             $('#editmodal').modal();
             $("#id-cluster1").val(data.IDCluster);
-            $('#nama-cluster1').val(data.nama_cluster);
-            $('#perumahan1').val(data.nama_perumahan);
+            $('#nama-cluster1').val(tes);
+            $('#perumahan1').val(res);
             $('#updatedata').click(function editdata() {
             
             var inputid = document.getElementById("id-cluster1").value

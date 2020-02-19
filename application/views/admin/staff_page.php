@@ -202,9 +202,12 @@
           success: function (json) {
             var response = JSON.parse(json);
             response.forEach((data)=>{
-              $('#fl-perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))
-              $('#perumahan1').append(new Option(data.nama_perumahan, data.IDPerumahan))
-              $('#perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))            
+              var res = data.nama_perumahan.replace(/_/g, " ");
+              if(data.status == 0) {
+                $('#perumahan1').append(new Option(res, data.IDPerumahan))
+                $('#perumahan').append(new Option(res, data.IDPerumahan))   
+              }
+         
             })
           },
           error: function (xhr, status, error) {
@@ -231,11 +234,12 @@
             success: function (json) {
               var response = JSON.parse(json);
               response.forEach((data)=>{
+                var res = data.nama_perumahan.replace(/_/g, " ");
                 no = data.username
                 if(data.nama_perumahan == null){
                   dTable.row.add([
                     data.username,
-                    data.nama,
+                    data.nama_user,
                     '-',
                     data.email,
                       '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
@@ -244,8 +248,8 @@
                 } else {
                   dTable.row.add([
                     data.username,
-                    data.nama,
-                    data.nama_perumahan,
+                    data.nama_user,
+                    res,
                     data.email,
                       '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
                     + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
@@ -261,26 +265,26 @@
           });
         };
 
-        function listperumahan(){
-          $.ajax({
-            url: "<?php echo base_url() ?>index.php/Main/get_list_perumahan",
-            type: 'POST',
-            success: function (response) {
-                  console.log(response);
-                  var hasil = JSON.parse(response);
-                  hasil.forEach((data)=>{
-                    if(data.status == '0') {
-                    $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
-                    $('#perumahan').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>');                  
-                    }
-                  })
-              },
-              error: function () {
-                  console.log("gagal menghapus");
+        // function listperumahan(){
+        //   $.ajax({
+        //     url: "<?php echo base_url() ?>index.php/Main/get_list_perumahan",
+        //     type: 'POST',
+        //     success: function (response) {
+        //           console.log(response);
+        //           var hasil = JSON.parse(response);
+        //           hasil.forEach((data)=>{
+        //             if(data.status == '0') {
+        //             $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
+        //             $('#perumahan').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>');                  
+        //             }
+        //           })
+        //       },
+        //       error: function () {
+        //           console.log("gagal menghapus");
 
-              }
-          });
-        }
+        //       }
+        //   });
+        // }
 
 
         function hapusdata(id) {
@@ -310,15 +314,14 @@
             type: 'POST',
             data: {id: id},
             success: function (response) {
-              console.log(response);
-           
+              console.log(response);           
 
               var response = JSON.parse(response);
               response.forEach((data)=>{
                 console.log(dataString);
                 $('#editmodal').modal();
                 $("#id-staff1").val(data.username);
-                $('#nama1').val(data.nama);
+                $('#nama1').val(data.nama_user);
                 $('#nomor1').val(data.nomor);
                 $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
                 $('#perumahan1').val(data.IDPerumahan);
