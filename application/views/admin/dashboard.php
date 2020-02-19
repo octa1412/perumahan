@@ -46,8 +46,7 @@
               <div class="modal-body">
                 <form id="editform">
                   <div class="form-group">
-                    <label class="col-form-label">Id Perumahan:</label>
-                    <input type="text" class="form-control" id="id-perumahan1" value="" readonly>
+                    <input type="hidden" class="form-control" id="id-perumahan1" value="" readonly>
                   </div>
                   <div class="form-group">
                     <label class="col-form-label">Nama Perumahan:</label>
@@ -79,11 +78,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
-                  <div class="form-group">
-                    <label class="col-form-label">Id Perumahan:</label>
-                    <input type="text" class="form-control" id="id-perumahan" placeholder="ID Perumahan...">
-                  </div>
+                <form>                  
                   <div class="form-group">
                     <label class="col-form-label">Nama Perumahan:</label>
                     <input type="text" class="form-control" id="nama-perumahan" placeholder="Nama Perumahan..." >
@@ -172,9 +167,10 @@
               var array={};
               response.forEach((data)=>{
                 // console.log(jml);
+                var res = data.nama_perumahan.replace(/_/g, " ");
                 no = data.IDPerumahan
                 dTable.row.add([
-                  data.nama_perumahan,
+                  res,
                   data.kota,
                     '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ no +'") >Edit</a></button>'
 									+ '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'
@@ -224,9 +220,10 @@
               var response = JSON.parse(response);
               response.forEach((data)=>{
                 console.log(dataString);
+                var res = data.nama_perumahan.replace(/_/g, " ");
                 $('#editmodal').modal();
                 $("#id-perumahan1").val(data.IDPerumahan);
-                $('#nama-perumahan1').val(data.nama_perumahan);
+                $('#nama-perumahan1').val(res);
                 $('#nama-kota1').val(data.kota);
                 $('#updatedata').click(function editdata() {
                 
@@ -256,14 +253,13 @@
         }
 
         function insertdata() {
-          var inputid = document.getElementById("id-perumahan").value
           var inputnama = document.getElementById("nama-perumahan").value
           var inputkota = document.getElementById("nama-kota").value
 
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/insert_perumahan/",
             type: 'POST',
-            data: {id:inputid, nama:inputnama, kota:inputkota},
+            data: {nama:inputnama, kota:inputkota},
             success: function (response) {
               console.log(response);
               window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";

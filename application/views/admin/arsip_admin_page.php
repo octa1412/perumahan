@@ -1,43 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Chalidanna</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="<?php echo base_url('dist/vendor/fontawesome-free/css/all.min.css');?>" rel="stylesheet" type="text/css">
+  <link href="<?php echo base_url('dist/vendor/datetimepicker/css/bootstrap-datepicker.min.css');?>" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+
+  <!-- Custom styles for this template-->
+  <link href="<?php echo base_url('dist/css/sb-admin-2.min.css');?>" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-center mb-4">
-            <h1 class="h1 mb-0 text-gray-800 ">Arsip Blok A2</h1>
+            <h1 class="h1 mb-0 text-gray-800 ">Kuintansi</h1>
           </div>
 
           <div class="d-sm-flex align-items-center mb-4">
 						
 						
 						<div class="id-none form-inline ml-md-3 input-daterange">
-							<input type="text" class="form-control" >
+							<input type="text" class="form-control">
 							<div class="input-group-text justify-content-sm-center">to</div>
-							<input type="text" class="form-control" >
+							<input type="text" class="form-control">
 						</div>
 						
-            <form class="d-none d-sm-inline-block form-inline ml-auto my-2 my-md-0 mw-100 navbar-search">
-							<div class="input-group">
-								<input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-								<div class="input-group-append">
-										<button class="btn btn-primary" type="button">
-										<i class="fas fa-search fa-sm"></i>
-										</button>
-								</div>
-							</div>
-            </form>
           </div>
 
 					<!--table-->
 					<table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
 						<thead>
 							<tr>
-								<th>ID Nota</th>
-								<th>Tanggal Pembayaran</th>
+								<th>Bulan Iuran</th>
+								<th>Tanggal Pembayaran</th>								
 								<th>Action</th>
 							</tr>
 						</thead>
-						<tbody>
-						
+						<tbody>						
 						</tbody>
 					</table>
         </div>
@@ -48,21 +74,23 @@
 
       <!-- pdf Modal-->
       <div class="modal fade" id="pdfmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document">
           <div class="modal-content">
-              <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Print Laporan?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-              </button>
-              </div>
-              <div class="modal-footer">
-              <a class="btn btn-secondary" href="<?=base_url("index.php/Main/cetak_pdf_diskon/" );?>" id="pdfdiskon" target="_blank">Laporan + Diskon</a>
-              <a class="btn btn-primary" href="<?=base_url("index.php/Main/cetak_pdf/" );?>" id="pdfdata" target="_blank">Laporan</a>
-              </div>
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Print Laporan?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            </div>
+            <div class="modal-footer">
+            <a class="btn btn-secondary" href="<?=base_url("index.php/Main/cetak_pdf_diskon/" );?>" id="pdfdiskon" target="_blank">Laporan + Diskon</a>
+            <a class="btn btn-primary" href="<?=base_url("index.php/Main/cetak_pdf/" );?>" id="pdfdata" target="_blank">Laporan</a>
+            </div>
           </div>
-          </div>
+        </div>
       </div>
+
+
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
@@ -125,8 +153,7 @@
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>
 	<script>
-  
-    $('.input-daterange').datepicker({
+		$('.input-daterange').datepicker({
         format: 'yyyy-mm-dd'    // pass here your desired format
     });
     $('.input-daterange').change(function(e){
@@ -150,17 +177,23 @@
         }
       }
     }
+
     function get_arsip(){
+      var data = get_filter_value();
+      data.id = "<?php echo $idBlok?>"
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/0",
+        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/",
         type: 'POST',
+        data: data,
         success: function (json) {
+          dTable.clear().draw();
           var response = JSON.parse(json);
+          console.log(response)
           response.forEach((data)=>{
             dTable.row.add([
               data.bulan+' '+ data.tahun, 
               data.tanggal,
-              '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Detail</button>'
+              '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Nota</button>'
             ]).draw(false);
             
           })
@@ -172,12 +205,12 @@
         }
       });
     }
-
+    
     $(document).ready(function () {
       dTable = $('#table1').DataTable({
-        responsive:true
+        responsive: true
       });
-      get_arsip();
+      get_arsip()
     });
 
     function goToPdf(id){
@@ -229,8 +262,9 @@
       });
     }
 
-  </script>
 
+
+  </script>
 </body>
 
 </html>
