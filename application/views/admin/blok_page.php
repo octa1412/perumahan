@@ -102,8 +102,8 @@
               <div class="modal-body">
                 <form>
                   <div class="form-group">
-                    <label for="id-cluster" class="col-form-label">Id Blok:</label>
-                    <input type="text" class="form-control" id="id-cluster" placeholder="ID Blok...">
+                    <label for="id-blok" class="col-form-label">Id Blok:</label>
+                    <input type="text" class="form-control" id="id-blok" placeholder="ID Blok...">
                   </div>
                   <div class="form-group">
                     <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
@@ -423,7 +423,7 @@
     }
 
     function insertdata() {
-      var inputid = document.getElementById("id-cluster").value
+      var inputid = document.getElementById("id-blok").value
       var inputperum = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
       var inputharga = document.getElementById("harga").value

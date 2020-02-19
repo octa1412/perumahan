@@ -12,7 +12,6 @@
                     <tr>
                         <th>Tanggal</th>
                         <th>Harga</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,8 +101,7 @@
           response.forEach((data)=>{
             dTable.row.add([
               data.bulan+' '+ data.tahun, 
-              data.Harga,
-              '<input type="checkbox" name="bayar"></input>'
+              data.Harga
               ]).draw(false);
             
           })

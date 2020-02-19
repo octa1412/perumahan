@@ -51,8 +51,7 @@
               <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="id-cluster" class="col-form-label">Id Cluster:</label>
-                        <input type="text" class="form-control" id="id-cluster1" value="" readonly>
+                        <input type="hidden" class="form-control" id="id-cluster1" value="" readonly>
                     </div>
                     <div class="form-group">
                         <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
@@ -87,10 +86,6 @@
               </div>
               <div class="modal-body">
                 <form>
-                  <div class="form-group">
-                    <label for="id-cluster" class="col-form-label">Id Cluster:</label>
-                    <input type="text" class="form-control" id="id-cluster" placeholder="ID Cluster...">
-                  </div>
                   <div class="form-group">
                     <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
                     <select class="custom-select" id="perumahan">
@@ -323,14 +318,13 @@
     }
 
     function insertdata() {
-      var inputid = document.getElementById("id-cluster").value
       var inputperum = document.getElementById("perumahan").value
       var inputnama = document.getElementById("nama-cluster").value
 
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_cluster/",
         type: 'POST',
-        data: {id:inputid, perum:inputperum, nama:inputnama},
+        data: {perum:inputperum, nama:inputnama},
         success: function (response) {
           window.location = "<?php echo base_url() ?>index.php/Main/cluster";
         },

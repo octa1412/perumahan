@@ -1,4 +1,4 @@
-        <!-- Begin Page Content -->
+ <!-- Begin Page Content -->
         <div class="container-fluid">
 
             <!-- Page Heading -->
@@ -167,15 +167,13 @@
             success: function (json) {
                     var o = json;
                     console.log(o);
-                    var ah = 'awas';
-                    console.log(ah);
-                    // window.location.href = "dashboardstaff";
+                    window.location.href = "dashboardstaff";
                     $('#pdfmodal').modal();
                     $('#pdfdata').click(function pdftampil() {
                         $.ajax({
                             url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
                             type: 'POST',
-                            data: {id:o, po:ah},
+                            data: {id:o},
                             success: function (hasil) {
                                 console.log(hasil);
 

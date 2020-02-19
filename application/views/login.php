@@ -83,19 +83,17 @@
         type: 'POST',
         data: dataString,
         success: function (response) {
-          if (response == "Selamat Datang Admin") {
+          console.log(response);
+          if (response == "admin") {
             window.location.replace("<?php echo base_url() ?>index.php/Main/dashboardadmin");
-          } else {
-            alert(response);
-            $("#submit").prop("disabled", false);
-          }
-
-          if (response == "Login Berhasil") {
+            alert("Selamat Datang Admin");
+          } else if (response == "staff") {
             window.location.replace("<?php echo base_url() ?>index.php/Main/dashboardstaff");
-          } else {
-            alert(response);
+            alert("Selamat Datang Staff");
+          } else {          
             $("#submit").prop("disabled", false);
           }
+        
         },
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
