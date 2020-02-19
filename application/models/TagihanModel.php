@@ -68,7 +68,9 @@ class TagihanModel extends CI_Model {
 
 	public function jmlbln($id){
 		$this->db->select('*');
-		$this->db->from('nota_detail');
+		$this->db->from('nota_detail n');
+		$this->db->join('tagihan t','t.IDTagihan = n.IDTagihan');
+
 		$this->db->where('IDNota', $id);
 
 		$query = $this->db->get();

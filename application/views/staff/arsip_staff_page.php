@@ -1,45 +1,51 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+        <div class="card shadow mb-12">
+          <div class="card-header py-3">
+
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-center mb-4">
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h1 class="h1 mb-0 text-gray-800 ">Arsip Blok A2</h1>
           </div>
 
-          <div class="d-sm-flex align-items-center mb-4">
-						
-						
-						<div class="id-none form-inline ml-md-3 input-daterange">
-							<input type="text" class="form-control" >
-							<div class="input-group-text justify-content-sm-center">to</div>
-							<input type="text" class="form-control" >
-						</div>
-						
-            <form class="d-none d-sm-inline-block form-inline ml-auto my-2 my-md-0 mw-100 navbar-search">
-							<div class="input-group">
-								<input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-								<div class="input-group-append">
-										<button class="btn btn-primary" type="button">
-										<i class="fas fa-search fa-sm"></i>
-										</button>
-								</div>
-							</div>
-            </form>
-          </div>
+          <div class="card-body" style="background-color: #FFFFFF;">
+            <div class="d-sm-flex align-items-center mb-4">
+              <div class="id-none form-inline ml-md-3 input-daterange">
+                <input type="text" class="form-control" >
+                <div class="input-group-text justify-content-sm-center">to</div>
+                <input type="text" class="form-control" >
+              </div>
+              
+              <form class="d-none d-sm-inline-block form-inline ml-auto my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                  <input type="text" id="searchbox" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                      <i class="fas fa-search fa-sm"></i>
+                      </button>
+                  </div>
+                </div>
+              </form>
+            </div>
 
-					<!--table-->
-					<table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
-						<thead>
-							<tr>
-								<th>ID Nota</th>
-								<th>Tanggal Pembayaran</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-						
-						</tbody>
-					</table>
+            <!--table-->
+            <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+              <thead>
+                <tr>
+                  <th>ID Nota</th>
+                  <th>Tanggal Pembayaran</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+        </div>  
         </div>
         <!-- /.container-fluid -->
 

@@ -1150,20 +1150,20 @@ class Main extends CI_Controller {
 
 	public function penyebut($nilai) {
 		$nilai = abs($nilai);
-		$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+		$huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
 		$temp = "";
 		if ($nilai < 12) {
 			$temp = " ". $huruf[$nilai];
 		} else if ($nilai <20) {
 			$temp = $this->penyebut($nilai - 10). " belas";
 		} else if ($nilai < 100) {
-			$temp = $this->penyebut($nilai/10)." puluh". $this->penyebut($nilai % 10);
+			$temp = $this->penyebut($nilai/10)." Puluh". $this->penyebut($nilai % 10);
 		} else if ($nilai < 200) {
-			$temp = " seratus" . $this->penyebut($nilai - 100);
+			$temp = " Seratus" . $this->penyebut($nilai - 100);
 		} else if ($nilai < 1000) {
 			$temp = $this->penyebut($nilai/100) . " ratus" . $this->penyebut($nilai % 100);
 		} else if ($nilai < 2000) {
-			$temp = " seribu" . $this->penyebut($nilai - 1000);
+			$temp = " Seribu" . $this->penyebut($nilai - 1000);
 		} else if ($nilai < 1000000) {
 			$temp = $this->penyebut($nilai/1000) . " ribu" . $this->penyebut($nilai % 1000);
 		} else if ($nilai < 1000000000) {
@@ -1188,28 +1188,23 @@ class Main extends CI_Controller {
 	//mencetak kuintansi pdf tagihan pembayaran
 	public function cetak_pdf(){
 		$no = 1;
-		$oke = 0;
 		$username = $this->get_cookie_decrypt("idcetak");
 		$data = $this->TagihanModel->kuintansi($username);
 		$bulannya = $this->TagihanModel->jmlbln($username);
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 		$jml = 0;
-		$buah = array();
+		$caca = "";
+		$nilai = "";
 
 		foreach($bulannya as $item) {
+			$caca = $caca.$bulannya[$jml]->bulan. ", ";
+			$nilai = $nilai.$bulannya[$jml]->Harga. ", ";
 			$jml = $jml + 1;
-		}
-
-		foreach($data as $bulan) {
-			$buah[$oke] = $data[$oke]->bulan;
-			$oke = $oke + 1;
-
 		}
 
 		$yng = $this->terbilang($data[0]->total_awal);
 
-        // $c_pdf->AliasNbPages();
         $c_pdf = new FPDF('P', 'mm', 'A4');
         $c_pdf->AddPage();
         $c_pdf->header('Arial');
@@ -1239,10 +1234,7 @@ class Main extends CI_Controller {
         $c_pdf->Cell(10);
         $c_pdf->SetFont('Arial', '', 12);
         $c_pdf->Cell(40,8,'Sudah Terima dari :' ,0,0, 'L');
-		// foreach ($data as $item){
-			$c_pdf->Cell(55,8, $data[0]->nama ,0,0, 'L');
-		// }
-		
+		$c_pdf->Cell(55,8, $data[0]->nama ,0,0, 'L');
 
 		$c_pdf->Cell(14,8,'Type: ',0,0,'L');
 		$c_pdf->Cell(20,8, $data[0]->type ,0,0,'L');
@@ -1259,26 +1251,17 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(50);
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
-			$c_pdf->Cell(40,8, $buah[0],0,1, 'L');
-		
-		$oke = 0;
+		$c_pdf->Cell(40,8, $caca ,0,1, 'L');
 
 		$c_pdf->Cell(50);
-        $c_pdf->Cell(16,8, $jml ,0,0, 'L');
+        $c_pdf->Cell(10,8, $jml ,0,0, 'L');
 		$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-		foreach($data as $k) {
-			// $sementara = $data;
-			if($no < $data) {
-				$sementara = $data;
-			}
-		}
-		$c_pdf->Cell(40,8, $data[0]->Harga ,0,1, 'L');
+		$c_pdf->Cell(40,8, $nilai ,0,1, 'L');
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
 		$c_pdf->Cell(40,8, $data[0]->total_awal ,0,1, 'L');
-		
-        
+		    
 		$c_pdf->Cell(10,10, '', 0,1);
         $c_pdf->Cell(10);
         $c_pdf->SetFont('Arial', '', '12');
@@ -1297,86 +1280,9 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(115,5, '('.$data[0]->nama_user.')',0,0); 
 		$c_pdf->Cell(100,5, '('.$data[0]->nama.')',0,0);
 		   
-
-		////////////////////////////////////
-		// $c_pdf->Line(0, 150, 220-25, 150);
-        // $c_pdf->Line(0, 150, 220-25, 150);
-        // $c_pdf->Line(0, 150, 220-25, 150);
+		$caca = "";
+		$nilai = "";
 		
-
-        // $c_pdf->SetFont('Arial','', 15);
-        // $c_pdf->Cell(75,20,'MANAGEMENT STATE', 0,1, 'C');
-        // $c_pdf->SetFont('Arial', 'B', 17);
-        // $c_pdf->Cell(10);
-		// $c_pdf->Cell(190,7, 'PURI SAFIRA RESIDENCE', 0,1,'L');
-        // $c_pdf->SetFont('Arial', 'B', 8);
-        // $c_pdf->Cell(10);
-		// $c_pdf->Cell(75,5, 'Jl. Raya Darmo No.75-77, Surabaya',0,0, 'C');
-		// $c_pdf->SetFont('Arial', 'U',25);
-		// $c_pdf->Cell(30);
-		// $c_pdf->Cell(120,5, 'Tanda Terima',0,1, 'L');
-		// $c_pdf->SetFont('Arial', 'B',7);
-		// $c_pdf->Cell(10);
-		// $c_pdf->Cell(75,4, 'Telp. (031) 5666615, 5666616',0,1, 'C');
-
-		// $c_pdf->Line(15, 173, 220-25, 173);
-        // $c_pdf->Line(15, 173, 220-25, 173);
-        // $c_pdf->Line(15, 173, 220-25, 173);
-
-        // $c_pdf->Cell(10,8, '', 0,1);
-        // $c_pdf->Cell(10);
-        // $c_pdf->SetFont('Arial', '', 12);
-        // $c_pdf->Cell(40,8,'Sudah Terima dari :' ,0,0, 'L');
-		// // foreach ($data as $item){
-		// 	$c_pdf->Cell(55,8, $data[0]->nama ,0,0, 'L');
-		// // }
-		
-
-		// $c_pdf->Cell(14,8,'Type: ',0,0,'L');
-		// $c_pdf->Cell(20,8, $data[0]->type ,0,0,'L');
-		// $c_pdf->Cell(14,8,'Blok:',0,0,'L');
-		// $c_pdf->Cell(20,8, $data[0]->IDBlok,0,1,'L'); 
-
-		// $c_pdf->Cell(10);
-        // $c_pdf->Cell(40,8, 'Terbilang                :',0,0, 'L');
-        // $c_pdf->Cell(40,8, 'lalala',0,1, 'L');
-        
-		// $c_pdf->Cell(10);
-        // $c_pdf->Cell(40,8, 'Untuk Pembayaran:',0,0, 'L');
-        // $c_pdf->Cell(40,8, 'IURAN MANAGEMENT ESTATE',0,1, 'L');
-
-		// $c_pdf->Cell(50);
-        // $c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
-        // $c_pdf->Cell(40,8, 'lalala',0,1, 'L');
-
-		// $c_pdf->Cell(50);
-        // $c_pdf->Cell(16,8, $jml ,0,0, 'L');
-        // $c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-		// $c_pdf->Cell(40,8, $data[0]->total_setelah_diskon ,0,1, 'L');
-
-		// $c_pdf->Cell(10);
-        // $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
-		// $c_pdf->Cell(40,8, '899999',0,1, 'L');
-		
-        
-		// $c_pdf->Cell(10,10, '', 0,1);
-        // $c_pdf->Cell(10);
-        // $c_pdf->SetFont('Arial', '', '12');
-		// $c_pdf->Cell(115,7, 'Yang Menyerahkan,',0,0, 'L');
-		// $c_pdf->Cell(80,7, 'Surabaya, '.$dt->format('Y-m-d'),0,1, 'L');
-		
-        // $c_pdf->SetFont('Arial','','10');
-		// $c_pdf->Cell(10);       
-        // $c_pdf->Cell(140,5, 'Penerima,',0,0, 'R');
-        // $c_pdf->Cell(10,10,'',0,1);
-        // $c_pdf->Cell(10);
-    
-        // $c_pdf->Cell(10,15,'',0,1);
-        // $c_pdf->Cell(10);
-        // $c_pdf->SetFont('Arial','','12');
-		// $c_pdf->Cell(115,5, '('.$data[0]->nama_user.')',0,0); 
-		// $c_pdf->Cell(100,5, '('.$data[0]->nama.')',0,0);
-          
 		$c_pdf->Output();
 		
 		echo $iii;
@@ -1386,28 +1292,23 @@ class Main extends CI_Controller {
 	//mencetak kuintansi pdf tagihan pembayaran dengan diskon
 	public function cetak_pdf_diskon(){
 		$no = 1;
-		$oke = 0;
 		$username = $this->get_cookie_decrypt("idcetak");
 		$data = $this->TagihanModel->kuintansi($username);
 		$bulannya = $this->TagihanModel->jmlbln($username);
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 		$jml = 0;
-		$buah = array();
+		$caca = "";
+		$nilai = "";
 
 		foreach($bulannya as $item) {
+			$caca = $caca.$bulannya[$jml]->bulan. ", ";
+			$nilai = $nilai.$bulannya[$jml]->Harga. ", ";
 			$jml = $jml + 1;
-		}
-
-		foreach($data as $bulan) {
-			$buah[$oke] = $data[$oke]->bulan;
-			$oke = $oke + 1;
-
 		}
 
 		$yng = $this->terbilang($data[0]->total_setelah_diskon);
 
-        // $c_pdf->AliasNbPages();
         $c_pdf = new FPDF('P', 'mm', 'A4');
         $c_pdf->AddPage();
         $c_pdf->header('Arial');
@@ -1437,10 +1338,7 @@ class Main extends CI_Controller {
         $c_pdf->Cell(10);
         $c_pdf->SetFont('Arial', '', 12);
         $c_pdf->Cell(40,8,'Sudah Terima dari :' ,0,0, 'L');
-		// foreach ($data as $item){
-			$c_pdf->Cell(55,8, $data[0]->nama ,0,0, 'L');
-		// }
-		
+		$c_pdf->Cell(55,8, $data[0]->nama ,0,0, 'L');
 
 		$c_pdf->Cell(14,8,'Type: ',0,0,'L');
 		$c_pdf->Cell(20,8, $data[0]->type ,0,0,'L');
@@ -1457,20 +1355,12 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(50);
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
-			$c_pdf->Cell(40,8, $buah[0],0,1, 'L');
-		
-		$oke = 0;
+		$c_pdf->Cell(40,8, $caca ,0,1, 'L');
 
 		$c_pdf->Cell(50);
-        $c_pdf->Cell(16,8, $jml ,0,0, 'L');
+        $c_pdf->Cell(10,8, $jml ,0,0, 'L');
 		$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-		foreach($data as $k) {
-			// $sementara = $data;
-			if($no < $data) {
-				$sementara = $data;
-			}
-		}
-		$c_pdf->Cell(40,8, $data[0]->Harga ,0,1, 'L');
+		$c_pdf->Cell(40,8, $nilai ,0,1, 'L');
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Total diskon            : Rp.',0,0, 'L');
@@ -1478,8 +1368,7 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
-		$c_pdf->Cell(40,8, $data[0]->total_setelah_diskon ,0,1, 'L');
-		
+		$c_pdf->Cell(40,8, $data[0]->total_setelah_diskon ,0,1, 'L');	
         
 		$c_pdf->Cell(10,10, '', 0,1);
         $c_pdf->Cell(10);
@@ -1499,6 +1388,9 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(115,5, '('.$data[0]->nama_user.')',0,0); 
 		$c_pdf->Cell(100,5, '('.$data[0]->nama.')',0,0);
 		   
+		$caca = "";
+		$nilai = "";
+
 
 		////////////////////////////////////
 		// $c_pdf->Line(0, 150, 220-25, 150);
