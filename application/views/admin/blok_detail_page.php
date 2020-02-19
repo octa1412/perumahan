@@ -47,24 +47,27 @@
                 <form>                  
                   <div class="form-group">
                     <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <select class="custom-select" id="perumahan">                
+                    <select class="custom-select" id="perumahan">
+                      <option selected value="default">Perumahan</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="cluster" class="col-form-label">Nama Cluster:</label>
                     <select class="custom-select" id="cluster">
+                      <option selected value="default">Cluster</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="blok" class="col-form-label">Nama Blok:</label>
                     <select class="custom-select" id="blok">
+                      <option selected value="default">Blok</option>
                     </select>
                   </div>               
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
+                <button type="button" class="btn btn-primary" onclick="insertdata(event)">Add</button>
               </div>
             </div>
           </div>
@@ -268,12 +271,19 @@
     }
 
     
-    function insertdata() {
+    function insertdata(e) {
       var inputblok = document.getElementById("blok").value
       var inputperum = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
 
-      console.log(inputcluster);
+      if(inputblok == "default"
+         || inputperum == "default"
+         || inputcluster == "default"){
+           e.preventDefault();
+           alert("Input all the requirement");
+           return;
+         }
+
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_blok_detail",
         type: 'POST',
@@ -288,7 +298,6 @@
       });
 
     }
-
 
     </script>
 

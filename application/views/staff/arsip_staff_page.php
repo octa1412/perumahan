@@ -146,8 +146,8 @@
       });
       if(date[0]!=null){
         return {
-          startDate: date[0].getFullYear() +'-'+ date[0].getMonth()+1 +'-'+ date[0].getDate(),
-          endDate: date[1].getFullYear() +'-'+ date[1].getMonth()+1 +'-'+ date[1].getDate()
+          startDate: date[0].getFullYear() +'-'+ parseInt(date[0].getMonth()+1) +'-'+ date[0].getDate(),
+          endDate: date[1].getFullYear() +'-'+ parseInt(date[1].getMonth()+1) +'-'+ date[1].getDate()
         }
       } else{
         return {
@@ -157,10 +157,14 @@
       }
     }
     function get_arsip(){
+      var data = get_filter_value();
+      data.id = "<?php echo $idBlok?>"
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/0",
+        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/",
         type: 'POST',
+        data: data,
         success: function (json) {
+          dTable.clear().draw();
           var response = JSON.parse(json);
           response.forEach((data)=>{
             dTable.row.add([
@@ -193,7 +197,6 @@
         data: {data:id},
         success: function (json) {
           var o = json;
-          console.log(o);
          
           $('#pdfmodal').modal();
           $('#pdfdata').click(function pdftampil() {
