@@ -37,20 +37,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>01222020</td>
-								<td>9 November 2019</td>
-								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-								</td>
-							</tr>
-							<tr>
-								<td>02222020</td>
-								<td>12 Desember 2019</td>
-								<td>
-									<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>
-								</td>
-							</tr>
+						
 						</tbody>
 					</table>
         </div>
@@ -58,6 +45,24 @@
 
       </div>
       <!-- End of Main Content -->
+
+      <!-- pdf Modal-->
+      <div class="modal fade" id="pdfmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Print Laporan?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+              </button>
+              </div>
+              <div class="modal-footer">
+              <a class="btn btn-secondary" href="<?=base_url("index.php/Main/cetak_pdf_diskon/" );?>" id="pdfdiskon" target="_blank">Laporan + Diskon</a>
+              <a class="btn btn-primary" href="<?=base_url("index.php/Main/cetak_pdf/" );?>" id="pdfdata" target="_blank">Laporan</a>
+              </div>
+          </div>
+          </div>
+      </div>
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
@@ -155,7 +160,7 @@
             dTable.row.add([
               data.bulan+' '+ data.tahun, 
               data.tanggal,
-              '<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>'
+              '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Detail</button>'
             ]).draw(false);
             
           })
@@ -174,6 +179,55 @@
       });
       get_arsip();
     });
+
+    function goToPdf(id){
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/view_pdf/",
+        type: 'POST',
+        data: {data:id},
+        success: function (json) {
+          var o = json;
+          console.log(o);
+         
+          $('#pdfmodal').modal();
+          $('#pdfdata').click(function pdftampil() {
+              $.ajax({
+                  url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
+                  type: 'POST',
+                  data: {id:o},
+                  success: function (hasil) {
+                      console.log(hasil);
+
+                  },
+                  error: function (xhr, status, error) {
+                  alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+                  $("#submit").prop("disabled", false);
+                  }
+              });
+          });    
+
+          $('#pdfdiskon').click(function pdftampil() {
+              $.ajax({
+                  url:"<?php echo base_url() ?>index.php/Main/cetak_pdf_diskon",
+                  type: 'POST',
+                  data: {id:o},
+                  success: function (hasil) {
+                      console.log(hasil);
+
+                  },
+                  error: function (xhr, status, error) {
+                  alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+                  $("#submit").prop("disabled", false);
+                  }
+              });
+          });                                                                  
+        },
+        error: function (xhr, status, error) {
+        alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+        $("#submit").prop("disabled", false);
+        }
+      });
+    }
 
   </script>
 

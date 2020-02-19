@@ -89,7 +89,7 @@ class BlokModel extends CI_Model {
         $this->db->update('blok', $data);
 	}
 
-	public function get_by_cluster($id = NULL){
+	public function get_blok_by_cluster($id = NULL){
         $this->db->select('*');
 		$this->db->from('blok');
 		if ($id != NULL){

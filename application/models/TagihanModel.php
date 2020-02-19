@@ -52,17 +52,30 @@ class TagihanModel extends CI_Model {
 	
 	public function kuintansi($id){
 		$this->db->select('*');
-		$this->db->from('tagihan t');
-		$this->db->join('nota_detail n','n.IDTagihan = t.IDTagihan', 'left');
-		$this->db->join('nota o','o.IDNota = n.IDNota', 'left');
+		$this->db->from('customer c');
+		$this->db->join('blok b','b.IDCustomer = c.IDCustomer');
+
+		$this->db->join('tagihan t','t.IDBlok = b.IDBlok');
+		$this->db->join('nota_detail n','n.IDTagihan = t.IDTagihan');
+		$this->db->join('nota o','o.IDNota = n.IDNota');
+		$this->db->join('user u','u.username = o.username');
 		$this->db->where('n.IDNota', $id);
 		$this->db->limit(1);
 		$query = $this->db->get();
         return $query->result();
 
-
 	}
 
+	public function jmlbln($id){
+		$this->db->select('*');
+		$this->db->from('nota_detail');
+		$this->db->where('IDNota', $id);
+
+		$query = $this->db->get();
+        return $query->result();
+
+
+	}
 
 }
 ?>
