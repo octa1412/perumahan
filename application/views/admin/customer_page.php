@@ -86,36 +86,36 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-            
+              <form id="form" onsubmit="insertdata()">
+                <div class="modal-body">
+              
 
-                <form id="form">
-                <div class="form-group" > <label class="alert alert-danger print-error-msg" style="display:none">uoiuou</label>
-                <div class="alert alert-danger print-error-msg" style="display:none"></div>    
+                  <div class="form-group" > <label class="alert alert-danger print-error-msg" style="display:none">uoiuou</label>
+                  <div class="alert alert-danger print-error-msg" style="display:none"></div>    
+                  </div>
+                    <div class="form-group">
+                      <label for="id_customer" class="col-form-label">Id Customer</label>
+                      <input type="text" class="form-control" id="id_customer" placeholder="ID Anda..." required>
+                    </div>                 
+                    <div class="form-group">
+                      <label for="nama" class="col-form-label">Nama</label>
+                      <input type="text" class="form-control" id="nama" placeholder="Nama Anda..." required>
+                    </div>
+                    <div class="form-group">
+                      <label for="email" class="col-form-label">Email</label>
+                      <input type="email" class="form-control" id="email" placeholder="Email Anda..." value="<?php echo set_value('email'); ?>" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="nomor" class="col-form-label">Nomor</label>
+                      <input type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" class="form-control" id="nomor" placeholder="Nomor Anda..." required>
+                    </div>
+                  
                 </div>
-                  <div class="form-group">
-                    <label for="id_customer" class="col-form-label">Id Customer</label>
-                    <input type="text" class="form-control" id="id_customer" placeholder="ID Anda...">
-                  </div>                 
-                  <div class="form-group">
-                    <label for="nama" class="col-form-label">Nama</label>
-                    <input type="text" class="form-control" id="nama" placeholder="Nama Anda...">
-                  </div>
-                  <div class="form-group">
-                    <label for="email" class="col-form-label">Email</label>
-                    <input type="text" class="form-control" id="email" placeholder="Email Anda..." value="<?php echo set_value('email'); ?>">
-                  </div>
-                  <div class="form-group">
-                    <label for="nomor" class="col-form-label">Nomor</label>
-                    <input type="text" class="form-control" id="nomor" placeholder="Nomor Anda...">
-                  </div>
-                 
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" onclick="insertdata()">Add</button>
-              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary" >Add</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>  
