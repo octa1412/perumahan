@@ -326,13 +326,6 @@
             }
           });              
         });
-
-
-
-
-
-         
-
         }
 
         function detaildata(id) {
