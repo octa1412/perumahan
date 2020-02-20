@@ -233,8 +233,7 @@
             type: 'POST',
             success: function (json) {
               var response = JSON.parse(json);
-              response.forEach((data)=>{
-                var res = data.nama_perumahan.replace(/_/g, " ");
+              response.forEach((data)=>{              
                 no = data.username
                 if(data.nama_perumahan == null){
                   dTable.row.add([
@@ -246,6 +245,8 @@
                     + '<button class="btn btn-danger mt-10 mb-10" ><a onclick=hapusdata("'+ no +'") >Delete</a></button>'                
                   ]).draw(false);
                 } else {
+                  var res = data.nama_perumahan.replace(/_/g, " ");
+
                   dTable.row.add([
                     data.username,
                     data.nama_user,
@@ -372,7 +373,11 @@
             data: {id:inputid, nama:inputnama, nomor:inputnomor, perum:inputperumahan, password:inputpass, email:inputemail},
             success: function (response) {
               console.log(response);
+              
+              
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
+
+
             },
             error: function () {
               console.log("gagal insert");
