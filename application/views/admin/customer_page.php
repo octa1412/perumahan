@@ -50,8 +50,8 @@
               <div class="modal-body">
                 <form>
                   <div class="form-group">
-                    <label for="id-customer1" class="col-form-label">Id Customer:</label>
-                    <input type="text" class="form-control" id="id-customer1" readonly>
+                    <label for="id_customer1" class="col-form-label">Id Customer:</label>
+                    <input type="text" class="form-control" id="id_customer1" readonly>
                   </div>                 
                   <div class="form-group">
                     <label for="nama1" class="col-form-label">Nama:</label>
@@ -87,21 +87,26 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+            
+
+                <form id="form">
+                <div class="form-group" > <label class="alert alert-danger print-error-msg" style="display:none">uoiuou</label>
+                <div class="alert alert-danger print-error-msg" style="display:none"></div>    
+                </div>
                   <div class="form-group">
-                    <label for="id-customer" class="col-form-label">Id Customer:</label>
-                    <input type="text" class="form-control" id="id-customer" placeholder="ID Anda...">
+                    <label for="id_customer" class="col-form-label">Id Customer</label>
+                    <input type="text" class="form-control" id="id_customer" placeholder="ID Anda...">
                   </div>                 
                   <div class="form-group">
-                    <label for="nama" class="col-form-label">Nama:</label>
+                    <label for="nama" class="col-form-label">Nama</label>
                     <input type="text" class="form-control" id="nama" placeholder="Nama Anda...">
                   </div>
                   <div class="form-group">
-                    <label for="email" class="col-form-label">Email:</label>
-                    <input type="text" class="form-control" id="email" placeholder="Email Anda...">
+                    <label for="email" class="col-form-label">Email</label>
+                    <input type="text" class="form-control" id="email" placeholder="Email Anda..." value="<?php echo set_value('email'); ?>">
                   </div>
                   <div class="form-group">
-                    <label for="nomor" class="col-form-label">Nomor:</label>
+                    <label for="nomor" class="col-form-label">Nomor</label>
                     <input type="text" class="form-control" id="nomor" placeholder="Nomor Anda...">
                   </div>
                  
@@ -109,7 +114,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
+                <button type="submit" class="btn btn-primary" onclick="insertdata()">Add</button>
               </div>
             </div>
           </div>
@@ -243,13 +248,13 @@
               var response = JSON.parse(response);
               response.forEach((data)=>{
                 $('#editmodal').modal();
-                $("#id-customer1").val(data.IDCustomer);
+                $("#id_customer1").val(data.IDCustomer);
                 $('#nama1').val(data.nama);
                 $('#email1').val(data.email);
                 $('#nomor1').val(data.nomor);
                 $('#updatedata').click(function editdata() {
                 
-                var inputid = document.getElementById("id-customer1").value
+                var inputid = document.getElementById("id_customer1").value
                 var inputnama = document.getElementById("nama1").value
                 var inputemail = document.getElementById("email1").value
                 var inputnomor = document.getElementById("nomor1").value
@@ -275,22 +280,59 @@
         }
 
         function insertdata() {
-          var inputid = document.getElementById("id-customer").value
+          var inputid = document.getElementById("id_customer").value
           var inputnama = document.getElementById("nama").value
           var inputnomor = document.getElementById("nomor").value
           var inputemail = document.getElementById("email").value
           
+          console.log("ta");
+
+
+          $(document).on('submit', '#form', function (event) {
+          event.preventDefault();
+          $("#submit").prop("disabled", true);
+          console.log("oi");
+
           $.ajax({
-            url: "<?php echo base_url()?>index.php/Main/insert_customer/",
-            type: 'POST',
-            data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail},
-            success: function (response) {
-              window.location = "<?php echo base_url() ?>index.php/Main/customer";
-            },
-            error: function () {
-              console.log("gagal update");
+            url: "<?php echo base_url() ?>index.php/Main/aksicustomer",
+            type:'POST',
+            dataType: "json",
+            data: {id_customer:inputid, nama:inputnama, nomor:inputnomor, email:inputemail},
+            success: function(data) {
+              if($.isEmptyObject(data.error)){
+                $(".print-error-msg").css('display','none');
+                console.log("data");
+
+                $.ajax({
+                  url: "<?php echo base_url()?>index.php/Main/insert_customer/",
+                  type: 'POST',
+                  data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail},
+                  success: function (response) {
+                    console.log("ins");
+
+                    window.location = "<?php echo base_url() ?>index.php/Main/customer";
+                  },
+                  error: function () {
+                    console.log("gagal update");
+                  }
+                });
+
+
+              }else{
+                $(".print-error-msg").css('display','block');
+                $(".print-error-msg").html(data.error);
+                $("#submit").prop("disabled", false);
+              }
+
             }
-          });
+          });              
+        });
+
+
+
+
+
+         
 
         }
 

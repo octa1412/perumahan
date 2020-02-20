@@ -178,8 +178,6 @@
                 ]).draw(false);
                 
               })
-              // $("tbody").append()
-              // console.log(response[0]);
             },
             error: function (xhr, status, error) {
               alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

@@ -62,7 +62,7 @@
                   <span aria-hidden="true">×</span>
               </button>
               </div>
-              <div class="modal-footer">
+              <div class="modal-footer"> 
               <a class="btn btn-secondary" href="<?=base_url("index.php/Main/cetak_pdf_diskon/" );?>" id="pdfdiskon" target="_blank">Laporan + Diskon</a>
               <a class="btn btn-primary" href="<?=base_url("index.php/Main/cetak_pdf/" );?>" id="pdfdata" target="_blank">Laporan</a>
               </div>
