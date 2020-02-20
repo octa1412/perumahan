@@ -87,8 +87,7 @@
                 </button>
               </div>
               <form id="form" onsubmit="insertdata()">
-                <div class="modal-body">
-              
+                <div class="modal-body">              
 
                   <div class="form-group" > <label class="alert alert-danger print-error-msg" style="display:none">uoiuou</label>
                   <div class="alert alert-danger print-error-msg" style="display:none"></div>    
@@ -327,13 +326,6 @@
             }
           });              
         });
-
-
-
-
-
-         
-
         }
 
         function detaildata(id) {

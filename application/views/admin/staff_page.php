@@ -204,8 +204,10 @@
             response.forEach((data)=>{
               var res = data.nama_perumahan.replace(/_/g, " ");
               if(data.status == 0) {
-                $('#perumahan1').append(new Option(res, data.IDPerumahan))
-                $('#perumahan').append(new Option(res, data.IDPerumahan))   
+                if(res != null) {
+                  $('#perumahan1').append(new Option(res, data.IDPerumahan))
+                  $('#perumahan').append(new Option(res, data.IDPerumahan)) 
+                }  
               }
          
             })
@@ -266,28 +268,6 @@
           });
         };
 
-        // function listperumahan(){
-        //   $.ajax({
-        //     url: "<?php echo base_url() ?>index.php/Main/get_list_perumahan",
-        //     type: 'POST',
-        //     success: function (response) {
-        //           console.log(response);
-        //           var hasil = JSON.parse(response);
-        //           hasil.forEach((data)=>{
-        //             if(data.status == '0') {
-        //             $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
-        //             $('#perumahan').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>');                  
-        //             }
-        //           })
-        //       },
-        //       error: function () {
-        //           console.log("gagal menghapus");
-
-        //       }
-        //   });
-        // }
-
-
         function hapusdata(id) {
            var tanya = confirm("hapus?");
 
@@ -324,7 +304,9 @@
                 $("#id-staff1").val(data.username);
                 $('#nama1').val(data.nama_user);
                 $('#nomor1').val(data.nomor);
-                $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
+                if(data.IDPerumahan != null) {
+                  $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
+                }                
                 $('#perumahan1').val(data.IDPerumahan);
                 $('#password1').val(data.password);
                 $('#email1').val(data.email);                

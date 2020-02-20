@@ -12,7 +12,7 @@
             <div class="card-body" style="background-color: #FFFFFF;">
 
               <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
-                  <button class="btn btn-primary">Add Tagiahn bulanan</button>
+                  <!-- <button class="btn btn-primary">Add Tagiahn bulanan</button> -->
               </div>
 
               <div class="d-sm-flex align-items-center mb-4">						
