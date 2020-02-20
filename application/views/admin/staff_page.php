@@ -46,7 +46,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form >
                     <div class="form-group">
                         <label for="id-staff1" class="col-form-label">Id Staff:</label>
                         <input type="text" class="form-control" id="id-staff1" readonly>
@@ -93,40 +93,40 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <form>
-                  <div class="form-group">
-                    <label for="id-staff" class="col-form-label">Id Staff:</label>
-                    <input type="text" class="form-control" id="id-staff" placeholder="ID Staff...">
-                  </div>
-                  <div class="form-group">
-                    <label for="nama" class="col-form-label">Nama:</label>
-                    <input type="text" class="form-control" id="nama" placeholder="Nama...">
-                  </div>
-                  <div class="form-group">
-                    <label for="nomor" class="col-form-label">Nomor Telepon:</label>
-                    <input type="text" class="form-control" id="nomor" placeholder="Nomor Telepon...">
-                  </div>
-                  <div class="form-group">
-                    <label for="email" class="col-form-label">Email:</label>
-                    <input type="text" class="form-control" id="email" >
-                  </div>
-                  <div class="form-group">
-                    <label for="password" class="col-form-label">Password:</label>
-                    <input type="text" class="form-control" id="password" >
-                  </div>
-                  <div class="form-group">
-                    <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <select class="custom-select" id="perumahan">                                            
-                    </select>
-                  </div>                
-                                   
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
-              </div>
+              <form onsubmit="insertdata()">
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="id-staff" class="col-form-label">Id Staff:</label>
+                      <input type="text" class="form-control" id="id-staff" placeholder="ID Staff..." required>
+                    </div>
+                    <div class="form-group">
+                      <label for="nama" class="col-form-label">Nama:</label>
+                      <input type="text" class="form-control" id="nama" placeholder="Nama..." required>
+                    </div>
+                    <div class="form-group">
+                      <label for="nomor" class="col-form-label">Nomor Telepon:</label>
+                      <input type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" class="form-control" id="nomor" placeholder="Nomor Telepon..." required>
+                    </div>
+                    <div class="form-group">
+                      <label for="email" class="col-form-label">Email:</label>
+                      <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="password" class="col-form-label">Password:</label>
+                      <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
+                      <select class="custom-select" id="perumahan" required>                                            
+                      </select>
+                    </div>                
+                          
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary" >Add</button>
+                </div>           
+              </form>
             </div>
           </div>
         </div>  
@@ -204,8 +204,10 @@
             response.forEach((data)=>{
               var res = data.nama_perumahan.replace(/_/g, " ");
               if(data.status == 0) {
-                $('#perumahan1').append(new Option(res, data.IDPerumahan))
-                $('#perumahan').append(new Option(res, data.IDPerumahan))   
+                if(res != null) {
+                  $('#perumahan1').append(new Option(res, data.IDPerumahan))
+                  $('#perumahan').append(new Option(res, data.IDPerumahan)) 
+                }  
               }
          
             })
@@ -266,28 +268,6 @@
           });
         };
 
-        // function listperumahan(){
-        //   $.ajax({
-        //     url: "<?php echo base_url() ?>index.php/Main/get_list_perumahan",
-        //     type: 'POST',
-        //     success: function (response) {
-        //           console.log(response);
-        //           var hasil = JSON.parse(response);
-        //           hasil.forEach((data)=>{
-        //             if(data.status == '0') {
-        //             $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
-        //             $('#perumahan').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>');                  
-        //             }
-        //           })
-        //       },
-        //       error: function () {
-        //           console.log("gagal menghapus");
-
-        //       }
-        //   });
-        // }
-
-
         function hapusdata(id) {
            var tanya = confirm("hapus?");
 
@@ -324,7 +304,9 @@
                 $("#id-staff1").val(data.username);
                 $('#nama1').val(data.nama_user);
                 $('#nomor1').val(data.nomor);
-                $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
+                if(data.IDPerumahan != null) {
+                  $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
+                }                
                 $('#perumahan1').val(data.IDPerumahan);
                 $('#password1').val(data.password);
                 $('#email1').val(data.email);                
@@ -366,7 +348,6 @@
           var inputperumahan = document.getElementById("perumahan").value
           var inputemail = document.getElementById("email").value
           
-
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/insert_staff/",
             type: 'POST',
