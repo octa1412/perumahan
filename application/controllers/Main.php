@@ -17,6 +17,7 @@ class Main extends CI_Controller {
 		$this->load->model('NotaDetailModel');
 		$this->load->helper('url_helper');
 		$this->load->library('pdf');
+        $this->load->library('form_validation');
 		date_default_timezone_set('Asia/Jakarta');
 	}
 
@@ -26,8 +27,8 @@ class Main extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('login');
-	}
-	
+
+	}	
 
 	//Dashboard admin
 	public function dashboardadmin(){
@@ -69,10 +70,10 @@ class Main extends CI_Controller {
 	public function changepassword(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
-			$this->load->view('change_password');
+			$this->load->view('admin/change_password');
 		}else if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
-			$this->load->view('change_password');
+			$this->load->view('staff/change_password');
 		}else {
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -192,6 +193,21 @@ class Main extends CI_Controller {
 			die();
 		}
 	}
+
+
+	public function cekuser(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/dashboard');
+		}else if ($this->checkcookiestaff()) {
+			$this->load->view('header1');
+			$this->load->view('staff/blok_page');
+		}else {
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
 
 	//GET DATA
 
@@ -689,10 +705,6 @@ class Main extends CI_Controller {
 		}
 	}
 
-	public function add_tagihan(){
-
-	}
-
 
 	//UPDATE
 
@@ -712,7 +724,6 @@ class Main extends CI_Controller {
 			
 			$where= array('username' => $username );
 			$this->StaffModel->update($where, $data);
-			
 
 		}else if($this->checkcookiestaff()){
 			$password = md5($this->input->post('passw'));			
@@ -723,9 +734,7 @@ class Main extends CI_Controller {
 			);
 			
 			$where= array('username' => $username );
-			$this->StaffModel->update($where, $data);
-			echo $username;
-			
+			$this->StaffModel->update($where, $data);			
 		} else {
 			echo "access denied";
 		}
@@ -1003,6 +1012,7 @@ class Main extends CI_Controller {
 	//input: form POST seperti di bawah
 	//Output: berhasil login / gagal login
 	public function cekloginuser(){
+
 		$username = $this->input->post('username');
 		$password = md5($this->input->post('password'));
 		$data = $this->Default_model->get_data_user();
@@ -1148,6 +1158,72 @@ class Main extends CI_Controller {
 		}
 	}
 
+	public function basic(){
+		// basic required field
+        // $this->form_validation->set_rules('text_field', 'Text Field One', 'required');
+         
+        // basic email field with email validation
+        $this->form_validation->set_rules('email', 'Email:', 'required');
+		$this->form_validation->set_rules('nama','Nama:','required');
+       
+         
+        if ($this->form_validation->run() == TRUE)
+        {
+            echo "berhasil";
+        }
+        else
+        {
+            // load success template...
+            echo "It's all Good!";
+        }
+	}
+
+	//verifikasi empty login
+	public function aksilogin(){
+		$this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+
+
+        if ($this->form_validation->run() == FALSE){
+            $errors = validation_errors();
+            echo json_encode(['error'=>$errors]);
+        }else{
+           echo json_encode(['success'=>'Record added successfully.']);
+        }
+	}
+
+	//verifikasi change password empty
+	public function aksipass(){
+		$this->form_validation->set_rules('password', 'Password', 'required|matches[re_password]');
+        $this->form_validation->set_rules('re_password', 'Retype Password', 'required');
+
+
+        if ($this->form_validation->run() == FALSE){
+            $errors = validation_errors();
+            echo json_encode(['error'=>$errors]);
+        }else{
+           echo json_encode(['success'=>'Record added successfully.']);
+        }
+	}
+
+	//verifikasi empty login
+	public function aksicustomer(){
+		$this->form_validation->set_rules('id_customer', 'Id Customer', 'required');
+		$this->form_validation->set_rules('nama', 'Nama', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+		$this->form_validation->set_rules('nomor', 'Nomor', 'required');
+		
+
+        if ($this->form_validation->run() == FALSE){
+            $errors = validation_errors();
+            echo json_encode(['error'=>$errors]);
+        }else{
+           echo json_encode(['success'=>'Record added successfully.']);
+        }
+	}
+
+
+	//utk penulisan fungsi terbilang pada kuintansi
 	public function penyebut($nilai) {
 		$nilai = abs($nilai);
 		$huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");

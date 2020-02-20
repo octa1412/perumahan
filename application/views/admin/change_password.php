@@ -11,16 +11,19 @@
                 
                     <!--form-->
                     <div class="card-body" style="background-color: #FFFFFF;">
-                        <form>
+
+                    <div class="alert alert-danger print-error-msg" style="display:none"></div>    
+
+                        <form id="form">
                                 <div class="form-group">
-                                    <label for="password" class="col-form-label">Password:</label>
+                                    <label for="password" class="col-form-label">Password</label>
                                     <input type="text" class="form-control" id="password" value="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="re-password" class="col-form-label">Retype Password:</label>
-                                    <input type="text" class="form-control" id="re-password" value="">
+                                    <label for="re_password" class="col-form-label">Retype Password</label>
+                                    <input type="text" class="form-control" id="re_password" value="">
                                 </div>                               
-                                <button class="btn btn-primary" onclick="doSave()">Edit</button>                  
+                                <button class="btn btn-primary" onclick="doSave()">Save</button>                  
                         </form>
                     </div>
                 </div>
@@ -87,26 +90,47 @@
 
     <script>
       function doSave(){
-        var pass = $("#password").val();
-        var repass = $("#re-password").val()
-        
-        if($("#password").val() != $("#re-password").val()){
-          alert('password tidak sama!')
-        } else {
-            $.ajax({
-              url: "<?php echo base_url() ?>index.php/Main/update_password_user",
-              type: 'POST',
-              data: {passw:pass},
-              success: function (json) {
-                  alert('berhasil diubah');
-                  console.log(json);
-              },
-              error: function (xhr, status, error) {
-                alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+
+        $(document).on('submit', '#form', function (event) {
+          event.preventDefault();
+          $("#submit").prop("disabled", true);
+
+          var pass = $("#password").val();
+          var repass = $("#re_password").val()
+                   
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/aksipass",
+            type:'POST',
+            dataType: "json",
+            data: {password:pass, re_password:repass},
+            success: function(data) {
+              if($.isEmptyObject(data.error)){
+                $(".print-error-msg").css('display','none');
+
+                $.ajax({
+                  url: "<?php echo base_url() ?>index.php/Main/update_password_user",
+                  type: 'POST',
+                  data: {passw:pass},
+                  success: function (json) {
+                      alert('berhasil diubah');
+                      window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
+                      console.log(json);
+                  },
+                  error: function (xhr, status, error) {
+                    alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+                    $("#submit").prop("disabled", false);
+                  }
+                });
+
+              }else{
+                $(".print-error-msg").css('display','block');
+                $(".print-error-msg").html(data.error);
                 $("#submit").prop("disabled", false);
               }
-            });
-        }       
+
+            }
+          });              
+        });
       }
 
     </script>
