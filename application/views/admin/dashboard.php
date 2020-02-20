@@ -166,7 +166,7 @@
               var response = JSON.parse(json);
               var array={};
               response.forEach((data)=>{
-                // console.log(jml);
+                console.log(data);
                 var res = data.nama_perumahan.replace(/_/g, " ");
                 no = data.IDPerumahan
                 dTable.row.add([
