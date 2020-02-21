@@ -47,31 +47,31 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <form>
+              <form onsubmit="updatedata(event)">
+                <div class="modal-body">
                   <div class="form-group">
                     <label for="id_customer1" class="col-form-label">Id Customer:</label>
                     <input type="text" class="form-control" id="id_customer1" readonly>
                   </div>                 
                   <div class="form-group">
                     <label for="nama1" class="col-form-label">Nama:</label>
-                    <input type="text" class="form-control" id="nama1">
+                    <input type="text" class="form-control" id="nama1" required>
                   </div>
                   <div class="form-group">
                     <label for="email1" class="col-form-label">Email:</label>
-                    <input type="text" class="form-control" id="email1">
+                    <input type="email" class="form-control" id="email1" required>
                   </div>
                   <div class="form-group">
                     <label for="nomor1" class="col-form-label">Nomor:</label>
-                    <input type="text" class="form-control" id="nomor1">
+                    <input type="text" class="form-control" id="nomor1" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                   </div>
                  
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="updatedata">Update</button>
-              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+              </form>
             </div>
           </div>
         </div> 
@@ -250,25 +250,6 @@
                 $('#nama1').val(data.nama);
                 $('#email1').val(data.email);
                 $('#nomor1').val(data.nomor);
-                $('#updatedata').click(function editdata() {
-                
-                var inputid = document.getElementById("id_customer1").value
-                var inputnama = document.getElementById("nama1").value
-                var inputemail = document.getElementById("email1").value
-                var inputnomor = document.getElementById("nomor1").value
-                
-                  $.ajax({
-                    url: "<?php echo base_url()?>index.php/Main/update_customer/",
-                    type: 'POST',
-                    data: {id:inputid, nama:inputnama, email:inputemail,nomor:inputnomor},
-                    success: function (response) {
-                      window.location = "<?php echo base_url() ?>index.php/Main/customer";
-                    },
-                    error: function () {
-                      console.log("gagal update");
-                    }
-                  });
-                });
               })                
             },
             error: function () {
@@ -276,7 +257,25 @@
             }
           });          
         }
-
+        function updatedata(e) {
+                
+          var inputid = document.getElementById("id_customer1").value
+          var inputnama = document.getElementById("nama1").value
+          var inputemail = document.getElementById("email1").value
+          var inputnomor = document.getElementById("nomor1").value
+          
+          $.ajax({
+            url: "<?php echo base_url()?>index.php/Main/update_customer/",
+            type: 'POST',
+            data: {id:inputid, nama:inputnama, email:inputemail,nomor:inputnomor},
+            success: function (response) {
+              window.location = "<?php echo base_url() ?>index.php/Main/customer";
+            },
+            error: function () {
+              console.log("gagal update");
+            }
+          });
+        };
         function insertdata() {
           var inputid = document.getElementById("id_customer").value
           var inputnama = document.getElementById("nama").value
@@ -319,7 +318,7 @@
             }
           });              
         });
-
+        }
         function detaildata(id) {
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/create_cookie_encrypt",

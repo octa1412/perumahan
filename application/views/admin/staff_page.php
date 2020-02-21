@@ -45,40 +45,40 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <form >
-                    <div class="form-group">
-                        <label for="id-staff1" class="col-form-label">Id Staff:</label>
-                        <input type="text" class="form-control" id="id-staff1" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="nama1" class="col-form-label">Nama:</label>
-                        <input type="text" class="form-control" id="nama1" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="nomor1" class="col-form-label">Nomor Telepon:</label>
-                        <input type="text" class="form-control" id="nomor1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="email1" class="col-form-label">Email:</label>
-                        <input type="text" class="form-control" id="email1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="col-form-label">Password:</label>
-                        <input type="password" class="form-control" id="password1" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
-                        <select class="custom-select" id="perumahan1">                      
-                        </select>
-                    </div> 
-                 
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="updatedata">Update</button>
-              </div>
+              <form onsubmit="updatedata(event)">
+                <div class="modal-body">
+                  <div class="form-group">
+                      <label for="id-staff1" class="col-form-label">Id Staff:</label>
+                      <input type="text" class="form-control" id="id-staff1" readonly>
+                  </div>
+                  <div class="form-group">
+                      <label for="nama1" class="col-form-label">Nama:</label>
+                      <input required type="text" class="form-control" id="nama1" value="">
+                  </div>
+                  <div class="form-group">
+                      <label for="nomor1" class="col-form-label">Nomor Telepon:</label>
+                      <input required type="text" class="form-control" id="nomor1" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                  </div>
+                  <div class="form-group">
+                      <label for="email1" class="col-form-label">Email:</label>
+                      <input required type="email" class="form-control" id="email1" >
+                  </div>
+                  <div class="form-group">
+                      <label for="password" class="col-form-label">Password:</label>
+                      <input required type="password" class="form-control" id="password1" readonly>
+                  </div>
+                  <div class="form-group">
+                      <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
+                      <select required class="custom-select" id="perumahan1">                      
+                      </select>
+                  </div> 
+                
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+              </form>
             </div>
           </div>
         </div> 
@@ -299,7 +299,6 @@
 
               var response = JSON.parse(response);
               response.forEach((data)=>{
-                console.log(dataString);
                 $('#editmodal').modal();
                 $("#id-staff1").val(data.username);
                 $('#nama1').val(data.nama_user);
@@ -309,35 +308,35 @@
                 }                
                 $('#perumahan1').val(data.IDPerumahan);
                 $('#password1').val(data.password);
-                $('#email1').val(data.email);                
-                $('#updatedata').click(function editdata() {
-                
-                var inputid = document.getElementById("id-staff1").value
-                var inputnama = document.getElementById("nama1").value
-                var inputnomor = document.getElementById("nomor1").value
-                var inputemail = document.getElementById("email1").value
-                var inputperumahan = document.getElementById("perumahan1").value
-                var dataidperum = data.IDPerumahan              
-
-                  $.ajax({
-                    url: "<?php echo base_url()?>index.php/Main/update_staff/",
-                    type: 'POST',
-                    data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail, perum:inputperumahan, idlama:dataidperum},
-                    success: function (response) {
-                      // console.log(response);
-                      window.location = "<?php echo base_url() ?>index.php/Main/staff";
-                    },
-                    error: function () {
-                      console.log("gagal update");
-                    }
-                  });
-                });
-              })                
+                $('#email1').val(data.email);                            
+              })
             },
             error: function () {
                 console.log("gagal edit");
             }
           });          
+        }
+
+        function updatedata(e) {
+          e.preventDefault();
+          var inputid = document.getElementById("id-staff1").value
+          var inputnama = document.getElementById("nama1").value
+          var inputnomor = document.getElementById("nomor1").value
+          var inputemail = document.getElementById("email1").value
+          var inputperumahan = document.getElementById("perumahan1").value
+          var dataidperum = document.getElementById("perumahan").value
+          $.ajax({
+            url: "<?php echo base_url()?>index.php/Main/update_staff/",
+            type: 'POST',
+            data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail, perum:inputperumahan, idlama:dataidperum},
+            success: function (response) {
+              // console.log(response);
+              window.location = "<?php echo base_url() ?>index.php/Main/staff";
+            },
+            error: function () {
+              console.log("gagal update");
+            }
+          });
         }
 
         function insertdata() {
