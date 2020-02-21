@@ -221,12 +221,15 @@
       $("#fl-perumahan").change(function (e) { 
         e.preventDefault();
         if($("#fl-perumahan").val() != "default"){
-          getClusterofPerumahan($("#fl-perumahan").val());
+          getClusterofPerumahan($("#fl-perumahan").val(), function(){
+            get_data()
+            console.log($("#fl-cluster").val())
+          });
         }
         else{
           $("#fl-cluster option[value!=default]").remove();
+          get_data()
         }
-        get_data();
       });
 
       $("#fl-cluster").change(function (e) { 
@@ -238,7 +241,7 @@
       $("#perumahan1").change(function (e) { 
         e.preventDefault();
         if($("#perumahan1").val() != "default"){
-          getClusterofPerumahan($("#perumahan1").val());
+          getClusterofPerumahan($("#perumahan1").val(), function(){});
         }
         else{
           $("#cluster1 option[value!=default]").remove();
@@ -255,7 +258,7 @@
     $("#perumahan").change(function (e) { 
       e.preventDefault();
       if($("#perumahan").val() != "default"){
-        getClusterofPerumahan($("#perumahan").val());
+        getClusterofPerumahan($("#perumahan").val(), function(){});
       }
       else{
         $("#cluster option[value!=default]").remove();
@@ -269,7 +272,7 @@
     });
 
 
-    function getClusterofPerumahan(id){
+    function getClusterofPerumahan(id,callback){
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
         type: 'POST',
@@ -285,6 +288,7 @@
             $('#cluster1').append(new Option(tes, data.IDCluster))
             $('#cluster').append(new Option(tes, data.IDCluster))
           })
+          callback()
         },
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
