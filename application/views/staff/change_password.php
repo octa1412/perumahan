@@ -17,11 +17,11 @@
                         <form id="form">
                                 <div class="form-group">
                                     <label for="password" class="col-form-label">Password</label>
-                                    <input type="text" class="form-control" id="password" value="">
+                                    <input type="password" class="form-control" id="password" value="">
                                 </div>
                                 <div class="form-group">
                                     <label for="re_password" class="col-form-label">Retype Password</label>
-                                    <input type="text" class="form-control" id="re_password" value="">
+                                    <input type="password" class="form-control" id="re_password" value="">
                                 </div>                               
                                 <button class="btn btn-primary" onclick="doSave()">Save</button>                  
                         </form>
@@ -113,7 +113,7 @@
                   data: {passw:pass},
                   success: function (json) {
                       alert('berhasil diubah');
-                      window.location = "<?php echo base_url() ?>index.php/Main/dashboardstaff";
+                      window.location = "<?php echo base_url() ?>index.php/Main/dashboarstaff";
                       console.log(json);
                   },
                   error: function (xhr, status, error) {

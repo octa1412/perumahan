@@ -1343,7 +1343,7 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(50);
         $c_pdf->Cell(10,8, $jml ,0,0, 'L');
 		$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-		$c_pdf->Cell(40,8, $nilai ,0,1, 'L');
+		$c_pdf->Cell(40,8, $bulannya[0]->Harga ,0,1, 'L');
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
@@ -1372,7 +1372,6 @@ class Main extends CI_Controller {
 		
 		$c_pdf->Output();
 		
-		echo $iii;
     }
 
 
@@ -1447,7 +1446,7 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(50);
         $c_pdf->Cell(10,8, $jml ,0,0, 'L');
 		$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-		$c_pdf->Cell(40,8, $nilai ,0,1, 'L');
+		$c_pdf->Cell(40,8, $bulannya[0]->Harga ,0,1, 'L');
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Total diskon            : Rp.',0,0, 'L');
@@ -1560,7 +1559,6 @@ class Main extends CI_Controller {
           
 		$c_pdf->Output();
 		
-		echo $iii;
     }
 	
 }
