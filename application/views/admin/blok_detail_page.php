@@ -237,7 +237,7 @@
                   data.nama_perumahan,
                   data.nama_cluster,
                   data.IDBlok,
-									 '<button class="btn btn-danger mt-10 mb-10"><a onclick=hapusdata("'+ data.IDBlok +'") >Delete</a></button>'
+									 '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDBlok +'") >Delete</button>'
                 
                 ]).draw(false);                
               })

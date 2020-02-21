@@ -1,4 +1,4 @@
-        <script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
+<script src="<?php echo base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
         
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -204,9 +204,9 @@
                   data.nama,
                   data.email,
                   data.nomor,
-                  '<button class="btn btn-outline-primary mt-10 mb-10"><a onclick=detaildata("'+ data.IDCustomer +'")>Detail</button></a>'
-									+ '<button class="btn btn-outline-success mt-10 mb-10"><a onclick=tampildata("'+ data.IDCustomer +'")>Edit</a></button>'
-									+ '<button class="btn btn-danger mt-10 mb-10"><a onclick=hapusdata("'+ data.IDCustomer +'") >Delete</a></button>'
+                  '<button class="btn btn-outline-primary mt-10 mb-10" onclick=detaildata("'+ data.IDCustomer +'")>Detail</button>'
+									+ '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ data.IDCustomer +'")>Edit</button>'
+									+ '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDCustomer +'") >Delete</button>'
                 
                 ]).draw(false);                
               })
