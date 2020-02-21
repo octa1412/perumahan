@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 21, 2020 at 04:36 PM
+-- Generation Time: Feb 21, 2020 at 05:32 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -402,7 +402,9 @@ CREATE TABLE `nota` (
 --
 
 INSERT INTO `nota` (`IDNota`, `tanggal`, `username`, `total_awal`, `diskon`, `total_setelah_diskon`) VALUES
-(1, '2020-02-15', 'staff1', 80000, 0, 80000);
+(1, '2020-02-15', 'staff1', 80000, 0, 80000),
+(2, '2020-02-21', 'staff3', 145000, 0, 145000),
+(3, '2020-02-21', 'staff3', 75000, 0, 75000);
 
 -- --------------------------------------------------------
 
@@ -420,7 +422,10 @@ CREATE TABLE `nota_detail` (
 --
 
 INSERT INTO `nota_detail` (`IDNota`, `IDTagihan`) VALUES
-(1, '103A2/201');
+(1, '103A2/201'),
+(2, '103A2/202'),
+(2, '103A2/203'),
+(3, '103A2/204');
 
 -- --------------------------------------------------------
 
@@ -470,9 +475,11 @@ CREATE TABLE `tagihan` (
 
 INSERT INTO `tagihan` (`IDTagihan`, `IDBlok`, `bulan`, `tahun`, `Harga`, `status`) VALUES
 ('103A2/201', '103A2/20', 'november', '2019', 80000, '1'),
-('103A2/202', '103A2/20', 'desember', '2019', 70000, '0'),
-('103A2/203', '103A2/20', 'januari', '2020', 75000, '0'),
-('103A2/204', '103A2/20', 'febuari', '2020', 75000, '0');
+('103A2/202', '103A2/20', 'desember', '2019', 70000, '1'),
+('103A2/203', '103A2/20', 'januari', '2020', 75000, '1'),
+('103A2/204', '103A2/20', 'febuari', '2020', 75000, '1'),
+('66B5/221', '66B5/22', 'januari', '2020', 75000, '0'),
+('66B5/222', '66B5/22', 'febuari', '2020', 75000, '0');
 
 -- --------------------------------------------------------
 
@@ -498,7 +505,7 @@ INSERT INTO `user` (`username`, `password`, `pangkat`, `nama_user`, `nomor`, `em
 ('PO', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'tata', '08765432123', 'tata@gmail.com'),
 ('staff1', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'siti', '0897654321', 'siti@gmail.com'),
 ('staff2', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'dido', '087567543321', 'dido@gmail.com'),
-('staff3', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'ando', '0876543334455', 'padi@gmail.com');
+('staff3', 'f970e2767d0cfe75876ea857f92e319b', 'staff', 'ando', '0876543334455', 'padi@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -569,7 +576,7 @@ ALTER TABLE `cluster`
 -- AUTO_INCREMENT for table `nota`
 --
 ALTER TABLE `nota`
-  MODIFY `IDNota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IDNota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `perumahan`
