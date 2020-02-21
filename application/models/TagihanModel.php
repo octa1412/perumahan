@@ -79,5 +79,15 @@ class TagihanModel extends CI_Model {
 
 	}
 
+	public function insert_tagihan($data){
+		$this->db->insert('tagihan', $data);
+        if ($this->db->affected_rows() > 0 ) {
+			$return_message = 'success';
+		}else{
+			$return_message = 'failed';
+		}
+		return $return_message;
+	}
+
 }
 ?>
