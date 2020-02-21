@@ -1210,7 +1210,7 @@ class Main extends CI_Controller {
 		$nilaiharga = '';
 		$nilai1 = '';
 		foreach($cust as $hasil) {
-			$idsementara = $idsementara.json_encode($hasil['IDBlok']).'adac'.$tahun;
+			$idsementara = $idsementara.json_encode($hasil['IDBlok']).$bulan.$tahun;
 
 			$nilaiharga = json_encode($hasil['Harga']);
 			$number = str_replace('"', "", $nilaiharga);
