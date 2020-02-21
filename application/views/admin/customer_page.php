@@ -87,8 +87,7 @@
                 </button>
               </div>
               <form id="form" onsubmit="insertdata()">
-                <div class="modal-body">              
-
+                <div class="modal-body">
                   <div class="form-group" > <label class="alert alert-danger print-error-msg" style="display:none">uoiuou</label>
                   <div class="alert alert-danger print-error-msg" style="display:none"></div>    
                   </div>
@@ -283,14 +282,10 @@
           var inputnama = document.getElementById("nama").value
           var inputnomor = document.getElementById("nomor").value
           var inputemail = document.getElementById("email").value
-          
-          console.log("ta");
-
 
           $(document).on('submit', '#form', function (event) {
           event.preventDefault();
           $("#submit").prop("disabled", true);
-          console.log("oi");
 
           $.ajax({
             url: "<?php echo base_url() ?>index.php/Main/aksicustomer",
@@ -300,14 +295,12 @@
             success: function(data) {
               if($.isEmptyObject(data.error)){
                 $(".print-error-msg").css('display','none');
-                console.log("data");
 
                 $.ajax({
                   url: "<?php echo base_url()?>index.php/Main/insert_customer/",
                   type: 'POST',
                   data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail},
                   success: function (response) {
-                    console.log("ins");
 
                     window.location = "<?php echo base_url() ?>index.php/Main/customer";
                   },
@@ -326,7 +319,6 @@
             }
           });              
         });
-        }
 
         function detaildata(id) {
           $.ajax({

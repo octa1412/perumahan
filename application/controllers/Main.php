@@ -387,6 +387,21 @@ class Main extends CI_Controller {
 		}
 	}
 
+	//ambil data blok yang ada penghuni
+	//parameter 1: true bila ingin return array, kosongi bila ingin Json
+	public function get_blok_data($return_var = NULL){
+		$data = $this->BlokModel->data_get();
+			if (empty($data)){
+				$data = [];
+			}
+			if ($return_var == true) {
+				// $jml = $data.length;
+				return $data;
+			}else{
+				echo json_encode($data);
+			}
+	}
+
 	//ambil data user berdasarkan username
 	//note: ambil data user dari database berdasarkan username
 	public function get_blok_by_id($return_var = NULL){
@@ -704,7 +719,6 @@ class Main extends CI_Controller {
 			echo "access denied";
 		}
 	}
-
 
 	//UPDATE
 
@@ -1158,26 +1172,6 @@ class Main extends CI_Controller {
 		}
 	}
 
-	public function basic(){
-		// basic required field
-        // $this->form_validation->set_rules('text_field', 'Text Field One', 'required');
-         
-        // basic email field with email validation
-        $this->form_validation->set_rules('email', 'Email:', 'required');
-		$this->form_validation->set_rules('nama','Nama:','required');
-       
-         
-        if ($this->form_validation->run() == TRUE)
-        {
-            echo "berhasil";
-        }
-        else
-        {
-            // load success template...
-            echo "It's all Good!";
-        }
-	}
-
 	//verifikasi empty login
 	public function aksilogin(){
 		$this->form_validation->set_rules('username', 'Username', 'required');
@@ -1206,20 +1200,33 @@ class Main extends CI_Controller {
         }
 	}
 
-	//verifikasi empty login
-	public function aksicustomer(){
-		$this->form_validation->set_rules('id_customer', 'Id Customer', 'required');
-		$this->form_validation->set_rules('nama', 'Nama', 'required');
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-		$this->form_validation->set_rules('nomor', 'Nomor', 'required');
+	//fungsi tambah tagihan bulanan
+	public function input_transaksi(){
+		$jml =  $this->input->post('jml');
+		$cust = $this->input->post('arr');
+		$bulan = $this->input->post('bulan');
+		$tahun = $this->input->post('tahun');
+		$idsementara = '';
 		
 
-        if ($this->form_validation->run() == FALSE){
-            $errors = validation_errors();
-            echo json_encode(['error'=>$errors]);
-        }else{
-           echo json_encode(['success'=>'Record added successfully.']);
-        }
+		foreach($cust as $hasil) {
+			$idsementara = $idsementara.json_encode($hasil['IDBlok']).$bulan.$tahun;
+
+			$data = array(
+				'IDTagihan' => $idsementara,
+				'IDBlok' => json_encode($hasil['IDBlok']),
+				'bulan' => $bulan,
+				'tahun' => $tahun,
+				'Harga' => json_encode($hasil['Harga']),
+				'status' => '0'
+			);
+
+			$insertStatus = $this->TagihanModel->insert_tagihan($data);
+
+			$idsementara = '';
+
+		}
+
 	}
 
 

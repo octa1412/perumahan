@@ -12,7 +12,7 @@
             <div class="card-body" style="background-color: #FFFFFF;">
 
               <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
-                  <!-- <button class="btn btn-primary">Add Tagiahn bulanan</button> -->
+                  <button class="btn btn-primary" onclick=getData()>Add Tagiahn bulanan</button>
               </div>
 
               <div class="d-sm-flex align-items-center mb-4">						
@@ -256,36 +256,81 @@
       month[11] = "December";
 
       var d = new Date();
-      var n = month[d.getMonth()];
+      var bulan = month[d.getMonth()];
+      var t = d.getYear();
+      var year = (t < 1000) ? t + 1900 : t;
+
+      console.log(n);
+      console.log(year);
+      
 
       alert("data masuk");
 
-
-
-      // $.ajax({
-      //   url: "<?php echo base_url() ?>index.php/Main/add_tagihan",
-      //   type: 'POST',
-      //   data: {bulan: n},
-      //   success: function (json) {
-      //     var response = JSON.parse(json);
-      //     response.forEach((data)=>{
-      //       dTable.row.add([
-      //         data.bulan+' '+ data.tahun, 
-      //         data.tanggal,
-      //         '<button class="btn btn-outline-primary mt-10 mb-10">Detail</button>'
-      //       ]).draw(false);
-            
-      //     })
-      //     // $("tbody").append()
-      //   },
-      //   error: function (xhr, status, error) {
-      //     alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
-      //     $("#submit").prop("disabled", false);
-      //   }
-      // });
-
-      // console.log(n);
     }
+
+    function getData(){
+      var month = new Array();
+      month[0] = "January";
+      month[1] = "February";
+      month[2] = "March";
+      month[3] = "April";
+      month[4] = "May";
+      month[5] = "June";
+      month[6] = "July";
+      month[7] = "August";
+      month[8] = "September";
+      month[9] = "October";
+      month[10] = "November";
+      month[11] = "December";
+
+      var d = new Date();
+      var bulan = month[d.getMonth()];
+      var t = d.getYear();
+      var year = (t < 1000) ? t + 1900 : t;
+
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_blok_data",
+        type: 'POST',
+        success: function (json) {
+          var response = JSON.parse(json);
+          var arr = [];
+          var jml = 0;
+
+          console.log(json);
+          response.forEach((data)=>{
+            if(data.IDCustomer != null) {
+              jml = jml + 1;
+              arr.push({IDCustomer:data.IDCustomer, Harga:data.Harga, IDBlok:data.IDBlok});
+            }
+
+          })
+
+          console.log(arr[1]);
+
+          $.ajax({
+            url: "<?php echo base_url() ?>index.php/Main/input_transaksi",
+            type: 'POST',
+            data : {jml:jml, arr:arr, bulan:bulan, tahun:year},
+            success: function (json) {
+              console.log(json);
+              console.log('json');
+              
+            },    
+            error: function (xhr, status, error) {
+              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              $("#submit").prop("disabled", false);
+            }
+          });
+
+        },    
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+
+    }
+
 
     $(document).ready(function () {
       dTable = $('#table1').DataTable({
