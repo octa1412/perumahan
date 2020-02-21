@@ -66,7 +66,7 @@
                     </div>          
                     <div class="form-group">
                         <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
-                        <select class="custom-select" id="perumahan1">                            
+                        <select class="custom-select" id="perumahan1">                         
                         </select>
                     </div>
                     <div class="form-group">
@@ -77,7 +77,7 @@
                     </div>  
                     <div class="form-group">
                         <label for="harga1" class="col-form-label">Harga:</label>
-                        <input type="text" class="form-control" id="harga1">
+                        <input type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" class="form-control" id="nomor" class="form-control" id="harga1">
                     </div>
                 </form>
               </div>
@@ -99,36 +99,38 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <form>
+              <form onsubmit="insertdata(event)">
+                <div class="modal-body">
                   <div class="form-group">
                     <label for="id-blok" class="col-form-label">Id Blok:</label>
-                    <input type="text" class="form-control" id="id-blok" placeholder="ID Blok...">
+                    <input type="text" required class="form-control" id="id-blok" placeholder="ID Blok...">
                   </div>
                   <div class="form-group">
                     <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <select class="custom-select" id="perumahan">                
+                    <select class="custom-select" id="perumahan" required>
+                      <option value="default">Perumahan</option>         
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="cluster" class="col-form-label">Nama Cluster:</label>
-                    <select class="custom-select" id="cluster">
+                    <select class="custom-select" id="cluster" required">
+                      <option value="default">Cluster</option>                
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="harga" class="col-form-label">Harga:</label>
-                    <input type="text" class="form-control" id="harga">
+                    <input type="text" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" class="form-control" id="harga">
                   </div>
                   <div class="form-group">
                     <label for="type" class="col-form-label">Type:</label>
-                    <input type="text" class="form-control" id="type">
+                    <input type="text" class="form-control" id="type" required>
                   </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
-              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>  
@@ -427,12 +429,18 @@
       });          
     }
 
-    function insertdata() {
+    function insertdata(e) {
       var inputid = document.getElementById("id-blok").value
       var inputperum = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
       var inputharga = document.getElementById("harga").value
       var inputtype = document.getElementById("type").value
+
+      if(inputperum == "default" || inputcluster == "default"){
+        e.preventDefault();
+        alert("Please select Perumahan and Cluster")
+        return;
+      }
 
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_blok/",
