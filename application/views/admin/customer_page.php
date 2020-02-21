@@ -320,8 +320,6 @@
           });              
         });
 
-        }
-
         function detaildata(id) {
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/create_cookie_encrypt",

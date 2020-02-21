@@ -58,33 +58,33 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <form>          
-                    <div class="form-group">
-                        <label for="nama-blok1" class="col-form-label">Nama Blok:</label>
-                        <input type="text" class="form-control" id="nama-blok1" readonly>
-                    </div>          
-                    <div class="form-group">
-                        <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
-                        <select class="custom-select" id="perumahan1">                            
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="cluster1" class="col-form-label">Nama Cluster:</label>
-                        <select class="custom-select" id="cluster1">
-                        <option value="default">Cluster</option>                
-                        </select>
-                    </div>  
-                    <div class="form-group">
-                        <label for="harga1" class="col-form-label">Harga:</label>
-                        <input type="text" class="form-control" id="harga1">
-                    </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="updatedata">Update</button>
-              </div>
+              <form onsubmit="updatedata(event)">       
+                <div class="modal-body">
+                      <div class="form-group">
+                          <label for="nama-blok1" class="col-form-label">Nama Blok:</label>
+                          <input type="text" class="form-control" id="nama-blok1" readonly>
+                      </div>          
+                      <div class="form-group">
+                          <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
+                          <select class="custom-select" id="perumahan1" required>
+                          </select>
+                      </div>
+                      <div class="form-group">
+                          <label for="cluster1" class="col-form-label">Nama Cluster:</label>
+                          <select class="custom-select" id="cluster1" required>
+                          <option value="default">Cluster</option>
+                          </select>
+                      </div>  
+                      <div class="form-group">
+                          <label for="harga1" class="col-form-label">Harga:</label>
+                          <input type="text" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" class="form-control" class="form-control" id="harga1">
+                      </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+              </form>
             </div>
           </div>
         </div> 
@@ -99,36 +99,38 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <form>
+              <form onsubmit="insertdata(event)">
+                <div class="modal-body">
                   <div class="form-group">
                     <label for="id-blok" class="col-form-label">Id Blok:</label>
-                    <input type="text" class="form-control" id="id-blok" placeholder="ID Blok...">
+                    <input type="text" required class="form-control" id="id-blok" placeholder="ID Blok...">
                   </div>
                   <div class="form-group">
                     <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <select class="custom-select" id="perumahan">                
+                    <select class="custom-select" id="perumahan" required>
+                      <option value="default">Perumahan</option>         
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="cluster" class="col-form-label">Nama Cluster:</label>
-                    <select class="custom-select" id="cluster">
+                    <select class="custom-select" id="cluster" required>
+                      <option value="default">Cluster</option>                
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="harga" class="col-form-label">Harga:</label>
-                    <input type="text" class="form-control" id="harga">
+                    <input type="text" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" class="form-control" id="harga">
                   </div>
                   <div class="form-group">
                     <label for="type" class="col-form-label">Type:</label>
-                    <input type="text" class="form-control" id="type">
+                    <input type="text" class="form-control" id="type" required>
                   </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
-              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>  
@@ -250,46 +252,46 @@
       });
 
 // perumahan
-      $("#perumahan").change(function (e) { 
-        e.preventDefault();
-        if($("#perumahan").val() != "default"){
-          getClusterofPerumahan($("#perumahan").val());
-        }
-        else{
-          $("#cluster option[value!=default]").remove();
-        }
-        get_data();
-      });
-
-      $("#cluster").change(function (e) { 
-        e.preventDefault();
-        get_data();
-      });
-
-
-      function getClusterofPerumahan(id){
-        $.ajax({
-          url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
-          type: 'POST',
-          data: {id: id},
-          success: function (json) {
-            $("#fl-cluster option[value!=default]").remove();
-            $("#cluster1 option[value!=default]").remove();
-            $("#cluster option[value!=default]").remove();
-            var response = JSON.parse(json);
-            response.forEach((data)=>{
-              var tes = data.nama_cluster.replace(/_/g, " ");
-              $('#fl-cluster').append(new Option(tes, data.IDCluster))
-              $('#cluster1').append(new Option(tes, data.IDCluster))
-              $('#cluster').append(new Option(tes, data.IDCluster))
-            })
-          },
-          error: function (xhr, status, error) {
-            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
-            $("#submit").prop("disabled", false);
-          }
-        });
+    $("#perumahan").change(function (e) { 
+      e.preventDefault();
+      if($("#perumahan").val() != "default"){
+        getClusterofPerumahan($("#perumahan").val());
       }
+      else{
+        $("#cluster option[value!=default]").remove();
+      }
+      get_data();
+    });
+
+    $("#cluster").change(function (e) { 
+      e.preventDefault();
+      get_data();
+    });
+
+
+    function getClusterofPerumahan(id){
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
+        type: 'POST',
+        data: {id: id},
+        success: function (json) {
+          $("#fl-cluster option[value!=default]").remove();
+          $("#cluster1 option[value!=default]").remove();
+          $("#cluster option[value!=default]").remove();
+          var response = JSON.parse(json);
+          response.forEach((data)=>{
+            var tes = data.nama_cluster.replace(/_/g, " ");
+            $('#fl-cluster').append(new Option(tes, data.IDCluster))
+            $('#cluster1').append(new Option(tes, data.IDCluster))
+            $('#cluster').append(new Option(tes, data.IDCluster))
+          })
+        },
+        error: function (xhr, status, error) {
+          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          $("#submit").prop("disabled", false);
+        }
+      });
+    }
       
 
     function get_filter_value(){
@@ -372,11 +374,10 @@
         success: function (response) {
           var response = JSON.parse(response);
           response.forEach((data)=>{
-
+            console.log(data);
             $('#editmodal').modal();
             $('#nama-blok1').val(data.IDBlok);
             $('#perumahan1').val(data.IDPerumahan);
-
             $.ajax({
               url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
               type: 'POST',
@@ -399,26 +400,6 @@
             // $('#cluster1').append(new Option(data.nama_cluster, data.IDCluster, true, true))
             
             $('#harga1').val(data.Harga);
-            $('#updatedata').click(function editdata() {
-            
-            var inputperumahan = document.getElementById("perumahan1").value
-            var inputcluster = document.getElementById("cluster1").value
-            var inputid = document.getElementById("nama-blok1").value
-            var inputharga = document.getElementById("harga1").value
-                               
-              $.ajax({
-                url: "<?php echo base_url()?>index.php/Main/update_blok/",
-                type: 'POST',
-                data: {id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga},
-                success: function (response) {         
-                  alert('Berhasil diupdate!');                  
-                  window.location = "<?php echo base_url() ?>index.php/Main/blok";
-                },
-                error: function () {
-                  console.log("gagal update");
-                }
-              });
-            });
           })                
         },
         error: function () {
@@ -427,12 +408,43 @@
       });          
     }
 
-    function insertdata() {
+    function updatedata(e) {
+      e.preventDefault();
+      var inputperumahan = document.getElementById("perumahan1").value
+      var inputcluster = document.getElementById("cluster1").value
+      var inputid = document.getElementById("nama-blok1").value
+      var inputharga = document.getElementById("harga1").value
+      if(inputcluster == "default"){
+        alert("Please select Perumahan and Cluster")
+        return;
+      }
+
+        $.ajax({
+          url: "<?php echo base_url()?>index.php/Main/update_blok/",
+          type: 'POST',
+          data: {id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga},
+          success: function (response) {
+            alert('Berhasil diupdate!');
+            window.location = "<?php echo base_url() ?>index.php/Main/blok";
+          },
+          error: function () {
+            console.log("gagal update");
+          }
+        });
+    }
+
+    function insertdata(e) {
       var inputid = document.getElementById("id-blok").value
       var inputperum = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
       var inputharga = document.getElementById("harga").value
       var inputtype = document.getElementById("type").value
+
+      if(inputperum == "default" || inputcluster == "default"){
+        e.preventDefault();
+        alert("Please select Perumahan and Cluster")
+        return;
+      }
 
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_blok/",
