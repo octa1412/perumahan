@@ -12,7 +12,7 @@
             <div class="card-body" style="background-color: #FFFFFF;">
 
               <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
-                  <button class="btn btn-primary" onclick=getData()>Add Tagiahn bulanan</button>
+                  <button class="btn btn-primary" onclick=getData()>Add Tagihan bulanan</button>
               </div>
 
               <div class="d-sm-flex align-items-center mb-4">						
@@ -132,12 +132,15 @@
       $("#fl-perumahan").change(function (e) { 
         e.preventDefault();
         if($("#fl-perumahan").val() != "default"){
-          getClusterofPerumahan($("#fl-perumahan").val());
+          getClusterofPerumahan($("#fl-perumahan").val(), function(){
+            get_transaksi()
+            console.log($("#fl-cluster").val())
+          });
         }
         else{
           $("#fl-cluster option[value!=default]").remove();
+          get_transaksi();
         }
-        get_transaksi();
       });
 
       $("#fl-cluster").change(function (e) { 
@@ -145,7 +148,7 @@
         get_transaksi();
       });
       
-      function getClusterofPerumahan(id){
+      function getClusterofPerumahan(id,callback){
         $.ajax({
           url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
           type: 'POST',
@@ -156,6 +159,7 @@
             response.forEach((data)=>{
               $('#fl-cluster').append(new Option(data.nama_cluster, data.IDCluster))
             })
+            callback();
           },
           error: function (xhr, status, error) {
             alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
