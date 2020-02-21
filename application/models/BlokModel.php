@@ -30,6 +30,14 @@ class BlokModel extends CI_Model {
 		return $query->result_array();
 	}
 
+
+	public function data_get(){
+		$this->db->select('*');
+		$this->db->from('blok');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function get_list_perumahan() {
 		$this->db->select('nama_perumahan, status');
 		$this->db->from('perumahan');
