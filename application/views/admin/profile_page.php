@@ -11,24 +11,24 @@
                 
                     <!--form-->
                     <div class="card-body" style="background-color: #FFFFFF;">
-                        <form>
+                        <form onsubmit="doSave(event)">
                                 <div class="form-group">
                                     <label for="nama" class="col-form-label">Nama:</label>
-                                    <input type="text" class="form-control" id="nama" value="">
+                                    <input type="text" class="form-control" id="nama" value="" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="nomor" class="col-form-label">Nomor:</label>
-                                    <input type="text" class="form-control" id="nomor" value="">
+                                    <input required type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" class="form-control" id="nomor" value="">
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="col-form-label">Email:</label>
-                                    <input type="text" class="form-control" id="email" value="">
+                                    <input type="email" class="form-control" id="email" value="" required>
                                 </div>                    
                                 <div class="form-group">
                                     <label for="password" class="col-form-label">Password:</label>
                                     <input type="password" class="form-control" id="password" readonly>
                                 </div>
-                                <button class="btn btn-primary" onclick="doSave(event)">Edit</button>                  
+                                <button type="submit" class="btn btn-primary">Save Update</button>                  
                         </form>
                     </div>
                 </div>
