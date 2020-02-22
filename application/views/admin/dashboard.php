@@ -166,7 +166,7 @@
               var response = JSON.parse(json);
               var array={};
               response.forEach((data)=>{
-                console.log(data);
+                // console.log(data);
                 var res = data.nama_perumahan.replace(/_/g, " ");
                 no = data.IDPerumahan
                 dTable.row.add([
@@ -195,6 +195,7 @@
                 type: 'POST',
                 data: {id: id},
                 success: function (response) {
+                    alert('Data Berhasil Dihapus!');
                     window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
                 },
                 error: function () {
@@ -213,11 +214,11 @@
             type: 'POST',
             data: {id: id},
             success: function (response) {
-              console.log(response);
+              // console.log(response);
 
               var response = JSON.parse(response);
               response.forEach((data)=>{
-                console.log(dataString);
+                // console.log(dataString);
                 var res = data.nama_perumahan.replace(/_/g, " ");
                 $('#editmodal').modal();
                 $("#id-perumahan1").val(data.IDPerumahan);
@@ -234,7 +235,8 @@
                     type: 'POST',
                     data: {id:inputid, nama:inputnama, kota:inputkota},
                     success: function (response) {
-                      console.log(response);
+                      // console.log(response);
+                      alert('Data Berhasil Diedit!');
                       window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
                     },
                     error: function () {
@@ -245,7 +247,7 @@
               })                
             },
             error: function () {
-                console.log("gagal menghapus");
+                console.log("gagal update");
             }
           });          
         }
@@ -259,7 +261,8 @@
             type: 'POST',
             data: {nama:inputnama, kota:inputkota},
             success: function (response) {
-              console.log(response);
+              // console.log(response);
+              alert('Data Berhasil Ditambahkan!');
               window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
             },
             error: function () {

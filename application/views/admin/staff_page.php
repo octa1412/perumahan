@@ -68,10 +68,15 @@
                       <input required type="password" class="form-control" id="password1" readonly>
                   </div>
                   <div class="form-group">
+                      <button type="button" class="btn btn-info" id="reset" onclick="resetpassword()" >Reset Password</button>                     
+                      </select>
+                  </div> 
+                  <div class="form-group">
                       <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
                       <select required class="custom-select" id="perumahan1">                      
                       </select>
                   </div> 
+
                 
                 </div>
                 <div class="modal-footer">
@@ -96,10 +101,6 @@
               <form onsubmit="insertdata()">
                 <div class="modal-body">
                     <div class="form-group">
-                      <label for="id-staff" class="col-form-label">Id Staff:</label>
-                      <input type="text" class="form-control" id="id-staff" placeholder="ID Staff..." required>
-                    </div>
-                    <div class="form-group">
                       <label for="nama" class="col-form-label">Nama:</label>
                       <input type="text" class="form-control" id="nama" placeholder="Nama..." required>
                     </div>
@@ -110,10 +111,6 @@
                     <div class="form-group">
                       <label for="email" class="col-form-label">Email:</label>
                       <input type="email" class="form-control" id="email" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="password" class="col-form-label">Password:</label>
-                      <input type="password" class="form-control" id="password" required>
                     </div>
                     <div class="form-group">
                       <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
@@ -278,6 +275,7 @@
                 data: {id: id},
                 success: function (response) {
                     // console.log(response);
+                    alert('Data Berhasil Dihapus!');
                     window.location = "<?php echo base_url() ?>index.php/Main/staff";
                 },
                 error: function () {
@@ -331,6 +329,7 @@
             data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail, perum:inputperumahan, idlama:dataidperum},
             success: function (response) {
               // console.log(response);
+              alert('Data Berhasil Diedit!');
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
             },
             error: function () {
@@ -340,9 +339,7 @@
         }
 
         function insertdata() {
-          var inputid = document.getElementById("id-staff").value
           var inputnama = document.getElementById("nama").value
-          var inputpass = document.getElementById("password").value          
           var inputnomor = document.getElementById("nomor").value
           var inputperumahan = document.getElementById("perumahan").value
           var inputemail = document.getElementById("email").value
@@ -350,14 +347,11 @@
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/insert_staff/",
             type: 'POST',
-            data: {id:inputid, nama:inputnama, nomor:inputnomor, perum:inputperumahan, password:inputpass, email:inputemail},
+            data: {nama:inputnama, nomor:inputnomor, perum:inputperumahan, email:inputemail},
             success: function (response) {
-              console.log(response);
-              
-              
+              // console.log(response);
+              alert('Data Berhasil Ditambahkan!');              
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
-
-
             },
             error: function () {
               console.log("gagal insert");
@@ -365,6 +359,25 @@
           });
 
         }
+
+        function resetpassword() {
+          var inputid = document.getElementById("id-staff1").value
+
+          $.ajax({
+            url: "<?php echo base_url()?>index.php/Main/reset_pass_staff/",
+            type: 'POST',
+            data: {id:inputid},
+            success: function (response) {
+              alert("Password Berhasil di Reset! Silahkan Beritahu Staff Anda...");
+              window.location = "<?php echo base_url() ?>index.php/Main/staff";
+            },
+            error: function () {
+              console.log("gagal insert");
+            }
+          });
+        }
+
+
       </script>
 
 </body>

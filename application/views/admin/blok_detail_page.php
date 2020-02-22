@@ -259,6 +259,7 @@
           data: {id: id},
           success: function (response) {
               console.log(response);
+              alert('Blok Customer Berhasil Dihapus!');
               window.location = "<?php echo base_url() ?>index.php/Main/blokdetail";
 
           },
@@ -290,6 +291,7 @@
         data: {perum:inputperum, cluster:inputcluster, blok:inputblok},
         success: function (response) {
           console.log(response);
+          alert('Blok Customer Berhasil Ditambahkan!');
           window.location = "<?php echo base_url() ?>index.php/Main/blokdetail";
         },
         error: function () {

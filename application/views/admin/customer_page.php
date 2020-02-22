@@ -90,11 +90,7 @@
                 <div class="modal-body">
                   <div class="form-group" > <label class="alert alert-danger print-error-msg" style="display:none">uoiuou</label>
                   <div class="alert alert-danger print-error-msg" style="display:none"></div>    
-                  </div>
-                    <div class="form-group">
-                      <label for="id_customer" class="col-form-label">Id Customer</label>
-                      <input type="text" class="form-control" id="id_customer" placeholder="ID Anda..." required>
-                    </div>                 
+                  </div>                 
                     <div class="form-group">
                       <label for="nama" class="col-form-label">Nama</label>
                       <input type="text" class="form-control" id="nama" placeholder="Nama Anda..." required>
@@ -204,7 +200,7 @@
                   data.nama,
                   data.email,
                   data.nomor,
-                  '<button class="btn btn-outline-primary mt-10 mb-10" onclick=detaildata("'+ data.IDCustomer +'")>Detail</button>'
+                  '<button class="btn btn-outline-primary mt-10 mb-10" onclick=detaildata("'+ data.IDCustomer +'")>Blok</button>'
 									+ '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ data.IDCustomer +'")>Edit</button>'
 									+ '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDCustomer +'") >Delete</button>'
                 
@@ -227,6 +223,7 @@
                 type: 'POST',
                 data: {id: id},
                 success: function (response) {
+                  alert('Data Berhasil Dihapus!');
                   window.location = "<?php echo base_url() ?>index.php/Main/customer";
                 },
                 error: function () {
@@ -257,6 +254,7 @@
             }
           });          
         }
+
         function updatedata(e) {
                 
           var inputid = document.getElementById("id_customer1").value
@@ -269,6 +267,7 @@
             type: 'POST',
             data: {id:inputid, nama:inputnama, email:inputemail,nomor:inputnomor},
             success: function (response) {
+              alert('Data Berhasil Diedit!');
               window.location = "<?php echo base_url() ?>index.php/Main/customer";
             },
             error: function () {
@@ -277,7 +276,6 @@
           });
         };
         function insertdata() {
-          var inputid = document.getElementById("id_customer").value
           var inputnama = document.getElementById("nama").value
           var inputnomor = document.getElementById("nomor").value
           var inputemail = document.getElementById("email").value
@@ -287,36 +285,19 @@
           $("#submit").prop("disabled", true);
 
           $.ajax({
-            url: "<?php echo base_url() ?>index.php/Main/aksicustomer",
-            type:'POST',
-            dataType: "json",
-            data: {id_customer:inputid, nama:inputnama, nomor:inputnomor, email:inputemail},
-            success: function(data) {
-              if($.isEmptyObject(data.error)){
-                $(".print-error-msg").css('display','none');
-
-                $.ajax({
-                  url: "<?php echo base_url()?>index.php/Main/insert_customer/",
-                  type: 'POST',
-                  data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail},
-                  success: function (response) {
-
-                    window.location = "<?php echo base_url() ?>index.php/Main/customer";
-                  },
-                  error: function () {
-                    console.log("gagal update");
-                  }
-                });
-
-
-              }else{
-                $(".print-error-msg").css('display','block');
-                $(".print-error-msg").html(data.error);
-                $("#submit").prop("disabled", false);
-              }
-
+            url: "<?php echo base_url()?>index.php/Main/insert_customer/",
+            type: 'POST',
+            data: {nama:inputnama, nomor:inputnomor, email:inputemail},
+            success: function (response) {
+              alert('Data Berhasil Ditambahkan!');
+              window.location = "<?php echo base_url() ?>index.php/Main/customer";
+            },
+            error: function () {
+              console.log("gagal update");
             }
-          });              
+          });
+
+       
         });
         }
         function detaildata(id) {
