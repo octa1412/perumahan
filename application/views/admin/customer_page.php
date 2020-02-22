@@ -223,6 +223,7 @@
                 type: 'POST',
                 data: {id: id},
                 success: function (response) {
+                  alert('Data Berhasil Dihapus!');
                   window.location = "<?php echo base_url() ?>index.php/Main/customer";
                 },
                 error: function () {
@@ -253,6 +254,7 @@
             }
           });          
         }
+
         function updatedata(e) {
                 
           var inputid = document.getElementById("id_customer1").value
@@ -265,6 +267,7 @@
             type: 'POST',
             data: {id:inputid, nama:inputnama, email:inputemail,nomor:inputnomor},
             success: function (response) {
+              alert('Data Berhasil Diedit!');
               window.location = "<?php echo base_url() ?>index.php/Main/customer";
             },
             error: function () {
@@ -286,7 +289,7 @@
             type: 'POST',
             data: {nama:inputnama, nomor:inputnomor, email:inputemail},
             success: function (response) {
-
+              alert('Data Berhasil Ditambahkan!');
               window.location = "<?php echo base_url() ?>index.php/Main/customer";
             },
             error: function () {

@@ -275,6 +275,7 @@
                 data: {id: id},
                 success: function (response) {
                     // console.log(response);
+                    alert('Data Berhasil Dihapus!');
                     window.location = "<?php echo base_url() ?>index.php/Main/staff";
                 },
                 error: function () {
@@ -328,6 +329,7 @@
             data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail, perum:inputperumahan, idlama:dataidperum},
             success: function (response) {
               // console.log(response);
+              alert('Data Berhasil Diedit!');
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
             },
             error: function () {
@@ -347,12 +349,9 @@
             type: 'POST',
             data: {nama:inputnama, nomor:inputnomor, perum:inputperumahan, email:inputemail},
             success: function (response) {
-              console.log(response);
-              
-              
+              // console.log(response);
+              alert('Data Berhasil Ditambahkan!');              
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
-
-
             },
             error: function () {
               console.log("gagal insert");
@@ -369,8 +368,7 @@
             type: 'POST',
             data: {id:inputid},
             success: function (response) {
-              alert("Password Berhasil di Reset! Silahkan Beritahu Staff Anda...")              
-              
+              alert("Password Berhasil di Reset! Silahkan Beritahu Staff Anda...");
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
             },
             error: function () {
