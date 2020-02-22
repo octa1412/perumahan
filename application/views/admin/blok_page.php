@@ -361,6 +361,7 @@
           type: 'POST',
           data: {id: id},
           success: function (response) {
+              alert('Data Berhasil Dihapus!');
               window.location = "<?php echo base_url() ?>index.php/Main/blok";
 
           },
@@ -432,7 +433,7 @@
           type: 'POST',
           data: {id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga, nama:inputnama},
           success: function (response) {
-            alert('Berhasil diupdate!');
+            alert('Data Berhasil diupdate!');
             window.location = "<?php echo base_url() ?>index.php/Main/blok";
           },
           error: function () {
@@ -459,7 +460,7 @@
         type: 'POST',
         data: {nama:inputnama, cluster:inputcluster, harga:inputharga, type:inputtype},
         success: function (response) {
-          alert('Berhasil ditambahkan!');
+          alert('Data Berhasil Ditambahkan!');
           window.location = "<?php echo base_url() ?>index.php/Main/blok";
         },
         error: function () {

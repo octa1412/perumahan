@@ -195,6 +195,7 @@
                 type: 'POST',
                 data: {id: id},
                 success: function (response) {
+                    alert('Data Berhasil Dihapus!');
                     window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
                 },
                 error: function () {
@@ -235,6 +236,7 @@
                     data: {id:inputid, nama:inputnama, kota:inputkota},
                     success: function (response) {
                       // console.log(response);
+                      alert('Data Berhasil Diedit!');
                       window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
                     },
                     error: function () {
@@ -245,7 +247,7 @@
               })                
             },
             error: function () {
-                console.log("gagal menghapus");
+                console.log("gagal update");
             }
           });          
         }
@@ -260,6 +262,7 @@
             data: {nama:inputnama, kota:inputkota},
             success: function (response) {
               // console.log(response);
+              alert('Data Berhasil Ditambahkan!');
               window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
             },
             error: function () {
