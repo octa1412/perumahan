@@ -35,18 +35,18 @@
               <div class="col-lg-12">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Welcome</h1>
                   </div>
 
                   <div class="alert alert-danger print-error-msg" style="display:none"></div>    
 
                   <form id="form" method="POST">
                     <div class="form-group">
-                      <label for="usr">Username:</label>
+                      <center><label for="usr">Username</label></center>
                       <input type="text" class="form-control form-control-user" name="username">
                     </div>
                     <div class="form-group">
-                      <label for="usr">Password:</label>
+                      <center><label for="usr">Password</label></center>
                       <input type="password" class="form-control form-control-user" name="password">
                     </div>
                     <hr>

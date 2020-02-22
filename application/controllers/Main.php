@@ -635,13 +635,13 @@ class Main extends CI_Controller {
 
 	public function insert_blok() {
 		if ($this->checkcookieuser()) {
-			$id = $this->input->post('id');
+			$nama = $this->input->post('nama');
 			$cluster =  $this->input->post('cluster');
 			$harga =  $this->input->post('harga');
 			$type =  $this->input->post('type');
 			
 			$data = array(
-				'IDBlok' => $id,
+				'nama_blok' => $nama,
 				'IDCluster' => $cluster,
 				'Harga' => $harga,
 				'IDCustomer' => null,
@@ -675,7 +675,6 @@ class Main extends CI_Controller {
 	public function insert_customer() {
 		if ($this->checkcookieuser()) {
 			$data = array(
-				'IDCustomer' => $this->input->post('id'),
 				'nama' => $this->input->post('nama'),
 				'nomor' => $this->input->post('nomor'),
 				'email' => $this->input->post('email')
@@ -690,7 +689,6 @@ class Main extends CI_Controller {
 	public function insert_staff() {
 		if ($this->checkcookieuser()) {
 			$username =  $this->input->post('id');
-			$pass =  md5($this->input->post('password'));
 			$nama =  $this->input->post('nama');
 			$nomor =  $this->input->post('nomor');
 			$perumahan = $this->input->post('perum');
@@ -699,7 +697,7 @@ class Main extends CI_Controller {
 
 			$data = array(
 				'username' => $username,
-				'password' => $pass,
+				'password' => '827ccb0eea8a706c4c34a16891f84e7b',
 				'nama_user' => $nama,
 				'pangkat' => $staff,
 				'nomor' => $nomor,
@@ -791,11 +789,13 @@ class Main extends CI_Controller {
 	//Edit data blok
 	public function update_blok(){
 		$id = $this->input->post('id');
+		$nama = $this->input->post('nama');
 		$perumahan = $this->input->post('perumahan');
 		$cluster = $this->input->post('cluster');
 		$harga = $this->input->post('harga');		
 
 		$data = array(
+			'nama_blok' => $nama,
 			'IDCluster' => $cluster,
 			'Harga' => $harga
 		);
@@ -932,6 +932,20 @@ class Main extends CI_Controller {
 		echo "Data saved !";
 	}
 
+	//Reset password staff
+	public function reset_pass_staff(){
+		$id = $this->input->post('id');
+
+		$data = array(
+            'password' => '827ccb0eea8a706c4c34a16891f84e7b'
+		);
+		
+		$where= array('username' => $id );
+		$this->StaffModel->update($where, $data);
+		
+	}
+
+
 
 	//DELETE
 
@@ -1033,7 +1047,7 @@ class Main extends CI_Controller {
 		$status = 'null';
 		$is_login = false;
 		foreach ($data as $row){
-			if ($username == $row['username'] && $password == $row['password']) {
+			if ($username == $row['nama_user'] && $password == $row['password']) {
 				if($row['pangkat'] == 'admin'){
 					$this->create_cookie_encrypt("adminCookie",$username);
 					$status = 'admin';

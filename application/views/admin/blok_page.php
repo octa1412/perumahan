@@ -60,9 +60,11 @@
               </div>
               <form onsubmit="updatedata(event)">       
                 <div class="modal-body">
+                      <input type="hidden" class="form-control" id="id-blok1" readonly>
+
                       <div class="form-group">
                           <label for="nama-blok1" class="col-form-label">Nama Blok:</label>
-                          <input type="text" class="form-control" id="nama-blok1" readonly>
+                          <input type="text" class="form-control" id="nama-blok1" required>
                       </div>          
                       <div class="form-group">
                           <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
@@ -102,8 +104,8 @@
               <form onsubmit="insertdata(event)">
                 <div class="modal-body">
                   <div class="form-group">
-                    <label for="id-blok" class="col-form-label">Id Blok:</label>
-                    <input type="text" required class="form-control" id="id-blok" placeholder="ID Blok...">
+                    <label for="nama-blok" class="col-form-label">Nama Blok:</label>
+                    <input type="text" required class="form-control" id="nama-blok" placeholder="ID Blok...">
                   </div>
                   <div class="form-group">
                     <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
@@ -334,7 +336,7 @@
             no = data.IDBlok  
             if(data.IDBlok != null) {
               dTable.row.add([
-                data.IDBlok,
+                data.nama_blok,
                 data.nama,
                 data.Harga,                
                   '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
@@ -380,7 +382,8 @@
           response.forEach((data)=>{
             console.log(data);
             $('#editmodal').modal();
-            $('#nama-blok1').val(data.IDBlok);
+            $('#nama-blok1').val(data.nama_blok);
+            $('#id-blok1').val(data.IDBlok);
             $('#perumahan1').val(data.IDPerumahan);
             $.ajax({
               url: "<?php echo base_url() ?>index.php/Main/get_cluster_by_perumahan",
@@ -416,7 +419,8 @@
       e.preventDefault();
       var inputperumahan = document.getElementById("perumahan1").value
       var inputcluster = document.getElementById("cluster1").value
-      var inputid = document.getElementById("nama-blok1").value
+      var inputid = document.getElementById("id-blok1").value
+      var inputnama = document.getElementById("nama-blok1").value
       var inputharga = document.getElementById("harga1").value
       if(inputcluster == "default"){
         alert("Please select Perumahan and Cluster")
@@ -426,7 +430,7 @@
         $.ajax({
           url: "<?php echo base_url()?>index.php/Main/update_blok/",
           type: 'POST',
-          data: {id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga},
+          data: {id:inputid, perumahan:inputperumahan, cluster:inputcluster, harga:inputharga, nama:inputnama},
           success: function (response) {
             alert('Berhasil diupdate!');
             window.location = "<?php echo base_url() ?>index.php/Main/blok";
@@ -438,7 +442,7 @@
     }
 
     function insertdata(e) {
-      var inputid = document.getElementById("id-blok").value
+      var inputnama = document.getElementById("nama-blok").value
       var inputperum = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
       var inputharga = document.getElementById("harga").value
@@ -453,7 +457,7 @@
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_blok/",
         type: 'POST',
-        data: {id:inputid, cluster:inputcluster, harga:inputharga, type:inputtype},
+        data: {nama:inputnama, cluster:inputcluster, harga:inputharga, type:inputtype},
         success: function (response) {
           alert('Berhasil ditambahkan!');
           window.location = "<?php echo base_url() ?>index.php/Main/blok";
