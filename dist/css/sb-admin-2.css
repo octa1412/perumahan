@@ -10996,3 +10996,10 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+@media (max-width:768px) {
+  .accordion {
+    z-index: 999;
+    position: fixed;
+  }
+}
