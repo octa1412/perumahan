@@ -208,13 +208,13 @@ CREATE TABLE `cluster` (
 --
 
 INSERT INTO `cluster` (`IDCluster`, `IDPerumahan`, `nama_cluster`) VALUES
-(1, 2, 'Amira'),
-(2, 1, 'Casablanca'),
-(3, 3, 'Cavana'),
-(4, 4, 'Balsamic'),
-(5, 3, 'Aster'),
-(6, 1, 'Asoka'),
-(7, 8, 'Dian_satu');
+(1, 2, '2_Amira'),
+(2, 1, '1_Casablanca'),
+(3, 3, '3_Cavana'),
+(4, 4, '4_Balsamic'),
+(5, 3, '3_Aster'),
+(6, 1, '1_Asoka'),
+(7, 8, '8_Dian_satu');
 
 -- --------------------------------------------------------
 
