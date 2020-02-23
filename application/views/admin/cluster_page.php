@@ -56,12 +56,12 @@
                     <div class="form-group">
                         <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
                         <select class="custom-select" id="perumahan1">
-                           
+                          <option value="default">Perumahan</option>   
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
-                        <input type="text" class="form-control" id="nama-cluster1">
+                        <input type="text" class="form-control" id="nama-cluster1" required>
                     </div>
                  
                 </form>
@@ -88,13 +88,13 @@
                 <form>
                   <div class="form-group">
                     <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <select class="custom-select" id="perumahan">
-                        
+                    <select class="custom-select" id="perumahan" required>
+                      <option value="default">Perumahan</option>   
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
-                    <input type="text" class="form-control" id="nama-cluster" placeholder="Nama Cluster...">
+                    <input type="text" class="form-control" id="nama-cluster" placeholder="Nama Cluster..." required>
                   </div>
                  
                 </form>
@@ -304,6 +304,10 @@
             var inputid = document.getElementById("id-cluster1").value
             var inputperumahan = document.getElementById("perumahan1").value
             var inputnama = document.getElementById("nama-cluster1").value
+            if(inputperumahan == "default"){
+              alert("Silahkan Pilih Perumahan!")
+              return;
+            }
                         
               $.ajax({
                 url: "<?php echo base_url()?>index.php/Main/update_cluster/",
@@ -329,6 +333,10 @@
     function insertdata() {
       var inputperum = document.getElementById("perumahan").value
       var inputnama = document.getElementById("nama-cluster").value
+      if(inputperum == "default"){
+        alert("Silahkan Pilih Perumahan!")
+        return;
+      }
 
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_cluster/",

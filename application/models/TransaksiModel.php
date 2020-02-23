@@ -8,7 +8,7 @@ class TransaksiModel extends CI_Model {
     
     public function get_all($perumahan = NULL, $cluster = NULL, $startDate = NULL, $endDate = NULL){
 
-        $this->db->select('customer.nama, blok.IDBlok');
+        $this->db->select('customer.nama, blok.nama_blok');
 		$this->db->from('blok');
 		$this->db->join('customer',
          'customer.IDCustomer = blok.IDCustomer');
