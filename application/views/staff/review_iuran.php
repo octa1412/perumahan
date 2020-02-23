@@ -127,27 +127,28 @@
         idtagihan.forEach((datum)=>{
             data.id.push(datum);
         })
-        
+        $(".dataTables_empty").text("Loading...")
         $.ajax({
             url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
             type: 'POST',
             data: data,
             success: function (json) {
-                console.log(json);
                 var response = JSON.parse(json);
                 if(response.length > 0){
                     $("#table1").append(
                         $('<tfoot/>').append( "<tr><td>Diskon "+
                         '<td><input type="number" id="diskon" name="diskon" step=100></input>' )
                     );
+                    response.forEach((data)=>{
+                        dTable.row.add([
+                        data.bulan+' '+ data.tahun, 
+                        data.Harga,         
+                        ]).draw(false);
+                        total_tagihan += parseInt(data.Harga)
+                    })
+                } else{
+                    $(".dataTables_empty").text("No data available in table")
                 }
-                response.forEach((data)=>{
-                    dTable.row.add([
-                    data.bulan+' '+ data.tahun, 
-                    data.Harga,         
-                    ]).draw(false);
-                    total_tagihan += parseInt(data.Harga)
-                })
                 
             },
             error: function (xhr, status, error) {

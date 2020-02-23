@@ -186,26 +186,29 @@
             responsive: true
           });
          
-          
+          $(".dataTables_empty").text("Loading...")
           $.ajax({
             url: "<?php echo base_url() ?>index.php/Main/get_all_customer",
             type: 'POST',
             success: function (json) {
               var response = JSON.parse(json);
               var no = 0;
-              response.forEach((data)=>{
-                no++;
-                dTable.row.add([
-                  no,
-                  data.nama,
-                  data.email,
-                  data.nomor,
-                  '<button class="btn btn-outline-primary mt-10 mb-10" onclick=detaildata("'+ data.IDCustomer +'")>Blok</button>'
-									+ '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ data.IDCustomer +'")>Edit</button>'
-									+ '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDCustomer +'") >Delete</button>'
-                
-                ]).draw(false);                
-              })
+              if(response.length > 0){
+                response.forEach((data)=>{
+                  no++;
+                  dTable.row.add([
+                    no,
+                    data.nama,
+                    data.email,
+                    data.nomor,
+                    '<button class="btn btn-outline-primary mt-10 mb-10" onclick=detaildata("'+ data.IDCustomer +'")>Blok</button>'
+                    + '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ data.IDCustomer +'")>Edit</button>'
+                    + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDCustomer +'") >Delete</button>'
+                  
+                  ]).draw(false);                
+                })
+              } elseP
+              $(".dataTables_empty").text("No data available in table")
             },
             error: function (xhr, status, error) {
               alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

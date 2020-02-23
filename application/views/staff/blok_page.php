@@ -146,6 +146,7 @@
     }
 
     function get_data(){
+      $(".dataTables_empty").text("Loading...")
       var data = get_filter_value()
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_all_blok/0",
@@ -154,17 +155,21 @@
         success: function (json) {
           var response = JSON.parse(json);
           dTable.clear().draw();
-          response.forEach((data)=>{
-            no = data.IDBlok  
-            if(data.IDBlok != null) {
-              dTable.row.add([
-                data.IDBlok,
-                data.nama,
-                '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'
-              + '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToTagihan("'+data.IDBlok+'")>Detail</button></a>'
-            ]).draw(false);
-            }            
-          })
+          if(response.length > 0){
+            response.forEach((data)=>{
+              no = data.IDBlok  
+              if(data.IDBlok != null) {
+                dTable.row.add([
+                  data.IDBlok,
+                  data.nama,
+                  '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'
+                + '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToTagihan("'+data.IDBlok+'")>Detail</button></a>'
+              ]).draw(false);
+              }            
+            })
+          } else{
+            $(".dataTables_empty").text("No data available in table")
+          }
         },    
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

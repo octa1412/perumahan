@@ -96,26 +96,29 @@
     
     <script>
         $(document).ready(function () {
-        dTable = $('#table1').DataTable({
-            responsive:true
-        });
-        var data = {id: "<?php echo $idBlok?>"}
-
+            dTable = $('#table1').DataTable({
+                responsive:true
+            });
+            $(".dataTables_empty").text("Loading...")
+            var data = {id: "<?php echo $idBlok?>"}
             $.ajax({
                 url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
                 type: 'POST',
                 data: data,
                 success: function (json) {
-                console.log(json);
                 var response = JSON.parse(json);
-                response.forEach((data)=>{
-                    dTable.row.add([
-                    data.bulan+' '+ data.tahun, 
-                    data.Harga,
-                    '<input type="checkbox" name="bayar" value="'+data.IDTagihan+'"></input>'
-                    ]).draw(false);
-                    
-                })
+                if(response.length > 0){
+                    response.forEach((data)=>{
+                        dTable.row.add([
+                        data.bulan+' '+ data.tahun, 
+                        data.Harga,
+                        '<input type="checkbox" name="bayar" value="'+data.IDTagihan+'"></input>'
+                        ]).draw(false);
+                        
+                    })
+                } else{
+                    $(".dataTables_empty").text("No data available in table")
+                }
                 },
                 error: function (xhr, status, error) {
                 alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
