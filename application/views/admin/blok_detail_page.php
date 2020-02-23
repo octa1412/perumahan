@@ -204,7 +204,7 @@
             var response = JSON.parse(json);
             response.forEach((data)=>{
               if(data.IDCustomer == null) {
-                $('#blok').append(new Option(data.IDBlok, data.IDBlok))
+                $('#blok').append(new Option(data.nama_blok, data.IDBlok))
               }
             })
           },
@@ -237,7 +237,7 @@
                 dTable.row.add([
                   data.nama_perumahan,
                   data.nama_cluster,
-                  data.IDBlok,
+                  data.nama_blok,
                   '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDBlok +'") >Delete</button>'
                 
                 ]).draw(false);                

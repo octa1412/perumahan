@@ -18,7 +18,7 @@
               <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
                   <thead>
                       <tr>
-                          <th>ID Staff</th>
+                          <th>Username Staff</th>
                           <th>Nama Staff</th>
                           <th>Perumahan</th>
                           <th>Email</th>
@@ -101,19 +101,23 @@
               <form onsubmit="insertdata()">
                 <div class="modal-body">
                     <div class="form-group">
-                      <label for="nama" class="col-form-label">Nama:</label>
+                      <label for="username" class="col-form-label">Username</label>
+                      <input type="text" class="form-control" id="username" placeholder="Username..." required>
+                    </div>
+                    <div class="form-group">
+                      <label for="nama" class="col-form-label">Nama</label>
                       <input type="text" class="form-control" id="nama" placeholder="Nama..." required>
                     </div>
                     <div class="form-group">
-                      <label for="nomor" class="col-form-label">Nomor Telepon:</label>
+                      <label for="nomor" class="col-form-label">Nomor Telepon</label>
                       <input type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" class="form-control" id="nomor" placeholder="Nomor Telepon..." required>
                     </div>
                     <div class="form-group">
-                      <label for="email" class="col-form-label">Email:</label>
+                      <label for="email" class="col-form-label">Email</label>
                       <input type="email" class="form-control" id="email" required>
                     </div>
                     <div class="form-group">
-                      <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
+                      <label for="perumahan" class="col-form-label">Nama Perumahan</label>
                       <select class="custom-select" id="perumahan" required>                                            
                       </select>
                     </div>                
@@ -302,9 +306,11 @@
 
               var response = JSON.parse(response);
               response.forEach((data)=>{
+                var res = data.nama_user.replace(/_/g, " ");
+
                 $('#editmodal').modal();
                 $("#id-staff1").val(data.username);
-                $('#nama1').val(data.nama_user);
+                $('#nama1').val(res);
                 $('#nomor1').val(data.nomor);
                 if(data.IDPerumahan != null) {
                   $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
@@ -344,6 +350,7 @@
         }
 
         function insertdata() {
+          var inputuser = document.getElementById("username").value
           var inputnama = document.getElementById("nama").value
           var inputnomor = document.getElementById("nomor").value
           var inputperumahan = document.getElementById("perumahan").value
@@ -352,7 +359,7 @@
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/insert_staff/",
             type: 'POST',
-            data: {nama:inputnama, nomor:inputnomor, perum:inputperumahan, email:inputemail},
+            data: {user:inputuser, nama:inputnama, nomor:inputnomor, perum:inputperumahan, email:inputemail},
             success: function (response) {
               // console.log(response);
               alert('Data Berhasil Ditambahkan!');              
