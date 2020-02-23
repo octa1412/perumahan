@@ -159,25 +159,29 @@
           dTable = $('#table1').DataTable({
             responsive: true
           });
+          $(".dataTables_empty").text("Loading...")
           $.ajax({
             url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
             type: 'POST',
             success: function (json) {
               var response = JSON.parse(json);
               var array={};
-              response.forEach((data)=>{
-                // console.log(data);
-                var res = data.nama_perumahan.replace(/_/g, " ");
-                no = data.IDPerumahan
-                dTable.row.add([
-                  res,
-                  data.kota,
-                    '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
-									+ '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'
-                
-                ]).draw(false);
-                
-              })
+              if(response.length > 0){
+                response.forEach((data)=>{
+                  var res = data.nama_perumahan.replace(/_/g, " ");
+                  no = data.IDPerumahan
+                  dTable.row.add([
+                    res,
+                    data.kota,
+                      '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
+                    + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'
+                  
+                  ]).draw(false);
+                  
+                })
+              } else{
+                $(".dataTables_empty").text("No data available in table")
+              }
             },
             error: function (xhr, status, error) {
               alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

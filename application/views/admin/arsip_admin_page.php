@@ -142,6 +142,7 @@
     }
 
     function get_arsip(){
+      $(".dataTables_empty").text("Loading...")
       var data = get_filter_value();
       data.id = "<?php echo $idBlok?>"
       $.ajax({
@@ -151,16 +152,18 @@
         success: function (json) {
           dTable.clear().draw();
           var response = JSON.parse(json);
-          console.log(response)
-          response.forEach((data)=>{
-            dTable.row.add([
-              data.bulan+' '+ data.tahun, 
-              data.tanggal,
-              '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Nota</button>'
-            ]).draw(false);
-            
-          })
-          // $("tbody").append()
+          if(response.length > 0){
+            response.forEach((data)=>{
+              dTable.row.add([
+                data.bulan+' '+ data.tahun, 
+                data.tanggal,
+                '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Nota</button>'
+              ]).draw(false);
+              
+            })
+          } else{
+            $(".dataTables_empty").text("No data available in table")
+          }
         },
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

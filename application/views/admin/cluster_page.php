@@ -206,6 +206,7 @@
     }
 
     function get_data(){
+      $(".dataTables_empty").text("Loading...")
       var data = get_filter_value();
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_all_cluster",
@@ -214,20 +215,23 @@
         success: function (json) {
           var response = JSON.parse(json);
           dTable.clear().draw();
-          response.forEach((data)=>{
-            var tes = data.nama_cluster.replace(/_/g, " ");
-            
-            no = data.IDCluster                       
-            if(data.IDCluster != null) {
-              dTable.row.add([
-                tes,
-                  '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
-                + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'
+          if(response.length > 0 ){
+            response.forEach((data)=>{
+              var tes = data.nama_cluster.replace(/_/g, " ");
               
-              ]).draw(false);
-            }
-            
-          })
+              no = data.IDCluster                       
+              if(data.IDCluster != null) {
+                dTable.row.add([
+                  tes,
+                    '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
+                  + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'
+                
+                ]).draw(false);
+              }
+            })
+          } else{
+            $(".dataTables_empty").text("No data available in table")
+          }
         },
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
@@ -258,7 +262,6 @@
           },
           error: function () {
               console.log("gagal menghapus");
-
           }
       });
     }
