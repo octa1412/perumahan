@@ -224,23 +224,27 @@
 
     function get_data(){
     //   var data = get_filter_value()
-
+    $(".dataTables_empty").text("Loading...")
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_my_blok/",
         type: 'POST',
         success: function (json) {
           var response = JSON.parse(json);
-              var no = 0;
+            var no = 0;
+            if(response.length > 0){
               response.forEach((data)=>{
                 no++;
                 dTable.row.add([
                   data.nama_perumahan,
                   data.nama_cluster,
                   data.IDBlok,
-									 '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDBlok +'") >Delete</button>'
+                  '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDBlok +'") >Delete</button>'
                 
                 ]).draw(false);                
-              })
+              }) else{
+                $(".dataTables_empty").text("No data available in table")
+              }
+            }
         },    
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

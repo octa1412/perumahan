@@ -186,6 +186,7 @@
     }
 
     function get_transaksi(){
+      $(".dataTables_empty").text("Loading...")
       var data = get_filter_value()
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_transaksi",
@@ -193,19 +194,21 @@
         data: data,
         success: function (json) {
           var response = JSON.parse(json);
-          console.log(response)
-          dTable.clear().draw();
-          response.forEach((data)=>{
-            dTable.row.add([
-              data.nama, 
-              data.IDBlok,
+          if(response.length > 0){
+            dTable.clear().draw();
+            response.forEach((data)=>{
+              dTable.row.add([
+                data.nama, 
+                data.IDBlok,
+                
+                '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'
+                + '<button class="btn btn-outline-success mt-10 mb-10" onclick=goToTagihan("'+data.IDBlok+'")>Tagihan</button></a>'
+              ]).draw(false);
               
-              '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'
-              + '<button class="btn btn-outline-success mt-10 mb-10" onclick=goToTagihan("'+data.IDBlok+'")>Tagihan</button></a>'
-            ]).draw(false);
-            
-          })
-          // $("tbody").append()
+            })
+          } else{
+            $(".dataTables_empty").text("No data available in table")
+          }
         },
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

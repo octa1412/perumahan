@@ -92,19 +92,24 @@
       });
       var data = {id: "<?php echo $idBlok?>"}
       $.ajax({
+        $(".dataTables_empty").text("Loading...")
+
         url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
         type: 'POST',
         data: data,
         success: function (json) {
-          console.log(json);
           var response = JSON.parse(json);
-          response.forEach((data)=>{
-            dTable.row.add([
-              data.bulan+' '+ data.tahun, 
-              data.Harga
-              ]).draw(false);
-            
-          })
+          if(response.length > 0 ){
+            response.forEach((data)=>{
+              dTable.row.add([
+                data.bulan+' '+ data.tahun, 
+                data.Harga
+                ]).draw(false);
+              
+            })
+          } else{
+            $(".dataTables_empty").text("No data available in table")
+          }
         },
         error: function (xhr, status, error) {
           alert(status + '- ' + xhr.status + ': ' + xhr.statusText);

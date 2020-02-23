@@ -219,44 +219,49 @@
 
         $(document).ready(function () { 
           dTable = $('#table1').DataTable({
-            responsive: true
+            responsive: true,
           });
           get_data();
+          
         });
-
+        
         function get_data() {
+          $(".dataTables_empty").text("Loading...")
           // var data = get_filter_value()
-
           $.ajax({
             url: "<?php echo base_url() ?>index.php/Main/get_all_staff",
             type: 'POST',
             success: function (json) {
               var response = JSON.parse(json);
-              response.forEach((data)=>{              
-                no = data.username
-                if(data.nama_perumahan == null){
-                  dTable.row.add([
-                    data.username,
-                    data.nama_user,
-                    '-',
-                    data.email,
-                      '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
-                    + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'                
-                  ]).draw(false);
-                } else {
-                  var res = data.nama_perumahan.replace(/_/g, " ");
+              if (response.length > 0){
+                response.forEach((data)=>{              
+                  no = data.username
+                  if(data.nama_perumahan == null){
+                    dTable.row.add([
+                      data.username,
+                      data.nama_user,
+                      '-',
+                      data.email,
+                        '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
+                      + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'                
+                    ]).draw(false);
+                  } else {
+                    var res = data.nama_perumahan.replace(/_/g, " ");
 
-                  dTable.row.add([
-                    data.username,
-                    data.nama_user,
-                    res,
-                    data.email,
-                      '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
-                    + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'
-                  
-                  ]).draw(false);
-                }
-              })
+                    dTable.row.add([
+                      data.username,
+                      data.nama_user,
+                      res,
+                      data.email,
+                        '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
+                      + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'
+                    
+                    ]).draw(false);
+                  }
+                })
+              } else{
+                $(".dataTables_empty").text("No data available in table")
+              }
             },
             error: function (xhr, status, error) {
               alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
