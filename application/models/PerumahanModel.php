@@ -49,7 +49,12 @@ class PerumahanModel extends CI_Model {
 
 	public function update($where, $data){
 		$this->db->where($where);
-        $this->db->update('perumahan', $data);
+		$this->db->update('perumahan', $data);
+		if ($this->db->affected_rows() > 0 ) {
+			return $return_message = 'success';
+		}else{
+			return $return_message = 'failed';
+		}
 	}
 
 }

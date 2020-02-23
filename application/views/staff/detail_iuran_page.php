@@ -136,7 +136,7 @@
                     checked.push($(this).val());
             });
             if(checked.length == 0){
-                alert("select one")
+                alert("Pilih tagihan yang hendak dibayar.")
             } else{
                 var form = document.createElement('form');
                 document.body.appendChild(form);

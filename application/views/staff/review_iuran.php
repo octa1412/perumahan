@@ -118,6 +118,9 @@
         dTable = $('#table1').DataTable( {
             responsive:true
         });
+        $("#pdfmodal").on('hidden.bs.modal',function(){
+            window.location.href = "dashboardstaff";
+        })
         var idtagihan = <?php 
             $idTagihan = explode(",",$idTagihan);
             $idTagihan = json_encode($idTagihan);
@@ -174,10 +177,8 @@
             data: data,
             success: function (json) {
                     var o = json;
-                    console.log(o);
+                    console.log(o)
                     var ah = 'awas';
-                    console.log(ah);
-                    // window.location.href = "dashboardstaff";
                     $('#pdfmodal').modal();
                     $('#pdfdata').click(function pdftampil() {
                         $.ajax({
@@ -185,7 +186,6 @@
                             type: 'POST',
                             data: {id:o, po:ah},
                             success: function (hasil) {
-                                console.log(hasil);
 
                             },
                             error: function (xhr, status, error) {
@@ -201,7 +201,6 @@
                             type: 'POST',
                             data: {id:o},
                             success: function (hasil) {
-                                console.log(hasil);
 
                             },
                             error: function (xhr, status, error) {

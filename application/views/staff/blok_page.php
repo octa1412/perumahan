@@ -160,7 +160,7 @@
               no = data.IDBlok  
               if(data.IDBlok != null) {
                 dTable.row.add([
-                  data.IDBlok,
+                  data.nama_blok,
                   data.nama,
                   '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'
                 + '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToTagihan("'+data.IDBlok+'")>Detail</button></a>'
