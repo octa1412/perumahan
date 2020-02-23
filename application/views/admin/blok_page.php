@@ -347,7 +347,7 @@
               }            
             })
           } else{
-            $(".dataTables_empty").text("No data available in table")
+            $(".dataTables_empty").text("Tidak ada data yang ditampilkan.")
           }
         },    
         error: function (xhr, status, error) {

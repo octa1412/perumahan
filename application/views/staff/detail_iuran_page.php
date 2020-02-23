@@ -117,7 +117,7 @@
                         
                     })
                 } else{
-                    $(".dataTables_empty").text("No data available in table")
+                    $(".dataTables_empty").text("Tidak ada data yang ditampilkan.")
                 }
                 },
                 error: function (xhr, status, error) {
@@ -136,7 +136,7 @@
                     checked.push($(this).val());
             });
             if(checked.length == 0){
-                alert("select one")
+                alert("Pilih tagihan yang hendak dibayar.")
             } else{
                 var form = document.createElement('form');
                 document.body.appendChild(form);

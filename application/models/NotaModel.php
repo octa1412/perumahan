@@ -44,8 +44,6 @@ class NotaModel extends CI_Model {
         if($diskon == ""){
             $diskon = 0;
         }
-        $row = $this->db->count_all("nota");
-        $final = $row + 1;
         $data = array(
             'tanggal' => date("Y-m-d"),
             'username' => $username,
@@ -54,7 +52,7 @@ class NotaModel extends CI_Model {
             'total_setelah_diskon' => $total_awal - $diskon
         );
         $this->db->insert('nota', $data);
-        
+        $final = $this->db->insert_id();
         return  $final;
     }
 }

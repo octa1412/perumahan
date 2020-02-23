@@ -145,6 +145,29 @@
   }
   </style>
   <script>
+    $(document).ready(function(){
+      var elements = document.getElementsByTagName("INPUT");
+      for (var i = 0; i < elements.length; i++) {
+        if(elements[i].type != "email"){
+          elements[i].oninvalid = function(e) {
+            e.target.setCustomValidity("");
+            if (!e.target.validity.valid) {
+              e.target.setCustomValidity("Isian tidak boleh kosong!");
+            }
+          };
+        } else{
+          elements[i].oninvalid = function(e) {
+            e.target.setCustomValidity("");
+            if (!e.target.validity.valid) {
+              e.target.setCustomValidity("Harus diisi dengan email!");
+            }
+          };
+        }
+        elements[i].oninput = function(e) {
+          e.target.setCustomValidity("");
+        };
+      }
+    })
     sidebarOverlay()
     $( window ).resize(function() {
       sidebarOverlay()

@@ -98,7 +98,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form onsubmit="insertdata()">
+              <form onsubmit="insertdata(event)">
                 <div class="modal-body">
                     <div class="form-group">
                       <label for="username" class="col-form-label">Username</label>
@@ -264,7 +264,7 @@
                   }
                 })
               } else{
-                $(".dataTables_empty").text("No data available in table")
+                $(".dataTables_empty").text("Tidak ada data yang ditampilkan.")
               }
             },
             error: function (xhr, status, error) {
@@ -344,12 +344,13 @@
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
             },
             error: function () {
-              console.log("gagal update");
+              alert('Data tidak berhasil diubah!');
             }
           });
         }
 
-        function insertdata() {
+        function insertdata(e) {
+          e.preventDefault()
           var inputuser = document.getElementById("username").value
           var inputnama = document.getElementById("nama").value
           var inputnomor = document.getElementById("nomor").value
@@ -361,12 +362,11 @@
             type: 'POST',
             data: {user:inputuser, nama:inputnama, nomor:inputnomor, perum:inputperumahan, email:inputemail},
             success: function (response) {
-              // console.log(response);
               alert('Data Berhasil Ditambahkan!');              
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
             },
-            error: function () {
-              console.log("gagal insert");
+            error: function (response) {
+              alert('Username telah digunakan, silahkan menggunakan username lain!');
             }
           });
 

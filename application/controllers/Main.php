@@ -711,8 +711,8 @@ class Main extends CI_Controller {
 			);
 
 			$where= array('IDPerumahan' => $perumahan );
-			$updateperumahan = $this->PerumahanModel->update($where, $data1);
 			$insertStatus = $this->StaffModel->insert($data);
+			$updateperumahan = $this->PerumahanModel->update($where, $data1);
 			echo $insertStatus;
 		}else{
 			echo "access denied";
