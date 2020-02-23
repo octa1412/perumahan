@@ -35,9 +35,10 @@
               <div class="col-lg-12">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome</h1>
+                    <h1 class="h4 text-gray-900 mb-4"><i>Welcome</i></h1>
                   </div>
 
+                  <div class="form-group"><br></div>
                   <div class="alert alert-danger print-error-msg" style="display:none"></div>    
 
                   <form id="form" method="POST">
@@ -45,12 +46,14 @@
                       <center><label for="usr">Username</label></center>
                       <input type="text" class="form-control form-control-user" name="username">
                     </div>
+                    
                     <div class="form-group">
                       <center><label for="usr">Password</label></center>
                       <input type="password" class="form-control form-control-user" name="password">
                     </div>
+                    <div class="form-group"><br></div>
                     <hr>
-                    <button id="submit" type="submit" class="btn btn-primary center-item">Sign In</button>
+                    <center><button id="submit" type="submit" class="btn btn-primary center-item">Sign In</button></center>
                     <hr>
                   </form>                 
                   

@@ -35,6 +35,7 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/dashboard');
+			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -46,6 +47,7 @@ class Main extends CI_Controller {
 		if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('staff/blok_page');
+			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -57,9 +59,11 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/profile_page');
+			$this->load->view('footer');
 		}else if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('admin/profile_page');
+			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -71,9 +75,11 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/change_password');
+			$this->load->view('footer');
 		}else if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('staff/change_password');
+			$this->load->view('footer');
 		}else {
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -85,6 +91,7 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/cluster_page');
+			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -96,6 +103,7 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/blok_page');
+			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -107,6 +115,7 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/blok_detail_page');
+			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -117,8 +126,8 @@ class Main extends CI_Controller {
 	public function customer(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
-			$this->load->view('admin/customer_page');		
-
+			$this->load->view('admin/customer_page');	
+			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -129,7 +138,8 @@ class Main extends CI_Controller {
 	public function staff(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
-			$this->load->view('admin/staff_page');		
+			$this->load->view('admin/staff_page');	
+			$this->load->view('footer');	
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -143,10 +153,12 @@ class Main extends CI_Controller {
 			$data['idBlok'] = $idBlok;
 			$this->load->view('header');
 			$this->load->view('admin/arsip_admin_page', $data);
+			$this->load->view('footer');
 		}else if ($this->checkcookiestaff()) {
 			$data['idBlok'] = $idBlok;
 			$this->load->view('header1');
 			$this->load->view('staff/arsip_staff_page', $data);
+			$this->load->view('footer');
 		}else {
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -158,6 +170,7 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/arsip_page');
+			$this->load->view('footer');
 		}else {
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -171,10 +184,12 @@ class Main extends CI_Controller {
 			$data['idBlok'] = $idBlok;
 			$this->load->view('header');
 			$this->load->view('admin/tagihan_page',$data);
+			$this->load->view('footer');
 		} else if ($this->checkcookiestaff()) {
 			$data['idBlok'] = $idBlok;
 			$this->load->view('header1');
 			$this->load->view('staff/detail_iuran_page',$data);
+			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -188,6 +203,7 @@ class Main extends CI_Controller {
 			$data['idTagihan'] = $idTagihan;
 			$this->load->view('header1');
 			$this->load->view('staff/review_iuran',$data);
+			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -199,9 +215,11 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/dashboard');
+			$this->load->view('footer');
 		}else if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('staff/blok_page');
+			$this->load->view('footer');
 		}else {
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -622,9 +640,12 @@ class Main extends CI_Controller {
 			$idperum = $this->PerumahanModel->get_perumahan($perumahan);
 			$cluster = str_replace(" ", "_", $this->input->post('nama'));
 
+			$test = '';
+			$test = $test.$idperum.'_'.$cluster;
+
 			$data = array(
 				'IDPerumahan' => $idperum,
-				'nama_cluster' => $cluster
+				'nama_cluster' => $test
 			);
 			$insertStatus = $this->ClusterModel->insert($data);
 			echo $insertStatus;
@@ -778,8 +799,11 @@ class Main extends CI_Controller {
 
 		$idperum = $this->PerumahanModel->get_perumahan($perumahan);
 
+		$test = '';
+		$test = $test.$idperum.'_'.$nama;
+
 		$data = array(
-			'nama_cluster' => $nama,
+			'nama_cluster' => $test,
 			'IDPerumahan' => $idperum
 		);
 		
