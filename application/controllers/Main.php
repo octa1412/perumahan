@@ -688,12 +688,13 @@ class Main extends CI_Controller {
 
 	public function insert_staff() {
 		if ($this->checkcookieuser()) {
-			$username =  $this->input->post('id');
-			$nama =  $this->input->post('nama');
+			$username =  $this->input->post('user');
 			$nomor =  $this->input->post('nomor');
 			$perumahan = $this->input->post('perum');
 			$email = $this->input->post('email');
 			$staff = "staff";
+			$nama = str_replace(" ", "_", $this->input->post('nama'));
+
 
 			$data = array(
 				'username' => $username,
@@ -903,10 +904,11 @@ class Main extends CI_Controller {
 	}
 
 	public function update_profile(){
-		$nama = $this->input->post('nama');
 		$nomor = $this->input->post('nomor');
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
+		$nama = str_replace(" ", "_", $this->input->post('nama'));
+
 
 		$id = $this->get_cookie_decrypt("adminCookie");
 		if($id == NULL){
@@ -1047,7 +1049,7 @@ class Main extends CI_Controller {
 		$status = 'null';
 		$is_login = false;
 		foreach ($data as $row){
-			if ($username == $row['nama_user'] && $password == $row['password']) {
+			if ($username == $row['username'] && $password == $row['password']) {
 				if($row['pangkat'] == 'admin'){
 					$this->create_cookie_encrypt("adminCookie",$username);
 					$status = 'admin';

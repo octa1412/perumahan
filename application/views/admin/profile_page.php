@@ -128,7 +128,8 @@
               var response = JSON.parse(json);
               console.log(response)
               response.forEach((data)=>{
-                $("#nama").val(data.nama_user);
+                var res = data.nama_user.replace(/_/g, " ");
+                $("#nama").val(res);
                 $("#nomor").val(data.nomor);
                 $("#email").val(data.email);
                 $("#password").val(data.password);
