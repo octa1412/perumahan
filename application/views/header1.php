@@ -17,7 +17,8 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
   <link rel="stylesheet" type="text/css"href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.bootstrap.min.css">
   <link rel="stylesheet" type="text/css"href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
-  
+  <script src="<?=base_url('dist/vendor/jquery/jquery.min.js');?>"></script>
+
   <!-- Custom styles for this template-->
   <link href="<?php echo base_url('dist/css/sb-admin-2.min.css');?>" rel="stylesheet">
 
@@ -33,7 +34,6 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-text mx-3">Staff</div>
       </a>
 
       <!-- Divider -->
@@ -101,3 +101,49 @@
 
         </nav>
         <!-- End of Topbar -->
+              
+  <style>
+  @media (max-width:768px) {
+    .accordion {
+      z-index: 99;
+      position: fixed;
+    }
+    .sidebar .nav-item .nav-link span{
+      font-size: .75rem;
+    }
+  }
+  </style>
+  <script>
+    sidebarOverlay()
+    $( window ).resize(function() {
+      sidebarOverlay()
+    });
+    function sidebarOverlay(){
+      var sidebarbrand = document.getElementsByClassName("sidebar-brand")
+      sidebarbrand[0].innerHTML = '<div class="sidebar-brand-text mx-3">Staff</div>'+
+        '<button class="sidebar-brand-text btn rounded-circle mx-3" style="color:white"><i class="fa fa-bars"></i></button>'
+
+      var accordion = document.querySelector(".accordion")
+      var style = getComputedStyle(accordion)
+      if(style.position == "fixed"){
+        document.getElementsByTagName("body")[0].classList.add("sidebar-toggled")
+        accordion.classList.add("toggled")
+
+        document.getElementsByClassName("sidebar-brand")[0].onclick = function(event){
+          document.getElementById("sidebarToggleTop").click();
+        }
+        var element = document.getElementsByClassName("sidebar-brand-text");
+        element[1].style.display = "inline-block"
+        element[0].remove();
+      } else{
+        var element = document.getElementsByClassName("sidebar-brand-text");
+        document.getElementsByTagName("body")[0].classList.remove("sidebar-toggled")
+        accordion.classList.remove("toggled")
+
+        sidebarbrand[0].onclick = function(event){
+          event.preventDefault()
+        }
+        element[1].remove();
+      }
+    }
+  </script>

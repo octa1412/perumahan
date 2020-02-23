@@ -14,7 +14,7 @@
 
                     <div class="alert alert-danger print-error-msg" style="display:none"></div>    
 
-                        <form id="form">
+                        <form id="form" onsubmit="doSave(event)">
                                 <div class="form-group">
                                     <label for="password" class="col-form-label">Password</label>
                                     <input type="password" class="form-control" id="password" value="">
@@ -23,7 +23,7 @@
                                     <label for="re_password" class="col-form-label">Retype Password</label>
                                     <input type="password" class="form-control" id="re_password" value="">
                                 </div>                               
-                                <button class="btn btn-primary" onclick="doSave()">Save</button>                  
+                                <button type="submit" class="btn btn-primary" >Save</button>                  
                         </form>
                     </div>
                 </div>
@@ -89,48 +89,51 @@
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 
     <script>
-      function doSave(){
+      function doSave(e){
+        $(".print-error-msg").html("")
+        console.log("submit");
+        e.preventDefault();
+        $("#submit").prop("disabled", true);
 
-        $(document).on('submit', '#form', function (event) {
-          event.preventDefault();
-          $("#submit").prop("disabled", true);
+        var pass = $("#password").val();
+        var repass = $("#re_password").val()
+        var error = false;
+        if(pass == ""){
+          $(".print-error-msg").append("<p>The Password field is required.</p>");
+          $(".print-error-msg").css('display','block');
+          $("#submit").prop("disabled", false);
+          error = true;
+        }
+        if(repass == ""){
+          $(".print-error-msg").append("<p>The  Retype Password field is required.</p>");
+          $(".print-error-msg").css('display','block');
+          $("#submit").prop("disabled", false);
+          error = true;
+        }
 
-          var pass = $("#password").val();
-          var repass = $("#re_password").val()
-                   
+        if(pass != repass && !error){
+          $(".print-error-msg").html("<p>The Password field does not match the Retype Password field.</p>");
+          $(".print-error-msg").css('display','block');
+          $("#submit").prop("disabled", false);
+          error = true;
+        }
+        if(!error){
+          $(".print-error-msg").css('display','none');
           $.ajax({
-            url: "<?php echo base_url() ?>index.php/Main/aksipass",
-            type:'POST',
-            dataType: "json",
-            data: {password:pass, re_password:repass},
-            success: function(data) {
-              if($.isEmptyObject(data.error)){
-                $(".print-error-msg").css('display','none');
-
-                $.ajax({
-                  url: "<?php echo base_url() ?>index.php/Main/update_password_user",
-                  type: 'POST',
-                  data: {passw:pass},
-                  success: function (json) {
-                      alert('berhasil diubah');
-                      window.location = "<?php echo base_url() ?>index.php/Main/dashboarstaff";
-                      console.log(json);
-                  },
-                  error: function (xhr, status, error) {
-                    alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
-                    $("#submit").prop("disabled", false);
-                  }
-                });
-
-              }else{
-                $(".print-error-msg").css('display','block');
-                $(".print-error-msg").html(data.error);
-                $("#submit").prop("disabled", false);
-              }
-
-            }
-          });              
+          url: "<?php echo base_url() ?>index.php/Main/update_password_user",
+          type: 'POST',
+          data: {passw:pass},
+          success: function (json) {
+              alert('berhasil diubah');
+              window.location = "<?php echo base_url() ?>index.php/Main/dashboardstaff";
+              console.log(json);
+          },
+          error: function (xhr, status, error) {
+            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            $("#submit").prop("disabled", false);
+          }
         });
+        }
       }
 
     </script>
