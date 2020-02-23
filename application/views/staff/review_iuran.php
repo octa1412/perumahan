@@ -147,7 +147,7 @@
                         total_tagihan += parseInt(data.Harga)
                     })
                 } else{
-                    $(".dataTables_empty").text("No data available in table")
+                    $(".dataTables_empty").text("Tidak ada data yang ditampilkan.")
                 }
                 
             },
