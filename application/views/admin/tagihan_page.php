@@ -91,9 +91,9 @@
         responsive: true
       });
       var data = {id: "<?php echo $idBlok?>"}
-      $.ajax({
-        $(".dataTables_empty").text("Loading...")
+      $(".dataTables_empty").text("Loading...")
 
+      $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
         type: 'POST',
         data: data,
@@ -108,11 +108,11 @@
               
             })
           } else{
-            $(".dataTables_empty").text("No data available in table")
+            $(".dataTables_empty").text("No data available in table");
           }
         },
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });

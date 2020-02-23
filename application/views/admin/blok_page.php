@@ -214,7 +214,7 @@
           })
         },
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });
@@ -293,7 +293,7 @@
           callback()
         },
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });
@@ -351,7 +351,7 @@
           }
         },    
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });
@@ -405,7 +405,7 @@
                 $('#cluster1').val(data.IDCluster);
               },
               error: function (xhr, status, error) {
-                alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+                alert('Terdapat Kesalahan Pada Server...');
                 $("#submit").prop("disabled", false);
               }
             });
@@ -429,7 +429,7 @@
       var inputnama = document.getElementById("nama-blok1").value
       var inputharga = document.getElementById("harga1").value
       if(inputcluster == "default"){
-        alert("Please select Perumahan and Cluster")
+        alert("Silahkan Pilih Perumahan dan Cluster")
         return;
       }
 
@@ -456,7 +456,7 @@
 
       if(inputperum == "default" || inputcluster == "default"){
         e.preventDefault();
-        alert("Please select Perumahan and Cluster")
+        alert("Silahkan Pilih Perumahan dan Cluster")
         return;
       }
 

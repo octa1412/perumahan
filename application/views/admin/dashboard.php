@@ -78,22 +78,21 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>                  
+                <form onsubmit="insertdata(event)">                  
                   <div class="form-group">
                     <label class="col-form-label">Nama Perumahan:</label>
-                    <input type="text" class="form-control" id="nama-perumahan" placeholder="Nama Perumahan..." >
+                    <input type="text" class="form-control" id="nama-perumahan" placeholder="Nama Perumahan..." required>
                   </div>
                   <div class="form-group">
                     <label class="col-form-label">Kota:</label>
-                    <input type="text" class="form-control" id="nama-kota" placeholder="Kota...">
-                  </div>
-                 
-                </form>
+                    <input type="text" class="form-control" id="nama-kota" placeholder="Kota..."  required>
+                  </div>                 
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
+                <button type="submit" class="btn btn-primary">Add</button>
               </div>
+                </form>
             </div>
           </div>
         </div>  
@@ -184,7 +183,7 @@
               }
             },
             error: function (xhr, status, error) {
-              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              alert('Terdapat Kesalahan Pada Server...');
               $("#submit").prop("disabled", false);
             }
           });
@@ -256,9 +255,11 @@
           });          
         }
 
-        function insertdata() {
+        function insertdata(e) {
           var inputnama = document.getElementById("nama-perumahan").value
           var inputkota = document.getElementById("nama-kota").value
+          e.preventDefault();
+
 
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/insert_perumahan/",
