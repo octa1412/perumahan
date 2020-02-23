@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2020 at 02:04 PM
+-- Generation Time: Feb 23, 2020 at 03:11 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -381,7 +381,8 @@ INSERT INTO `customer` (`IDCustomer`, `nama`, `nomor`, `email`) VALUES
 (145, 'Yelis Agustina', '081207168374', '44975@gmail.com'),
 (146, 'Yonny Herdyanto S Pd M kes', '081790421484', '70892@gmail.com'),
 (147, 'Yulius Catur Adi Wijaya', '081720947619', '58872@gmail.com'),
-(148, 'Yusnita/Azwar P', '081354548359', '55246@gmail.com');
+(148, 'Yusnita/Azwar P', '081354548359', '55246@gmail.com'),
+(149, 'Ilham Mahendra Sika', '089765433', 'sika@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -428,13 +429,13 @@ CREATE TABLE `perumahan` (
 --
 
 INSERT INTO `perumahan` (`IDPerumahan`, `nama_perumahan`, `kota`, `username`, `status`) VALUES
-(1, 'Anggrek1', 'Surabaya', '2', '1'),
-(2, 'Melati', 'Malang', '4', '1'),
-(3, 'Tulip', 'Malang', '5', '1'),
+(1, 'Anggrek1', 'Surabaya', 'staff1', '1'),
+(2, 'Melati', 'Malang', 'staff3', '1'),
+(3, 'Tulip', 'Malang', 'staff4', '1'),
 (4, 'Mawar', 'Surabaya', NULL, '0'),
 (5, 'Cempedak', 'Jakarta', NULL, '0'),
-(6, 'Manggis', 'Surabaya', '3', '1'),
-(7, 'Merak', 'Surabaya', '6', '1'),
+(6, 'Manggis', 'Surabaya', 'staff2', '1'),
+(7, 'Merak', 'Surabaya', 'staff5', '1'),
 (8, 'Caca_Maria', 'Malang', NULL, '0');
 
 -- --------------------------------------------------------
@@ -615,7 +616,7 @@ INSERT INTO `tagihan` (`IDTagihan`, `IDBlok`, `bulan`, `tahun`, `Harga`, `status
 --
 
 CREATE TABLE `user` (
-  `username` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
   `pangkat` varchar(255) DEFAULT NULL,
   `nama_user` varchar(255) DEFAULT NULL,
@@ -628,12 +629,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`username`, `password`, `pangkat`, `nama_user`, `nomor`, `email`) VALUES
-(1, '202cb962ac59075b964b07152d234b70', 'admin', 'Ketut', '0897654321', 'admin@gmail.com'),
-(2, 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'tata', '089765432141', 'tata@gmail.com'),
-(3, 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'siti', '089817171625', 'siti@gmail.com'),
-(4, 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'dido', '087456432134', 'dido@gmail.com'),
-(5, 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'ando', '089763524162', 'ando@gmail.com'),
-(6, 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Miftahul', '087654312131', 'mifta@gmail.com');
+('admin', 'f1290186a5d0b1ceab27f4e77c0c5d68', 'admin', 'Ketuta_alex', '089123456789', 'admin@gmail.com'),
+('staff1', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'tata', '089765432141', 'tata@gmail.com'),
+('staff2', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'siti', '089817171625', 'siti@gmail.com'),
+('staff3', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'dido', '087456432134', 'dido@gmail.com'),
+('staff4', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'ando', '089763524162', 'ando@gmail.com'),
+('staff5', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Miftahul', '087654312131', 'mifta@gmail.com'),
+('staff7', '827ccb0eea8a706c4c34a16891f84e7b', 'staff', 'pino alke', '0987654321', 'yaya@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -698,19 +700,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `blok`
 --
 ALTER TABLE `blok`
-  MODIFY `IDBlok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `IDBlok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT for table `cluster`
 --
 ALTER TABLE `cluster`
-  MODIFY `IDCluster` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `IDCluster` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `IDCustomer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `IDCustomer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT for table `nota`
@@ -722,13 +724,7 @@ ALTER TABLE `nota`
 -- AUTO_INCREMENT for table `perumahan`
 --
 ALTER TABLE `perumahan`
-  MODIFY `IDPerumahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `username` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `IDPerumahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables

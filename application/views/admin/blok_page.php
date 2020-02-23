@@ -105,7 +105,7 @@
                 <div class="modal-body">
                   <div class="form-group">
                     <label for="nama-blok" class="col-form-label">Nama Blok:</label>
-                    <input type="text" required class="form-control" id="nama-blok" placeholder="ID Blok...">
+                    <input type="text" required class="form-control" id="nama-blok" placeholder="Nama Blok...">
                   </div>
                   <div class="form-group">
                     <label for="perumahan" class="col-form-label">Nama Perumahan:</label>
@@ -117,7 +117,7 @@
                     <label for="cluster" class="col-form-label">Nama Cluster:</label>
                     <select class="custom-select" id="cluster" required>
                       <option value="default">Cluster</option>                
-                    </select>
+                    </select> 
                   </div>
                   <div class="form-group">
                     <label for="harga" class="col-form-label">Harga:</label>

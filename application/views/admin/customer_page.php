@@ -20,7 +20,6 @@
             <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Nama</th>
                   <th>Email</th>
                   <th>Nomor</th>
@@ -197,7 +196,6 @@
                 response.forEach((data)=>{
                   no++;
                   dTable.row.add([
-                    no,
                     data.nama,
                     data.email,
                     data.nomor,
