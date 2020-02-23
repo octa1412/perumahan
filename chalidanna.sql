@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2020 at 03:11 PM
+-- Generation Time: Feb 23, 2020 at 06:23 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -432,11 +432,11 @@ INSERT INTO `perumahan` (`IDPerumahan`, `nama_perumahan`, `kota`, `username`, `s
 (1, 'Anggrek1', 'Surabaya', 'staff1', '1'),
 (2, 'Melati', 'Malang', 'staff3', '1'),
 (3, 'Tulip', 'Malang', 'staff4', '1'),
-(4, 'Mawar', 'Surabaya', NULL, '0'),
+(4, 'Mawar', 'Surabaya', 'staff6', '1'),
 (5, 'Cempedak', 'Jakarta', NULL, '0'),
 (6, 'Manggis', 'Surabaya', 'staff2', '1'),
 (7, 'Merak', 'Surabaya', 'staff5', '1'),
-(8, 'Caca_Maria', 'Malang', NULL, '0');
+(8, 'Caca_Maria', 'Malang', 'admin1', '1');
 
 -- --------------------------------------------------------
 
@@ -629,13 +629,14 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`username`, `password`, `pangkat`, `nama_user`, `nomor`, `email`) VALUES
-('admin', 'f1290186a5d0b1ceab27f4e77c0c5d68', 'admin', 'Ketuta_alex', '089123456789', 'admin@gmail.com'),
+('admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin', 'Ketuta_alex', '089123456789', 'admin@gmail.com'),
+('admin1', '827ccb0eea8a706c4c34a16891f84e7b', 'staff', 'Miftahul_Munir', '0987654321', 'intanriadi@yahoo.com'),
 ('staff1', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'tata', '089765432141', 'tata@gmail.com'),
 ('staff2', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'siti', '089817171625', 'siti@gmail.com'),
 ('staff3', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'dido', '087456432134', 'dido@gmail.com'),
 ('staff4', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'ando', '089763524162', 'ando@gmail.com'),
 ('staff5', 'e10adc3949ba59abbe56e057f20f883e', 'staff', 'Miftahul', '087654312131', 'mifta@gmail.com'),
-('staff7', '827ccb0eea8a706c4c34a16891f84e7b', 'staff', 'pino alke', '0987654321', 'yaya@gmail.com');
+('staff6', '827ccb0eea8a706c4c34a16891f84e7b', 'staff', 'Ilham_Mahendra', '0987654321', 'yaya@gmail.com');
 
 --
 -- Indexes for dumped tables

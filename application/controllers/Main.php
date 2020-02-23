@@ -716,7 +716,6 @@ class Main extends CI_Controller {
 			$staff = "staff";
 			$nama = str_replace(" ", "_", $this->input->post('nama'));
 
-
 			$data = array(
 				'username' => $username,
 				'password' => '827ccb0eea8a706c4c34a16891f84e7b',
@@ -734,7 +733,7 @@ class Main extends CI_Controller {
 			$where= array('IDPerumahan' => $perumahan );
 			$insertStatus = $this->StaffModel->insert($data);
 			$updateperumahan = $this->PerumahanModel->update($where, $data1);
-			echo $insertStatus;
+			echo $nama;
 		}else{
 			echo "access denied";
 		}
