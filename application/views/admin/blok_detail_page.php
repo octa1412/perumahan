@@ -149,7 +149,7 @@
           })
         },
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });
@@ -188,7 +188,7 @@
             })
           },
           error: function (xhr, status, error) {
-            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            alert('Terdapat Kesalahan Pada Server...');
             $("#submit").prop("disabled", false);
           }
         });
@@ -209,7 +209,7 @@
             })
           },
           error: function (xhr, status, error) {
-            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            alert('Terdapat Kesalahan Pada Server...');
             $("#submit").prop("disabled", false);
           }
         });
@@ -241,13 +241,13 @@
                   '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDBlok +'") >Delete</button>'
                 
                 ]).draw(false);                
-              }) else{
+              }) 
+            } else{
                 $(".dataTables_empty").text("No data available in table")
               }
-            }
         },    
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });

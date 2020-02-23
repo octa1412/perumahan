@@ -33,7 +33,7 @@ class TagihanModel extends CI_Model {
 		return $query->result_array();
 	}
 	
-	public function get_by_id($idTagihan){
+	public function get_by_id($idTagihan){ 
 
         $this->db->select();
 		$this->db->from('tagihan');

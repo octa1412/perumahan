@@ -1222,27 +1222,34 @@ class Main extends CI_Controller {
 		$tahun = $this->input->post('tahun');
 		$idsementara = '';
 		$nilaiharga = '';
-		$nilai1 = '';
+		$harga1 = '';
+		$nilaiblok = '';
+		$blok1 = '';
 		foreach($cust as $hasil) {
-			$idsementara = $idsementara.json_encode($hasil['IDBlok']).$bulan.$tahun;
 
 			$nilaiharga = json_encode($hasil['Harga']);
+			$nilaiblok = json_encode($hasil['IDBlok']);
 			$number = str_replace('"', "", $nilaiharga);
-			$nilai1 = intval($number);
+			$harga1 = intval($number);
+			$blok1 = str_replace('"', "", $nilaiblok);
+			$idsementara = $idsementara.$blok1.$bulan.$tahun;
+
 
 			$data = array(
 				'IDTagihan' => $idsementara,
-				'IDBlok' => json_encode($hasil['IDBlok']),
+				'IDBlok' => $blok1,
 				'bulan' => $bulan,
 				'tahun' => $tahun,
-				'Harga' => $nilai1,
+				'Harga' => $harga1,
 				'status' => '0'
 			);
 
 			$insertStatus = $this->TagihanModel->insert_tagihan($data);
 			$idsementara = '';
 			$nilaiharga = '';
-			$nilai1 = '';
+			$harga1 = '';
+			$nilaiblok = '';
+			$blok1 = '';
 		}
 
 	}

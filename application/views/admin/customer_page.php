@@ -207,8 +207,8 @@
                   
                   ]).draw(false);                
                 })
-              } elseP
-              $(".dataTables_empty").text("No data available in table")
+              } else {
+              $(".dataTables_empty").text("No data available in table")}
             },
             error: function (xhr, status, error) {
               alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
@@ -303,7 +303,7 @@
        
         });
         }
-        function detaildata(id) {
+        function detaildata(id) { 
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/create_cookie_encrypt",
             type: 'POST',

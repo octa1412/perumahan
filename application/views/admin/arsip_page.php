@@ -121,7 +121,7 @@
           })
         },
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });
@@ -162,7 +162,7 @@
             callback();
           },
           error: function (xhr, status, error) {
-            alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+            alert('Terdapat Kesalahan Pada Server...');
             $("#submit").prop("disabled", false);
           }
         });
@@ -199,7 +199,7 @@
             response.forEach((data)=>{
               dTable.row.add([
                 data.nama, 
-                data.IDBlok,
+                data.nama_blok,
                 
                 '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'
                 + '<button class="btn btn-outline-success mt-10 mb-10" onclick=goToTagihan("'+data.IDBlok+'")>Tagihan</button></a>'
@@ -211,7 +211,7 @@
           }
         },
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });
@@ -296,14 +296,14 @@
               
             },    
             error: function (xhr, status, error) {
-              alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+              alert('Terdapat Kesalahan Pada Server...');
               $("#submit").prop("disabled", false);
             }
           });
 
         },    
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });

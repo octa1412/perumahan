@@ -56,12 +56,12 @@
                     <div class="form-group">
                         <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
                         <select class="custom-select" id="perumahan1">
-                           
+                          <option value="default">Perumahan</option>   
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
-                        <input type="text" class="form-control" id="nama-cluster1">
+                        <input type="text" class="form-control" id="nama-cluster1" required>
                     </div>
                  
                 </form>
@@ -85,24 +85,23 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form onsubmit="insertdata(event)">
                   <div class="form-group">
                     <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
-                    <select class="custom-select" id="perumahan">
-                        
+                    <select class="custom-select" id="perumahan" required>
+                      <option value="default">Perumahan</option>   
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
-                    <input type="text" class="form-control" id="nama-cluster" placeholder="Nama Cluster...">
-                  </div>
-                 
-                </form>
+                    <input type="text" class="form-control" id="nama-cluster" placeholder="Nama Cluster..." required>
+                  </div>      
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="insertdata()">Add</button>
+                <button type="submit" class="btn btn-primary">Add</button>
               </div>
+                </form>
             </div>
           </div>
         </div>  
@@ -185,7 +184,7 @@
           })
         },
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });
@@ -234,7 +233,7 @@
           }
         },
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });
@@ -307,6 +306,10 @@
             var inputid = document.getElementById("id-cluster1").value
             var inputperumahan = document.getElementById("perumahan1").value
             var inputnama = document.getElementById("nama-cluster1").value
+            if(inputperumahan == "default"){
+              alert("Silahkan Pilih Perumahan!")
+              return;
+            }
                         
               $.ajax({
                 url: "<?php echo base_url()?>index.php/Main/update_cluster/",
@@ -329,9 +332,14 @@
       });          
     }
 
-    function insertdata() {
+    function insertdata(e) {
       var inputperum = document.getElementById("perumahan").value
       var inputnama = document.getElementById("nama-cluster").value
+      if(inputperum == "default"){
+        e.preventDefault();
+        alert("Silahkan Pilih Perumahan!")
+        return;
+      }
 
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/insert_cluster/",

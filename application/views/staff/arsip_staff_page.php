@@ -170,7 +170,7 @@
           }
         },
         error: function (xhr, status, error) {
-          alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+          alert('Terdapat Kesalahan Pada Server...');
           $("#submit").prop("disabled", false);
         }
       });
@@ -202,7 +202,7 @@
 
                   },
                   error: function (xhr, status, error) {
-                  alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+                  alert('Terdapat Kesalahan Pada Server...');
                   $("#submit").prop("disabled", false);
                   }
               });
@@ -218,14 +218,14 @@
 
                   },
                   error: function (xhr, status, error) {
-                  alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+                  alert('Terdapat Kesalahan Pada Server...');
                   $("#submit").prop("disabled", false);
                   }
               });
           });                                                                  
         },
         error: function (xhr, status, error) {
-        alert(status + '- ' + xhr.status + ': ' + xhr.statusText);
+        alert('Terdapat Kesalahan Pada Server...');
         $("#submit").prop("disabled", false);
         }
       });
