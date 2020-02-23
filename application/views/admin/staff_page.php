@@ -198,10 +198,12 @@
               if (response.length > 0){
                 response.forEach((data)=>{              
                   no = data.username
+                  var namastaff = data.nama_user.replace(/_/g, " ");
+
                   if(data.nama_perumahan == null){
                     dTable.row.add([
                       data.username,
-                      data.nama_user,
+                      namastaff,
                       '-',
                       data.email,
                         '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
@@ -212,7 +214,7 @@
 
                     dTable.row.add([
                       data.username,
-                      data.nama_user,
+                      namastaff,
                       res,
                       data.email,
                         '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
