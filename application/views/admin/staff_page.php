@@ -70,7 +70,10 @@
                   <div class="form-group">
                       <button type="button" class="btn btn-info" id="reset" onclick="resetpassword()" >Reset Password</button>                     
                       </select>
-                  </div> 
+                  </div>
+                  <div class="form-group">
+                      <input required type="text" class="form-control" id="idlama" readonly>
+                  </div>
                   <div class="form-group">
                       <label for="perumahan1" class="col-form-label">Nama Perumahan:</label>
                       <select required class="custom-select" id="perumahan1">                      
@@ -267,17 +270,20 @@
               var response = JSON.parse(response);
               response.forEach((data)=>{
                 var res = data.nama_user.replace(/_/g, " ");
+                var rumah = data.nama_perumahan.replace(/_/g, " ");
 
                 $('#editmodal').modal();
                 $("#id-staff1").val(data.username);
                 $('#nama1').val(res);
                 $('#nomor1').val(data.nomor);
                 if(data.IDPerumahan != null) {
-                  $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
+                  $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ rumah +'</option>'); 
                 }                
                 $('#perumahan1').val(data.IDPerumahan);
                 $('#password1').val(data.password);
-                $('#email1').val(data.email);                            
+                $('#email1').val(data.email);      
+                $('#idlama').val(data.IDPerumahan);
+                console.log(data.IDPerumahan );                     
               })
             },
             error: function () {
@@ -293,13 +299,14 @@
           var inputnomor = document.getElementById("nomor1").value
           var inputemail = document.getElementById("email1").value
           var inputperumahan = document.getElementById("perumahan1").value
-          var dataidperum = document.getElementById("perumahan").value
+          var dataidperum = document.getElementById("idlama").value
+          console.log(dataidperum);
           $.ajax({
             url: "<?php echo base_url()?>index.php/Main/update_staff/",
             type: 'POST',
             data: {id:inputid, nama:inputnama, nomor:inputnomor, email:inputemail, perum:inputperumahan, idlama:dataidperum},
             success: function (response) {
-              // console.log(response);
+              console.log(response);
               alert('Data Berhasil Diedit!');
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
             },
