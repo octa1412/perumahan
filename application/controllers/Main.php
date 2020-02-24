@@ -891,6 +891,9 @@ class Main extends CI_Controller {
 			'status' => '0'
 		);
 
+		echo $idperum;
+
+
 		if($idperum != null) {
 			if($idperum != $idlama) {
 				$where1= array('IDPerumahan' => $idperum );
