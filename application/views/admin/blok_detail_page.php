@@ -142,7 +142,11 @@
             $("#cluster option[value!=default]").remove();
             var response = JSON.parse(json);
             response.forEach((data)=>{
-              $('#cluster').append(new Option(data.nama_cluster, data.IDCluster))
+              var datacluster = data.nama_cluster;
+              var temukan = datacluster.indexOf("_");
+              var namacluster = data.nama_cluster.substring(temukan+1);
+              
+              $('#cluster').append(new Option(namacluster, data.IDCluster))
             })
           },
           error: function (xhr, status, error) {
@@ -192,9 +196,13 @@
             if(response.length > 0){
               response.forEach((data)=>{
                 no++;
+                var datacluster = data.nama_cluster;
+                var temukan = datacluster.indexOf("_");
+                var namacluster = data.nama_cluster.substring(temukan+1);
+
                 dTable.row.add([
                   data.nama_perumahan,
-                  data.nama_cluster,
+                  data.namacluster,
                   data.nama_blok,
                   '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDBlok +'") >Delete</button>'
                 

@@ -12,7 +12,7 @@
             <div class="card-body" style="background-color: #FFFFFF;">
 
               <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
-                  <button class="btn btn-primary" onclick=getData()>Add Tagihan bulanan</button>
+                  <a class="btn btn-primary" href="<?php echo base_url('index.php/Main/addtagihan');?>">Form Tagihan Bulanan</a>
               </div>
 
               <div class="d-sm-flex align-items-center mb-4">						
@@ -117,7 +117,11 @@
             $("#fl-cluster option[value!=default]").remove();
             var response = JSON.parse(json);
             response.forEach((data)=>{
-              $('#fl-cluster').append(new Option(data.nama_cluster, data.IDCluster))
+              var datacluster = data.nama_cluster;
+              var temukan = datacluster.indexOf("_");
+              var namacluster = data.nama_cluster.substring(temukan+1);
+
+              $('#fl-cluster').append(new Option(namacluster, data.IDCluster))
             })
             callback();
           },
@@ -157,8 +161,14 @@
           if(response.length > 0){
             dTable.clear().draw();
             response.forEach((data)=>{
+              var namacustomer = data.nama.substring(0, 20);
+              var len = data.nama.length;
+              if(len > 20){
+                namacustomer = namacustomer + '...';
+              }
+
               dTable.row.add([
-                data.nama, 
+                namacustomer, 
                 data.nama_blok,
                 
                 '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'

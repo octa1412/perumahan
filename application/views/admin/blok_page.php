@@ -167,10 +167,10 @@
         success: function (json) {
           var response = JSON.parse(json);
           response.forEach((data)=>{ 
-            var res = data.nama_perumahan.replace(/_/g, " ");
-            $('#fl-perumahan').append(new Option(res, data.IDPerumahan))
-            $('#perumahan1').append(new Option(res, data.IDPerumahan))
-            $('#perumahan').append(new Option(res, data.IDPerumahan))            
+            // var res = data.nama_perumahan.replace(/_/g, " ");
+            $('#fl-perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))
+            $('#perumahan1').append(new Option(data.nama_perumahan, data.IDPerumahan))
+            $('#perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan))            
           })
         },
         error: function (xhr, status, error) {
@@ -245,10 +245,13 @@
           $("#cluster option[value!=default]").remove();
           var response = JSON.parse(json);
           response.forEach((data)=>{
-            var tes = data.nama_cluster.replace(/_/g, " ");
-            $('#fl-cluster').append(new Option(tes, data.IDCluster))
-            $('#cluster1').append(new Option(tes, data.IDCluster))
-            $('#cluster').append(new Option(tes, data.IDCluster))
+            var datacluster = data.nama_cluster;
+            var temukan = datacluster.indexOf("_");
+            var namacluster = data.nama_cluster.substring(temukan+1);
+
+            $('#fl-cluster').append(new Option(namacluster, data.IDCluster))
+            $('#cluster1').append(new Option(namacluster, data.IDCluster))
+            $('#cluster').append(new Option(namacluster, data.IDCluster))
           })
           callback()
         },
@@ -359,8 +362,11 @@
                 $("#cluster1 option[value!=default]").remove();
                 var response = JSON.parse(json);
                 response.forEach((dt)=>{
-                  var tes = dt.nama_cluster.replace(/_/g, " ");
-                  $('#cluster1').append(new Option(tes, dt.IDCluster))
+                  var datacluster = data.nama_cluster;
+                  var temukan = datacluster.indexOf("_");
+                  var namacluster = data.nama_cluster.substring(temukan+1);
+                  
+                  $('#cluster1').append(new Option(namacluster, dt.IDCluster))
                 })
                 $('#cluster1').val(data.IDCluster);
               },
