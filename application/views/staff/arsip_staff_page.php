@@ -117,6 +117,7 @@
         success: function (json) {
           dTable.clear().draw();
           var response = JSON.parse(json);
+          console.log(response)
           if(response.length > 0){
             response.forEach((data)=>{
               dTable.row.add([

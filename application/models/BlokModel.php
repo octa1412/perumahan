@@ -106,6 +106,13 @@ class BlokModel extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-
+	public function get_harga($id){
+		$this->db->select('Harga');
+		$this->db->from('blok');
+		$this->db->where('IDBlok',$id);
+		$query = $this->db->get();
+		$final = $query->row();
+		return $final->Harga;
+	}
 }
 ?>

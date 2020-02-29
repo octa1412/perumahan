@@ -199,8 +199,13 @@ class Main extends CI_Controller {
 	//Review iuran tagihan
 	public function iuranreview(){
 		$idTagihan = $this->input->post('data');
+		$manual = $this ->input->post('manual');
+		$id = $this ->input->post('idBlok');
 		if ($this->checkcookiestaff()) {
 			$data['idTagihan'] = $idTagihan;
+			$data['manual'] = $manual;
+			$data['id'] = $id;
+			$data['harga'] = $this->BlokModel->get_harga($id);
 			$this->load->view('header1');
 			$this->load->view('staff/review_iuran',$data);
 			$this->load->view('footer');
@@ -738,6 +743,25 @@ class Main extends CI_Controller {
 			echo "access denied";
 		}
 	}
+
+	public function tagihanmanual(){
+		if($this->checkcookiestaff()){
+			$username = $this->get_cookie_decrypt("staffCookie");
+			$data = $this->input->post('data');
+			$blok = $this->input->post('id');
+			$harga = $this->input->post('harga');
+			foreach($data as $monthYear){
+				$tagihan = array('IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
+						'IDBlok' => $blok,
+						'bulan' => $monthYear['month'],
+						'tahun' => $monthYear['year'],
+						'harga' => $harga
+					);
+				$this->TagihanModel->insert_tagihan($tagihan);
+			}
+		}
+	}
+
 
 	//UPDATE
 
