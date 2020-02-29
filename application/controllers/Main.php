@@ -196,7 +196,7 @@ class Main extends CI_Controller {
 		}
 	}
 
-	//Review iuran tagihan
+	//Review iuran tagihan admin
 	public function iuranreview(){
 		$idTagihan = $this->input->post('data');
 		$manual = $this ->input->post('manual');
@@ -208,6 +208,18 @@ class Main extends CI_Controller {
 			$data['harga'] = $this->BlokModel->get_harga($id);
 			$this->load->view('header1');
 			$this->load->view('staff/review_iuran',$data);
+			$this->load->view('footer');
+		}else{
+			header("Location: ".base_url()."index.php/login");
+			die();
+		}
+	}
+
+	//add tagihan
+	public function addtagihan(){
+		if ($this->checkcookieuser()) {
+			$this->load->view('header');
+			$this->load->view('admin/add_tagihan');
 			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
@@ -627,7 +639,7 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$spasi = str_replace(" ", "_", $this->input->post('nama'));
 			$data = array(
-				'nama_perumahan' => $spasi,
+				'nama_perumahan' => $this->input->post('nama'),
 				'kota' => $this->input->post('kota'),
 				'status' => '0'
 			);
@@ -640,10 +652,8 @@ class Main extends CI_Controller {
 
 	public function insert_cluster() {
 		if ($this->checkcookieuser()) {
-			$perumahan =  str_replace(" ", "_", $this->input->post('perum'));
-
-			$idperum = $this->PerumahanModel->get_perumahan($perumahan);
-			$cluster = str_replace(" ", "_", $this->input->post('nama'));
+			$idperum = $this->input->post('perum');
+			$cluster = $this->input->post('nama');
 
 			$test = '';
 			$test = $test.$idperum.'_'.$cluster;
@@ -744,20 +754,78 @@ class Main extends CI_Controller {
 		}
 	}
 
+	public function add_tagihan_manual(){
+		if ($this->checkcookieuser()) {
+			$all = $this->TagihanModel->get_all_tagihan();
+
+			$coba = $this->input->post('id');
+			$kondisi = '';
+
+			foreach($all as $satuan){
+				if($coba == $satuan['IDTagihan']){					
+					echo "Data Tagihan Sudah Ada!";
+					$kondisi = 'ada';
+					break;
+				} 					
+			}
+
+			if($kondisi == 'ada') {
+			} else {
+				$data = array(
+					'IDTagihan' => $this->input->post('id'),
+					'IDBlok' => $this->input->post('blok'),
+					'bulan' => $this->input->post('bulan'),
+					'tahun' => $this->input->post('tahun'),
+					'Harga' => $this->input->post('harga'),
+					'status' => '0'					
+				);
+				$insertStatus = $this->TagihanModel->insert_tagihan($data);	
+				echo 'Data Berhasil Ditambahkan!';
+			}
+					
+			$kondisi = '';
+			
+		}else{
+			echo "access denied";
+		}
+	}
+
 	public function tagihanmanual(){
 		if($this->checkcookiestaff()){
 			$username = $this->get_cookie_decrypt("staffCookie");
 			$data = $this->input->post('data');
 			$blok = $this->input->post('id');
 			$harga = $this->input->post('harga');
+			$idsementara = '';
+			$all = $this->TagihanModel->get_all_tagihan();
+			$kondisi = '';
+
 			foreach($data as $monthYear){
-				$tagihan = array('IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
-						'IDBlok' => $blok,
-						'bulan' => $monthYear['month'],
-						'tahun' => $monthYear['year'],
-						'harga' => $harga
-					);
-				$this->TagihanModel->insert_tagihan($tagihan);
+				$idsementara = $idsementara.$blok.$monthYear['month'].$monthYear['year'];
+
+				foreach($all as $satuan){
+					if($idsementara == $satuan['IDTagihan']){					
+						$kondisi = 'ada';
+						break;
+					} 					
+				}
+
+				if($kondisi == 'ada'){
+
+				} else {
+					$tagihan = array(
+							'IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
+							'IDBlok' => $blok,
+							'bulan' => $monthYear['month'],
+							'tahun' => $monthYear['year'],
+							'harga' => $harga
+						);
+					$this->TagihanModel->insert_tagihan($tagihan);
+				}
+
+				$idsementara = '';
+				$kondisi='';
+
 			}
 		}
 	}
@@ -802,10 +870,9 @@ class Main extends CI_Controller {
 		$id = $this->input->post('id');
 		$nama = $this->input->post('nama');
 		$kota = $this->input->post('kota');
-		$spasi = str_replace(" ", "_", $nama);
 
 		$data = array(
-            'nama_perumahan' => $spasi,
+            'nama_perumahan' => $nama,
             'kota' => $kota,
 		);
 		
@@ -817,10 +884,8 @@ class Main extends CI_Controller {
 	//Edit data cluster
 	public function update_cluster(){
 		$id = $this->input->post('id');
-		$perumahan = str_replace(" ", "_", $this->input->post('perumahan'));
-		$nama = str_replace(" ", "_", $this->input->post('nama'));
-
-		$idperum = $this->PerumahanModel->get_perumahan($perumahan);
+		$nama = $this->input->post('nama');
+		$idperum = $this->input->post('perumahan');
 
 		$test = '';
 		$test = $test.$idperum.'_'.$nama;
@@ -1274,8 +1339,11 @@ class Main extends CI_Controller {
 		$harga1 = '';
 		$nilaiblok = '';
 		$blok1 = '';
-		foreach($cust as $hasil) {
+		$kondisi = '';
 
+		$all = $this->TagihanModel->get_all_tagihan();
+
+		foreach($cust as $hasil) {
 			$nilaiharga = json_encode($hasil['Harga']);
 			$nilaiblok = json_encode($hasil['IDBlok']);
 			$number = str_replace('"', "", $nilaiharga);
@@ -1284,21 +1352,32 @@ class Main extends CI_Controller {
 			$idsementara = $idsementara.$blok1.$bulan.$tahun;
 
 
-			$data = array(
-				'IDTagihan' => $idsementara,
-				'IDBlok' => $blok1,
-				'bulan' => $bulan,
-				'tahun' => $tahun,
-				'Harga' => $harga1,
-				'status' => '0'
-			);
+			foreach($all as $satuan){
+				if($idsementara == $satuan['IDTagihan']){					
+					$kondisi = 'ada';
+					break;
+				} 					
+			}
 
-			$insertStatus = $this->TagihanModel->insert_tagihan($data);
+			if($kondisi == 'ada') {
+			} else {
+				$data = array(
+					'IDTagihan' => $idsementara,
+					'IDBlok' => $blok1,
+					'bulan' => $bulan,
+					'tahun' => $tahun,
+					'Harga' => $harga1,
+					'status' => '0'			
+				);
+				$insertStatus = $this->TagihanModel->insert_tagihan($data);	
+			}
+			
 			$idsementara = '';
 			$nilaiharga = '';
 			$harga1 = '';
 			$nilaiblok = '';
 			$blok1 = '';
+			$kondisi = '';
 		}
 
 	}

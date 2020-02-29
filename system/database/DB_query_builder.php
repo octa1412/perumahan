@@ -2804,5 +2804,55 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_limit'	=> FALSE
 		));
 	}
+    
+    /**
+    * On Duplicate Key Update
+    *
+    * Compiles an on duplicate key update string and runs the query
+    * 
+    * @author Jeric T <jeric@badjoerichards.com> based off (Chris Miller <chrismill03@hotmail.com>)
+    * @since 3.0.0
+    * @access public
+    * @param string the table to retrieve the results from
+    * @param array an associative array of update value
+    * @return object
+    */
+
+    function on_duplicate($table = '', $set = NULL )
+    {
+     if ( ! is_null($set))
+     {
+     $this->set($set);
+     }
+
+     if (count($this->qb_set) == 0)
+     {
+     if ($this->db_debug)
+     {
+     return $this->display_error('db_must_use_set');
+     }
+     return FALSE;
+     }
+
+     if ($table == '')
+     {
+     if ( ! isset($this->qb_from[0]))
+     {
+     if ($this->db_debug)
+     {
+     return $this->display_error('db_must_set_table');
+     }
+     return FALSE;
+     }
+
+     $table = $this->qb_from[0];
+     }
+
+
+     $sql = $this->_duplicate_insert($this->protect_identifiers($table), $this->qb_set );
+
+     $this->_reset_write();
+     return $this->query($sql);
+    }
 
 }
