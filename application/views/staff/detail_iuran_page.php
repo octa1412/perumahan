@@ -23,6 +23,12 @@
                     
                     </tbody>
                 </table>
+                <input type=checkbox name=pelunasanTambahan id='additional'>Pelunasan tambahan
+                <div class="id-none form-inline ml-md-3 input-daterange d-none">
+                    <input type="text" class="form-control" >
+                    <div class="input-group-text justify-content-md-center">to</div>
+                    <input type="text" class="form-control" >
+                </div>
                 <br>
                 <button class="btn btn-primary" onclick="submit(event)">Submit</button>
             </div>
@@ -50,17 +56,20 @@
     <script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+    
+    <link href="<?php echo base_url('dist/vendor/datetimepicker/css/bootstrap-datepicker3.css');?>" rel="stylesheet" type="text/css">
+	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>
 
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
     
     <script>
+        var data = {id: "<?php echo $idBlok?>"}
         $(document).ready(function () {
             dTable = $('#table1').DataTable({
                 responsive:true
             });
             $(".dataTables_empty").text("Loading...")
-            var data = {id: "<?php echo $idBlok?>"}
             $.ajax({
                 url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
                 type: 'POST',
@@ -72,7 +81,7 @@
                         dTable.row.add([
                         data.bulan+' '+ data.tahun, 
                         data.Harga,
-                        '<input type="checkbox" name="bayar" value="'+data.IDTagihan+'"></input>'
+                        '<input type="checkbox" name="bayar" class="tagihan" value="'+data.IDTagihan+'"></input>'
                         ]).draw(false);
                         
                     })
@@ -85,19 +94,48 @@
                 $("#submit").prop("disabled", false);
                 }
             });
+            var d = new Date()
+            $('.input-daterange').datepicker({
+                format: "mm-yyyy",
+                viewMode: "years", 
+                minViewMode: "months",
+                startDate: d.getMonth()+2+'-'+d.getFullYear()
+            });
+            $("#additional").click(()=>{
+                if($("#additional").is(':checked')){
+                    $('.input-daterange').removeClass('d-none')
+                }else{
+                    $('.input-daterange').addClass('d-none')
+                }
+            })
         });
 
 
         function submit(e){
             e.preventDefault();
+            var error = false;
             var checked = []
-            $("input[type=checkbox]").each(function() {
+            var date = []
+            $(".tagihan").each(function() {
                 if($(this).prop("checked"))
                     checked.push($(this).val());
             });
-            if(checked.length == 0){
-                alert("Pilih tagihan yang hendak dibayar.")
+            if($("#additional").is(':checked')){
+                $('.input-daterange input').each(function() {
+                    var rawDate = $(this).datepicker('getDate')
+                    if(rawDate == null){
+                        alert("Masukkan bulan pelunasan tambahan")
+                        error = true;
+                    }
+                    date.push(new Date(Date.parse(rawDate)))
+                });
             } else{
+                if(checked.length == 0){
+                    alert("Pilih tagihan yang hendak dibayar.")
+                    error = true;
+                }
+            }
+            if(!error){
                 var form = document.createElement('form');
                 document.body.appendChild(form);
                 form.method = 'post';
@@ -108,6 +146,22 @@
                 input.name = 'data';
                 input.value = checked;
                 form.appendChild(input);
+
+                if(date.length >0){
+                    input1 = document.createElement('input');
+                    input1.type = 'hidden';
+                    input1.name = 'manual';
+                    input1.value = date;
+                    form.appendChild(input1);
+
+                    input1 = document.createElement('input');
+                    input1.type = 'hidden';
+                    input1.name = 'idBlok';
+                    input1.value = data.id;
+                    console.log(data)
+                    form.appendChild(input1);
+                }
+
                 form.submit();
             }
         }
