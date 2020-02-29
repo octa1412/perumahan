@@ -13,6 +13,7 @@
 
               <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
                   <a class="btn btn-primary" href="<?php echo base_url('index.php/Main/addtagihan');?>">Form Tagihan Bulanan</a>
+                  <button class="btn btn-primary" onclick=getData()>Add Tagihan bulanan</button>
               </div>
 
               <div class="d-sm-flex align-items-center mb-4">						

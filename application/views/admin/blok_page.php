@@ -29,11 +29,7 @@
               </div>
 
               <!--table-->
-<<<<<<< HEAD
-              <table id="table1" class="table table-striped table-bordered " style="width:100%;">
-=======
               <table id="table1" class="table table-striped table-bordered" style="width:100%">
->>>>>>> b7bf00a3cc6aa5eec47bb2629ae6fddaf761dc03
                   <thead>
                       <tr>
                           <th>Nama Blok</th>

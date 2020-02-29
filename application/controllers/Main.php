@@ -757,27 +757,34 @@ class Main extends CI_Controller {
 	public function add_tagihan_manual(){
 		if ($this->checkcookieuser()) {
 			$all = $this->TagihanModel->get_all_tagihan();
-			// echo json_encode($all);
 
 			$coba = $this->input->post('id');
+			$kondisi = '';
 
 			foreach($all as $satuan){
-				if($coba != $satuan['IDTagihan']){
-					echo "ga sama ";
-					$data = array(
-						'IDTagihan' => $this->input->post('id'),
-						'IDBlok' => $this->input->post('blok'),
-						'bulan' => $this->input->post('bulan'),
-						'tahun' => $this->input->post('tahun'),
-						'Harga' => $this->input->post('harga'),
-						'status' => '0'
-						
-					);
-					$insertStatus = $this->TagihanModel->insert_tagihan($data);
-				} else {
-					$insertStatus = $this->TagihanModel->update_status($coba);				
-				};
+				if($coba == $satuan['IDTagihan']){					
+					echo "Data Tagihan Sudah Ada!";
+					$kondisi = 'ada';
+					break;
+				} 					
 			}
+
+			if($kondisi == 'ada') {
+			} else {
+				$data = array(
+					'IDTagihan' => $this->input->post('id'),
+					'IDBlok' => $this->input->post('blok'),
+					'bulan' => $this->input->post('bulan'),
+					'tahun' => $this->input->post('tahun'),
+					'Harga' => $this->input->post('harga'),
+					'status' => '0'					
+				);
+				$insertStatus = $this->TagihanModel->insert_tagihan($data);	
+				echo 'Data Berhasil Ditambahkan!';
+			}
+					
+			$kondisi = '';
+			
 		}else{
 			echo "access denied";
 		}
@@ -789,14 +796,36 @@ class Main extends CI_Controller {
 			$data = $this->input->post('data');
 			$blok = $this->input->post('id');
 			$harga = $this->input->post('harga');
+			$idsementara = '';
+			$all = $this->TagihanModel->get_all_tagihan();
+			$kondisi = '';
+
 			foreach($data as $monthYear){
-				$tagihan = array('IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
-						'IDBlok' => $blok,
-						'bulan' => $monthYear['month'],
-						'tahun' => $monthYear['year'],
-						'harga' => $harga
-					);
-				$this->TagihanModel->insert_tagihan($tagihan);
+				$idsementara = $idsementara.$blok.$monthYear['month'].$monthYear['year'];
+
+				foreach($all as $satuan){
+					if($idsementara == $satuan['IDTagihan']){					
+						$kondisi = 'ada';
+						break;
+					} 					
+				}
+
+				if($kondisi == 'ada'){
+
+				} else {
+					$tagihan = array(
+							'IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
+							'IDBlok' => $blok,
+							'bulan' => $monthYear['month'],
+							'tahun' => $monthYear['year'],
+							'harga' => $harga
+						);
+					$this->TagihanModel->insert_tagihan($tagihan);
+				}
+
+				$idsementara = '';
+				$kondisi='';
+
 			}
 		}
 	}
@@ -1310,31 +1339,45 @@ class Main extends CI_Controller {
 		$harga1 = '';
 		$nilaiblok = '';
 		$blok1 = '';
-		foreach($cust as $hasil) {
+		$kondisi = '';
 
+		$all = $this->TagihanModel->get_all_tagihan();
+
+		foreach($cust as $hasil) {
 			$nilaiharga = json_encode($hasil['Harga']);
 			$nilaiblok = json_encode($hasil['IDBlok']);
 			$number = str_replace('"', "", $nilaiharga);
 			$harga1 = intval($number);
 			$blok1 = str_replace('"', "", $nilaiblok);
-			$idsementara = $idsementara.$blok1.'_'.$bulan.'_'.$tahun;
+			$idsementara = $idsementara.$blok1.$bulan.$tahun;
 
 
-			$data = array(
-				'IDTagihan' => $idsementara,
-				'IDBlok' => $blok1,
-				'bulan' => $bulan,
-				'tahun' => $tahun,
-				'Harga' => $harga1,
-				'status' => '0'
-			);
+			foreach($all as $satuan){
+				if($idsementara == $satuan['IDTagihan']){					
+					$kondisi = 'ada';
+					break;
+				} 					
+			}
 
-			$insertStatus = $this->TagihanModel->insert_tagihan($data);
+			if($kondisi == 'ada') {
+			} else {
+				$data = array(
+					'IDTagihan' => $idsementara,
+					'IDBlok' => $blok1,
+					'bulan' => $bulan,
+					'tahun' => $tahun,
+					'Harga' => $harga1,
+					'status' => '0'			
+				);
+				$insertStatus = $this->TagihanModel->insert_tagihan($data);	
+			}
+			
 			$idsementara = '';
 			$nilaiharga = '';
 			$harga1 = '';
 			$nilaiblok = '';
 			$blok1 = '';
+			$kondisi = '';
 		}
 
 	}

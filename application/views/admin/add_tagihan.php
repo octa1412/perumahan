@@ -187,7 +187,7 @@ $.ajax({
       var inputcluster = document.getElementById("cluster").value
       var inputblok = document.getElementById("blok").value
 
-      var inputid = inputblok + '_' + inputbulan + "_" + inputtahun;
+      var inputid = inputblok +  inputbulan + inputtahun;
       console.log('coba1');
 
       $.ajax({
@@ -195,28 +195,14 @@ $.ajax({
         type: 'POST',
         data: {id:inputid, blok:inputblok, bulan:inputbulan, tahun:inputtahun, harga:inputharga},
         success: function (response) {
-          // var json = JSON.parse(response);
-
-          console.log('masuk');
-          // json.forEach((all)=>{
-          //   console.log(all.IDTagihan);
-
-
-          // })
-          console.log(response);
-          // window.location = "<?php echo base_url() ?>index.php/Main/add_tagihan";
+          alert(response);       
         },
         error: function () {
           console.log("gagal add");
         }
       });
-
-      alert('Data Ditambahkan!');
-
     }
 
     </script>
-
 </body>
-
 </html>

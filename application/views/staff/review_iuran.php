@@ -11,10 +11,10 @@
 
             <div class="card-body" style="background-color: #FFFFFF;">
                 <!--table-->
-                <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+                <table id="table1" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Bulan Tagihan</th>
+                            <th>Bulan Tagihan Customer</th>
                             <th>Harga</th>
                         </tr>
                     </thead>
@@ -194,13 +194,12 @@
                 success: function (json) {
                         var o = json;
                         console.log(o)
-                        var ah = 'awas';
                         $('#pdfmodal').modal();
                         $('#pdfdata').click(function pdftampil() {
                             $.ajax({
                                 url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
                                 type: 'POST',
-                                data: {id:o, po:ah},
+                                data: {id:o},
                                 success: function (hasil) {
 
                                 },
