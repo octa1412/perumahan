@@ -22,6 +22,14 @@
 
   <!-- Custom styles for this template-->
   <link href="<?php echo base_url('dist/css/sb-admin-2.min.css');?>" rel="stylesheet">
+
+  <style>
+  td{ word-break: break-all;}
+  
+  th{white-space: nowrap;}
+  </style>
+
+
 </head>
 
 <body id="page-top">

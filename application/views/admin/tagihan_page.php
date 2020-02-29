@@ -7,7 +7,7 @@
             </div>
 
             <!--table-->
-            <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+            <table id="table1" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th>Tanggal</th>

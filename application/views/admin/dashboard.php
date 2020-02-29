@@ -16,7 +16,7 @@
               </div>        
 
               <!-- DataTales Example -->
-              <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+              <table id="table1" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                       <tr>
                           <th>Nama Perumahan</th>
@@ -136,17 +136,11 @@
               var response = JSON.parse(json);
               var array={};
               if(response.length > 0){
-                response.forEach((data)=>{
-                  var namaperum = data.nama_perumahan.substring(0, 20);
-                  var len = data.nama_perumahan.length;
-                  if(len > 20){
-                    namaperum = namaperum + '...';
-                  }
-
+                response.forEach((data)=>{                  
                   // var res = data.nama_perumahan.replace(/_/g, " ");
                   no = data.IDPerumahan
                   dTable.row.add([
-                    namaperum,
+                    data.nama_perumahan,
                     data.kota,
                       '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
                     + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'

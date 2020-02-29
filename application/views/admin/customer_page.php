@@ -17,7 +17,7 @@
             </div>
 
             <!--table-->
-            <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+            <table id="table1" class="table table-striped table-bordered stripe" style="width:100%;">
               <thead>
                 <tr>
                   <th>Nama Customer</th>
@@ -155,15 +155,10 @@
               if(response.length > 0){
                 response.forEach((data)=>{
                   no++;
-                  var namacustomer = data.nama.substring(0, 20);
-                  var len = data.nama.length;
-                  if(len > 20){
-                    namacustomer = namacustomer + '...';
-                  }
-
+                 
                   dTable.row.add([
                     // (str_word_count(data.nama) > 3 ? substr(data.nama,0,10)."[..]" : data.nama),
-                    namacustomer,
+                    data.nama,
                     data.email,
                     data.nomor,
                     '<button class="btn btn-outline-primary mt-10 mb-10" onclick=detaildata("'+ data.IDCustomer +'")>Blok</button>'

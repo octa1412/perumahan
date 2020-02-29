@@ -30,7 +30,7 @@
               </div>
 
               <!--table-->
-              <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+              <table id="table1" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                   <tr>
                     <th>ID Customer</th>
@@ -161,14 +161,9 @@
           if(response.length > 0){
             dTable.clear().draw();
             response.forEach((data)=>{
-              var namacustomer = data.nama.substring(0, 20);
-              var len = data.nama.length;
-              if(len > 20){
-                namacustomer = namacustomer + '...';
-              }
-
-              dTable.row.add([
-                namacustomer, 
+            
+                dTable.row.add([
+                data.nama, 
                 data.nama_blok,
                 
                 '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToArsip("'+data.IDBlok+'")>Arsip</button></a>'

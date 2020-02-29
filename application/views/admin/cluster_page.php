@@ -22,7 +22,7 @@
               </div>
 
               <!--table-->
-              <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+              <table id="table1" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                       <tr>
                           <th>Nama Cluster Perumahan</th>
@@ -179,16 +179,10 @@
               var temukan = datacluster.indexOf("_");
               var namacluster = data.nama_cluster.substring(temukan+1);
 
-              var namafix = namacluster.substring(0, 20);
-              var len = data.nama_cluster.length;
-              if(len > 20){
-                namafix = namafix + '...';
-              }
-
               no = data.IDCluster                       
               if(data.IDCluster != null) {
                 dTable.row.add([
-                  namafix,
+                  namacluster,
                     '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
                   + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'
                 
