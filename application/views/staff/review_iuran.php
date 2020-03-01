@@ -165,9 +165,6 @@
                     url: "<?php echo base_url() ?>index.php/Main/tagihanmanual",
                     data: {data: manualSubmit, id: '<?php echo $id?>', harga:'<?php echo $harga;?>'},
                     success: function (response) {
-                        var json = JSON.parse(response);
-
-                        alert(json);
                         resolve("Stuff worked!");
                         
                     },

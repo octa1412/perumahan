@@ -202,7 +202,7 @@
 
                 dTable.row.add([
                   data.nama_perumahan,
-                  data.namacluster,
+                  namacluster,
                   data.nama_blok,
                   '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ data.IDBlok +'") >Delete</button>'
                 
