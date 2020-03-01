@@ -21,6 +21,7 @@
                     <tbody>
                     
                     </tbody>
+                    <tfoot>
                 </table>
                 <br>
                 <button class="btn btn-primary" onclick=doBayar()>Submit</button>
@@ -109,6 +110,7 @@
         var data = {id:[]};
         idtagihan.forEach((datum)=>{
             data.id.push(datum);
+            console.log(datum);
         })
         $(".dataTables_empty").text("Loading...")
         $.ajax({
@@ -119,8 +121,8 @@
                 var response = JSON.parse(json);
                 if(response.length > 0 || obj.length > 0){
                     $("#table1").append(
-                        $('<tfoot/>').append( "<tr><td>Diskon "+
-                        '<td><input type="number" id="diskon" name="diskon" step=100></input>' )
+                        $('<tfoot/>').append( "<tr><td colspan='2' align='center' >Diskon "+
+                        '<tr><td colspan="2" align="center"><input type="number" id="diskon" name="diskon" step=100></input>' )
                     );
                     response.forEach((data)=>{
                         dTable.row.add([
@@ -163,7 +165,11 @@
                     url: "<?php echo base_url() ?>index.php/Main/tagihanmanual",
                     data: {data: manualSubmit, id: '<?php echo $id?>', harga:'<?php echo $harga;?>'},
                     success: function (response) {
+                        var json = JSON.parse(response);
+
+                        alert(json);
                         resolve("Stuff worked!");
+                        
                     },
                     error: function (xhr, status, error) {
                         alert('Terdapat Kesalahan Pada Server...');
