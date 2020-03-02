@@ -14,9 +14,9 @@ class TagihanModel extends CI_Model {
 		return $query->result_array();
 	}
 
-    public function get_all($idBlok = NULL, $status, $startDate = NULL, $endDate = NULL){
+    public function get_all($idBlok = NULL, $status, $startDate = NULL, $endDate = NULL, $distinct = FALSE){
 
-        $this->db->select();
+		$this->db->select();
 		$this->db->from('tagihan');
 		
 		if($status == 1){
@@ -35,6 +35,10 @@ class TagihanModel extends CI_Model {
 		if($startDate != NULL && $endDate != NULL){
 			$this->db->where('nota.tanggal >=',$startDate);
 			$this->db->where('nota.tanggal <=',$endDate);
+		}
+
+		if($distinct){
+			$this->db->group_by("nota_detail.IDNota");
 		}
 
 		$query = $this->db->get();
