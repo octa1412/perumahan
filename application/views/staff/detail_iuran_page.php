@@ -158,7 +158,6 @@
                     input1.type = 'hidden';
                     input1.name = 'idBlok';
                     input1.value = data.id;
-                    console.log(data)
                     form.appendChild(input1);
                 }
 

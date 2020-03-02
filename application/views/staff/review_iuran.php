@@ -129,7 +129,7 @@
                         ]).draw(false);
                         total_tagihan += parseInt(data.Harga)
                     })
-                    var harga = <?php echo $harga;?>;
+                    var harga = <?php if($harga !=null) echo $harga; else echo 0;?>;
                     for(var i = startYear; i <= endYear; i++){
                         for(var j = startMonth; j <= endMonth; j++){
                             dTable.row.add([
@@ -161,7 +161,8 @@
                 $.ajax({
                     type: "POST",
                     url: "<?php echo base_url() ?>index.php/Main/tagihanmanual",
-                    data: {data: manualSubmit, id: '<?php echo $id?>', harga:'<?php echo $harga;?>'},
+                    
+                    data: {data: manualSubmit, id: '<?php echo ($id!=null) ?  $id : "" ?>', harga:'<?php echo ($harga!=null) ?  $harga : "" ?>'},
                     success: function (response) {
                         resolve("Stuff worked!");
                     },
@@ -179,7 +180,7 @@
                 if(manualSubmit.length > 0){
                     manualSubmit.forEach((datum)=>{
                         if(datum != ""){
-                            var idtagihan = <?php echo $id?> + datum.month + datum.year
+                            var idtagihan = <?php echo ($id!=null) ?  $id : "" ?> + datum.month + datum.year
                             data.id.push(idtagihan)
                         }
                     })

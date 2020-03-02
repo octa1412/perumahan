@@ -25,6 +25,9 @@
                 <tr>
                   <th>ID Nota</th>
                   <th>Tanggal Pembayaran</th>
+                  <th>Total Awal</th>
+                  <th>Diskon</th>
+                  <th>Total Setelah Diskon</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -80,6 +83,7 @@
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>
+  <link href="<?php echo base_url('dist/vendor/datetimepicker/css/bootstrap-datepicker3.css');?>" rel="stylesheet" type="text/css">
 	<script>
   
     $('.input-daterange').datepicker({
@@ -109,7 +113,6 @@
     function get_arsip(){
       var data = get_filter_value();
       $(".dataTables_empty").text("Loading...")
-      data.id = "<?php echo $idBlok?>"
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/",
         type: 'POST',
@@ -117,12 +120,14 @@
         success: function (json) {
           dTable.clear().draw();
           var response = JSON.parse(json);
-          console.log(response)
           if(response.length > 0){
             response.forEach((data)=>{
               dTable.row.add([
-                data.bulan+' '+ data.tahun, 
+                data.IDNota, 
                 data.tanggal,
+                data.total_awal,
+                data.diskon,
+                data.total_setelah_diskon,
                 '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Detail</button>'
               ]).draw(false);
             })
