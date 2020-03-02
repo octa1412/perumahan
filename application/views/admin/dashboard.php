@@ -16,7 +16,7 @@
               </div>        
 
               <!-- DataTales Example -->
-              <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+              <table id="table1" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                       <tr>
                           <th>Nama Perumahan</th>
@@ -136,11 +136,11 @@
               var response = JSON.parse(json);
               var array={};
               if(response.length > 0){
-                response.forEach((data)=>{
-                  var res = data.nama_perumahan.replace(/_/g, " ");
+                response.forEach((data)=>{                  
+                  // var res = data.nama_perumahan.replace(/_/g, " ");
                   no = data.IDPerumahan
                   dTable.row.add([
-                    res,
+                    data.nama_perumahan,
                     data.kota,
                       '<button class="btn btn-outline-success mt-10 mb-10" onclick=tampildata("'+ no +'") >Edit</button>'
                     + '<button class="btn btn-danger mt-10 mb-10" onclick=hapusdata("'+ no +'") >Delete</button>'
@@ -192,10 +192,10 @@
               var response = JSON.parse(response);
               response.forEach((data)=>{
                 // console.log(dataString);
-                var res = data.nama_perumahan.replace(/_/g, " ");
+                // var res = data.nama_perumahan.replace(/_/g, " ");
                 $('#editmodal').modal();
                 $("#id-perumahan1").val(data.IDPerumahan);
-                $('#nama-perumahan1').val(res);
+                $('#nama-perumahan1').val(data.nama_perumahan);
                 $('#nama-kota1').val(data.kota);
                 $('#updatedata').click(function editdata() {
                 

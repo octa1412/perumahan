@@ -11,16 +11,17 @@
 
             <div class="card-body" style="background-color: #FFFFFF;">
                 <!--table-->
-                <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+                <table id="table1" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Bulan Tagihan</th>
+                            <th>Bulan Tagihan Customer</th>
                             <th>Harga</th>
                         </tr>
                     </thead>
                     <tbody>
                     
                     </tbody>
+                    <tfoot>
                 </table>
                 <br>
                 <button class="btn btn-primary" onclick=doBayar()>Submit</button>
@@ -109,6 +110,7 @@
         var data = {id:[]};
         idtagihan.forEach((datum)=>{
             data.id.push(datum);
+            console.log(datum);
         })
         $(".dataTables_empty").text("Loading...")
         $.ajax({
@@ -119,8 +121,8 @@
                 var response = JSON.parse(json);
                 if(response.length > 0 || obj.length > 0){
                     $("#table1").append(
-                        $('<tfoot/>').append( "<tr><td>Diskon "+
-                        '<td><input type="number" id="diskon" name="diskon" step=100></input>' )
+                        $('<tfoot/>').append( "<tr><td colspan='2' align='center' >Diskon "+
+                        '<tr><td colspan="2" align="center"><input type="number" id="diskon" name="diskon" step=100></input>' )
                     );
                     response.forEach((data)=>{
                         dTable.row.add([
@@ -165,6 +167,7 @@
                     data: {data: manualSubmit, id: '<?php echo ($id!=null) ?  $id : "" ?>', harga:'<?php echo ($harga!=null) ?  $harga : "" ?>'},
                     success: function (response) {
                         resolve("Stuff worked!");
+                        
                     },
                     error: function (xhr, status, error) {
                         alert('Terdapat Kesalahan Pada Server...');
@@ -195,13 +198,12 @@
                 success: function (json) {
                         var o = json;
                         console.log(o)
-                        var ah = 'awas';
                         $('#pdfmodal').modal();
                         $('#pdfdata').click(function pdftampil() {
                             $.ajax({
                                 url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
                                 type: 'POST',
-                                data: {id:o, po:ah},
+                                data: {id:o},
                                 success: function (hasil) {
 
                                 },

@@ -22,10 +22,10 @@
               </div>
 
               <!--table-->
-              <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+              <table id="table1" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                       <tr>
-                          <th>Nama Cluster</th>
+                          <th>Nama Cluster Perumahan</th>
                           <th>Action</th>
                       </tr>
                   </thead>
@@ -54,13 +54,13 @@
                         <input type="hidden" class="form-control" id="id-cluster1" value="" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                        <label for="nama-perumahan" class="col-form-label">Nama Perumahan</label>
                         <select class="custom-select" id="perumahan1">
                           <option value="default">Perumahan</option>   
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
+                        <label for="nama-cluster1" class="col-form-label">Nama Cluster</label>
                         <input type="text" class="form-control" id="nama-cluster1" required>
                     </div>
                  
@@ -87,13 +87,13 @@
               <div class="modal-body">
                 <form onsubmit="insertdata(event)">
                   <div class="form-group">
-                    <label for="nama-perumahan" class="col-form-label">Nama Perumahan:</label>
+                    <label for="nama-perumahan" class="col-form-label">Nama Perumahan</label>
                     <select class="custom-select" id="perumahan" required>
                       <option value="default">Perumahan</option>   
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="nama-cluster" class="col-form-label">Nama Cluster:</label>
+                    <label for="nama-cluster" class="col-form-label">Nama Cluster</label>
                     <input type="text" class="form-control" id="nama-cluster" placeholder="Nama Cluster..." required>
                   </div>      
               </div>
@@ -135,8 +135,11 @@
         success: function (json) {
           var response = JSON.parse(json);
           response.forEach((data)=>{
-            var res = data.nama_perumahan.replace(/_/g, " ");
-            $('#fl-perumahan').append(new Option(res, data.IDPerumahan))
+            // var res = data.nama_perumahan.replace(/_/g, " ");
+            $('#fl-perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan));
+            $('#perumahan').append(new Option(data.nama_perumahan, data.IDPerumahan));
+            $('#perumahan1').append(new Option(data.nama_perumahan, data.IDPerumahan));
+            
           })
         },
         error: function (xhr, status, error) {
@@ -172,8 +175,9 @@
           dTable.clear().draw();
           if(response.length > 0 ){
             response.forEach((data)=>{
-              var tes = data.nama_cluster.replace(/_/g, " ");
-              var namacluster = tes.substring(2);
+              var datacluster = data.nama_cluster;
+              var temukan = datacluster.indexOf("_");
+              var namacluster = data.nama_cluster.substring(temukan+1);
 
               no = data.IDCluster                       
               if(data.IDCluster != null) {
@@ -200,7 +204,7 @@
       dTable = $('#table1').DataTable({
         responsive: true
       });
-      listperumahan();
+      // listperumahan();
       get_data()
     });
 
@@ -211,9 +215,9 @@
         success: function (response) {
               var hasil = JSON.parse(response);
               hasil.forEach((data)=>{
-                var res = data.nama_perumahan.replace(/_/g, " ");
-                $('#perumahan1').append('<option value="'+ res +'">'+ res +'</option>'); 
-                $('#perumahan').append('<option value="'+ res +'">'+ res +'</option>');                  
+                // var res = data.nama_perumahan.replace(/_/g, " ");
+                $('#perumahan1').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>'); 
+                $('#perumahan').append('<option value="'+ data.IDPerumahan +'">'+ data.nama_perumahan +'</option>');                  
               })
           },
           error: function () {
@@ -244,6 +248,7 @@
     }
 
     function tampildata(id) {
+      console.log(id);
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/get_cluster_by_id",
         type: 'POST',
@@ -251,18 +256,22 @@
         success: function (response) {
           var response = JSON.parse(response);
           response.forEach((data)=>{
-            var res = data.nama_perumahan.replace(/_/g, " ");
-            var tes = data.nama_cluster.replace(/_/g, " ");
-            var namacluster = tes.substring(2);
-            
-            console.log(document.getElementById("perumahan1").value);
+            var datacluster = data.nama_cluster;
+            var temukan = datacluster.indexOf("_");
+            var namacluster = data.nama_cluster.substring(temukan+1);
+             console.log('sadas');
+             console.log(data.nama_perumahan);
 
             $('#editmodal').modal();
             $("#id-cluster1").val(data.IDCluster);
             $('#nama-cluster1').val(namacluster);
-            $('#perumahan1').val(res);
+            $('#perumahan1').val(data.IDPerumahan);
             $('#updatedata').click(function editdata() {
             
+            console.log(document.getElementById("perumahan1").value);
+            console.log("asd");
+
+
             var inputid = document.getElementById("id-cluster1").value
             var inputperumahan = document.getElementById("perumahan1").value
             var inputnama = document.getElementById("nama-cluster1").value
@@ -270,7 +279,8 @@
               alert("Silahkan Pilih Perumahan!")
               return;
             }
-                        
+
+            console.log(inputnama);           
               $.ajax({
                 url: "<?php echo base_url()?>index.php/Main/update_cluster/",
                 type: 'POST',

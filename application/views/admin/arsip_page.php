@@ -12,6 +12,7 @@
             <div class="card-body" style="background-color: #FFFFFF;">
 
               <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
+                  <a class="btn btn-primary" href="<?php echo base_url('index.php/Main/addtagihan');?>">Form Tagihan Bulanan</a>
                   <button class="btn btn-primary" onclick=getData()>Add Tagihan bulanan</button>
               </div>
 
@@ -30,7 +31,7 @@
               </div>
 
               <!--table-->
-              <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+              <table id="table1" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                   <tr>
                     <th>ID Customer</th>
@@ -118,7 +119,11 @@
             $("#fl-cluster option[value!=default]").remove();
             var response = JSON.parse(json);
             response.forEach((data)=>{
-              $('#fl-cluster').append(new Option(data.nama_cluster, data.IDCluster))
+              var datacluster = data.nama_cluster;
+              var temukan = datacluster.indexOf("_");
+              var namacluster = data.nama_cluster.substring(temukan+1);
+
+              $('#fl-cluster').append(new Option(namacluster, data.IDCluster))
             })
             callback();
           },
@@ -158,7 +163,8 @@
           if(response.length > 0){
             dTable.clear().draw();
             response.forEach((data)=>{
-              dTable.row.add([
+            
+                dTable.row.add([
                 data.nama, 
                 data.nama_blok,
                 

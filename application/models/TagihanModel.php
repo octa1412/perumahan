@@ -5,7 +5,15 @@ class TagihanModel extends CI_Model {
 	public function __construct(){
 		$this->load->database();
     }
-    
+	
+	public function get_all_tagihan(){
+		$this->db->select('IDTagihan');
+		$this->db->from('tagihan');
+		
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
     public function get_all($idBlok = NULL, $status, $startDate = NULL, $endDate = NULL, $distinct = FALSE){
 
 		$this->db->select();
@@ -92,6 +100,7 @@ class TagihanModel extends CI_Model {
 		}
 		return $return_message;
 	}
+
 
 }
 ?>
