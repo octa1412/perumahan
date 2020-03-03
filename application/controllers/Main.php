@@ -199,13 +199,13 @@ class Main extends CI_Controller {
 	//Review iuran tagihan admin
 	public function iuranreview(){
 		$idTagihan = $this->input->post('data');
-		$manual = $this ->input->post('manual');
-		$id = $this ->input->post('idBlok');
+		// $manual = $this ->input->post('manual');
+		// $id = $this ->input->post('idBlok');
 		if ($this->checkcookiestaff()) {
 			$data['idTagihan'] = $idTagihan;
-			$data['manual'] = $manual;
-			$data['id'] = $id;
-			$data['harga'] = $this->BlokModel->get_harga($id);
+			// $data['manual'] = $manual;
+			// $data['id'] = $id;
+			// $data['harga'] = $this->BlokModel->get_harga($id);
 			$this->load->view('header1');
 			$this->load->view('staff/review_iuran',$data);
 			$this->load->view('footer');
@@ -1430,13 +1430,60 @@ class Main extends CI_Controller {
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 		$jml = 0;
+		$jumlahakhirdata = 0;
+		$posisi = 1;
+		$isi = 1;
+		$sementara = 0;
+		$kondisi ='';
 		$caca = "";
 		$nilai = "";
+		$awal = $bulannya[0]->Harga;
+
+		$datanama[1] = ($awal);
+		$datajumlah;
+		$databulan;
+		$databulanfix ='';
 
 		foreach($bulannya as $item) {
-			$caca = $caca.$bulannya[$jml]->bulan. ", ";
-			$nilai = $nilai.$bulannya[$jml]->Harga. ", ";
 			$jml = $jml + 1;
+		}
+
+		for($i=1; $i<$jml; $i++){
+			foreach($datanama as $klpk) {
+				if($klpk == $bulannya[$i]->Harga){					
+				} else {
+					$kondisi = 'ada';	
+				}				
+			}
+
+			if($kondisi == 'ada'){
+				$posisi = $posisi + 1;
+				$datanama[$posisi] = ($bulannya[$i]->Harga);				
+			}
+
+			$kondisi = '';
+		}
+
+		$posisi = 1;
+
+		foreach($datanama as $jumalahnama){
+			for($i=0; $i<$jml; $i++){
+				if($jumalahnama == $bulannya[$i]->Harga){
+					$sementara = $sementara + 1;
+					$datajumlah[$posisi] = $sementara;
+				}
+			}
+			$sementara = 0;
+			$posisi = $posisi + 1;
+		}		
+
+		$posisi = 1;
+
+		foreach($datajumlah as $jumlahharga){
+			$hargapernama[$posisi] = $datanama[$posisi] * $datajumlah[$posisi];
+			$jumlahakhirdata = $jumlahakhirdata + 1;								
+			$posisi = $posisi + 1;
+
 		}
 
 		$yng = $this->terbilang($data[0]->total_awal);
@@ -1487,12 +1534,45 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(50);
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
-		$c_pdf->Cell(40,8, $caca ,0,1, 'L');
+		$c_pdf->Cell(40,8, json_encode($datajumlah) ,0,1, 'L');
 
-		$c_pdf->Cell(50);
-        $c_pdf->Cell(10,8, $jml ,0,0, 'L');
-		$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-		$c_pdf->Cell(40,8, $bulannya[0]->Harga ,0,1, 'L');
+
+		for($i=0; $i<$jumlahakhirdata; $i++){
+			$a = json_encode($datajumlah[$isi]);
+			$b = json_encode($datanama[$isi]);
+			$bb = str_replace('"', '', $b);
+			$c = json_encode($hargapernama[$isi]);
+			$noawal = 0;
+
+			for($j=0; $j<$jml; $j++){
+				if($bb == $bulannya[$j]->Harga){
+					$databulan[$noawal] = $bulannya[$j]->bulan;
+					$noawal = $noawal + 1;
+				}
+			}
+
+			$databulanfix = $databulanfix.json_encode($databulan[0]).'-'.json_encode($databulan[$noawal-1]).' '.
+
+			$c_pdf->Cell(50);
+			$c_pdf->Cell(45,8, $databulanfix,0,0, 'L');
+			$c_pdf->Cell(7,8, ': '.$a ,0,0, 'L');
+			$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
+			$c_pdf->Cell(15,8, $bb ,0,0, 'L');
+			$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
+			$c_pdf->Cell(15,8, $c ,0,1, 'L');
+
+
+			$isi = $isi + 1;
+			$databulanfix = '';
+
+			
+		}
+
+
+		// $c_pdf->Cell(50);
+        // $c_pdf->Cell(10,8, $jml ,0,0, 'L');
+		// $c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
+		// $c_pdf->Cell(40,8, $bulannya[0]->Harga ,0,1, 'L');
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
@@ -1625,86 +1705,6 @@ class Main extends CI_Controller {
 		   
 		$caca = "";
 		$nilai = "";
-
-
-		////////////////////////////////////
-		// $c_pdf->Line(0, 150, 220-25, 150);
-        // $c_pdf->Line(0, 150, 220-25, 150);
-        // $c_pdf->Line(0, 150, 220-25, 150);
-		
-
-        // $c_pdf->SetFont('Arial','', 15);
-        // $c_pdf->Cell(75,20,'MANAGEMENT STATE', 0,1, 'C');
-        // $c_pdf->SetFont('Arial', 'B', 17);
-        // $c_pdf->Cell(10);
-		// $c_pdf->Cell(190,7, 'PURI SAFIRA RESIDENCE', 0,1,'L');
-        // $c_pdf->SetFont('Arial', 'B', 8);
-        // $c_pdf->Cell(10);
-		// $c_pdf->Cell(75,5, 'Jl. Raya Darmo No.75-77, Surabaya',0,0, 'C');
-		// $c_pdf->SetFont('Arial', 'U',25);
-		// $c_pdf->Cell(30);
-		// $c_pdf->Cell(120,5, 'Tanda Terima',0,1, 'L');
-		// $c_pdf->SetFont('Arial', 'B',7);
-		// $c_pdf->Cell(10);
-		// $c_pdf->Cell(75,4, 'Telp. (031) 5666615, 5666616',0,1, 'C');
-
-		// $c_pdf->Line(15, 173, 220-25, 173);
-        // $c_pdf->Line(15, 173, 220-25, 173);
-        // $c_pdf->Line(15, 173, 220-25, 173);
-
-        // $c_pdf->Cell(10,8, '', 0,1);
-        // $c_pdf->Cell(10);
-        // $c_pdf->SetFont('Arial', '', 12);
-        // $c_pdf->Cell(40,8,'Sudah Terima dari :' ,0,0, 'L');
-		// // foreach ($data as $item){
-		// 	$c_pdf->Cell(55,8, $data[0]->nama ,0,0, 'L');
-		// // }
-		
-
-		// $c_pdf->Cell(14,8,'Type: ',0,0,'L');
-		// $c_pdf->Cell(20,8, $data[0]->type ,0,0,'L');
-		// $c_pdf->Cell(14,8,'Blok:',0,0,'L');
-		// $c_pdf->Cell(20,8, $data[0]->IDBlok,0,1,'L'); 
-
-		// $c_pdf->Cell(10);
-        // $c_pdf->Cell(40,8, 'Terbilang                :',0,0, 'L');
-        // $c_pdf->Cell(40,8, 'lalala',0,1, 'L');
-        
-		// $c_pdf->Cell(10);
-        // $c_pdf->Cell(40,8, 'Untuk Pembayaran:',0,0, 'L');
-        // $c_pdf->Cell(40,8, 'IURAN MANAGEMENT ESTATE',0,1, 'L');
-
-		// $c_pdf->Cell(50);
-        // $c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
-        // $c_pdf->Cell(40,8, 'lalala',0,1, 'L');
-
-		// $c_pdf->Cell(50);
-        // $c_pdf->Cell(16,8, $jml ,0,0, 'L');
-        // $c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-		// $c_pdf->Cell(40,8, $data[0]->total_setelah_diskon ,0,1, 'L');
-
-		// $c_pdf->Cell(10);
-        // $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
-		// $c_pdf->Cell(40,8, '899999',0,1, 'L');
-		
-        
-		// $c_pdf->Cell(10,10, '', 0,1);
-        // $c_pdf->Cell(10);
-        // $c_pdf->SetFont('Arial', '', '12');
-		// $c_pdf->Cell(115,7, 'Yang Menyerahkan,',0,0, 'L');
-		// $c_pdf->Cell(80,7, 'Surabaya, '.$dt->format('Y-m-d'),0,1, 'L');
-		
-        // $c_pdf->SetFont('Arial','','10');
-		// $c_pdf->Cell(10);       
-        // $c_pdf->Cell(140,5, 'Penerima,',0,0, 'R');
-        // $c_pdf->Cell(10,10,'',0,1);
-        // $c_pdf->Cell(10);
-    
-        // $c_pdf->Cell(10,15,'',0,1);
-        // $c_pdf->Cell(10);
-        // $c_pdf->SetFont('Arial','','12');
-		// $c_pdf->Cell(115,5, '('.$data[0]->nama_user.')',0,0); 
-		// $c_pdf->Cell(100,5, '('.$data[0]->nama.')',0,0);
           
 		$c_pdf->Output();
 		
