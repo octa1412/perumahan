@@ -241,6 +241,8 @@
           },
           error: function () {
               console.log("gagal menghapus");
+              alert('Data gagal Dihapus!');
+
 
           }
         });
@@ -259,8 +261,8 @@
             var datacluster = data.nama_cluster;
             var temukan = datacluster.indexOf("_");
             var namacluster = data.nama_cluster.substring(temukan+1);
-             console.log('sadas');
-             console.log(data.nama_perumahan);
+            //  console.log('sadas');
+            //  console.log(data.nama_perumahan);
 
             $('#editmodal').modal();
             $("#id-cluster1").val(data.IDCluster);
@@ -268,8 +270,8 @@
             $('#perumahan1').val(data.IDPerumahan);
             $('#updatedata').click(function editdata() {
             
-            console.log(document.getElementById("perumahan1").value);
-            console.log("asd");
+            // console.log(document.getElementById("perumahan1").value);
+            // console.log("asd");
 
 
             var inputid = document.getElementById("id-cluster1").value
@@ -280,7 +282,7 @@
               return;
             }
 
-            console.log(inputnama);           
+            // console.log(inputnama);           
               $.ajax({
                 url: "<?php echo base_url()?>index.php/Main/update_cluster/",
                 type: 'POST',
@@ -291,6 +293,8 @@
                 },
                 error: function () {
                   console.log("gagal update");
+                  alert('Data gagal diupdate!');
+
                 }
               });
             });
@@ -321,6 +325,7 @@
         },
         error: function () {
           console.log("gagal update");
+          alert('Data gagal diinputkan!');
         }
       });
       e.preventDefault();

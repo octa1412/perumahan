@@ -335,6 +335,8 @@
           },
           error: function () {
               console.log("gagal menghapus");
+              alert('Data gagal dihapus!');
+
 
           }
         });
@@ -409,6 +411,8 @@
           },
           error: function () {
             console.log("gagal update");
+            alert('Data gagal diupdate!');
+
           }
         });
     }
@@ -436,6 +440,8 @@
         },
         error: function () {
           console.log("gagal insert");
+          alert('Data gagal diinputkan!');
+
         }
       });
       e.preventDefault();

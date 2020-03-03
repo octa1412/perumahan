@@ -35,18 +35,18 @@
                     <label for="blntagihan" class="col-form-label">Bulan Tagihan</label>
                     <select class="custom-select" id="blntagihan">
                       <option selected value="default">Bulan</option>
-                      <option selected value="January">January</option>
-                      <option selected value="Febuary">Febuary</option>
-                      <option selected value="March">March</option>
-                      <option selected value="April">April</option>
-                      <option selected value="May">May</option>
-                      <option selected value="June">June</option>
-                      <option selected value="July">July</option>
-                      <option selected value="August">August</option>
-                      <option selected value="September">September</option>
-                      <option selected value="October">October</option>
-                      <option selected value="November">November</option>
-                      <option selected value="December">December</option>
+                      <option value="January">January</option>
+                      <option value="Febuary">Febuary</option>
+                      <option value="March">March</option>
+                      <option value="April">April</option>
+                      <option value="May">May</option>
+                      <option value="June">June</option>
+                      <option value="July">July</option>
+                      <option value="August">August</option>
+                      <option value="September">September</option>
+                      <option value="October">October</option>
+                      <option value="November">November</option>
+                      <option value="December">December</option>
                       
                     </select>
                     <div class="form-group">
@@ -187,7 +187,56 @@ $.ajax({
       var inputcluster = document.getElementById("cluster").value
       var inputblok = document.getElementById("blok").value
 
-      var inputid = inputblok +  inputbulan + inputtahun;
+      // if(inputperum == "default" || inputcluster == "default"){
+      //   e.preventDefault();
+      //   alert("Silahkan Pilih Perumahan dan Cluster")
+      //   return;
+      // }
+
+      var angkabln; 
+
+      switch(inputbulan) {
+        case 'January':
+          angkabln = '1';
+          break;
+        case 'Febuary':
+          angkabln = '2';
+          break;
+        case 'March':
+          angkabln = '3';
+          break;
+        case 'April':
+          angkabln = '4';
+          break;
+        case 'May':
+          angkabln = '5';
+          break;
+        case 'June':
+          angkabln = '6';
+          break;
+        case 'July':
+          angkabln = '7';
+          break;
+        case 'August':
+          angkabln = '8';
+          break;
+        case 'September':
+          angkabln = '9';
+          break;
+        case 'October':
+          angkabln = '91';
+          break;
+        case 'November':
+          angkabln = '92';
+          break;
+        case 'December':
+          angkabln = '93';
+          break;
+            
+      }
+
+
+      var inputid = inputblok +  angkabln + inputtahun;
       console.log('coba1');
 
       $.ajax({
@@ -195,12 +244,17 @@ $.ajax({
         type: 'POST',
         data: {id:inputid, blok:inputblok, bulan:inputbulan, tahun:inputtahun, harga:inputharga},
         success: function (response) {
-          alert(response);       
+          alert('Data Berhasil Ditambahkan!');      
+          window.location = "<?php echo base_url() ?>index.php/Main/arsipdata";
+ 
         },
         error: function () {
           console.log("gagal add");
+          alert('Data gagal diinputkan!');
         }
       });
+      e.preventDefault();
+
     }
 
     </script>
