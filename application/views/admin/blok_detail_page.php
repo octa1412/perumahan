@@ -235,6 +235,7 @@
           },
           error: function () {
               console.log("gagal menghapus");
+              alert('Data gagal dihapus!');
 
           }
         });
@@ -265,9 +266,11 @@
           window.location = "<?php echo base_url() ?>index.php/Main/blokdetail";
         },
         error: function () {
-          console.log("gagal update");
+          console.log("gagal insert");
+          alert('Data gagal diinputkan!');
         }
       });
+      e.preventDefault();
 
     }
 

@@ -191,7 +191,7 @@
                 },
                 error: function () {
                     console.log("gagal menghapus");
-
+                    alert('Data gagal dihapus!');
                 }
              });
            }
@@ -235,6 +235,8 @@
             },
             error: function () {
               console.log("gagal update");
+              alert('Data gagal diupdate!');
+
             }
           });
         };
@@ -256,7 +258,9 @@
               window.location = "<?php echo base_url() ?>index.php/Main/customer";
             },
             error: function () {
-              console.log("gagal update");
+              console.log("gagal insert");
+              alert('Data gagal diinputkan!');
+
             }
           });
 
@@ -274,6 +278,8 @@
             },
             error: function () {
               console.log("gagal update");
+              alert('Data gagal diambil!');
+
             }
 
           });
