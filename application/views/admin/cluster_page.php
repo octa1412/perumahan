@@ -323,6 +323,7 @@
           console.log("gagal update");
         }
       });
+      e.preventDefault();
 
     }
   

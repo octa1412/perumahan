@@ -1,5 +1,5 @@
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+ <!-- Begin Page Content -->
+ <div class="container-fluid">
         
         <div class="card shadow mb-12">
           <div class="card-header py-3">
