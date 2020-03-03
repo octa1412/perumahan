@@ -199,8 +199,8 @@ class Main extends CI_Controller {
 	//Review iuran tagihan admin
 	public function iuranreview(){
 		$idTagihan = $this->input->post('data');
-		// $manual = $this ->input->post('manual');
-		// $id = $this ->input->post('idBlok');
+		$manual = $this ->input->post('manual');
+		$id = $this ->input->post('idBlok');
 		if ($this->checkcookiestaff()) {
 			$data['idTagihan'] = $idTagihan;
 			$data['manual'] = $manual;
@@ -1440,15 +1440,17 @@ class Main extends CI_Controller {
 		$c_pdf = $this->pdf->getInstance();
 		$jml = 0;
 		$jumlahakhirdata = 0;
-		$posisi = 1;
-		$isi = 1;
+		$posisi = 0;
+		$isi = 0;
 		$sementara = 0;
+		$itungan = 0;
+		$abc = 1;
 		$kondisi ='';
 		$caca = "";
 		$nilai = "";
 		$awal = $bulannya[0]->Harga;
 
-		$datanama[1] = ($awal);
+		$datanama[0] = ($awal);
 		$datajumlah;
 		$databulan;
 		$databulanfix ='';
@@ -1460,20 +1462,22 @@ class Main extends CI_Controller {
 		for($i=1; $i<$jml; $i++){
 			foreach($datanama as $klpk) {
 				if($klpk == $bulannya[$i]->Harga){					
+					$kondisi = 'ada';
 				} else {
-					$kondisi = 'ada';	
-				}				
+					$kondisi = "oke";
+				}		
 			}
 
-			if($kondisi == 'ada'){
+			if($kondisi == 'oke'){
 				$posisi = $posisi + 1;
-				$datanama[$posisi] = ($bulannya[$i]->Harga);				
+				$datanama[$posisi] = ($bulannya[$i]->Harga);	
+				$abc = $abc + 1;			
 			}
 
 			$kondisi = '';
 		}
 
-		$posisi = 1;
+		$posisi = 0;
 
 		foreach($datanama as $jumalahnama){
 			for($i=0; $i<$jml; $i++){
@@ -1486,12 +1490,14 @@ class Main extends CI_Controller {
 			$posisi = $posisi + 1;
 		}		
 
-		$posisi = 1;
+		$posisi = 0;
 
 		foreach($datajumlah as $jumlahharga){
 			$hargapernama[$posisi] = $datanama[$posisi] * $datajumlah[$posisi];
 			$jumlahakhirdata = $jumlahakhirdata + 1;								
 			$posisi = $posisi + 1;
+			$itungan = $itungan + 1;
+
 
 		}
 
@@ -1543,10 +1549,10 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(50);
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
-		$c_pdf->Cell(40,8, json_encode($datajumlah) ,0,1, 'L');
+		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
 
-		for($i=0; $i<$jumlahakhirdata; $i++){
+		for($i=0; $i<$abc; $i++){
 			$a = json_encode($datajumlah[$isi]);
 			$b = json_encode($datanama[$isi]);
 			$bb = str_replace('"', '', $b);
@@ -1560,7 +1566,11 @@ class Main extends CI_Controller {
 				}
 			}
 
-			$databulanfix = $databulanfix.json_encode($databulan[0]).'-'.json_encode($databulan[$noawal-1]).' '.
+			if($noawal == 1){
+				$databulanfix = str_replace('"', '', json_encode($databulan[0])).' '.$bulannya[0]->tahun;
+			}else {
+				$databulanfix = $databulanfix.str_replace('"', '', json_encode($databulan[0])).'-'.str_replace('"', '', json_encode($databulan[$noawal-1])).' '.$bulannya[0]->tahun;
+			}
 
 			$c_pdf->Cell(50);
 			$c_pdf->Cell(45,8, $databulanfix,0,0, 'L');
@@ -1622,13 +1632,66 @@ class Main extends CI_Controller {
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 		$jml = 0;
+		$jumlahakhirdata = 0;
+		$posisi = 0;
+		$isi = 0;
+		$sementara = 0;
+		$itungan = 0;
+		$abc = 1;
+		$kondisi ='';
 		$caca = "";
 		$nilai = "";
+		$awal = $bulannya[0]->Harga;
+
+		$datanama[0] = ($awal);
+		$datajumlah;
+		$databulan;
+		$databulanfix ='';
 
 		foreach($bulannya as $item) {
-			$caca = $caca.$bulannya[$jml]->bulan. ", ";
-			$nilai = $nilai.$bulannya[$jml]->Harga. ", ";
 			$jml = $jml + 1;
+		}
+
+		for($i=1; $i<$jml; $i++){
+			foreach($datanama as $klpk) {
+				if($klpk == $bulannya[$i]->Harga){					
+					$kondisi = 'ada';
+				} else {
+					$kondisi = "oke";
+				}		
+			}
+
+			if($kondisi == 'oke'){
+				$posisi = $posisi + 1;
+				$datanama[$posisi] = ($bulannya[$i]->Harga);	
+				$abc = $abc + 1;			
+			}
+
+			$kondisi = '';
+		}
+
+		$posisi = 0;
+
+		foreach($datanama as $jumalahnama){
+			for($i=0; $i<$jml; $i++){
+				if($jumalahnama == $bulannya[$i]->Harga){
+					$sementara = $sementara + 1;
+					$datajumlah[$posisi] = $sementara;
+				}
+			}
+			$sementara = 0;
+			$posisi = $posisi + 1;
+		}		
+
+		$posisi = 0;
+
+		foreach($datajumlah as $jumlahharga){
+			$hargapernama[$posisi] = $datanama[$posisi] * $datajumlah[$posisi];
+			$jumlahakhirdata = $jumlahakhirdata + 1;								
+			$posisi = $posisi + 1;
+			$itungan = $itungan + 1;
+
+
 		}
 
 		$yng = $this->terbilang($data[0]->total_setelah_diskon);
@@ -1679,12 +1742,42 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(50);
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
-		$c_pdf->Cell(40,8, $caca ,0,1, 'L');
+		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
-		$c_pdf->Cell(50);
-        $c_pdf->Cell(10,8, $jml ,0,0, 'L');
-		$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-		$c_pdf->Cell(40,8, $bulannya[0]->Harga ,0,1, 'L');
+		for($i=0; $i<$abc; $i++){
+			$a = json_encode($datajumlah[$isi]);
+			$b = json_encode($datanama[$isi]);
+			$bb = str_replace('"', '', $b);
+			$c = json_encode($hargapernama[$isi]);
+			$noawal = 0;
+
+			for($j=0; $j<$jml; $j++){
+				if($bb == $bulannya[$j]->Harga){
+					$databulan[$noawal] = $bulannya[$j]->bulan;
+					$noawal = $noawal + 1;
+				}
+			}
+
+			if($noawal == 1){
+				$databulanfix = str_replace('"', '', json_encode($databulan[0])).' '.$bulannya[0]->tahun;
+			}else {
+				$databulanfix = $databulanfix.str_replace('"', '', json_encode($databulan[0])).'-'.str_replace('"', '', json_encode($databulan[$noawal-1])).' '.$bulannya[0]->tahun;
+			}
+
+			$c_pdf->Cell(50);
+			$c_pdf->Cell(45,8, $databulanfix,0,0, 'L');
+			$c_pdf->Cell(7,8, ': '.$a ,0,0, 'L');
+			$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
+			$c_pdf->Cell(15,8, $bb ,0,0, 'L');
+			$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
+			$c_pdf->Cell(15,8, $c ,0,1, 'L');
+
+
+			$isi = $isi + 1;
+			$databulanfix = '';
+
+			
+		}
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Total diskon            : Rp.',0,0, 'L');

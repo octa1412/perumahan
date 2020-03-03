@@ -438,7 +438,7 @@
           console.log("gagal insert");
         }
       });
-
+      e.preventDefault();
     }
 
 
