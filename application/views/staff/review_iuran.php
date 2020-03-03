@@ -11,16 +11,17 @@
 
             <div class="card-body" style="background-color: #FFFFFF;">
                 <!--table-->
-                <table id="table1" class="table table-striped table-bordered nowrap" style="width:100%">
+                <table id="table1" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Bulan Tagihan</th>
+                            <th>Bulan Tagihan Customer</th>
                             <th>Harga</th>
                         </tr>
                     </thead>
                     <tbody>
                     
                     </tbody>
+                    <tfoot>
                 </table>
                 <br>
                 <button class="btn btn-primary" onclick=doBayar()>Submit</button>
@@ -72,6 +73,26 @@
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
     <script>
         var total_tagihan = 0;
+        var manual = <?php 
+            $manual = explode(",",$manual);
+            $manual = json_encode($manual);
+            echo $manual;
+        ?>;
+        
+        var obj = [{
+                month   : new Date(manual[0]).getMonth(),
+                year    : new Date(manual[0]).getYear()+1900
+            },{
+                month   : new Date(manual[1]).getMonth(),
+                year    : new Date(manual[1]).getYear()+1900
+            }
+        ]
+
+        var startMonth = obj[0].month
+        var startYear = obj[0].year
+        var endMonth = obj[1].month
+        var endYear = obj[1].year
+        var manualSubmit = []
         $(document).ready(function () {
         dTable = $('#table1').DataTable( {
             responsive:true
@@ -84,9 +105,12 @@
             $idTagihan = json_encode($idTagihan);
             echo $idTagihan;
         ?>;
+
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var data = {id:[]};
         idtagihan.forEach((datum)=>{
             data.id.push(datum);
+            console.log(datum);
         })
         $(".dataTables_empty").text("Loading...")
         $.ajax({
@@ -95,10 +119,10 @@
             data: data,
             success: function (json) {
                 var response = JSON.parse(json);
-                if(response.length > 0){
+                if(response.length > 0 || obj.length > 0){
                     $("#table1").append(
-                        $('<tfoot/>').append( "<tr><td>Diskon "+
-                        '<td><input type="number" id="diskon" name="diskon" step=100></input>' )
+                        $('<tfoot/>').append( "<tr><td colspan='2' align='center' >Diskon "+
+                        '<tr><td colspan="2" align="center"><input type="number" id="diskon" name="diskon" step=100></input>' )
                     );
                     response.forEach((data)=>{
                         dTable.row.add([
@@ -107,14 +131,25 @@
                         ]).draw(false);
                         total_tagihan += parseInt(data.Harga)
                     })
+                    var harga = <?php if($harga !=null) echo $harga; else echo 0;?>;
+                    for(var i = startYear; i <= endYear; i++){
+                        for(var j = startMonth; j <= endMonth; j++){
+                            dTable.row.add([
+                                months[j]+' '+ i,
+                                harga
+                            ]).draw(false);
+                            total_tagihan += parseInt(harga)
+                            manualSubmit.push({month:months[j],year:i})
+                        }
+                    }
                 } else{
                     $(".dataTables_empty").text("Tidak ada data yang ditampilkan.")
                 }
                 
             },
             error: function (xhr, status, error) {
-            alert('Terdapat Kesalahan Pada Server...');
-            $("#submit").prop("disabled", false);
+                alert('Terdapat Kesalahan Pada Server...');
+                $("#submit").prop("disabled", false);
             }
         });
         });
@@ -123,56 +158,87 @@
                 echo $idTagihan;
             ?>;
             var data = {id:[]};
-            idtagihan.forEach((datum)=>{
-                data.id.push(datum);
+            
+            new Promise(function(resolve, reject) {
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url() ?>index.php/Main/tagihanmanual",
+                    
+                    data: {data: manualSubmit, id: '<?php echo ($id!=null) ?  $id : "" ?>', harga:'<?php echo ($harga!=null) ?  $harga : "" ?>'},
+                    success: function (response) {
+                        resolve("Stuff worked!");
+                        
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Terdapat Kesalahan Pada Server...');
+                        $("#submit").prop("disabled", false);
+                        reject(Error("It broke"));
+                    }
+                });
+            }).then(()=>{
+                idtagihan.forEach((datum)=>{
+                if(datum != "")
+                    data.id.push(datum);
+                })
+                if(manualSubmit.length > 0){
+                    manualSubmit.forEach((datum)=>{
+                        if(datum != ""){
+                            var idtagihan = <?php echo ($id!=null) ?  $id : "" ?> + datum.month + datum.year
+                            data.id.push(idtagihan)
+                        }
+                    })
+                }
+                data.diskon = $("#diskon").val();
+                data.total_awal = total_tagihan
+                console.log(data)
+                $.ajax({
+                url: "<?php echo base_url() ?>index.php/Main/do_bayar/",
+                type: 'POST',
+                data: data,
+                success: function (json) {
+                        var o = json;
+                        console.log(o)
+                        $('#pdfmodal').modal();
+                        $('#pdfdata').click(function pdftampil() {
+                            $.ajax({
+                                url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
+                                type: 'POST',
+                                data: {id:o},
+                                success: function (hasil) {
+
+                                },
+                                error: function (xhr, status, error) {
+                                alert('Terdapat Kesalahan Pada Server...');
+                                $("#submit").prop("disabled", false);
+                                }
+                            });
+                        }); 
+
+                        $('#pdfdiskon').click(function pdftampil() {
+                            $.ajax({
+                                url:"<?php echo base_url() ?>index.php/Main/cetak_pdf_diskon",
+                                type: 'POST',
+                                data: {id:o},
+                                success: function (hasil) {
+
+                                },
+                                error: function (xhr, status, error) {
+                                alert('Terdapat Kesalahan Pada Server...');
+                                $("#submit").prop("disabled", false);
+                                }
+                            });
+            });                                                                                  
+                },
+                error: function (xhr, status, error) {
+                alert('Terdapat Kesalahan Pada Server...');
+                $("#submit").prop("disabled", false);
+                }
+            });
             })
-            data.diskon = $("#diskon").val();
-            data.total_awal = total_tagihan
-            console.log(data)
-            $.ajax({
-            url: "<?php echo base_url() ?>index.php/Main/do_bayar/",
-            type: 'POST',
-            data: data,
-            success: function (json) {
-                    var o = json;
-                    console.log(o)
-                    var ah = 'awas';
-                    $('#pdfmodal').modal();
-                    $('#pdfdata').click(function pdftampil() {
-                        $.ajax({
-                            url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
-                            type: 'POST',
-                            data: {id:o, po:ah},
-                            success: function (hasil) {
+        }
 
-                            },
-                            error: function (xhr, status, error) {
-                            alert('Terdapat Kesalahan Pada Server...');
-                            $("#submit").prop("disabled", false);
-                            }
-                        });
-                    }); 
+        function createTagihanManual(){
 
-                     $('#pdfdiskon').click(function pdftampil() {
-                        $.ajax({
-                            url:"<?php echo base_url() ?>index.php/Main/cetak_pdf_diskon",
-                            type: 'POST',
-                            data: {id:o},
-                            success: function (hasil) {
-
-                            },
-                            error: function (xhr, status, error) {
-                            alert('Terdapat Kesalahan Pada Server...');
-                            $("#submit").prop("disabled", false);
-                            }
-                        });
-          });                                                                                  
-            },
-            error: function (xhr, status, error) {
-            alert('Terdapat Kesalahan Pada Server...');
-            $("#submit").prop("disabled", false);
-            }
-        });
         }
     </script>
     <style>

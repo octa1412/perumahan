@@ -4,6 +4,16 @@ class NotaDetailModel extends CI_Model {
         $this->load->database();
     }
 
+    public function get_by_tagihan($idTagihan){
+        $this->db->select();
+        $this->db->from('nota_detail');
+
+        $this->db->where('IDNota',$idTagihan);
+
+        $query = $this->db->get();
+		return $query->result_array();
+    }
+
     public function insert_one($idNota, $idTagihan){
         if(is_array($idTagihan)){
             foreach ($idTagihan as $tagihan){

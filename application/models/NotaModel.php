@@ -16,6 +16,23 @@ class NotaModel extends CI_Model {
 		return $query->result_array();
     }
 
+    public function get_arsip($username, $startDate = NULL, $endDate = NULL){
+        $this->db->select();
+        $this->db->from('nota');
+
+        if($username != NULL){
+            $this->db->where('username',$username);
+        }
+        
+        if($startDate != NULL && $endDate != NULL){
+			$this->db->where('tanggal >=',$startDate);
+			$this->db->where('tanggal <=',$endDate);
+		}
+
+        $query = $this->db->get();
+		return $query->result_array();
+    }
+
     public function get_by_filter($idNota = NULL, $rangeDate = NULL, $cluster = NULL){
         $this->db->select();
         $this->db->from('nota');

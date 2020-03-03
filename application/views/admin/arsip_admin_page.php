@@ -21,9 +21,12 @@
 					<table id="table1" class="table table-striped table-bordered" style="width:100%">
 						<thead>
 							<tr>
-								<th>Bulan Iuran</th>
-								<th>Tanggal Pembayaran</th>								
-								<th>Action</th>
+                  <th>ID Nota</th>
+                  <th>Tanggal Pembayaran</th>
+                  <th>Total Awal</th>
+                  <th>Diskon</th>
+                  <th>Total Setelah Diskon</th>
+                  <th>Action</th>
 							</tr>
 						</thead>
 						<tbody>						
@@ -109,13 +112,17 @@
         type: 'POST',
         data: data,
         success: function (json) {
+          console.log(json)
           dTable.clear().draw();
           var response = JSON.parse(json);
           if(response.length > 0){
             response.forEach((data)=>{
               dTable.row.add([
-                data.bulan+' '+ data.tahun, 
+                data.IDNota, 
                 data.tanggal,
+                data.total_awal,
+                data.diskon,
+                data.total_setelah_diskon,
                 '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Nota</button>'
               ]).draw(false);
               

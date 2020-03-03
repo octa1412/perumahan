@@ -203,9 +203,14 @@ class Main extends CI_Controller {
 		// $id = $this ->input->post('idBlok');
 		if ($this->checkcookiestaff()) {
 			$data['idTagihan'] = $idTagihan;
-			// $data['manual'] = $manual;
-			// $data['id'] = $id;
-			// $data['harga'] = $this->BlokModel->get_harga($id);
+			$data['manual'] = $manual;
+			if($id != null){
+				$data['id'] = $id;
+				$data['harga'] = $this->BlokModel->get_harga($id);
+			} else{
+				$data['id'] = null;
+				$data['harga'] = null;
+			}
 			$this->load->view('header1');
 			$this->load->view('staff/review_iuran',$data);
 			$this->load->view('footer');
@@ -533,9 +538,13 @@ class Main extends CI_Controller {
 		$startDate = $this->input->post('startDate');
 		$endDate = $this->input->post('endDate');
 		$id = $this->input->post('id');
+		if($id != null){
+			$data = $this->TagihanModel->get_all($id,1,NULL,NULL,TRUE);
+		}else{
+			$id = $this->get_cookie_decrypt("staffCookie");
+			$data = $this->NotaModel->get_arsip($id,$startDate,$endDate);
+		}
 
-		$data = $this->TagihanModel->get_all($id,1,$startDate,$endDate);
-		
 		if (empty($data)){
 			$data = [];
 		}
