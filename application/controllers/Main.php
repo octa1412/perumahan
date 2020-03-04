@@ -809,6 +809,8 @@ class Main extends CI_Controller {
 			$all = $this->TagihanModel->get_all_tagihan();
 			$kondisi = '';
 
+			$months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 			foreach($data as $monthYear){
 				$idsementara = $idsementara.$blok.$monthYear['month'].$monthYear['year'];
 
@@ -825,7 +827,7 @@ class Main extends CI_Controller {
 					$tagihan = array(
 							'IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
 							'IDBlok' => $blok,
-							'bulan' => $monthYear['month'],
+							'bulan' => $months[$monthYear['month']-1],
 							'tahun' => $monthYear['year'],
 							'harga' => $harga
 						);
@@ -1493,6 +1495,7 @@ class Main extends CI_Controller {
 		$awal = $bulannya[0]->Harga;
 
 		$datanama[0] = ($awal);
+		$datatahun[0] = ($bulannya[0]->tahun);
 		$datajumlah;
 		$databulan;
 		$datatahun;
@@ -1507,13 +1510,22 @@ class Main extends CI_Controller {
 				if($klpk == $bulannya[$i]->Harga){					
 					$kondisi = 'ada';
 				} else {
+
 					$kondisi = "oke";
 				}		
 			}
 
+			foreach($datatahun as $thn){
+				if($thn == $bulannya[$i]->tahun){					
+					$kondisi1 = 'ada';
+				} else {
+					$kondisi1 = "oke";
+				}	
+			}
+
 			if($kondisi == 'oke'){
 				$posisi = $posisi + 1;
-				$datanama[$posisi] = ($bulannya[$i]->Harga);	
+				$datanama[$posisi] = ($bulannya[$i]->Harga);
 				$abc = $abc + 1;			
 			}
 
@@ -1592,7 +1604,7 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(50);
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
-		$c_pdf->Cell(40,8, $abc ,0,1, 'L');
+		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
 
 		for($i=0; $i<$abc; $i++){
@@ -1613,7 +1625,7 @@ class Main extends CI_Controller {
 			if($noawal == 1){
 				$databulanfix = str_replace('"', '', json_encode($databulan[0])).' '.str_replace('"', '', json_encode($datatahun[0]));
 			}else {
-				$databulanfix = $databulanfix.str_replace('"', '', json_encode($databulan[0])).'-'.str_replace('"', '', json_encode($databulan[$noawal-1])).' '.str_replace('"', '', json_encode($datatahun[0]));
+				$databulanfix = $databulanfix.str_replace('"', '', json_encode($databulan[0])).'-'.str_replace('"', '', json_encode($databulan[$noawal-1])).' '.str_replace('"', '', json_encode($datatahun[$noawal-1]));
 			}
 
 			$c_pdf->Cell(50);
