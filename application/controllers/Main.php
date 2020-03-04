@@ -539,10 +539,10 @@ class Main extends CI_Controller {
 		$endDate = $this->input->post('endDate');
 		$id = $this->input->post('id');
 		if($id != null){
-			$data = $this->TagihanModel->get_all($id,1,NULL,NULL,TRUE);
+			$data = $this->TagihanModel->get_all($id,1,$startDate,$endDate,TRUE);
 		}else{
-			$id = $this->get_cookie_decrypt("staffCookie");
-			$data = $this->NotaModel->get_arsip($id,$startDate,$endDate);
+			// $id = $this->get_cookie_decrypt("staffCookie");
+			$data = $this->TagihanModel->get_all($id,1,$startDate,$endDate,TRUE);
 		}
 
 		if (empty($data)){
