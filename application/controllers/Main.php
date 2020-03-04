@@ -539,10 +539,10 @@ class Main extends CI_Controller {
 		$endDate = $this->input->post('endDate');
 		$id = $this->input->post('id');
 		if($id != null){
-			$data = $this->TagihanModel->get_all($id,1,NULL,NULL,TRUE);
+			$data = $this->TagihanModel->get_all($id,1,$startDate,$endDate,TRUE);
 		}else{
-			$id = $this->get_cookie_decrypt("staffCookie");
-			$data = $this->NotaModel->get_arsip($id,$startDate,$endDate);
+			// $id = $this->get_cookie_decrypt("staffCookie");
+			$data = $this->TagihanModel->get_all($id,1,$startDate,$endDate,TRUE);
 		}
 
 		if (empty($data)){
@@ -1495,6 +1495,7 @@ class Main extends CI_Controller {
 		$datanama[0] = ($awal);
 		$datajumlah;
 		$databulan;
+		$datatahun;
 		$databulanfix ='';
 
 		foreach($bulannya as $item) {
@@ -1591,7 +1592,7 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(50);
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
-		$c_pdf->Cell(40,8, '' ,0,1, 'L');
+		$c_pdf->Cell(40,8, $abc ,0,1, 'L');
 
 
 		for($i=0; $i<$abc; $i++){
@@ -1604,14 +1605,15 @@ class Main extends CI_Controller {
 			for($j=0; $j<$jml; $j++){
 				if($bb == $bulannya[$j]->Harga){
 					$databulan[$noawal] = $bulannya[$j]->bulan;
+					$datatahun[$noawal] =  $bulannya[$j]->tahun;
 					$noawal = $noawal + 1;
 				}
 			}
 
 			if($noawal == 1){
-				$databulanfix = str_replace('"', '', json_encode($databulan[0])).' '.$bulannya[0]->tahun;
+				$databulanfix = str_replace('"', '', json_encode($databulan[0])).' '.str_replace('"', '', json_encode($datatahun[0]));
 			}else {
-				$databulanfix = $databulanfix.str_replace('"', '', json_encode($databulan[0])).'-'.str_replace('"', '', json_encode($databulan[$noawal-1])).' '.$bulannya[0]->tahun;
+				$databulanfix = $databulanfix.str_replace('"', '', json_encode($databulan[0])).'-'.str_replace('"', '', json_encode($databulan[$noawal-1])).' '.str_replace('"', '', json_encode($datatahun[0]));
 			}
 
 			$c_pdf->Cell(50);

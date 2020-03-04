@@ -133,8 +133,12 @@
                         alert("Masukkan bulan pelunasan tambahan")
                         error = true;
                     }
+
+                    // var bulannya = new Date(Date.parse(rawDate)).getMonth()
+                    // if()
+
                     date.push(new Date(Date.parse(rawDate)))
-                    console.log(date);
+                    // console.log(date);
 
                 });
             } else{

@@ -112,6 +112,7 @@
     }
     function get_arsip(){
       var data = get_filter_value();
+      data.id = "<?php echo $idBlok?>"
       $(".dataTables_empty").text("Loading...")
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/",
