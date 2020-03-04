@@ -809,8 +809,6 @@ class Main extends CI_Controller {
 			$all = $this->TagihanModel->get_all_tagihan();
 			$kondisi = '';
 
-			$months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
 			foreach($data as $monthYear){
 				$idsementara = $idsementara.$blok.$monthYear['month'].$monthYear['year'];
 
@@ -827,7 +825,7 @@ class Main extends CI_Controller {
 					$tagihan = array(
 							'IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
 							'IDBlok' => $blok,
-							'bulan' => $months[$monthYear['month']-1],
+							'bulan' => $monthYear['month'],
 							'tahun' => $monthYear['year'],
 							'harga' => $harga
 						);
