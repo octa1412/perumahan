@@ -134,13 +134,26 @@
                     })
                     var harga = <?php if($harga !=null) echo $harga; else echo 0;?>;
                     for(var i = startYear; i <= endYear; i++){
-                        for(var j = startMonth; j <= endMonth; j++){
-                            dTable.row.add([
-                                months[j]+' '+ i,
-                                harga
-                            ]).draw(false);
-                            total_tagihan += parseInt(harga)
-                            manualSubmit.push({month:monthNumber[j],year:i})
+                        if(i < endYear){
+                            for(var j = startMonth; j< 12; j++){
+                                dTable.row.add([
+                                    months[j]+' '+ i,
+                                    harga
+                                ]).draw(false);
+                                total_tagihan += parseInt(harga)
+                                manualSubmit.push({month:monthNumber[j],year:i})
+                            }
+                            startMonth = 0;
+                        } else{
+                            console.log(startMonth)
+                            for(var j = startMonth; j <= endMonth; j++){
+                                dTable.row.add([
+                                    months[j]+' '+ i,
+                                    harga
+                                ]).draw(false);
+                                total_tagihan += parseInt(harga)
+                                manualSubmit.push({month:monthNumber[j],year:i})
+                            }
                         }
                     }
                 } else{
