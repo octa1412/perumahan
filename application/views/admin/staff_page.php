@@ -347,7 +347,7 @@
             type: 'POST',
             data: {id:inputid},
             success: function (response) {
-              alert("Password Berhasil di Reset! Silahkan Beritahu Staff Anda...");
+              alert("Password Berhasil di Reset ke 12345! Silahkan Beritahu Staff Anda...");
               window.location = "<?php echo base_url() ?>index.php/Main/staff";
             },
             error: function () {
