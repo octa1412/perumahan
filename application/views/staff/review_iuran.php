@@ -107,6 +107,7 @@
         ?>;
 
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var monthNumber = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "91", "92", "93"];
         var data = {id:[]};
         idtagihan.forEach((datum)=>{
             data.id.push(datum);
@@ -139,7 +140,7 @@
                                 harga
                             ]).draw(false);
                             total_tagihan += parseInt(harga)
-                            manualSubmit.push({month:months[j],year:i})
+                            manualSubmit.push({month:monthNumber[j],year:i})
                         }
                     }
                 } else{
