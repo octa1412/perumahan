@@ -1349,8 +1349,49 @@ class Main extends CI_Controller {
 		$nilaiblok = '';
 		$blok1 = '';
 		$kondisi = '';
+		$angkabln = '';
 
 		$all = $this->TagihanModel->get_all_tagihan();
+
+		switch($bulan) {
+			case 'January':
+			  $angkabln = '1';
+			  break;
+			case 'Febuary':
+			  $angkabln = '2';
+			  break;
+			case 'March':
+			  $angkabln = '3';
+			  break;
+			case 'April':
+			  $angkabln = '4';
+			  break;
+			case 'May':
+			  $angkabln = '5';
+			  break;
+			case 'June':
+			  $angkabln = '6';
+			  break;
+			case 'July':
+			  $angkabln = '7';
+			  break;
+			case 'August':
+			  $angkabln = '8';
+			  break;
+			case 'September':
+			  $angkabln = '9';
+			  break;
+			case 'October':
+			  $angkabln = '91';
+			  break;
+			case 'November':
+			  $angkabln = '92';
+			  break;
+			case 'December':
+			  $angkabln = '93';
+			  break;		
+		}
+
 
 		foreach($cust as $hasil) {
 			$nilaiharga = json_encode($hasil['Harga']);
@@ -1358,7 +1399,7 @@ class Main extends CI_Controller {
 			$number = str_replace('"', "", $nilaiharga);
 			$harga1 = intval($number);
 			$blok1 = str_replace('"', "", $nilaiblok);
-			$idsementara = $idsementara.$blok1.$bulan.$tahun;
+			$idsementara = $idsementara.$blok1.$angkabln.$tahun;
 
 
 			foreach($all as $satuan){
@@ -1387,6 +1428,7 @@ class Main extends CI_Controller {
 			$nilaiblok = '';
 			$blok1 = '';
 			$kondisi = '';
+			
 		}
 
 	}
