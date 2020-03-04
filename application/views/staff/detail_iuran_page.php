@@ -70,6 +70,9 @@
                 responsive:true
             });
             $(".dataTables_empty").text("Loading...")
+
+            var a = [];
+
             $.ajax({
                 url: "<?php echo base_url() ?>index.php/Main/get_tagihan/",
                 type: 'POST',
@@ -83,7 +86,7 @@
                         data.Harga,
                         '<input type="checkbox" name="bayar" class="tagihan" value="'+data.IDTagihan+'"></input>'
                         ]).draw(false);
-                        
+                        a.push(data.bulan);
                     })
                 } else{
                     $(".dataTables_empty").text("Tidak ada data yang ditampilkan.")
@@ -94,6 +97,7 @@
                 $("#submit").prop("disabled", false);
                 }
             });
+            console.log(a);
             var d = new Date()
             $('.input-daterange').datepicker({
                 format: "mm-yyyy",
@@ -120,14 +124,18 @@
                 if($(this).prop("checked"))
                     checked.push($(this).val());
             });
+
             if($("#additional").is(':checked')){
                 $('.input-daterange input').each(function() {
                     var rawDate = $(this).datepicker('getDate')
+
                     if(rawDate == null){
                         alert("Masukkan bulan pelunasan tambahan")
                         error = true;
                     }
                     date.push(new Date(Date.parse(rawDate)))
+                    console.log(date);
+
                 });
             } else{
                 if(checked.length == 0){
