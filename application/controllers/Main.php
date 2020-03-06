@@ -772,13 +772,15 @@ class Main extends CI_Controller {
 
 			foreach($all as $satuan){
 				if($coba == $satuan['IDTagihan']){					
-					echo "Data Tagihan Sudah Ada!";
+					// echo "Data Tagihan Sudah Ada!";
 					$kondisi = 'ada';
 					break;
 				} 					
 			}
 
 			if($kondisi == 'ada') {
+				echo 'Data sudah ada!';
+
 			} else {
 				$data = array(
 					'IDTagihan' => $this->input->post('id'),
