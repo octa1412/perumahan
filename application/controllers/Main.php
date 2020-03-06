@@ -1349,57 +1349,17 @@ class Main extends CI_Controller {
 		$nilaiblok = '';
 		$blok1 = '';
 		$kondisi = '';
-		$angkabln = '';
 
 		$all = $this->TagihanModel->get_all_tagihan();
 
-		switch($bulan) {
-			case 'January':
-			  $angkabln = '1';
-			  break;
-			case 'Febuary':
-			  $angkabln = '2';
-			  break;
-			case 'March':
-			  $angkabln = '3';
-			  break;
-			case 'April':
-			  $angkabln = '4';
-			  break;
-			case 'May':
-			  $angkabln = '5';
-			  break;
-			case 'June':
-			  $angkabln = '6';
-			  break;
-			case 'July':
-			  $angkabln = '7';
-			  break;
-			case 'August':
-			  $angkabln = '8';
-			  break;
-			case 'September':
-			  $angkabln = '9';
-			  break;
-			case 'October':
-			  $angkabln = '91';
-			  break;
-			case 'November':
-			  $angkabln = '92';
-			  break;
-			case 'December':
-			  $angkabln = '93';
-			  break;		
-		}
-
-
+		
 		foreach($cust as $hasil) {
 			$nilaiharga = json_encode($hasil['Harga']);
 			$nilaiblok = json_encode($hasil['IDBlok']);
 			$number = str_replace('"', "", $nilaiharga);
 			$harga1 = intval($number);
 			$blok1 = str_replace('"', "", $nilaiblok);
-			$idsementara = $idsementara.$blok1.$angkabln.$tahun;
+			$idsementara = $idsementara.$blok1.$bulan.$tahun;
 
 
 			foreach($all as $satuan){
@@ -1472,6 +1432,52 @@ class Main extends CI_Controller {
 		return $hasil;
 	}
 
+	public function switch_bulan($angka){
+		$angkabln = '';
+		switch($angka){
+			case '1':
+				$angkabln = 'January';
+				break;
+			  case '2':
+				$angkabln = 'Febuary';
+				break;
+			  case '3':
+				$angkabln = 'March';
+				break;
+			  case '4':
+				$angkabln = 'April';
+				break;
+			  case '5':
+				$angkabln = 'May';
+				break;
+			  case '6':
+				$angkabln = 'June';
+				break;
+			  case '7':
+				$angkabln = 'July';
+				break;
+			  case '8':
+				$angkabln = 'August';
+				break;
+			  case '9':
+				$angkabln = 'September';
+				break;
+			  case '10':
+				$angkabln = 'October';
+				break;
+			  case '11':
+				$angkabln = 'November';
+				break;
+			  case '12':
+				$angkabln = 'December';
+				break;
+		}
+
+		return $angkabln;
+	}
+
+
+
 	//mencetak kuintansi pdf tagihan pembayaran
 	public function cetak_pdf(){
 		$no = 1;
@@ -1480,67 +1486,134 @@ class Main extends CI_Controller {
 		$bulannya = $this->TagihanModel->jmlbln($username);
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
+
+
+		$abc = 0;
 		$jml = 0;
-		$jumlahakhirdata = 0;
-		$posisi = 0;
-		$isi = 0;
-		$sementara = 0;
-		$itungan = 0;
-		$abc = 1;
-		$kondisi ='';
-		$caca = "";
-		$nilai = "";
-		$awal = $bulannya[0]->Harga;
+		$idhasilcek = 0;
+		$posisidata = 2;
+		$kondisitahun = '';
+		$kondisiharga ='';
+		$cekondisi = '';
+		
 
-		$datanama[0] = ($awal);
-		$datajumlah;
-		$databulan;
-		$databulanfix ='';
+		$test = 0;
 
+//array data pertama
+		$dataharga = array(
+			array(
+			'1',
+			($bulannya[0]->Harga),
+			($bulannya[0]->tahun),
+			($bulannya[0]->bulan)
+			)
+		);
+		
+	
+//cari jumlah bulan yg diinput
 		foreach($bulannya as $item) {
 			$jml = $jml + 1;
 		}
 
+//cek ad brp baris
 		for($i=1; $i<$jml; $i++){
-			foreach($datanama as $klpk) {
-				if($klpk == $bulannya[$i]->Harga){					
-					$kondisi = 'ada';
+			foreach($dataharga as $ok) {
+				if($ok[2] == $bulannya[$i]->tahun){					
+					$kondisitahun = 'ada';
+					if($ok[1] == $bulannya[$i]->Harga){					
+						$kondisiharga = 'ada';
+						break;
+					} else {
+						$kondisiharga = "taksama";
+					}	
 				} else {
-					$kondisi = "oke";
+					$kondisitahun = "taksama";
+					
 				}		
 			}
 
-			if($kondisi == 'oke'){
-				$posisi = $posisi + 1;
-				$datanama[$posisi] = ($bulannya[$i]->Harga);	
+//input data ke array
+			if($kondisiharga == 'taksama' || $kondisitahun == 'taksama'){
+				$arraybaru = array(
+					$posisidata,
+					$bulannya[$i]->Harga,
+					$bulannya[$i]->tahun,
+					$bulannya[$i]->bulan					
+				);
+				$posisidata = $posisidata + 1;
 				$abc = $abc + 1;			
-			}
+				array_push($dataharga, $arraybaru);
+			} else if($kondisitahun == 'ada'){
+				if($kondisiharga == 'ada'){
+					foreach($dataharga as $cektempat) {
+						if($bulannya[$i]->tahun == $cektempat[2]){
+							if($bulannya[$i]->Harga == $cektempat[1]){
+								$abc = $abc + 1;			
 
-			$kondisi = '';
-		}
-
-		$posisi = 0;
-
-		foreach($datanama as $jumalahnama){
-			for($i=0; $i<$jml; $i++){
-				if($jumalahnama == $bulannya[$i]->Harga){
-					$sementara = $sementara + 1;
-					$datajumlah[$posisi] = $sementara;
+								$arraybaru = array(
+									$cektempat[0],
+									$bulannya[$i]->Harga,
+									$bulannya[$i]->tahun,
+									$bulannya[$i]->bulan					
+								);
+								array_push($dataharga, $arraybaru);
+							break;
+							}
+						}
+					}
+					$idhasilcek = 0;
+				} else if($kondisiharga == 'taksama' && $kondisitahun== 'ada'){
+					$arraybaru = array(
+						$posisidata,
+						$bulannya[$i]->Harga,
+						$bulannya[$i]->tahun,
+						$bulannya[$i]->bulan					
+					);
+					$posisidata = $posisidata + 1;
+					$abc = $abc + 1;			
+					array_push($dataharga, $arraybaru);
 				}
 			}
-			$sementara = 0;
-			$posisi = $posisi + 1;
-		}		
 
-		$posisi = 0;
+			$kondisiharga = '';
+			$kondisitahun = '';
+		}
 
-		foreach($datajumlah as $jumlahharga){
-			$hargapernama[$posisi] = $datanama[$posisi] * $datajumlah[$posisi];
-			$jumlahakhirdata = $jumlahakhirdata + 1;								
-			$posisi = $posisi + 1;
-			$itungan = $itungan + 1;
+		$tempsementara = array(); //array menyimpan jumlah banyak data tiap id dengan harganya, format (id, harga, jmlbulan)
+		$jumlahdataharga = 0;
+		$jumlahdatahargafix = 0;
+
+		for($i=0; $i<$posisidata-1; $i++){
+
+			for($j=0; $j<$abc+1;$j++){
+				if($dataharga[$j][0] == ($i+1)){
+					$jumlahdataharga = $jumlahdataharga + 1;
+				}	
+
+			}
+			$arrayid = array(($i+1), $dataharga[$i][1], $jumlahdataharga);
+			array_push($tempsementara, $arrayid);
+			
+			$jumlahdatahargafix = $jumlahdatahargafix + $jumlahdataharga;
+
+			$jumlahdataharga = 0;
 
 
+		}
+
+
+// sorting
+		for($a=0; $a<$jumlahdatahargafix;$a++){			
+			$ab = $dataharga[$a][3];
+
+			for($b=$a+1; $b<$jumlahdatahargafix-1; $b++){
+				$ba = $dataharga[$b][3];
+				if($ab > $ba){
+					$c = $dataharga[$a];
+					$dataharga[$a] = $dataharga[$b];
+					$dataharga[$b] = $c;
+				}
+			}
 		}
 
 		$yng = $this->terbilang($data[0]->total_awal);
@@ -1593,47 +1666,46 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
 		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
+		$okee = 0;
 
-		for($i=0; $i<$abc; $i++){
-			$a = json_encode($datajumlah[$isi]);
-			$b = json_encode($datanama[$isi]);
-			$bb = str_replace('"', '', $b);
-			$c = json_encode($hargapernama[$isi]);
-			$noawal = 0;
-
-			for($j=0; $j<$jml; $j++){
-				if($bb == $bulannya[$j]->Harga){
-					$databulan[$noawal] = $bulannya[$j]->bulan;
-					$noawal = $noawal + 1;
+		for($t=1; $t<$posisidata; $t++){
+			for($r=0; $r<$jml; $r++){
+				if($dataharga[$r][0] == $t){
+					$ihi = $this->switch_bulan($dataharga[$r][3]);
+					$thn = $dataharga[$r][2];
+					$okee = $okee + 1;				
 				}
 			}
 
-			if($noawal == 1){
-				$databulanfix = str_replace('"', '', json_encode($databulan[0])).' '.$bulannya[0]->tahun;
-			}else {
-				$databulanfix = $databulanfix.str_replace('"', '', json_encode($databulan[0])).'-'.str_replace('"', '', json_encode($databulan[$noawal-1])).' '.$bulannya[0]->tahun;
+
+			for($r=0; $r<$jml; $r++){
+				if($dataharga[$r][0] == $t){
+					$aha = $this->switch_bulan($dataharga[$r][3]);
+				break;
+				}
 			}
 
+			$totalakhir = $okee * $dataharga[$t][1];
+			$namabulan;
+
+			if($okee == 1){
+				$namabulan = str_replace('"', "",json_encode($aha)).' '.$thn; 
+			} else {
+				$namabulan = str_replace('"', "",json_encode($aha)).'-'.str_replace('"', "",json_encode($ihi)).' '.$thn; 
+			}
+
+
 			$c_pdf->Cell(50);
-			$c_pdf->Cell(45,8, $databulanfix,0,0, 'L');
-			$c_pdf->Cell(7,8, ': '.$a ,0,0, 'L');
-			$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, $bb ,0,0, 'L');
+			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
+			$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
+			$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
+			$c_pdf->Cell(12,8,  str_replace('"', "",json_encode($dataharga[$t][1])) ,0,0, 'L');
 			$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, $c ,0,1, 'L');
-
-
-			$isi = $isi + 1;
-			$databulanfix = '';
-
-			
+			$c_pdf->Cell(15,8, $totalakhir ,0,1, 'L');
+			$okee=0;
 		}
 
 
-		// $c_pdf->Cell(50);
-        // $c_pdf->Cell(10,8, $jml ,0,0, 'L');
-		// $c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-		// $c_pdf->Cell(40,8, $bulannya[0]->Harga ,0,1, 'L');
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
@@ -1673,68 +1745,135 @@ class Main extends CI_Controller {
 		$bulannya = $this->TagihanModel->jmlbln($username);
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
+		
+		$abc = 0;
 		$jml = 0;
-		$jumlahakhirdata = 0;
-		$posisi = 0;
-		$isi = 0;
-		$sementara = 0;
-		$itungan = 0;
-		$abc = 1;
-		$kondisi ='';
-		$caca = "";
-		$nilai = "";
-		$awal = $bulannya[0]->Harga;
+		$idhasilcek = 0;
+		$posisidata = 2;
+		$kondisitahun = '';
+		$kondisiharga ='';
+		$cekondisi = '';
+		
 
-		$datanama[0] = ($awal);
-		$datajumlah;
-		$databulan;
-		$databulanfix ='';
+		$test = 0;
 
+//array data pertama
+		$dataharga = array(
+			array(
+			'1',
+			($bulannya[0]->Harga),
+			($bulannya[0]->tahun),
+			($bulannya[0]->bulan)
+			)
+		);
+		
+	
+//cari jumlah bulan yg diinput
 		foreach($bulannya as $item) {
 			$jml = $jml + 1;
 		}
 
+//cek ad brp baris
 		for($i=1; $i<$jml; $i++){
-			foreach($datanama as $klpk) {
-				if($klpk == $bulannya[$i]->Harga){					
-					$kondisi = 'ada';
+			foreach($dataharga as $ok) {
+				if($ok[2] == $bulannya[$i]->tahun){					
+					$kondisitahun = 'ada';
+					if($ok[1] == $bulannya[$i]->Harga){					
+						$kondisiharga = 'ada';
+						break;
+					} else {
+						$kondisiharga = "taksama";
+					}	
 				} else {
-					$kondisi = "oke";
+					$kondisitahun = "taksama";
+					
 				}		
 			}
 
-			if($kondisi == 'oke'){
-				$posisi = $posisi + 1;
-				$datanama[$posisi] = ($bulannya[$i]->Harga);	
+//input data ke array
+			if($kondisiharga == 'taksama' || $kondisitahun == 'taksama'){
+				$arraybaru = array(
+					$posisidata,
+					$bulannya[$i]->Harga,
+					$bulannya[$i]->tahun,
+					$bulannya[$i]->bulan					
+				);
+				$posisidata = $posisidata + 1;
 				$abc = $abc + 1;			
-			}
+				array_push($dataharga, $arraybaru);
+			} else if($kondisitahun == 'ada'){
+				if($kondisiharga == 'ada'){
+					foreach($dataharga as $cektempat) {
+						if($bulannya[$i]->tahun == $cektempat[2]){
+							if($bulannya[$i]->Harga == $cektempat[1]){
+								$abc = $abc + 1;			
 
-			$kondisi = '';
-		}
-
-		$posisi = 0;
-
-		foreach($datanama as $jumalahnama){
-			for($i=0; $i<$jml; $i++){
-				if($jumalahnama == $bulannya[$i]->Harga){
-					$sementara = $sementara + 1;
-					$datajumlah[$posisi] = $sementara;
+								$arraybaru = array(
+									$cektempat[0],
+									$bulannya[$i]->Harga,
+									$bulannya[$i]->tahun,
+									$bulannya[$i]->bulan					
+								);
+								array_push($dataharga, $arraybaru);
+							break;
+							}
+						}
+					}
+					$idhasilcek = 0;
+				} else if($kondisiharga == 'taksama' && $kondisitahun== 'ada'){
+					$arraybaru = array(
+						$posisidata,
+						$bulannya[$i]->Harga,
+						$bulannya[$i]->tahun,
+						$bulannya[$i]->bulan					
+					);
+					$posisidata = $posisidata + 1;
+					$abc = $abc + 1;			
+					array_push($dataharga, $arraybaru);
 				}
 			}
-			$sementara = 0;
-			$posisi = $posisi + 1;
-		}		
 
-		$posisi = 0;
+			$kondisiharga = '';
+			$kondisitahun = '';
+		}
 
-		foreach($datajumlah as $jumlahharga){
-			$hargapernama[$posisi] = $datanama[$posisi] * $datajumlah[$posisi];
-			$jumlahakhirdata = $jumlahakhirdata + 1;								
-			$posisi = $posisi + 1;
-			$itungan = $itungan + 1;
+		$tempsementara = array(); //array menyimpan jumlah banyak data tiap id dengan harganya, format (id, harga, jmlbulan)
+		$jumlahdataharga = 0;
+		$jumlahdatahargafix = 0;
+
+		for($i=0; $i<$posisidata-1; $i++){
+
+			for($j=0; $j<$abc+1;$j++){
+				if($dataharga[$j][0] == ($i+1)){
+					$jumlahdataharga = $jumlahdataharga + 1;
+				}	
+
+			}
+			$arrayid = array(($i+1), $dataharga[$i][1], $jumlahdataharga);
+			array_push($tempsementara, $arrayid);
+			
+			$jumlahdatahargafix = $jumlahdatahargafix + $jumlahdataharga;
+
+			$jumlahdataharga = 0;
 
 
 		}
+
+
+// sorting
+		for($a=0; $a<$jumlahdatahargafix;$a++){			
+			$ab = $dataharga[$a][3];
+
+			for($b=$a+1; $b<$jumlahdatahargafix-1; $b++){
+				$ba = $dataharga[$b][3];
+				if($ab > $ba){
+					$c = $dataharga[$a];
+					$dataharga[$a] = $dataharga[$b];
+					$dataharga[$b] = $c;
+				}
+			}
+		}
+
 
 		$yng = $this->terbilang($data[0]->total_setelah_diskon);
 
@@ -1786,39 +1925,43 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
 		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
-		for($i=0; $i<$abc; $i++){
-			$a = json_encode($datajumlah[$isi]);
-			$b = json_encode($datanama[$isi]);
-			$bb = str_replace('"', '', $b);
-			$c = json_encode($hargapernama[$isi]);
-			$noawal = 0;
+		$okee = 0;
 
-			for($j=0; $j<$jml; $j++){
-				if($bb == $bulannya[$j]->Harga){
-					$databulan[$noawal] = $bulannya[$j]->bulan;
-					$noawal = $noawal + 1;
+		for($t=1; $t<$posisidata; $t++){
+			for($r=0; $r<$jml; $r++){
+				if($dataharga[$r][0] == $t){
+					$ihi = $this->switch_bulan($dataharga[$r][3]);
+					$thn = $dataharga[$r][2];
+					$okee = $okee + 1;				
 				}
 			}
 
-			if($noawal == 1){
-				$databulanfix = str_replace('"', '', json_encode($databulan[0])).' '.$bulannya[0]->tahun;
-			}else {
-				$databulanfix = $databulanfix.str_replace('"', '', json_encode($databulan[0])).'-'.str_replace('"', '', json_encode($databulan[$noawal-1])).' '.$bulannya[0]->tahun;
+
+			for($r=0; $r<$jml; $r++){
+				if($dataharga[$r][0] == $t){
+					$aha = $this->switch_bulan($dataharga[$r][3]);
+				break;
+				}
 			}
 
+			$totalakhir = $okee * $dataharga[$t][1];
+			$namabulan;
+
+			if($okee == 1){
+				$namabulan = str_replace('"', "",json_encode($aha)).' '.$thn; 
+			} else {
+				$namabulan = str_replace('"', "",json_encode($aha)).'-'.str_replace('"', "",json_encode($ihi)).' '.$thn; 
+			}
+
+
 			$c_pdf->Cell(50);
-			$c_pdf->Cell(45,8, $databulanfix,0,0, 'L');
-			$c_pdf->Cell(7,8, ': '.$a ,0,0, 'L');
-			$c_pdf->Cell(28,8, 'bulan   x  Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, $bb ,0,0, 'L');
-			$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, $c ,0,1, 'L');
-
-
-			$isi = $isi + 1;
-			$databulanfix = '';
-
-			
+			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
+			$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
+			$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
+			$c_pdf->Cell(12,8,  str_replace('"', "",json_encode($dataharga[$t][1])) ,0,0, 'L');
+			$c_pdf->Cell(25,8, ': Total   =  Rp.',0,0, 'L');
+			$c_pdf->Cell(15,8, $totalakhir ,0,1, 'L');
+			$okee=0;
 		}
 
 		$c_pdf->Cell(10);

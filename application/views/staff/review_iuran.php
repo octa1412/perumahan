@@ -107,7 +107,7 @@
         ?>;
 
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var monthNumber = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "91", "92", "93"];
+        var monthNumber = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
         var data = {id:[]};
         idtagihan.forEach((datum)=>{
             data.id.push(datum);
@@ -120,14 +120,57 @@
             data: data,
             success: function (json) {
                 var response = JSON.parse(json);
+                var angkabln;
                 if(response.length > 0 || obj.length > 0){
                     $("#table1").append(
                         $('<tfoot/>').append( "<tr><td colspan='2' align='center' >Diskon "+
                         '<tr><td colspan="2" align="center"><input type="number" id="diskon" name="diskon" step=100></input>' )
                     );
                     response.forEach((data)=>{
+
+
+                        switch(data.bulan){
+                        case '1':
+                        angkabln = 'January';
+                        break;
+                        case '2':
+                        angkabln = 'Febuary';
+                        break;
+                        case '3':
+                        angkabln = 'March';
+                        break;
+                        case '4':
+                        angkabln = 'April';
+                        break;
+                        case '5':
+                        angkabln = 'May';
+                        break;
+                        case '6':
+                        angkabln = 'June';
+                        break;
+                        case '7':
+                        angkabln = 'July';
+                        break;
+                        case '8':
+                        angkabln = 'August';
+                        break;
+                        case '9':
+                        angkabln = 'September';
+                        break;
+                        case '10':
+                        angkabln = 'October';
+                        break;
+                        case '11':
+                        angkabln = 'November';
+                        break;
+                        case '12':
+                        angkabln = 'December';
+                        break;
+                    }
+
+
                         dTable.row.add([
-                        data.bulan+' '+ data.tahun, 
+                        angkabln+' '+ data.tahun, 
                         data.Harga,         
                         ]).draw(false);
                         total_tagihan += parseInt(data.Harga)
