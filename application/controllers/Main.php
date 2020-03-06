@@ -1601,20 +1601,7 @@ class Main extends CI_Controller {
 
 		}
 
-
-// sorting
-		for($a=0; $a<$jumlahdatahargafix;$a++){			
-			$ab = $dataharga[$a][3];
-
-			for($b=$a+1; $b<$jumlahdatahargafix-1; $b++){
-				$ba = $dataharga[$b][3];
-				if($ab > $ba){
-					$c = $dataharga[$a];
-					$dataharga[$a] = $dataharga[$b];
-					$dataharga[$b] = $c;
-				}
-			}
-		}
+		sort($dataharga);
 
 		$yng = $this->terbilang($data[0]->total_awal);
 
@@ -1678,9 +1665,9 @@ class Main extends CI_Controller {
 			}
 
 
-			for($r=0; $r<$jml; $r++){
-				if($dataharga[$r][0] == $t){
-					$aha = $this->switch_bulan($dataharga[$r][3]);
+			for($p=0; $p<$jml; $p++){
+				if($dataharga[$p][0] == $t){
+					$aha = $this->switch_bulan($dataharga[$p][3]);
 				break;
 				}
 			}
