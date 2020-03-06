@@ -1672,7 +1672,7 @@ class Main extends CI_Controller {
 				}
 			}
 
-			$totalakhir = $okee * $dataharga[$t][1];
+			$totalakhir = $okee * $dataharga[$t-1][1];
 			$namabulan;
 
 			if($okee == 1){
@@ -1686,7 +1686,7 @@ class Main extends CI_Controller {
 			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
 			$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
 			$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
-			$c_pdf->Cell(12,8,  str_replace('"', "",json_encode($dataharga[$t][1])) ,0,0, 'L');
+			$c_pdf->Cell(12,8,  str_replace('"', "",json_encode($dataharga[$t-1][1])) ,0,0, 'L');
 			$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
 			$c_pdf->Cell(15,8, $totalakhir ,0,1, 'L');
 			$okee=0;
