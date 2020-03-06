@@ -244,8 +244,13 @@ $.ajax({
         type: 'POST',
         data: {id:inputid, blok:inputblok, bulan:angkabln, tahun:inputtahun, harga:inputharga},
         success: function (response) {
-          alert('Data Berhasil Ditambahkan!');      
-          window.location = "<?php echo base_url() ?>index.php/Main/arsipdata";
+          if(response == 'Data sudah ada!'){
+            alert(response);
+            window.location = ("<?php echo base_url() ?>index.php/Main/addtagihan");
+          } else {
+            alert(response);      
+            window.location = "<?php echo base_url() ?>index.php/Main/arsipdata";
+          }
  
         },
         error: function () {
