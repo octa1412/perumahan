@@ -230,9 +230,10 @@
       month[11] = "December";
 
       var d = new Date();
-      var bulan = month[d.getMonth()];
+      var bulan = d.getMonth()+1;
       var t = d.getYear();
       var year = (t < 1000) ? t + 1900 : t;
+
 
       $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_blok_data",
@@ -259,6 +260,8 @@
             data : {jml:jml, arr:arr, bulan:bulan, tahun:year},
             success: function (json) {
               console.log(json);
+              console.log(bulan);
+
               console.log('json');
               
             },    

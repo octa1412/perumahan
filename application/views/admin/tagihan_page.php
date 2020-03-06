@@ -59,14 +59,59 @@
         data: data,
         success: function (json) {
           var response = JSON.parse(json);
+          var angkabln;
           if(response.length > 0 ){
             response.forEach((data)=>{
+
+              switch(data.bulan){
+                case '1':
+                  angkabln = 'January';
+                  break;
+                  case '2':
+                  angkabln = 'Febuary';
+                  break;
+                  case '3':
+                  angkabln = 'March';
+                  break;
+                  case '4':
+                  angkabln = 'April';
+                  break;
+                  case '5':
+                  angkabln = 'May';
+                  break;
+                  case '6':
+                  angkabln = 'June';
+                  break;
+                  case '7':
+                  angkabln = 'July';
+                  break;
+                  case '8':
+                  angkabln = 'August';
+                  break;
+                  case '9':
+                  angkabln = 'September';
+                  break;
+                  case '10':
+                  angkabln = 'October';
+                  break;
+                  case '11':
+                  angkabln = 'November';
+                  break;
+                  case '12':
+                  angkabln = 'December';
+                  break;
+              }
+
+
               dTable.row.add([
-                data.bulan+' '+ data.tahun, 
+                angkabln+' '+ data.tahun, 
                 data.Harga
                 ]).draw(false);
               
             })
+
+
+
           } else{
             $(".dataTables_empty").text("Tidak ada data yang ditampilkan.");
           }

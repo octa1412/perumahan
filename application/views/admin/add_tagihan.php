@@ -224,13 +224,13 @@ $.ajax({
           angkabln = '9';
           break;
         case 'October':
-          angkabln = '91';
+          angkabln = '10';
           break;
         case 'November':
-          angkabln = '92';
+          angkabln = '11';
           break;
         case 'December':
-          angkabln = '93';
+          angkabln = '12';
           break;
             
       }
@@ -242,7 +242,7 @@ $.ajax({
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/add_tagihan_manual",
         type: 'POST',
-        data: {id:inputid, blok:inputblok, bulan:inputbulan, tahun:inputtahun, harga:inputharga},
+        data: {id:inputid, blok:inputblok, bulan:angkabln, tahun:inputtahun, harga:inputharga},
         success: function (response) {
           alert('Data Berhasil Ditambahkan!');      
           window.location = "<?php echo base_url() ?>index.php/Main/arsipdata";
