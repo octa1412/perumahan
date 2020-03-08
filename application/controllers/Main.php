@@ -1489,7 +1489,6 @@ class Main extends CI_Controller {
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 
-
 		$abc = 0;
 		$jml = 0;
 		$idhasilcek = 0;
@@ -1848,21 +1847,7 @@ class Main extends CI_Controller {
 
 		}
 
-
-// sorting
-		for($a=0; $a<$jumlahdatahargafix;$a++){			
-			$ab = $dataharga[$a][3];
-
-			for($b=$a+1; $b<$jumlahdatahargafix-1; $b++){
-				$ba = $dataharga[$b][3];
-				if($ab > $ba){
-					$c = $dataharga[$a];
-					$dataharga[$a] = $dataharga[$b];
-					$dataharga[$b] = $c;
-				}
-			}
-		}
-
+		sort($dataharga);
 
 		$yng = $this->terbilang($data[0]->total_setelah_diskon);
 
@@ -1926,14 +1911,14 @@ class Main extends CI_Controller {
 			}
 
 
-			for($r=0; $r<$jml; $r++){
-				if($dataharga[$r][0] == $t){
-					$aha = $this->switch_bulan($dataharga[$r][3]);
+			for($p=0; $p<$jml; $p++){
+				if($dataharga[$p][0] == $t){
+					$aha = $this->switch_bulan($dataharga[$p][3]);
 				break;
 				}
 			}
 
-			$totalakhir = $okee * $dataharga[$t][1];
+			$totalakhir = $okee * $dataharga[$t-1][1];
 			$namabulan;
 
 			if($okee == 1){
@@ -1947,8 +1932,8 @@ class Main extends CI_Controller {
 			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
 			$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
 			$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
-			$c_pdf->Cell(12,8,  str_replace('"', "",json_encode($dataharga[$t][1])) ,0,0, 'L');
-			$c_pdf->Cell(25,8, ': Total   =  Rp.',0,0, 'L');
+			$c_pdf->Cell(12,8,  str_replace('"', "",json_encode($dataharga[$t-1][1])) ,0,0, 'L');
+			$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
 			$c_pdf->Cell(15,8, $totalakhir ,0,1, 'L');
 			$okee=0;
 		}
@@ -1986,4 +1971,318 @@ class Main extends CI_Controller {
 		
     }
 	
+	
+	public function cetak_pdf_now(){
+		$username = $this->get_cookie_decrypt("idpdf");
+		$data = $this->TagihanModel->pdf_now($username);
+		$bulannya = $this->TagihanModel->jmlblnpdf($username);
+		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
+		$c_pdf = $this->pdf->getInstance();
+		$hargatotal = 0;
+		
+		$no = 1;
+		$abc = 0;
+		$jml = 0;
+		$idhasilcek = 0;
+		$posisidata = 2;
+		$kondisitahun = '';
+		$kondisiharga ='';
+		$cekondisi = '';
+		
+
+		$test = 0;
+
+
+		foreach($bulannya as $jmlharga){
+			if($jmlharga->status == '0'){
+				$hargatotal = $hargatotal + $jmlharga->Harga;
+			}
+		}
+
+//array data pertama
+		$dataharga = array(
+			array(
+			'1',
+			($bulannya[0]->Harga),
+			($bulannya[0]->tahun),
+			($bulannya[0]->bulan),
+			($bulannya[0]->status)
+			)
+		);
+		
+	
+//cari jumlah bulan yg diinput
+		foreach($bulannya as $item) {
+			$jml = $jml + 1;
+		}
+
+//cek ad brp baris
+		for($i=1; $i<$jml; $i++){
+			if($bulannya[$i]->status == '0') {
+				$no = $no+1;
+
+				foreach($dataharga as $ok) {
+					if($ok[2] == $bulannya[$i]->tahun){					
+						$kondisitahun = 'ada';
+						if($ok[1] == $bulannya[$i]->Harga){					
+							$kondisiharga = 'ada';
+							break;
+						} else {
+							$kondisiharga = "taksama";
+						}	
+					} else {
+						$kondisitahun = "taksama";
+						
+					}		
+				}
+
+//input data ke array
+				if($kondisiharga == 'taksama' || $kondisitahun == 'taksama'){
+					$arraybaru = array(
+						$posisidata,
+						$bulannya[$i]->Harga,
+						$bulannya[$i]->tahun,
+						$bulannya[$i]->bulan,
+						$bulannya[$i]->status				
+					);
+					$posisidata = $posisidata + 1;
+					$abc = $abc + 1;			
+					array_push($dataharga, $arraybaru);
+				} else if($kondisitahun == 'ada'){
+					if($kondisiharga == 'ada'){
+						foreach($dataharga as $cektempat) {
+							if($bulannya[$i]->tahun == $cektempat[2]){
+								if($bulannya[$i]->Harga == $cektempat[1]){
+									$abc = $abc + 1;			
+
+									$arraybaru = array(
+										$cektempat[0],
+										$bulannya[$i]->Harga,
+										$bulannya[$i]->tahun,
+										$bulannya[$i]->bulan,
+										$bulannya[$i]->status									
+									);
+									array_push($dataharga, $arraybaru);
+								break;
+								}
+							}
+						}
+						$idhasilcek = 0;
+					} else if($kondisiharga == 'taksama' && $kondisitahun== 'ada'){
+						$arraybaru = array(
+							$posisidata,
+							$bulannya[$i]->Harga,
+							$bulannya[$i]->tahun,
+							$bulannya[$i]->bulan,
+							$bulannya[$i]->status									
+						);
+						$posisidata = $posisidata + 1;
+						$abc = $abc + 1;			
+						array_push($dataharga, $arraybaru);
+					}
+				}
+
+			}
+			$kondisiharga = '';
+			$kondisitahun = '';
+		}
+
+		$tempsementara = array(); //array menyimpan jumlah banyak data tiap id dengan harganya, format (id, harga, jmlbulan)
+		$jumlahdataharga = 0;
+		$jumlahdatahargafix = 0;
+
+		for($i=0; $i<$posisidata-1; $i++){
+
+			for($j=0; $j<$abc+1;$j++){
+				if($dataharga[$j][0] == ($i+1)){
+					$jumlahdataharga = $jumlahdataharga + 1;
+				}	
+
+			}
+			$arrayid = array(($i+1), $dataharga[$i][1], $jumlahdataharga);
+			array_push($tempsementara, $arrayid);
+			
+			$jumlahdatahargafix = $jumlahdatahargafix + $jumlahdataharga;
+
+			$jumlahdataharga = 0;
+
+
+		}
+
+		sort($dataharga);
+
+		$yng = $this->terbilang($hargatotal);
+
+
+        $c_pdf = new FPDF('P', 'mm', 'A4');
+        $c_pdf->AddPage();
+        $c_pdf->header('Arial');
+        $c_pdf->setTopMargin(15);
+        $c_pdf->setLeftMargin(12);
+        $c_pdf->Cell(10);
+        $c_pdf->SetFont('Arial','', 15);
+        $c_pdf->Cell(75,10,'MANAGEMENT STATE', 0,1, 'C');
+        $c_pdf->SetFont('Arial', 'B', 17);
+        $c_pdf->Cell(10);
+		$c_pdf->Cell(190,7, 'PURI SAFIRA RESIDENCE', 0,1,'L');
+        $c_pdf->SetFont('Arial', 'B', 8);
+        $c_pdf->Cell(10);
+		$c_pdf->Cell(75,5, 'Jl. Raya Darmo No.75-77, Surabaya',0,0, 'C');
+		$c_pdf->SetFont('Arial', 'U',25);
+		$c_pdf->Cell(30);
+		$c_pdf->Cell(120,5, 'Tanda Terima',0,1, 'L');
+		$c_pdf->SetFont('Arial', 'B',7);
+		$c_pdf->Cell(10);
+		$c_pdf->Cell(75,4, 'Telp. (031) 5666615, 5666616',0,1, 'C');
+	   		
+		$c_pdf->Line(15, 40, 220-25, 40);
+        $c_pdf->Line(15, 40, 220-25, 40);
+        $c_pdf->Line(15, 40, 220-25, 40);
+
+        $c_pdf->Cell(10,8, '', 0,1);
+        $c_pdf->Cell(10);
+        $c_pdf->SetFont('Arial', '', 12);
+        $c_pdf->Cell(40,8,'Sudah Terima dari :' ,0,0, 'L');
+		$c_pdf->Cell(55,8, $data[0]->nama ,0,0, 'L');
+
+		$c_pdf->Cell(14,8,'Type: ',0,0,'L');
+		$c_pdf->Cell(20,8, $data[0]->type ,0,0,'L');
+		$c_pdf->Cell(14,8,'Blok:',0,0,'L');
+		$c_pdf->Cell(20,8, $bulannya[0]->IDBlok,0,1,'L'); 
+
+		$c_pdf->Cell(10);
+        $c_pdf->Cell(40,8, 'Terbilang                :',0,0, 'L');
+        $c_pdf->Cell(40,8, $yng,0,1, 'L');
+        
+		$c_pdf->Cell(10);
+        $c_pdf->Cell(40,8, 'Untuk Pembayaran:',0,0, 'L');
+        $c_pdf->Cell(40,8, 'IURAN MANAGEMENT ESTATE',0,1, 'L');
+
+		$c_pdf->Cell(50);
+		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
+		$c_pdf->Cell(40,8, '' ,0,1, 'L');
+
+		$okee = 0;
+		$aha = '';
+		$ihi = '';
+		$thn = '';
+
+		if($dataharga[0][4] == '0'){
+			for($t=1; $t<$posisidata; $t++){
+				for($r=0; $r<$no; $r++){
+					if($dataharga[$r][0] == $t){
+						if($dataharga[$r][4] == '0'){
+							$ihi = $this->switch_bulan($dataharga[$r][3]);
+							$thn = $dataharga[$r][2];
+							$okee = $okee + 1;		
+						}		
+					}
+				}
+
+
+				for($p=0; $p<$no; $p++){
+					if($dataharga[$p][0] == $t){
+						if($dataharga[$p][4] == '0'){
+							$aha = $this->switch_bulan($dataharga[$p][3]);
+							break;
+						}
+					
+					}
+				}
+
+				$totalakhir = $okee * $dataharga[$t-1][1];
+				$namabulan;
+
+				if($okee == 1){
+					$namabulan = str_replace('"', "",json_encode($aha)).' '.$thn; 
+				} else {
+					$namabulan = str_replace('"', "",json_encode($aha)).'-'.str_replace('"', "",json_encode($ihi)).' '.$thn; 
+				}
+
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
+				$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
+				$c_pdf->Cell(12,8,  str_replace('"', "",json_encode($dataharga[$t-1][1])) ,0,0, 'L');
+				$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, $totalakhir ,0,1, 'L');
+				
+				$okee=0;
+
+			}
+		} else if($dataharga[0][4] == '1'){
+			for($t=2; $t<$posisidata; $t++){
+				for($r=0; $r<$no; $r++){
+					if($dataharga[$r][0] == $t){
+						if($dataharga[$r][4] == '0'){
+							$ihi = $this->switch_bulan($dataharga[$r][3]);
+							$thn = $dataharga[$r][2];
+							$okee = $okee + 1;		
+						}		
+					}
+				}
+
+
+				for($p=0; $p<$no; $p++){
+					if($dataharga[$p][0] == $t){
+						if($dataharga[$p][4] == '0'){
+							$aha = $this->switch_bulan($dataharga[$p][3]);
+							break;
+						}
+					
+					}
+				}
+
+				$totalakhir = $okee * $dataharga[$t-1][1];
+				$namabulan;
+
+				if($okee == 1){
+					$namabulan = str_replace('"', "",json_encode($aha)).' '.$thn; 
+				} else {
+					$namabulan = str_replace('"', "",json_encode($aha)).'-'.str_replace('"', "",json_encode($ihi)).' '.$thn; 
+				}
+
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
+				$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
+				$c_pdf->Cell(12,8,  str_replace('"', "",json_encode($dataharga[$t-1][1])) ,0,0, 'L');
+				$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, $totalakhir ,0,1, 'L');
+				
+				$okee=0;
+
+			}
+		}
+
+		$c_pdf->Cell(10);
+        $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
+		$c_pdf->Cell(40,8, $hargatotal,0,1, 'L');
+		    
+		$c_pdf->Cell(10,10, '', 0,1);
+        $c_pdf->Cell(10);
+        $c_pdf->SetFont('Arial', '', '12');
+		$c_pdf->Cell(115,7, 'Yang Menyerahkan,',0,0, 'L');
+		$c_pdf->Cell(80,7, 'Surabaya, '.$dt->format('Y-m-d'),0,1, 'L');
+		
+        $c_pdf->SetFont('Arial','','10');
+		$c_pdf->Cell(10);       
+        $c_pdf->Cell(140,5, 'Penerima,',0,0, 'R');
+        $c_pdf->Cell(10,10,'',0,1);
+        $c_pdf->Cell(10);
+    
+        $c_pdf->Cell(10,15,'',0,1);
+        $c_pdf->Cell(10);
+        $c_pdf->SetFont('Arial','','12');
+		$c_pdf->Cell(115,5, '('.$data[0]->nama_user.')',0,0); 
+		$c_pdf->Cell(100,5, '('.$data[0]->nama.')',0,0);
+		   
+		$caca = "";
+		$nilai = "";
+		
+		$c_pdf->Output();
+		
+	}
+
+
 }

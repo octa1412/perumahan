@@ -7,6 +7,7 @@
             <!-- Page Heading -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h1 class="h1 mb-0 text-gray-800 ">Tanggungan Iuran</h1>
+                <a class="btn btn-danger btn-fill pull-right" type="submit" href="<?=base_url("index.php/Main/cetak_pdf_now/" );?>" target="_blank">PDF</a>
             </div>
 
             <div class="card-body" style="background-color: #FFFFFF;">
@@ -70,6 +71,7 @@
                 responsive:true
             });
             $(".dataTables_empty").text("Loading...")
+            saveidpdf();
 
             var a = [];
 
@@ -155,6 +157,7 @@
             })
         });
 
+        console.log(data);
 
         function submit(e){
             e.preventDefault();
@@ -217,6 +220,29 @@
                 form.submit();
             }
         }
+
+        var idpdf = <?php echo $idBlok?>;
+
+        function saveidpdf() {
+            $.ajax({
+            url: "<?php echo base_url()?>index.php/Main/create_cookie_encrypt",
+            type: 'POST',
+            data:{name: "idpdf", value:idpdf},
+            success: function (response) {
+              console.log(response); 
+                  
+
+            },
+            error: function () {
+              console.log("gagal update");
+              alert('Data gagal diambil!');
+
+            }
+
+          });
+        }
+
+
     </script>
 
 </body>

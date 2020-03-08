@@ -101,6 +101,32 @@ class TagihanModel extends CI_Model {
 		return $return_message;
 	}
 
+	public function pdf_now($id){
+		$this->db->select('t.Harga, t.bulan, t.tahun, t.IDBlok, t.status, u.nama_user, o.nama, b.nama_blok, b.type');
+		$this->db->from('perumahan p');
+		$this->db->join('user u','u.username = p.username');
+		$this->db->join('cluster c','c.IDPerumahan = c.IDPerumahan');
+		$this->db->join('blok b','b.IDCluster = c.IDCluster');
+		$this->db->join('customer o','o.IDCustomer = b.IDCustomer');
+		$this->db->join('tagihan t','b.IDBlok = t.IDBlok');
+		$this->db->where('t.IDBlok', $id);
+
+		$query = $this->db->get();
+        return $query->result();
+	}
+
+
+	public function jmlblnpdf($id){
+		$this->db->select('*');
+		$this->db->from('tagihan');
+
+		$this->db->where('IDBlok', $id);
+
+		$query = $this->db->get();
+        return $query->result();
+
+
+	}
 
 }
 ?>
