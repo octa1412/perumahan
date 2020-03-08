@@ -76,8 +76,10 @@
         success: function (json) {
           var response = JSON.parse(json);
           response.forEach((data)=>{
-            var tes = data.nama_cluster.replace(/_/g, " ");
-            $('#fl-cluster').append(new Option(tes, data.IDCluster))
+            var datacluster = data.nama_cluster;
+            var temukan = datacluster.indexOf("_"); 
+            var namacluster = data.nama_cluster.substring(temukan+1);
+            $('#fl-cluster').append(new Option(namacluster, data.IDCluster))
           })
         },
         error: function (xhr, status, error) {
