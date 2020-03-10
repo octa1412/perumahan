@@ -1339,12 +1339,29 @@ class Main extends CI_Controller {
         }
 	}
 
+	public function cek_data_empty(){
+		$id = $this->input->post('id');
+		$data = $this->TagihanModel->jmlblnpdf($id);
+		$kondisi = '';
+
+		foreach($data as $cek){
+			if($cek->status == '0'){
+				$kondisi = 'ada';
+			}
+		}
+
+		if($kondisi != 'ada'){
+			echo 'kosong';
+		}
+
+	}
+
 	//fungsi tambah tagihan bulanan
 	public function input_transaksi(){
-		$jml =  $this->input->post('jml');
-		$cust = $this->input->post('arr');
-		$bulan = $this->input->post('bulan');
-		$tahun = $this->input->post('tahun');
+		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
+		$bulan = $dt->format('n');
+		$tahun = $dt->format('Y');
+
 		$idsementara = '';
 		$nilaiharga = '';
 		$harga1 = '';
@@ -1352,36 +1369,37 @@ class Main extends CI_Controller {
 		$blok1 = '';
 		$kondisi = '';
 
+		$data = $this->TagihanModel->sortirblok();
 		$all = $this->TagihanModel->get_all_tagihan();
 
-		
-		foreach($cust as $hasil) {
-			$nilaiharga = json_encode($hasil['Harga']);
-			$nilaiblok = json_encode($hasil['IDBlok']);
-			$number = str_replace('"', "", $nilaiharga);
-			$harga1 = intval($number);
-			$blok1 = str_replace('"', "", $nilaiblok);
-			$idsementara = $idsementara.$blok1.$bulan.$tahun;
+		foreach($data as $hasil) {
+			if(json_encode($hasil->IDCustomer) != null){
+				$nilaiharga = json_encode($hasil->Harga);
+				$nilaiblok = json_encode($hasil->IDBlok);
+				$number = str_replace('"', "", $nilaiharga);
+				$harga1 = intval($number);
+				$blok1 = str_replace('"', "", $nilaiblok);
+				$idsementara = $idsementara.$blok1.$bulan.$tahun;
 
+				foreach($all as $satuan){
+					if($idsementara == $satuan['IDTagihan']){					
+						$kondisi = 'ada';
+						break;
+					} 					
+				}
 
-			foreach($all as $satuan){
-				if($idsementara == $satuan['IDTagihan']){					
-					$kondisi = 'ada';
-					break;
-				} 					
-			}
-
-			if($kondisi == 'ada') {
-			} else {
-				$data = array(
-					'IDTagihan' => $idsementara,
-					'IDBlok' => $blok1,
-					'bulan' => $bulan,
-					'tahun' => $tahun,
-					'Harga' => $harga1,
-					'status' => '0'			
-				);
-				$insertStatus = $this->TagihanModel->insert_tagihan($data);	
+				if($kondisi == 'ada') {
+				} else {
+					$data = array(
+						'IDTagihan' => $idsementara,
+						'IDBlok' => $blok1,
+						'bulan' => $bulan,
+						'tahun' => $tahun,
+						'Harga' => $harga1,
+						'status' => '0'			
+					);
+					$insertStatus = $this->TagihanModel->insert_tagihan($data);	
+				}
 			}
 			
 			$idsementara = '';
@@ -1389,10 +1407,8 @@ class Main extends CI_Controller {
 			$harga1 = '';
 			$nilaiblok = '';
 			$blok1 = '';
-			$kondisi = '';
-			
+			$kondisi = '';		
 		}
-
 	}
 
 

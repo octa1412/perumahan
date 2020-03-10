@@ -120,7 +120,7 @@
             var response = JSON.parse(json);
             response.forEach((data)=>{
               var datacluster = data.nama_cluster;
-              var temukan = datacluster.indexOf("_");
+              var temukan = datacluster.indexOf("_"); 
               var namacluster = data.nama_cluster.substring(temukan+1);
 
               $('#fl-cluster').append(new Option(namacluster, data.IDCluster))
@@ -215,52 +215,11 @@
     }
 
     function getData(){
-      var month = new Array();
-      month[0] = "January";
-      month[1] = "February";
-      month[2] = "March";
-      month[3] = "April";
-      month[4] = "May";
-      month[5] = "June";
-      month[6] = "July";
-      month[7] = "August";
-      month[8] = "September";
-      month[9] = "October";
-      month[10] = "November";
-      month[11] = "December";
-
-      var d = new Date();
-      var bulan = d.getMonth()+1;
-      var t = d.getYear();
-      var year = (t < 1000) ? t + 1900 : t;
-
-
-      $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_blok_data",
-        type: 'POST',
-        success: function (json) {
-          var response = JSON.parse(json);
-          var arr = [];
-          var jml = 0;
-
-          console.log(json);
-          response.forEach((data)=>{
-            if(data.IDCustomer != null) {
-              jml = jml + 1;
-              arr.push({IDCustomer:data.IDCustomer, Harga:data.Harga, IDBlok:data.IDBlok});
-            }
-
-          })
-
-          console.log(arr[1]);
-
           $.ajax({
             url: "<?php echo base_url() ?>index.php/Main/input_transaksi",
             type: 'POST',
-            data : {jml:jml, arr:arr, bulan:bulan, tahun:year},
             success: function (json) {
               console.log(json);
-              console.log(bulan);
 
               console.log('json');
               
@@ -270,14 +229,6 @@
               $("#submit").prop("disabled", false);
             }
           });
-
-        },    
-        error: function (xhr, status, error) {
-          alert('Terdapat Kesalahan Pada Server...');
-          $("#submit").prop("disabled", false);
-        }
-      });
-
     }
 
 
