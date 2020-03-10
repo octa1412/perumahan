@@ -7,7 +7,7 @@
             <!-- Page Heading -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h1 class="h1 mb-0 text-gray-800 ">Tanggungan Iuran</h1>
-                <a class="btn btn-danger btn-fill pull-right" type="submit" href="<?=base_url("index.php/Main/cetak_pdf_now/" );?>" target="_blank">PDF</a>
+                <a id="download_pdf" class="btn btn-danger btn-fill pull-right" type="submit" href="<?=base_url("index.php/Main/cetak_pdf_now/" );?>" target="_blank">PDF</a>
             </div>
 
             <div class="card-body" style="background-color: #FFFFFF;">
@@ -133,6 +133,10 @@
                     })
                 } else{
                     $(".dataTables_empty").text("Tidak ada data yang ditampilkan.")
+                    $("#download_pdf").click(function(e){
+                        e.preventDefault();
+                        alert("Tidak ada data tagihan")
+                    })
                 }
                 },
                 error: function (xhr, status, error) {
