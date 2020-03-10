@@ -119,8 +119,18 @@ class TagihanModel extends CI_Model {
 	public function jmlblnpdf($id){
 		$this->db->select('*');
 		$this->db->from('tagihan');
-
 		$this->db->where('IDBlok', $id);
+
+		$query = $this->db->get();
+        return $query->result();
+
+
+	}
+
+
+	public function sortirblok(){
+		$this->db->select();
+		$this->db->from('blok');
 
 		$query = $this->db->get();
         return $query->result();
