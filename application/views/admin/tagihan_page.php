@@ -101,11 +101,10 @@
                   angkabln = 'December';
                   break;
               }
-
-
+              var harga = parseInt(data.Harga).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'});
               dTable.row.add([
                 angkabln+' '+ data.tahun, 
-                data.Harga
+                harga
                 ]).draw(false);
               
             })
