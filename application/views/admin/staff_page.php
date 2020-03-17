@@ -117,7 +117,7 @@
                     </div>
                     <div class="form-group">
                       <label for="email" class="col-form-label">Email</label>
-                      <input type="email" class="form-control" id="email" required>
+                      <input type="email" class="form-control" id="email">
                     </div>
                     <div class="form-group">
                       <label for="perumahan" class="col-form-label">Nama Perumahan</label>
