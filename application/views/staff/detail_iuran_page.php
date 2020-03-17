@@ -68,7 +68,8 @@
         var data = {id: "<?php echo $idBlok?>"}
         $(document).ready(function () {
             dTable = $('#table1').DataTable({
-                responsive:true
+                responsive:true,
+                "ordering": false
             });
             $(".dataTables_empty").text("Loading...")
             saveidpdf();
