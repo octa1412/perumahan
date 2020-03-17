@@ -101,7 +101,8 @@
 
         $(document).ready(function () {
         dTable = $('#table1').DataTable( {
-            responsive:true
+            responsive:true,
+            "ordering": false
         });
 
         $("#pdfmodal").on('hidden.bs.modal',function(){
