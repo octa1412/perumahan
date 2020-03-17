@@ -126,7 +126,7 @@
 
                         dTable.row.add([
                         angkabln+' '+ data.tahun, 
-                        data.Harga,
+                        parseInt(data.Harga).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
                         '<input type="checkbox" name="bayar" class="tagihan" value="'+data.IDTagihan+'"></input>'
                         ]).draw(false);
                         a.push(data.bulan);

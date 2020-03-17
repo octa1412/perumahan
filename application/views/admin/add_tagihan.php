@@ -95,8 +95,11 @@
 	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>
 	<script>
 
-
-$.ajax({
+    $("#hargatagihan").change(()=>{
+            $("#hargatagihan").val(parseInt($("#hargatagihan").val().replace('.',''))
+        .toLocaleString('id-ID'))
+    })
+    $.ajax({
         url: "<?php echo base_url() ?>index.php/Main/get_all_perumahan",
         type: 'POST',
         success: function (json) {

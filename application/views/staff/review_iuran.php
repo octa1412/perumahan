@@ -93,10 +93,17 @@
         var endMonth = obj[1].month
         var endYear = obj[1].year
         var manualSubmit = []
+
+        function parse(){
+            $("#diskon").val(parseInt($("#diskon").val().replace('.',''))
+                .toLocaleString('id-ID'))
+        }
+
         $(document).ready(function () {
         dTable = $('#table1').DataTable( {
             responsive:true
         });
+
         $("#pdfmodal").on('hidden.bs.modal',function(){
             window.location.href = "dashboardstaff";
         })
@@ -124,7 +131,7 @@
                 if(response.length > 0 || obj.length > 0){
                     $("#table1").append(
                         $('<tfoot/>').append( "<tr><td colspan='2' align='center' >Diskon "+
-                        '<tr><td colspan="2" align="center"><input type="number" id="diskon" name="diskon" step=100></input>' )
+                        '<tr><td colspan="2" align="center"><input onchange="parse()" type="number" id="diskon" name="diskon" step=100></input>' )
                     );
                     response.forEach((data)=>{
 
@@ -170,7 +177,7 @@
 
                         dTable.row.add([
                         angkabln+' '+ data.tahun, 
-                        data.Harga,
+                        parseInt(data.Harga).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
                         ]).draw(false);
                         total_tagihan += parseInt(data.Harga)
                     })
@@ -185,7 +192,7 @@
                                         if(data.bulan != monthNumber[j]){
                                             dTable.row.add([
                                                 months[j]+' '+ i,
-                                                harga
+                                                harga.toLocaleString('id-ID', {currency: 'IDR', style: 'currency'})
                                             ]).draw(false);
                                             total_tagihan += parseInt(harga)
                                             manualSubmit.push({month:monthNumber[j],year:i})
@@ -194,7 +201,7 @@
                                 } else{
                                     dTable.row.add([
                                         months[j]+' '+ i,
-                                        harga
+                                        harga.toLocaleString('id-ID', {currency: 'IDR', style: 'currency'})
                                     ]).draw(false);
                                     total_tagihan += parseInt(harga)
                                     manualSubmit.push({month:monthNumber[j],year:i})
@@ -209,7 +216,7 @@
                                         if(data.bulan != monthNumber[j]){
                                             dTable.row.add([
                                                 months[j]+' '+ i,
-                                                harga
+                                                harga.toLocaleString('id-ID', {currency: 'IDR', style: 'currency'})
                                             ]).draw(false);
                                             total_tagihan += parseInt(harga)
                                             manualSubmit.push({month:monthNumber[j],year:i})
@@ -218,7 +225,7 @@
                                 } else{
                                     dTable.row.add([
                                         months[j]+' '+ i,
-                                        harga
+                                        harga.toLocaleString('id-ID', {currency: 'IDR', style: 'currency'})
                                     ]).draw(false);
                                     total_tagihan += parseInt(harga)
                                     manualSubmit.push({month:monthNumber[j],year:i})
@@ -272,7 +279,7 @@
                         }
                     })
                 }
-                data.diskon = $("#diskon").val();
+                data.diskon = $("#diskon").val().replace('.','');
                 data.total_awal = total_tagihan
                 console.log(data)
                 $.ajax({
