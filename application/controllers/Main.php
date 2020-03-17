@@ -1719,7 +1719,7 @@ class Main extends CI_Controller {
         $c_pdf->Cell(10);
         $c_pdf->SetFont('Arial', '', '12');
 		$c_pdf->Cell(115,7, 'Yang Menyerahkan,',0,0, 'L');
-		$c_pdf->Cell(80,7, 'Surabaya, '.$dt->format('Y-m-d'),0,1, 'L');
+		$c_pdf->Cell(80,7, 'Surabaya, '.$dt->format('d F Y'),0,1, 'L');
 		
         $c_pdf->SetFont('Arial','','10');
 		$c_pdf->Cell(10);       
@@ -1966,7 +1966,7 @@ class Main extends CI_Controller {
         $c_pdf->Cell(10);
         $c_pdf->SetFont('Arial', '', '12');
 		$c_pdf->Cell(115,7, 'Yang Menyerahkan,',0,0, 'L');
-		$c_pdf->Cell(80,7, 'Surabaya, '.$dt->format('Y-m-d'),0,1, 'L');
+		$c_pdf->Cell(80,7, 'Surabaya, '.$dt->format('d F Y'),0,1, 'L');
 		
         $c_pdf->SetFont('Arial','','10');
 		$c_pdf->Cell(10);       
@@ -2279,7 +2279,7 @@ class Main extends CI_Controller {
         $c_pdf->Cell(10);
         $c_pdf->SetFont('Arial', '', '12');
 		$c_pdf->Cell(115,7, 'Yang Menyerahkan,',0,0, 'L');
-		$c_pdf->Cell(80,7, 'Surabaya, '.$dt->format('Y-m-d'),0,1, 'L');
+		$c_pdf->Cell(80,7, 'Surabaya, '.$dt->format('d F Y'),0,1, 'L');
 		
         $c_pdf->SetFont('Arial','','10');
 		$c_pdf->Cell(10);       

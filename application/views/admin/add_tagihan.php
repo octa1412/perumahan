@@ -31,7 +31,7 @@
                       <option selected value="default">Blok</option>
                     </select>
                   </div>    
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="blntagihan" class="col-form-label">Bulan Tagihan</label>
                     <select class="custom-select" id="blntagihan">
                       <option selected value="default">Bulan</option>
@@ -47,19 +47,26 @@
                       <option value="October">October</option>
                       <option value="November">November</option>
                       <option value="December">December</option>
-                      
                     </select>
-                    <div class="form-group">
-                        <label for="thntagihan" class="col-form-label">Tahun Tagihan</label>
-                        <input type="text" class="form-control" id="thntagihan" placeholder="Tahun Tagihan..." onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" required>
-                    </div> 
-                    <div class="form-group">
-                        <label for="hargatagihan" class="col-form-label">Harga</label>
-                        <input type="text" class="form-control" id="hargatagihan" placeholder="Harga..." onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" required>
-                    </div>   
-                    <div>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                  </div> -->
+                  <div class="form-group">
+                    <div class="id-none form-inline ml-md-3 input-daterange d-none">
+                      <input type="text" class="form-control" >
+                      <div class="input-group-text justify-content-md-center">to</div>
+                      <input type="text" class="form-control" >
                     </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="thntagihan" class="col-form-label">Tahun Tagihan</label>
+                      <input type="text" class="form-control" id="thntagihan" placeholder="Tahun Tagihan..." onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" required>
+                  </div> 
+                  <div class="form-group">
+                      <label for="hargatagihan" class="col-form-label">Harga</label>
+                      <input type="text" class="form-control" id="hargatagihan" placeholder="Harga..." onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" required>
+                  </div>   
+                  <div>
+                      <button type="submit" class="btn btn-primary">Tambah</button>
+                  </div>
 
                 </form>
               </div>

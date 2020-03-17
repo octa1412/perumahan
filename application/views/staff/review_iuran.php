@@ -121,6 +121,7 @@
             success: function (json) {
                 var response = JSON.parse(json);
                 var angkabln;
+                var ppp = '';
                 if(response.length > 0 || obj.length > 0){
                     $("#table1").append(
                         $('<tfoot/>').append( "<tr><td colspan='2' align='center' >Diskon "+
@@ -167,13 +168,15 @@
                         angkabln = 'December';
                         break;
                     }
-
+                        ppp = ppp + 'ooo';
                         dTable.row.add([
                         angkabln+' '+ data.tahun, 
                         data.Harga,
                         ]).draw(false);
                         total_tagihan += parseInt(data.Harga)
                     })
+
+                    console.log(ppp);
 
                     var harga = <?php if($harga !=null) echo $harga; else echo 0;?>;
 
