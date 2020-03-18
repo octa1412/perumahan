@@ -31,20 +31,12 @@ class Main extends CI_Controller {
 	}	
 
 	//Dashboard admin
-	public function dashboardadmin(){
+	public function dashboard(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/dashboard');
 			$this->load->view('footer');
-		}else{
-			header("Location: ".base_url()."index.php/login");
-			die();
-		}
-	}
-
-	//Dashboard staff
-	public function dashboardstaff(){
-		if ($this->checkcookiestaff()) {
+		}else if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('staff/blok_page');
 			$this->load->view('footer');
@@ -212,7 +204,20 @@ class Main extends CI_Controller {
 				$data['harga'] = null;
 			}
 			$this->load->view('header1');
-			$this->load->view('staff/review_iuran',$data);
+			$this->load->view('review_iuran',$data);
+			$this->load->view('footer');
+		}else if ($this->checkcookieuser()) {
+			$data['idTagihan'] = $idTagihan;
+			$data['manual'] = $manual;
+			if($id != null){
+				$data['id'] = $id;
+				$data['harga'] = $this->BlokModel->get_harga($id);
+			} else{
+				$data['id'] = null;
+				$data['harga'] = null;
+			}
+			$this->load->view('header');
+			$this->load->view('review_iuran',$data);
 			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
@@ -802,42 +807,47 @@ class Main extends CI_Controller {
 	}
 
 	public function tagihanmanual(){
+		$username = "";
 		if($this->checkcookiestaff()){
 			$username = $this->get_cookie_decrypt("staffCookie");
-			$data = $this->input->post('data');
-			$blok = $this->input->post('id');
-			$harga = $this->input->post('harga');
-			$idsementara = '';
-			$all = $this->TagihanModel->get_all_tagihan();
-			$kondisi = '';
+		} else if($this->checkcookieuser()){
+			$username = $this->get_cookie_decrypt("adminCookie");
+		}else{
+			die();
+		}
+		$data = $this->input->post('data');
+		$blok = $this->input->post('id');
+		$harga = $this->input->post('harga');
+		$idsementara = '';
+		$all = $this->TagihanModel->get_all_tagihan();
+		$kondisi = '';
 
-			foreach($data as $monthYear){
-				$idsementara = $idsementara.$blok.$monthYear['month'].$monthYear['year'];
+		foreach($data as $monthYear){
+			$idsementara = $idsementara.$blok.$monthYear['month'].$monthYear['year'];
 
-				foreach($all as $satuan){
-					if($idsementara == $satuan['IDTagihan']){					
-						$kondisi = 'ada';
-						break;
-					} 					
-				}
-
-				if($kondisi == 'ada'){
-
-				} else {
-					$tagihan = array(
-							'IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
-							'IDBlok' => $blok,
-							'bulan' => $monthYear['month'],
-							'tahun' => $monthYear['year'],
-							'harga' => $harga
-						);
-					$this->TagihanModel->insert_tagihan($tagihan);
-				}
-
-				$idsementara = '';
-				$kondisi='';
-
+			foreach($all as $satuan){
+				if($idsementara == $satuan['IDTagihan']){					
+					$kondisi = 'ada';
+					break;
+				} 					
 			}
+
+			if($kondisi == 'ada'){
+
+			} else {
+				$tagihan = array(
+						'IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
+						'IDBlok' => $blok,
+						'bulan' => $monthYear['month'],
+						'tahun' => $monthYear['year'],
+						'harga' => $harga
+					);
+				$this->TagihanModel->insert_tagihan($tagihan);
+			}
+
+			$idsementara = '';
+			$kondisi='';
+
 		}
 	}
 
@@ -1005,19 +1015,27 @@ class Main extends CI_Controller {
 	}
 	
 	public function do_bayar(){
+		$username = "";
 		if($this->checkcookiestaff()){
 			$username = $this->get_cookie_decrypt("staffCookie");
+		}else if($this->checkcookieuser()){
+			$username = $this->get_cookie_decrypt('adminCookie');
+		}else{
+			die();
+		}
 			$id = $this->input->post("id");
 			$diskon = $this->input->post("diskon");
 			$total_awal = $this->input->post("total_awal");
-			$this->TagihanModel->update_status($id);
-			$notaID = $this->NotaModel->insert_one($username,$total_awal,$diskon);
-			$this->NotaDetailModel->insert_one($notaID, $id);		
-			$c = $this->create_cookie_encrypt("idcetak",$notaID);	
-	
-			echo $notaID;
-		}
-
+			try{
+				$this->TagihanModel->update_status($id);
+				$notaID = $this->NotaModel->insert_one($username,$total_awal,$diskon);
+				$this->NotaDetailModel->insert_one($notaID, $id);
+				$c = $this->create_cookie_encrypt("idcetak",$notaID);
+		
+				echo $notaID;
+			} catch(Exception $e){
+				echo "error";
+			}
 	}
 
 	public function view_pdf(){

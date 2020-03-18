@@ -56,7 +56,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Sistem:</h6>
-            <a class="collapse-item" href="<?php echo base_url('index.php/Main/dashboardadmin');?>">Data Perumahan</a>
+            <a class="collapse-item" href="<?php echo base_url('index.php/Main/dashboard');?>">Data Perumahan</a>
             <a class="collapse-item" href="<?php echo base_url('index.php/Main/cluster');?>">Data Cluster</a>
             <a class="collapse-item" href="<?php echo base_url('index.php/Main/blok');?>">Data Blok</a>            
           </div>
