@@ -46,7 +46,7 @@
       <hr class="sidebar-divider my-0">
 
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('index.php/Main/dashboardstaff');?>">
+        <a class="nav-link" href="<?php echo base_url('index.php/Main/dashboard');?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Blok</span></a>
       </li>

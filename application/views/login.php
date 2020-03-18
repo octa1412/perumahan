@@ -101,10 +101,10 @@
                 success: function (response) {
                   console.log(response);
                   if (response == "admin") {
-                    window.location.replace("<?php echo base_url() ?>index.php/Main/dashboardadmin");
+                    window.location.replace("<?php echo base_url() ?>index.php/Main/dashboard");
                     alert("Selamat Datang Admin");
                   } else if (response == "staff") {
-                    window.location.replace("<?php echo base_url() ?>index.php/Main/dashboardstaff");
+                    window.location.replace("<?php echo base_url() ?>index.php/Main/dashboard");
                     alert("Selamat Datang Staff");
                   } else {    
                     alert("password atau email salah!");

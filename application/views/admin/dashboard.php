@@ -169,7 +169,7 @@
                 data: {id: id},
                 success: function (response) {
                     alert('Data Berhasil Dihapus!');
-                    window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
+                    window.location = "<?php echo base_url() ?>index.php/Main/dashboard";
                 },
                 error: function () {
                     console.log("gagal menghapus");
@@ -211,7 +211,7 @@
                     success: function (response) {
                       // console.log(response);
                       alert('Data Berhasil Diedit!');
-                      window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
+                      window.location = "<?php echo base_url() ?>index.php/Main/dashboard";
                     },
                     error: function () {
                       console.log("gagal update");
@@ -241,7 +241,7 @@
             success: function (response) {
               // console.log(response);
               alert('Data Berhasil Ditambahkan!');
-              window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
+              window.location = "<?php echo base_url() ?>index.php/Main/dashboard";
             },
             error: function () {
               console.log("gagal insert");

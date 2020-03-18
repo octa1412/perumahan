@@ -82,7 +82,7 @@
           data: {passw:pass},
           success: function (json) {
               alert('berhasil diubah');
-              window.location = "<?php echo base_url() ?>index.php/Main/dashboardadmin";
+              window.location = "<?php echo base_url() ?>index.php/Main/dashboard";
               console.log(json);
           },
           error: function (xhr, status, error) {
