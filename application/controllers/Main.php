@@ -15,7 +15,7 @@ class Main extends CI_Controller {
 		$this->load->model('StaffModel');
 		$this->load->model('NotaModel');
 		$this->load->model('NotaDetailModel');
-		$this->load->helper('url_helper');
+		$this->load->helper('url_helper'); 
 		$this->load->library('pdf');
         $this->load->library('form_validation');
 		date_default_timezone_set('Asia/Jakarta');
