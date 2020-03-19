@@ -9,7 +9,7 @@ class TagihanModel extends CI_Model {
 	public function get_all_tagihan(){
 		$this->db->select('IDTagihan');
 		$this->db->from('tagihan');
-		
+		$this->db->order_by('tahun,bulan ASC');
 		$query = $this->db->get();
 		return $query->result_array();
 	}
@@ -27,6 +27,7 @@ class TagihanModel extends CI_Model {
 		}
 		
 		$this->db->where('tagihan.status',$status);
+		$this->db->order_by('tahun,bulan ASC');
 
 		if($idBlok != NULL){
 			$this->db->where('tagihan.IDBlok',$idBlok);
@@ -51,6 +52,7 @@ class TagihanModel extends CI_Model {
 		$this->db->from('tagihan');
 		
 		$this->db->or_where_in('IDTagihan',$idTagihan);
+		$this->db->order_by('tahun,bulan ASC');
 
 		$query = $this->db->get();
 		return $query->result_array();

@@ -68,7 +68,8 @@
         var data = {id: "<?php echo $idBlok?>"}
         $(document).ready(function () {
             dTable = $('#table1').DataTable({
-                responsive:true
+                responsive:true,
+                "ordering": false
             });
             $(".dataTables_empty").text("Loading...")
             saveidpdf();
@@ -126,7 +127,7 @@
 
                         dTable.row.add([
                         angkabln+' '+ data.tahun, 
-                        data.Harga,
+                        parseInt(data.Harga).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
                         '<input type="checkbox" name="bayar" class="tagihan" value="'+data.IDTagihan+'"></input>'
                         ]).draw(false);
                         a.push(data.bulan);

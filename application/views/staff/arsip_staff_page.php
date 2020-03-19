@@ -126,9 +126,9 @@
               dTable.row.add([
                 data.IDNota, 
                 data.tanggal,
-                data.total_awal,
-                data.diskon,
-                data.total_setelah_diskon,
+                parseInt(data.total_awal).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
+                parseInt(data.diskon).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
+                parseInt(data.total_setelah_diskon).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
                 '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Detail</button>'
               ]).draw(false);
             })
