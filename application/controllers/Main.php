@@ -1329,7 +1329,7 @@ class Main extends CI_Controller {
 		$this->load->helper('cookie');
 		$cookie= array(
 			'name'   => $name,
-			'value'  => str_rot13($value), //Not really encrypt anything, just jumble text :P
+			'value'  => $this->str_rot($value), //Not really encrypt anything, just jumble text :P
 			'expire' => $expire
 		);
 		$this->input->set_cookie($cookie);
@@ -1342,7 +1342,7 @@ class Main extends CI_Controller {
 	public function get_cookie_decrypt($name){
 		$this->load->helper('cookie');
 		if ($this->input->cookie($name,true)!=NULL) {
-			return str_rot13($this->input->cookie($name,true));
+			return $this->str_rot($this->input->cookie($name,true));
 		}else{
 			return null;
 		}
@@ -1446,6 +1446,22 @@ class Main extends CI_Controller {
 			$blok1 = '';
 			$kondisi = '';		
 		}
+	}
+
+
+	public function str_rot($s, $n = 13) {
+		static $letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$n = (int)$n % 26;
+		if (!$n) return $s;
+		for ($i = 0, $l = strlen($s); $i < $l; $i++) {
+			$c = $s[$i];
+			if ($c >= 'a' && $c <= 'z') {
+				$s[$i] = $letters[(ord($c) - 71 + $n) % 26];
+			} else if ($c >= 'A' && $c <= 'Z') {
+				$s[$i] = $letters[(ord($c) - 39 + $n) % 26 + 26];
+			}
+		}
+		return $s;
 	}
 
 
