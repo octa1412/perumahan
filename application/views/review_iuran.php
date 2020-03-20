@@ -106,7 +106,7 @@
         });
 
         $("#pdfmodal").on('hidden.bs.modal',function(){
-            window.location.href = "dashboardstaff";
+            window.location.href = "dashboard";
         })
         var idtagihan = <?php 
             $idTagihan = explode(",",$idTagihan);
@@ -325,16 +325,13 @@
             });                                                                                  
                 },
                 error: function (xhr, status, error) {
-                alert('Terdapat Kesalahan Pada Server...');
+                alert('Tagihan telah dibayar, silahkan cek arsip pembayaran');
                 $("#submit").prop("disabled", false);
                 }
             });
             })
         }
 
-        function createTagihanManual(){
-
-        }
     </script>
     <style>
     /* Chrome, Safari, Edge, Opera */

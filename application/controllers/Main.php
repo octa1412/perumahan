@@ -15,7 +15,7 @@ class Main extends CI_Controller {
 		$this->load->model('StaffModel');
 		$this->load->model('NotaModel');
 		$this->load->model('NotaDetailModel');
-		$this->load->helper('url_helper'); 
+		$this->load->helper('url_helper');
 		$this->load->library('pdf');
         $this->load->library('form_validation');
 		date_default_timezone_set('Asia/Jakarta');
@@ -31,20 +31,12 @@ class Main extends CI_Controller {
 	}	
 
 	//Dashboard admin
-	public function dashboardadmin(){
+	public function dashboard(){
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/dashboard');
 			$this->load->view('footer');
-		}else{
-			header("Location: ".base_url()."index.php/login");
-			die();
-		}
-	}
-
-	//Dashboard staff
-	public function dashboardstaff(){
-		if ($this->checkcookiestaff()) {
+		}else if ($this->checkcookiestaff()) {
 			$this->load->view('header1');
 			$this->load->view('staff/blok_page');
 			$this->load->view('footer');
@@ -139,7 +131,7 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$this->load->view('header');
 			$this->load->view('admin/staff_page');	
-			$this->load->view('footer');	
+			$this->load->view('footer');	 
 		}else{
 			header("Location: ".base_url()."index.php/login");
 			die();
@@ -212,7 +204,20 @@ class Main extends CI_Controller {
 				$data['harga'] = null;
 			}
 			$this->load->view('header1');
-			$this->load->view('staff/review_iuran',$data);
+			$this->load->view('review_iuran',$data);
+			$this->load->view('footer');
+		}else if ($this->checkcookieuser()) {
+			$data['idTagihan'] = $idTagihan;
+			$data['manual'] = $manual;
+			if($id != null){
+				$data['id'] = $id;
+				$data['harga'] = $this->BlokModel->get_harga($id);
+			} else{
+				$data['id'] = null;
+				$data['harga'] = null;
+			}
+			$this->load->view('header');
+			$this->load->view('review_iuran',$data);
 			$this->load->view('footer');
 		}else{
 			header("Location: ".base_url()."index.php/login");
@@ -767,31 +772,50 @@ class Main extends CI_Controller {
 		if ($this->checkcookieuser()) {
 			$all = $this->TagihanModel->get_all_tagihan();
 
-			$coba = $this->input->post('id');
-			$kondisi = '';
+			$blok = $this->input->post('blok');
+			$tahun = $this->input->post('tahun');
+			$bulan = $this->input->post('bulan');
+			$jmlbulan = count($bulan);
 
-			foreach($all as $satuan){
-				if($coba == $satuan['IDTagihan']){					
-					// echo "Data Tagihan Sudah Ada!";
-					$kondisi = 'ada';
-					break;
-				} 					
+			$kondisi = '';
+			$coba = '';
+			$posisi = 0;
+			// echo ;
+			foreach($bulan as $blnmsk){
+				$thnini = $tahun[$posisi];
+				$coba = $blok.$blnmsk.$thnini; 
+				foreach($all as $satuan){
+					if($coba == $satuan['IDTagihan']){					
+						// echo "Data Tagihan Sudah Ada!";
+						$kondisi = 'ada';
+						break;
+					} 					
+				}
+				$posisi = $posisi + 1;
+				$coba = '';
 			}
+			
+			$posisi = 0;
 
 			if($kondisi == 'ada') {
 				echo 'Data sudah ada!';
-
 			} else {
-				$data = array(
-					'IDTagihan' => $this->input->post('id'),
-					'IDBlok' => $this->input->post('blok'),
-					'bulan' => $this->input->post('bulan'),
-					'tahun' => $this->input->post('tahun'),
-					'Harga' => $this->input->post('harga'),
-					'status' => '0'					
-				);
-				$insertStatus = $this->TagihanModel->insert_tagihan($data);	
-				echo 'Data Berhasil Ditambahkan!';
+				foreach($bulan as $blnnya){
+					$thninput = $tahun[$posisi];
+					$data = array(
+						'IDTagihan' => $blok.$blnnya.$thninput,
+						'IDBlok' => $this->input->post('blok'),
+						'bulan' => $blnnya,
+						'tahun' => $thninput,
+						'Harga' => $this->input->post('harga'),
+						'status' => '0'					
+					);
+					$insertStatus = $this->TagihanModel->insert_tagihan($data);	
+					$posisi = $posisi + 1;
+
+				}
+					echo 'Data Berhasil Ditambahkan!';
+
 			}
 					
 			$kondisi = '';
@@ -802,42 +826,47 @@ class Main extends CI_Controller {
 	}
 
 	public function tagihanmanual(){
+		$username = "";
 		if($this->checkcookiestaff()){
 			$username = $this->get_cookie_decrypt("staffCookie");
-			$data = $this->input->post('data');
-			$blok = $this->input->post('id');
-			$harga = $this->input->post('harga');
-			$idsementara = '';
-			$all = $this->TagihanModel->get_all_tagihan();
-			$kondisi = '';
+		} else if($this->checkcookieuser()){
+			$username = $this->get_cookie_decrypt("adminCookie");
+		}else{
+			die();
+		}
+		$data = $this->input->post('data');
+		$blok = $this->input->post('id');
+		$harga = $this->input->post('harga');
+		$idsementara = '';
+		$all = $this->TagihanModel->get_all_tagihan();
+		$kondisi = '';
 
-			foreach($data as $monthYear){
-				$idsementara = $idsementara.$blok.$monthYear['month'].$monthYear['year'];
+		foreach($data as $monthYear){
+			$idsementara = $idsementara.$blok.$monthYear['month'].$monthYear['year'];
 
-				foreach($all as $satuan){
-					if($idsementara == $satuan['IDTagihan']){					
-						$kondisi = 'ada';
-						break;
-					} 					
-				}
-
-				if($kondisi == 'ada'){
-
-				} else {
-					$tagihan = array(
-							'IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
-							'IDBlok' => $blok,
-							'bulan' => $monthYear['month'],
-							'tahun' => $monthYear['year'],
-							'harga' => $harga
-						);
-					$this->TagihanModel->insert_tagihan($tagihan);
-				}
-
-				$idsementara = '';
-				$kondisi='';
-
+			foreach($all as $satuan){
+				if($idsementara == $satuan['IDTagihan']){					
+					$kondisi = 'ada';
+					break;
+				} 					
 			}
+
+			if($kondisi == 'ada'){
+
+			} else {
+				$tagihan = array(
+						'IDTagihan' => $blok.$monthYear['month'].$monthYear['year'],
+						'IDBlok' => $blok,
+						'bulan' => $monthYear['month'],
+						'tahun' => $monthYear['year'],
+						'harga' => $harga
+					);
+				$this->TagihanModel->insert_tagihan($tagihan);
+			}
+
+			$idsementara = '';
+			$kondisi='';
+
 		}
 	}
 
@@ -1005,19 +1034,27 @@ class Main extends CI_Controller {
 	}
 	
 	public function do_bayar(){
+		$username = "";
 		if($this->checkcookiestaff()){
 			$username = $this->get_cookie_decrypt("staffCookie");
+		}else if($this->checkcookieuser()){
+			$username = $this->get_cookie_decrypt('adminCookie');
+		}else{
+			die();
+		}
 			$id = $this->input->post("id");
 			$diskon = $this->input->post("diskon");
 			$total_awal = $this->input->post("total_awal");
-			$this->TagihanModel->update_status($id);
-			$notaID = $this->NotaModel->insert_one($username,$total_awal,$diskon);
-			$this->NotaDetailModel->insert_one($notaID, $id);		
-			$c = $this->create_cookie_encrypt("idcetak",$notaID);	
-	
-			echo $notaID;
-		}
-
+			try{
+				$this->TagihanModel->update_status($id);
+				$notaID = $this->NotaModel->insert_one($username,$total_awal,$diskon);
+				$this->NotaDetailModel->insert_one($notaID, $id);
+				$c = $this->create_cookie_encrypt("idcetak",$notaID);
+		
+				echo $notaID;
+			} catch(Exception $e){
+				echo "error";
+			}
 	}
 
 	public function view_pdf(){

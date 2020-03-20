@@ -50,16 +50,17 @@
                     </select>
                   </div> -->
                   <div class="form-group">
-                    <div class="id-none form-inline ml-md-3 input-daterange d-none">
-                      <input type="text" class="form-control" >
-                      <div class="input-group-text justify-content-md-center">to</div>
-                      <input type="text" class="form-control" >
+                    <label for="blntagihan" class="col-form-label">Bulan Tagihan</label><br>
+                    <div class="id-none form-inline ml-md-3 input-daterange">
+                      <input type="text" class="form-control">
+                      <div class="input-group-text justify-content-sm-center">to</div>
+                      <input type="text" class="form-control">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                       <label for="thntagihan" class="col-form-label">Tahun Tagihan</label>
                       <input type="text" class="form-control" id="thntagihan" placeholder="Tahun Tagihan..." onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" required>
-                  </div> 
+                  </div>  -->
                   <div class="form-group">
                       <label for="hargatagihan" class="col-form-label">Harga</label>
                       <input type="text" class="form-control" id="hargatagihan" placeholder="Harga..." onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" required>
@@ -97,10 +98,26 @@
   <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
 
+  <link href="<?php echo base_url('dist/vendor/datetimepicker/css/bootstrap-datepicker3.css');?>" rel="stylesheet" type="text/css">
+	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>
+
 	<script src="<?php echo base_url('dist/vendor/datatables/jquery.dataTables.js');?>"></script>
 	<script src="<?php echo base_url('dist/js/table.js');?>"></script>
 	<script src="<?php echo base_url('dist/vendor/datetimepicker/js/bootstrap-datepicker.min.js');?>"></script>
 	<script>
+    var d = new Date();
+    var date = [];
+    var year = [];
+    var datejml = [];
+    var yearjml =[];
+
+
+    $('.input-daterange').datepicker({
+        format: "mm-yyyy",
+        viewMode: "years", 
+        minViewMode: "months",
+    });
+
 
     $("#hargatagihan").change(()=>{
             $("#hargatagihan").val(parseInt($("#hargatagihan").val().replace('.',''))
@@ -189,10 +206,7 @@
       }      
     
     function insertdata(e) {
-      var inputbulan = document.getElementById("blntagihan").value
-      var inputtahun = document.getElementById("thntagihan").value
       var inputharga = document.getElementById("hargatagihan").value
-      
       var inputperumahan = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
       var inputblok = document.getElementById("blok").value
@@ -202,57 +216,41 @@
       //   alert("Silahkan Pilih Perumahan dan Cluster")
       //   return;
       // }
+      
+      $('.input-daterange input').each(function() {
+        var rawDate = $(this).datepicker('getDate')
+        date.push((new Date(Date.parse(rawDate)).getMonth())+1)
+        year.push(new Date(Date.parse(rawDate)).getFullYear());
 
-      var angkabln; 
+      });
+      
+     
+      var i=date[0]
+      var a =date[1]
 
-      switch(inputbulan) {
-        case 'January':
-          angkabln = '1';
-          break;
-        case 'Febuary':
-          angkabln = '2';
-          break;
-        case 'March':
-          angkabln = '3';
-          break;
-        case 'April':
-          angkabln = '4';
-          break;
-        case 'May':
-          angkabln = '5';
-          break;
-        case 'June':
-          angkabln = '6';
-          break;
-        case 'July':
-          angkabln = '7';
-          break;
-        case 'August':
-          angkabln = '8';
-          break;
-        case 'September':
-          angkabln = '9';
-          break;
-        case 'October':
-          angkabln = '10';
-          break;
-        case 'November':
-          angkabln = '11';
-          break;
-        case 'December':
-          angkabln = '12';
-          break;
-            
+      if(i>a){
+        for(var j=i; j<13; j++){
+          datejml.push(j);
+          yearjml.push(year[0]);
+          // console.log(j);
+        }
+        for(var k=1; k<a+1; k++){
+          datejml.push(k);
+          yearjml.push(year[1]);
+
+        }
+
+      } else {
+        for(var j=i; j<a+1; j++){
+          datejml.push(j);
+          yearjml.push(year[0]);
+        }
       }
-
-
-      var inputid = inputblok +  angkabln + inputtahun;
-      console.log('coba1');
 
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/add_tagihan_manual",
         type: 'POST',
-        data: {id:inputid, blok:inputblok, bulan:angkabln, tahun:inputtahun, harga:inputharga},
+        data: { blok:inputblok, bulan:datejml, tahun:yearjml, harga:inputharga},
         success: function (response) {
           if(response == 'Data sudah ada!'){
             alert(response);
