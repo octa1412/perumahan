@@ -206,10 +206,13 @@
       }      
     
     function insertdata(e) {
-      var inputharga = document.getElementById("hargatagihan").value
+      var inputharga = (document.getElementById("hargatagihan").value).replace(".","");
       var inputperumahan = document.getElementById("perumahan").value
       var inputcluster = document.getElementById("cluster").value
       var inputblok = document.getElementById("blok").value
+
+
+      // console.log(inputharga);
 
       // if(inputperum == "default" || inputcluster == "default"){
       //   e.preventDefault();
