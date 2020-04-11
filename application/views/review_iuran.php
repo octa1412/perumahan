@@ -119,7 +119,7 @@
         var data = {id:[]};
         idtagihan.forEach((datum)=>{
             data.id.push(datum);
-            console.log(datum);
+            // console.log(datum);
         })
         $(".dataTables_empty").text("Loading...")
         $.ajax({
@@ -184,7 +184,7 @@
                         total_tagihan += parseInt(data.Harga)
                     })
 
-                    console.log(ppp);
+                    // console.log(ppp);
 
                     var harga = <?php if($harga !=null) echo $harga; else echo 0;?>;
 
@@ -213,7 +213,7 @@
                             }
                             startMonth = 0;
                         } else{
-                            console.log(startMonth)
+                            // console.log(startMonth)
                             for(var j = startMonth; j <= endMonth; j++){
                                 if(data.length > 0){
                                     response.forEach((data)=>{
@@ -285,14 +285,14 @@
                 }
                 data.diskon = $("#diskon").val().replace('.','');
                 data.total_awal = total_tagihan
-                console.log(data)
+                // console.log(data)
                 $.ajax({
                 url: "<?php echo base_url() ?>index.php/Main/do_bayar/",
                 type: 'POST',
                 data: data,
                 success: function (json) {
                         var o = json;
-                        console.log(o)
+                        // console.log(o)
                         $('#pdfmodal').modal();
                         $('#pdfdata').click(function pdftampil() {
                             $.ajax({
