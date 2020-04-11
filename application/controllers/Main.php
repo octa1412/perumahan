@@ -1756,9 +1756,9 @@ class Main extends CI_Controller {
 			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
 			$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
 			$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
-			$c_pdf->Cell(12,8,  number_format(str_replace('"', "",json_encode($dataharga[$t-1][1]))) ,0,0, 'L');
+			$c_pdf->Cell(12,8,  number_format(str_replace('"', "",json_encode($dataharga[$t-1][1])), 0, ',', '.') ,0,0, 'L');
 			$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, number_format($totalakhir) ,0,1, 'L');
+			$c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
 			$okee=0;
 		}
 
@@ -1766,7 +1766,7 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
-		$c_pdf->Cell(40,8, number_format($data[0]->total_awal) ,0,1, 'L');
+		$c_pdf->Cell(40,8, number_format($data[0]->total_awal, 0, ',', '.') ,0,1, 'L');
 		    
 		$c_pdf->Cell(10,10, '', 0,1);
         $c_pdf->Cell(10);
@@ -2001,19 +2001,19 @@ class Main extends CI_Controller {
 			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
 			$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
 			$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
-			$c_pdf->Cell(12,8,  number_format(str_replace('"', "",json_encode($dataharga[$t-1][1]))) ,0,0, 'L');
+			$c_pdf->Cell(12,8,  number_format(str_replace('"', "",json_encode($dataharga[$t-1][1])), 0, ',', '.') ,0,0, 'L');
 			$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, number_format($totalakhir) ,0,1, 'L');
+			$c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
 			$okee=0;
 		}
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Total diskon            : Rp.',0,0, 'L');
-		$c_pdf->Cell(40,8, number_format($data[0]->diskon) ,0,1, 'L');
+		$c_pdf->Cell(40,8, number_format($data[0]->diskon, 0, ',', '.') ,0,1, 'L');
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
-		$c_pdf->Cell(40,8, number_format($data[0]->total_setelah_diskon) ,0,1, 'L');	
+		$c_pdf->Cell(40,8, number_format($data[0]->total_setelah_diskon, 0, ',', '.') ,0,1, 'L');	
         
 		$c_pdf->Cell(10,10, '', 0,1);
         $c_pdf->Cell(10);
@@ -2272,9 +2272,9 @@ class Main extends CI_Controller {
 				$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
 				$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
 				$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
-				$c_pdf->Cell(12,8,  number_format(str_replace('"', "",json_encode($dataharga[$t-1][1]))) ,0,0, 'L');
+				$c_pdf->Cell(12,8,  number_format(str_replace('"', "",json_encode($dataharga[$t-1][1])), 0, ',', '.') ,0,0, 'L');
 				$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
-				$c_pdf->Cell(15,8, number_format($totalakhir) ,0,1, 'L');
+				$c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
 				
 				$okee=0;
 
@@ -2315,9 +2315,9 @@ class Main extends CI_Controller {
 				$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
 				$c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
 				$c_pdf->Cell(25,8, 'bulan x  Rp.',0,0, 'L');
-				$c_pdf->Cell(12,8,  number_format(str_replace('"', "",json_encode($dataharga[$t-1][1]))) ,0,0, 'L');
+				$c_pdf->Cell(12,8,  number_format(str_replace('"', "",json_encode($dataharga[$t-1][1])), 0, ',', '.') ,0,0, 'L');
 				$c_pdf->Cell(28,8, ': Total   =  Rp.',0,0, 'L');
-				$c_pdf->Cell(15,8, number_format($totalakhir) ,0,1, 'L');
+				$c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
 				
 				$okee=0;
 
@@ -2326,7 +2326,7 @@ class Main extends CI_Controller {
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
-		$c_pdf->Cell(40,8, number_format($hargatotal),0,1, 'L');
+		$c_pdf->Cell(40,8, number_format($hargatotal, 0, ',', '.'),0,1, 'L');
 		    
 		$c_pdf->Cell(10,10, '', 0,1);
         $c_pdf->Cell(10);
