@@ -174,6 +174,7 @@ class Main extends CI_Controller {
 		$idBlok = $this->input->post('id');
 		if ($this->checkcookieuser()) {
 			$data['idBlok'] = $idBlok;
+			$c = $this->create_cookie_encrypt("idblok",$idBlok);
 			$this->load->view('header');
 			$this->load->view('admin/tagihan_page',$data);
 			$this->load->view('footer');
@@ -2043,12 +2044,15 @@ class Main extends CI_Controller {
 	
 	public function cetak_pdf_now(){
 		$username = $this->get_cookie_decrypt("idpdf");
+		$blok = $this->get_cookie_decrypt("idblok");
 		$data = $this->TagihanModel->pdf_now($username);
 		$bulannya = $this->TagihanModel->jmlblnpdf($username);
+		$namauser = $this->StaffModel->get_user_pdf($blok);
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 		$hargatotal = 0;
-		
+		$namastaff = str_replace('"', "",json_encode($namauser[0]["nama_user"]));
+
 		$no = 1;
 		$abc = 0;
 		$jml = 0;
@@ -2343,7 +2347,7 @@ class Main extends CI_Controller {
         $c_pdf->Cell(10,15,'',0,1);
         $c_pdf->Cell(10);
         $c_pdf->SetFont('Arial','','12');
-		$c_pdf->Cell(115,5, '('.$data[0]->nama_user.')',0,0); 
+		$c_pdf->Cell(115,5, '('.$namastaff.')',0,0); 
 		$c_pdf->Cell(100,5, '('.$data[0]->nama.')',0,0);
 		   
 		$caca = "";
