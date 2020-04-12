@@ -52,5 +52,20 @@ class StaffModel extends CI_Model {
         $this->db->update('user', $data);
 	}
 
+	public function get_user_pdf($id){
+		$this->db->select('u.nama_user');
+		$this->db->from('user u');
+		$this->db->join('perumahan p','p.username = u.username', 'left');
+		$this->db->join('cluster c','p.IDPerumahan = c.IDPerumahan', 'left');
+		$this->db->join('blok b','b.IDCluster = c.IDCluster', 'right');
+		$this->db->join('customer o','o.IDCustomer = b.IDCustomer', 'left');
+		$this->db->where('b.IDBlok',$id);
+
+		$query = $this->db->get();
+		return $query->result_array();
+    }
+
+
+
 }
 ?>
