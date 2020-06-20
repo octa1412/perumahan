@@ -24,7 +24,7 @@
                     <tfoot>
                 </table>
                 <br>
-                <button class="btn btn-primary" onclick=doBayar()>Submit</button>
+                <button class="btn btn-danger" onclick=doBayar()>Bayar</button>
             </div>
           </div>
         </div>
@@ -97,6 +97,12 @@
         function parse(){
             $("#diskon").val(parseInt($("#diskon").val().replace('.',''))
                 .toLocaleString('id-ID'))
+            if($("#diskon").val() != ""){
+                $('#keterangan').prop('disabled', false)
+            } else{
+                $('#keterangan').prop('disabled', true)
+                $('#keterangan').val("")
+            }
         }
 
         $(document).ready(function () {
@@ -132,8 +138,10 @@
                 var ppp = '';
                 if(response.length > 0 || obj.length > 0){
                     $("#table1").append(
-                        $('<tfoot/>').append( "<tr><td colspan='2' align='center' >Diskon "+
-                        '<tr><td colspan="2" align="center"><input onchange="parse()" type="number" id="diskon" name="diskon" step=100></input>' )
+                        $('<tfoot/>').append( "<tr><td align='center' >Diskon "+
+                        '<td align="center"><input onchange="parse()" type="number" id="diskon" name="diskon" step=100></input>' +
+                        "<tr><td align='center' >Keterangan "+
+                        '<td align="center"><textarea rows="2" cols="20" id="keterangan" name="keterangan" disabled></textarea>' )
                     );
                     response.forEach((data)=>{
 
@@ -249,87 +257,90 @@
         });
         });
         function doBayar(){
-            var idtagihan = <?php 
-                echo $idTagihan;
-            ?>;
-            var data = {id:[]};
-            
-            new Promise(function(resolve, reject) {
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url() ?>index.php/Main/tagihanmanual",
-                    
-                    data: {data: manualSubmit, id: '<?php echo ($id!=null) ?  $id : "" ?>', harga:'<?php echo ($harga!=null) ?  $harga : "" ?>'},
-                    success: function (response) {
-                        resolve("Stuff worked!");
+            var response = confirm("Apakah anda yakin ?");
+            if(response){
+                var idtagihan = <?php 
+                    echo $idTagihan;
+                ?>;
+                var data = {id:[]};
+                new Promise(function(resolve, reject) {
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url() ?>index.php/Main/tagihanmanual",
                         
+                        data: {data: manualSubmit, id: '<?php echo ($id!=null) ?  $id : "" ?>', harga:'<?php echo ($harga!=null) ?  $harga : "" ?>'},
+                        success: function (response) {
+                            resolve("Stuff worked!");
+                            
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Terdapat Kesalahan Pada Server...');
+                            $("#submit").prop("disabled", false);
+                            reject(Error("It broke"));
+                        }
+                    });
+                }).then(()=>{
+                    idtagihan.forEach((datum)=>{
+                    if(datum != "")
+                        data.id.push(datum);
+                    })
+                    if(manualSubmit.length > 0){
+                        manualSubmit.forEach((datum)=>{
+                            if(datum != ""){
+                                var idtagihan = <?php echo ($id!=null) ?  $id : "" ?> + datum.month + datum.year
+                                data.id.push(idtagihan)
+                            }
+                        })
+                    }
+                    data.diskon = $("#diskon").val().replace('.','');
+                    data.total_awal = total_tagihan
+                    data.keterangan = $('#keterangan').val()
+                    // console.log(data)
+                    $.ajax({
+                    url: "<?php echo base_url() ?>index.php/Main/do_bayar/",
+                    type: 'POST',
+                    data: data,
+                    success: function (json) {
+                            var o = json;
+                            // console.log(o)
+                            $('#pdfmodal').modal();
+                            $('#pdfdata').click(function pdftampil() {
+                                $.ajax({
+                                    url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
+                                    type: 'POST',
+                                    data: {id:o},
+                                    success: function (hasil) {
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                    alert('Terdapat Kesalahan Pada Server...');
+                                    $("#submit").prop("disabled", false);
+                                    }
+                                });
+                            }); 
+
+                            $('#pdfdiskon').click(function pdftampil() {
+                                $.ajax({
+                                    url:"<?php echo base_url() ?>index.php/Main/cetak_pdf_diskon",
+                                    type: 'POST',
+                                    data: {id:o},
+                                    success: function (hasil) {
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                    alert('Terdapat Kesalahan Pada Server...');
+                                    $("#submit").prop("disabled", false);
+                                    }
+                                });
+                });                                                                                  
                     },
                     error: function (xhr, status, error) {
-                        alert('Terdapat Kesalahan Pada Server...');
-                        $("#submit").prop("disabled", false);
-                        reject(Error("It broke"));
+                    alert('Tagihan telah dibayar, silahkan cek arsip pembayaran');
+                    $("#submit").prop("disabled", false);
                     }
                 });
-            }).then(()=>{
-                idtagihan.forEach((datum)=>{
-                if(datum != "")
-                    data.id.push(datum);
                 })
-                if(manualSubmit.length > 0){
-                    manualSubmit.forEach((datum)=>{
-                        if(datum != ""){
-                            var idtagihan = <?php echo ($id!=null) ?  $id : "" ?> + datum.month + datum.year
-                            data.id.push(idtagihan)
-                        }
-                    })
-                }
-                data.diskon = $("#diskon").val().replace('.','');
-                data.total_awal = total_tagihan
-                // console.log(data)
-                $.ajax({
-                url: "<?php echo base_url() ?>index.php/Main/do_bayar/",
-                type: 'POST',
-                data: data,
-                success: function (json) {
-                        var o = json;
-                        // console.log(o)
-                        $('#pdfmodal').modal();
-                        $('#pdfdata').click(function pdftampil() {
-                            $.ajax({
-                                url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
-                                type: 'POST',
-                                data: {id:o},
-                                success: function (hasil) {
-
-                                },
-                                error: function (xhr, status, error) {
-                                alert('Terdapat Kesalahan Pada Server...');
-                                $("#submit").prop("disabled", false);
-                                }
-                            });
-                        }); 
-
-                        $('#pdfdiskon').click(function pdftampil() {
-                            $.ajax({
-                                url:"<?php echo base_url() ?>index.php/Main/cetak_pdf_diskon",
-                                type: 'POST',
-                                data: {id:o},
-                                success: function (hasil) {
-
-                                },
-                                error: function (xhr, status, error) {
-                                alert('Terdapat Kesalahan Pada Server...');
-                                $("#submit").prop("disabled", false);
-                                }
-                            });
-            });                                                                                  
-                },
-                error: function (xhr, status, error) {
-                alert('Tagihan telah dibayar, silahkan cek arsip pembayaran');
-                $("#submit").prop("disabled", false);
-                }
-            });
-            })
+            }               
         }
 
     </script>

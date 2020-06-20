@@ -838,6 +838,7 @@ class Main extends CI_Controller {
 		$data = $this->input->post('data');
 		$blok = $this->input->post('id');
 		$harga = $this->input->post('harga');
+		$keterangan = $this->input->post('keterangan');
 		$idsementara = '';
 		$all = $this->TagihanModel->get_all_tagihan();
 		$kondisi = '';
@@ -851,7 +852,6 @@ class Main extends CI_Controller {
 					break;
 				} 					
 			}
-
 			if($kondisi == 'ada'){
 
 			} else {
@@ -1046,9 +1046,10 @@ class Main extends CI_Controller {
 			$id = $this->input->post("id");
 			$diskon = $this->input->post("diskon");
 			$total_awal = $this->input->post("total_awal");
+			$keterangan = $this->input->post("keterangan");
 			try{
 				$this->TagihanModel->update_status($id);
-				$notaID = $this->NotaModel->insert_one($username,$total_awal,$diskon);
+				$notaID = $this->NotaModel->insert_one($username,$total_awal,$diskon, $keterangan);
 				$this->NotaDetailModel->insert_one($notaID, $id);
 				$c = $this->create_cookie_encrypt("idcetak",$notaID);
 		

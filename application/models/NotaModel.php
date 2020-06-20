@@ -57,7 +57,7 @@ class NotaModel extends CI_Model {
             'cluster.IDCluster = blok.IDCluster');
         }
     }
-    public function insert_one($username, $total_awal, $diskon){
+    public function insert_one($username, $total_awal, $diskon, $keterangan){
         if($diskon == ""){
             $diskon = 0;
         }
@@ -66,7 +66,8 @@ class NotaModel extends CI_Model {
             'username' => $username,
             'total_awal' => $total_awal,
             'diskon' => $diskon,
-            'total_setelah_diskon' => $total_awal - $diskon
+            'total_setelah_diskon' => $total_awal - $diskon,
+            'keterangan_diskon' => $keterangan
         );
         $this->db->insert('nota', $data);
         $final = $this->db->insert_id();
