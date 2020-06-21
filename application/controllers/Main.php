@@ -2014,6 +2014,10 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(40,8, number_format($data[0]->diskon, 0, ',', '.') ,0,1, 'L');
 
 		$c_pdf->Cell(10);
+        $c_pdf->Cell(40,8, 'Keterangan             :',0,0, 'L');
+		$c_pdf->MultiCell(100,8, $data[0]->keterangan_diskon ,0, 'L');
+
+		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
 		$c_pdf->Cell(40,8, number_format($data[0]->total_setelah_diskon, 0, ',', '.') ,0,1, 'L');	
         
