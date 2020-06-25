@@ -180,6 +180,7 @@ class Main extends CI_Controller {
 			$this->load->view('footer');
 		} else if ($this->checkcookiestaff()) {
 			$data['idBlok'] = $idBlok;
+			$c = $this->create_cookie_encrypt("idblok",$idBlok);
 			$this->load->view('header1');
 			$this->load->view('staff/detail_iuran_page',$data);
 			$this->load->view('footer');
