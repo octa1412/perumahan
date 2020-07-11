@@ -23,7 +23,6 @@
             <table id="table1" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr>
-                  <th>ID Nota</th>
                   <th>Tanggal Pembayaran</th>
                   <th>Total Awal</th>
                   <th>Diskon</th>
@@ -124,7 +123,6 @@
           if(response.length > 0){
             response.forEach((data)=>{
               dTable.row.add([
-                data.IDNota, 
                 data.tanggal,
                 parseInt(data.total_awal).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
                 parseInt(data.diskon).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
