@@ -92,6 +92,9 @@
       get_arsip();
     })
 
+    var dTable;
+    var data = get_filter_value();
+
     function get_filter_value(){
       var date = []
       $('.input-daterange input').each(function() {
@@ -110,42 +113,77 @@
       }
     }
     function get_arsip(){
-      var data = get_filter_value();
+      data = get_filter_value();
       data.id = "<?php echo $idBlok?>"
-      $(".dataTables_empty").text("Loading...")
-      $.ajax({
-        url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/",
-        type: 'POST',
-        data: data,
-        success: function (json) {
-          dTable.clear().draw();
-          var response = JSON.parse(json);
-          if(response.length > 0){
-            response.forEach((data)=>{
-              dTable.row.add([
-                data.tanggal,
-                parseInt(data.total_awal).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
-                parseInt(data.diskon).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
-                parseInt(data.total_setelah_diskon).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
-                '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Detail</button>'
-              ]).draw(false);
-            })
-          } else{
-            $(".dataTables_empty").text("Tidak ada data yang ditampilkan.")
-          }
-        },
-        error: function (xhr, status, error) {
-          alert('Terdapat Kesalahan Pada Server...');
-          $("#submit").prop("disabled", false);
-        }
-      });
+      // $(".dataTables_empty").text("Loading...")
+      // $.ajax({
+      //   url: "<?php echo base_url() ?>index.php/Main/get_all_arsip/",
+      //   type: 'POST',
+      //   data: data,
+      //   success: function (json) {
+      //     dTable.clear().draw();
+      //     var response = JSON.parse(json);
+      //     if(response.length > 0){
+      //       response.forEach((data)=>{
+      //         dTable.row.add([
+      //           data.tanggal,
+      //           parseInt(data.total_awal).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
+      //           parseInt(data.diskon).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
+      //           parseInt(data.total_setelah_diskon).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'}),
+      //           '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Detail</button>'
+      //         ]).draw(false);
+      //       })
+      //     } else{
+      //       $(".dataTables_empty").text("Tidak ada data yang ditampilkan.")
+      //     }
+      //   },
+      //   error: function (xhr, status, error) {
+      //     alert('Terdapat Kesalahan Pada Server...');
+      //     $("#submit").prop("disabled", false);
+      //   }
+      // });
+      dTable.ajax.reload();
     }
 
     $(document).ready(function () {
+      // dTable = $('#table1').DataTable({
+      //   responsive:true
+      // });
+      
+      data.id = "<?php echo $idBlok?>"
       dTable = $('#table1').DataTable({
-        responsive:true
+        "responsive":true,
+        "dom": '<"toolbar">frtip',
+        "processing": true,
+        "ajax": {
+            "url": "<?php echo base_url() ?>index.php/Main/get_all_arsip/",
+            "type": "POST",
+            "contentType": "application/json",
+            "data": function(){
+                console.log(data)
+                return JSON.stringify(data);
+            }
+          },
+          "columns": [
+            { "data": "tanggal" },
+            { "data": "total_awal",
+              "render": function(data, type, row, meta){
+                return parseInt(data).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'})
+              }
+            },
+            { "data": "diskon",
+              "render": function(data, type, row, meta){
+                return parseInt(data).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'})
+              }
+            },
+            { "data": "total_setelah_diskon",
+              "render": function(data, type, row, meta){
+                return parseInt(data).toLocaleString('id-ID', {currency: 'IDR', style: 'currency'})
+              }
+            },
+            {"defaultContent": '<button class="btn btn-outline-primary mt-10 mb-10" onclick=goToPdf("'+data.IDNota+'")>Detail</button>'}
+          ]
       });
-      get_arsip();
     });
 
     function goToPdf(id){
