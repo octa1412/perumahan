@@ -108,7 +108,10 @@
         $(document).ready(function () {
         dTable = $('#table1').DataTable( {
             responsive:true,
-            "ordering": false
+            "ordering": false,
+            "columnDefs": [
+                { "width": "50%", "targets": 0 }
+            ]
         });
 
         $("#pdfmodal").on('hidden.bs.modal',function(){
@@ -138,10 +141,12 @@
                 var ppp = '';
                 if(response.length > 0 || obj.length > 0){
                     $("#table1").append(
-                        $('<tfoot/>').append( "<tr><td align='center' >Diskon "+
-                        '<td align="center"><input onchange="parse()" type="number" id="diskon" name="diskon" step=100></input>' +
-                        "<tr><td align='center' >Keterangan "+
-                        '<td align="center"><textarea rows="2" cols="20" id="keterangan" name="keterangan" disabled></textarea>' )
+                        $('<tfoot/>').append( "<tr><td align='center' colspan=2>Diskon "+
+                        // '<tr><td align="center" colspan=2><input onchange="parse()" type="number" id="diskon" name="diskon" step=100></input>' +
+                        '<br><input onchange="parse()" type="number" id="diskon" name="diskon" step=100></input>' +
+                        "<tr><td align='center' colspan=2>Keterangan "+
+                        // '<tr><td align="center" colspan=2><textarea rows="2" cols="20" id="keterangan" name="keterangan" disabled></textarea>' )
+                        '<br><textarea rows="2" cols="20" id="keterangan" name="keterangan" disabled></textarea>' )
                     );
                     response.forEach((data)=>{
 

@@ -41,7 +41,7 @@ class Main extends CI_Controller {
 			$this->load->view('staff/blok_page');
 			$this->load->view('footer');
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -57,7 +57,7 @@ class Main extends CI_Controller {
 			$this->load->view('admin/profile_page');
 			$this->load->view('footer');
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -73,7 +73,7 @@ class Main extends CI_Controller {
 			$this->load->view('staff/change_password');
 			$this->load->view('footer');
 		}else {
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -85,7 +85,7 @@ class Main extends CI_Controller {
 			$this->load->view('admin/cluster_page');
 			$this->load->view('footer');
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -97,7 +97,7 @@ class Main extends CI_Controller {
 			$this->load->view('admin/blok_page');
 			$this->load->view('footer');
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -109,7 +109,7 @@ class Main extends CI_Controller {
 			$this->load->view('admin/blok_detail_page');
 			$this->load->view('footer');
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -121,7 +121,7 @@ class Main extends CI_Controller {
 			$this->load->view('admin/customer_page');	
 			$this->load->view('footer');
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -133,7 +133,7 @@ class Main extends CI_Controller {
 			$this->load->view('admin/staff_page');	
 			$this->load->view('footer');	 
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -152,7 +152,7 @@ class Main extends CI_Controller {
 			$this->load->view('staff/arsip_staff_page', $data);
 			$this->load->view('footer');
 		}else {
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -164,7 +164,7 @@ class Main extends CI_Controller {
 			$this->load->view('admin/arsip_page');
 			$this->load->view('footer');
 		}else {
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -180,11 +180,12 @@ class Main extends CI_Controller {
 			$this->load->view('footer');
 		} else if ($this->checkcookiestaff()) {
 			$data['idBlok'] = $idBlok;
+			$c = $this->create_cookie_encrypt("idblok",$idBlok);
 			$this->load->view('header1');
 			$this->load->view('staff/detail_iuran_page',$data);
 			$this->load->view('footer');
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -221,7 +222,7 @@ class Main extends CI_Controller {
 			$this->load->view('review_iuran',$data);
 			$this->load->view('footer');
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -233,7 +234,7 @@ class Main extends CI_Controller {
 			$this->load->view('admin/add_tagihan');
 			$this->load->view('footer');
 		}else{
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
@@ -249,7 +250,7 @@ class Main extends CI_Controller {
 			$this->load->view('staff/blok_page');
 			$this->load->view('footer');
 		}else {
-			header("Location: ".base_url()."index.php/login");
+			header("Location: ".base_url()."index.php/");
 			die();
 		}
 	}
