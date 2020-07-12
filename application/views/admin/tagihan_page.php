@@ -83,8 +83,8 @@
                 success: function (json) {
                 var response = JSON.parse(json);
                 var angkabln;
-                if(response.length > 0){
-                    response.forEach((data)=>{
+                if(response["data"].length > 0){
+                    response["data"].forEach((data)=>{
 
                         switch(data.bulan){
                         case '1':
