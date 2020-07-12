@@ -579,8 +579,29 @@ class Main extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function get_tagihan_by_nota_id($return_var = NULL){
+		$input_data = json_decode($this->input->raw_input_stream, true);
+		$id = $input_data['id'];
+		$data = $this->TagihanModel->get_by_nota($id);
+		
+		if (empty($data)){
+			$data = [];
+		}
+		if ($return_var == true) {
+			return $data;
+		}else{
+			$datas["data"] = $data;
+			echo json_encode($datas);
+		}
+	}
+
 	public function get_tagihan($return_var = NULL){
+		$input_data = "";
 		$id = $this->input->post('id');
+		if($id == NULL){
+			$input_data = json_decode($this->input->raw_input_stream, true);
+			$id = $input_data['id'];
+		}
 		if(is_array($id)){
 			$data = $this->TagihanModel->get_by_id($id);
 		}else{
@@ -592,7 +613,8 @@ class Main extends CI_Controller {
 		if ($return_var == true) {
 			return $data;
 		}else{
-			echo json_encode($data);
+			$datas["data"] = $data;
+			echo json_encode($datas);
 		}
 	}
 
@@ -1577,7 +1599,6 @@ class Main extends CI_Controller {
 		
 
 		$test = 0;
-
 //array data pertama
 		$dataharga = array(
 			array(
