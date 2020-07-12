@@ -49,8 +49,8 @@
             </button>
             </div>
             <div class="modal-footer">
-            <a class="btn btn-secondary" href="<?=base_url("index.php/Main/cetak_pdf_diskon/" );?>" id="pdfdiskon" target="_blank">Laporan + Diskon</a>
-            <a class="btn btn-primary" href="<?=base_url("index.php/Main/cetak_pdf/" );?>" id="pdfdata" target="_blank">Laporan</a>
+            <a class="btn btn-secondary" href="<?=base_url("index.php/Main/cetak_pdf_diskon_arsip/" );?>" id="pdfdiskon" target="_blank">Laporan + Diskon</a>
+            <a class="btn btn-primary" href="<?=base_url("index.php/Main/cetak_pdf_arsip/" );?>" id="pdfdata" target="_blank">Laporan</a>
             </div>
           </div>
         </div>
@@ -157,7 +157,7 @@
           $('#pdfmodal').modal();
           $('#pdfdata').click(function pdftampil() {
               $.ajax({
-                  url:"<?php echo base_url() ?>index.php/Main/cetak_pdf",
+                  url:"<?php echo base_url() ?>index.php/Main/cetak_pdf_arsip",
                   type: 'POST',
                   data: {id:o},
                   success: function (hasil) {
@@ -173,7 +173,7 @@
 
           $('#pdfdiskon').click(function pdftampil() {
               $.ajax({
-                  url:"<?php echo base_url() ?>index.php/Main/cetak_pdf_diskon",
+                  url:"<?php echo base_url() ?>index.php/Main/cetak_pdf_diskon_arsip",
                   type: 'POST',
                   data: {id:o},
                   success: function (hasil) {
