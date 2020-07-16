@@ -95,7 +95,8 @@
         e.preventDefault();
         if($("#fl-perumahan").val() != "default"){
           getClusterofPerumahan($("#fl-perumahan").val(), function(){
-            get_transaksi()
+            // get_transaksi()
+            info()
             console.log($("#fl-cluster").val())
           });
         }
@@ -236,8 +237,13 @@
       dTable = $('#table1').DataTable({
         responsive: true
       });
-      get_transaksi();
+      $(".dataTables_empty").text("Silahkan Pilih Perumahan...")
+      // get_transaksi();
     });
+
+    function info(){
+      $(".dataTables_empty").text("Silahkan Pilih Cluster...")
+    }
 
   </script>
 

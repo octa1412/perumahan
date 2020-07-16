@@ -184,7 +184,8 @@
         e.preventDefault();
         if($("#fl-perumahan").val() != "default"){
           getClusterofPerumahan($("#fl-perumahan").val(), function(){
-            get_data()
+            // get_data()
+            info()
             console.log($("#fl-cluster").val())
           });
         }
@@ -283,8 +284,14 @@
       dTable = $('#table1').DataTable({
         responsive: true
       });
+      $(".dataTables_empty").text("Silahkan Pilih Perumahan...")
+
       // get_data()
     });
+
+    function info(){
+      $(".dataTables_empty").text("Silahkan Pilih Cluster...")
+    }
 
     function get_data(){
       $(".dataTables_empty").text("Loading...")

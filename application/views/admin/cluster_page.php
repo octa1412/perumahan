@@ -204,6 +204,8 @@
       dTable = $('#table1').DataTable({
         responsive: true
       });
+      $(".dataTables_empty").text("Silahkan Pilih Perumahan...")
+
       // listperumahan();
       // get_data()
     });
