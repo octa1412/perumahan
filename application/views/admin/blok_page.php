@@ -290,6 +290,7 @@
     });
 
     function info(){
+      dTable.clear().draw();
       $(".dataTables_empty").text("Silahkan Pilih Cluster...")
     }
 
