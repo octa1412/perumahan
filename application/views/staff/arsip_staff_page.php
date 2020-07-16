@@ -191,7 +191,7 @@
             },
             {"data": "IDNota",
               "render": function(data, type, row, meta){
-                return '<button class="btn btn-outline-primary mt-10 mb-10" onclick="goToPdf(data);">Detail</button>'
+                return '<button class="btn btn-outline-primary mt-10 mb-10" onclick="goToPdf('+data+');">Detail</button>'
               }
             },
             {"data": "IDNota",
