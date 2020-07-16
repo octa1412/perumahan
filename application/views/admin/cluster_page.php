@@ -150,7 +150,16 @@
 
     $("#fl-perumahan").change(function (e) { 
       e.preventDefault();
-      get_data();
+      var perumahan = $("#fl-perumahan").val();
+      if(perumahan == "default"){
+        dTable.clear().draw();
+        perumahan = null;
+        $(".dataTables_empty").text("Silahkan Pilih Perumahan...")
+
+      } else {
+        get_data();
+      }
+      
     });
 
     function get_filter_value(){

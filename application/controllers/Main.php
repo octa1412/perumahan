@@ -1091,7 +1091,7 @@ class Main extends CI_Controller {
 	public function view_pdf(){
 		$id = $this->input->post("data");
 		$c = $this->create_cookie_encrypt("idcetak",$id);	
-		echo $c;
+		echo 'idnya ' + $c;
 	}
 
 	public function update_profile(){

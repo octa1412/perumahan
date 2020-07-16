@@ -102,13 +102,24 @@
         }
         else{
           $("#fl-cluster option[value!=default]").remove();
-          get_transaksi();
+          dTable.clear().draw();
+          $(".dataTables_empty").text("Silahkan Pilih Perumahan...")
+          // get_transaksi();
         }
       });
 
       $("#fl-cluster").change(function (e) { 
         e.preventDefault();
-        get_transaksi();
+        var cluster = $("#fl-cluster").val();
+        if(cluster == "default"){
+          cluster = null;
+          dTable.clear().draw();
+          $(".dataTables_empty").text("Silahkan Pilih Cluster...")
+
+        } else {
+          get_transaksi();
+        }        
+        
       });
       
       function getClusterofPerumahan(id,callback){

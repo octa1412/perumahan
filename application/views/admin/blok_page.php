@@ -191,13 +191,25 @@
         }
         else{
           $("#fl-cluster option[value!=default]").remove();
-          get_data()
+          dTable.clear().draw();
+          $(".dataTables_empty").text("Silahkan Pilih Perumahan...")
+
+          // get_data()
         }
       });
 
       $("#fl-cluster").change(function (e) { 
         e.preventDefault();
-        get_data();
+     
+        var cluster = $("#fl-cluster").val();
+        if(cluster == "default"){
+          cluster = null;
+          dTable.clear().draw();
+          $(".dataTables_empty").text("Silahkan Pilih Cluster...")
+
+        } else {
+          get_data();
+        }        
       });
 
 //perumahan1
