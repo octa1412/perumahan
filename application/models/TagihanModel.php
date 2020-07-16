@@ -58,6 +58,19 @@ class TagihanModel extends CI_Model {
 		return $query->result_array();
 	}
 
+	public function get_by_nota($idNota){ 
+
+        $this->db->select();
+		$this->db->from('tagihan t');
+		$this->db->join('nota_detail n','t.IDTagihan = n.IDTagihan');
+		
+		$this->db->where('n.IDNota',$idNota);
+		$this->db->order_by('tahun,bulan ASC');
+
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function update_status($id){
 		$this->db->set('status',"1");
 		$this->db->or_where_in('IDTagihan', $id);
