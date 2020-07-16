@@ -205,7 +205,7 @@
         responsive: true
       });
       // listperumahan();
-      get_data()
+      // get_data()
     });
 
     function listperumahan(){

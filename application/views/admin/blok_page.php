@@ -283,7 +283,7 @@
       dTable = $('#table1').DataTable({
         responsive: true
       });
-      get_data()
+      // get_data()
     });
 
     function get_data(){
