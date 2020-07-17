@@ -52,9 +52,9 @@
                   <div class="form-group">
                     <label for="blntagihan" class="col-form-label">Bulan Tagihan</label><br>
                     <div class="id-none form-inline ml-md-3 input-daterange">
-                      <input type="text" class="form-control">
+                      <input type="text" class="form-control" required>
                       <div class="input-group-text justify-content-sm-center">to</div>
-                      <input type="text" class="form-control">
+                      <input type="text" class="form-control" required>
                     </div>
                   </div>
                   <!-- <div class="form-group">
@@ -66,7 +66,7 @@
                       <input type="text" class="form-control" id="hargatagihan" placeholder="Harga..." onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" required>
                   </div>   
                   <div>
-                      <button type="submit" class="btn btn-primary">Tambah</button>
+                      <button type="submit" class="btn btn-primary">Add</button>
                   </div>
 
                 </form>
@@ -211,25 +211,15 @@
       var inputcluster = document.getElementById("cluster").value
       var inputblok = document.getElementById("blok").value
 
-
-      // console.log(inputharga);
-
-      // if(inputperum == "default" || inputcluster == "default"){
-      //   e.preventDefault();
-      //   alert("Silahkan Pilih Perumahan dan Cluster")
-      //   return;
-      // }
-      
       $('.input-daterange input').each(function() {
         var rawDate = $(this).datepicker('getDate')
         date.push((new Date(Date.parse(rawDate)).getMonth())+1)
         year.push(new Date(Date.parse(rawDate)).getFullYear());
 
       });
-      
-     
-      var i=date[0]
-      var a =date[1]
+           
+      var i = date[0]
+      var a = date[1]
 
       if(i>a){
         for(var j=i; j<13; j++){
@@ -249,6 +239,28 @@
           yearjml.push(year[0]);
         }
       }
+
+      // console.log(datejml);
+
+      if(inputperumahan == "default"){
+        e.preventDefault();
+        alert("Silahkan Pilih Perumahan")
+        return false;
+      } else if(inputcluster == "default"){
+        e.preventDefault();
+        alert("Silahkan Pilih Cluster")
+        return false;
+      } else if(inputblok == "default"){
+        e.preventDefault();
+        alert("Silahkan Pilih Blok")
+        return false;
+      // } else if(datejml.length == 0){
+      //   e.preventDefault();
+      //   alert("Silahkan Pilih Bulan")
+      //   console.log(datejml);
+      //   return false;
+      }
+     
 
       $.ajax({
         url: "<?php echo base_url()?>index.php/Main/add_tagihan_manual",
