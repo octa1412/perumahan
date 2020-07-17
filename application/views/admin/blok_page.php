@@ -238,7 +238,7 @@
       else{
         $("#cluster option[value!=default]").remove();
       }
-      get_data();
+      // get_data();
     });
 
     $("#cluster").change(function (e) { 

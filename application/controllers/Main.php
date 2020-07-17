@@ -574,7 +574,7 @@ class Main extends CI_Controller {
 		$data = $this->TransaksiModel->get_all($perumahan, $cluster);
 		
 		if (empty($data)){
-			$data = [];
+			$data = ['0'];
 		}
 		echo json_encode($data);
 	}
