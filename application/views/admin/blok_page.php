@@ -243,7 +243,7 @@
 
     $("#cluster").change(function (e) { 
       e.preventDefault();
-      get_data();
+      // get_data();
     });
 
 
