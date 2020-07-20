@@ -1608,6 +1608,496 @@ class Main extends CI_Controller {
 	}
 
 
+	public function cek_array_pdf($arr){
+		$arr = $arr;
+		$arr1 = [];
+		$arr2 = [];
+		$arr11 = [];
+		$arr22 = [];
+		$arr111 = [];
+		$arr222 = [];
+		$arrFinal1 = [];
+		$arrFinal2 = [];
+		$bln1 = [];
+		$bln2 = [];
+		$hrg1 = [];
+		$hrg2 = [];
+		$JmlLompatBln1 = 0;
+		$JmlLompatBln2 = 0;
+		$JmlLompatHrg1 = 0;
+		$JmlLompatHrg2 = 0;
+		$posClass = 0;
+		$status = '';
+		$posSementara = 0;
+		$jmlData = [];
+		$posData = [];
+		$arrposisi = [];
+		$datapertama = 100;
+		$bantuan1 = 0;
+		$bantuan2 = [];
+		$Final = [];
+		
+		$dataJmlThnFix = array($arr[0][2]);
+		//dapetin bnyknya tahun
+		for($a=1; $a<count($arr); $a++){
+			if($arr[$a][2] != $dataJmlThnFix[0]){
+				if(count($dataJmlThnFix) == 1){
+					array_push($dataJmlThnFix, $arr[$a][2]);
+				} else  {
+					for($b=1; $b<count($dataJmlThnFix); $b++){
+						if($arr[$a][2] != $dataJmlThnFix[$b]){
+							array_push($dataJmlThnFix, $arr[$a][2]);
+						}
+					}
+				}
+			}
+		}
+		
+		if(count($dataJmlThnFix)> 1){
+			for($b=0; $b<count($arr); $b++){
+				if($arr[$b][2] == $dataJmlThnFix[0]){
+					array_push($arr1, [$arr[$b][2], $arr[$b][3], $arr[$b][1], $b]);
+					array_push($bln1, $arr[$b][3]);
+				}
+				if($arr[$b][2] == $dataJmlThnFix[1]){
+					array_push($arr2, [$arr[$b][2], $arr[$b][3], $arr[$b][1], $b]);
+					array_push($bln2, $arr[$b][3]);
+				}
+			}
+
+	/// tahun pertama
+			$angkaTerkecil = min($bln1);
+			$angkaTerbesar = max($bln1);
+		
+			// bubble sort array DataBln (dr kecil ke besar di data bln)
+			for($a=0; $a<count($arr1); $a++){
+				for($b=count($arr1)-1; $b>$a; $b--){
+					if($arr1[$b][1] < $arr1[$b-1][1]){
+						$pos = $arr1[$b-1];
+						$arr1[$b-1] = $arr1[$b];
+						$arr1[$b] = $pos; 
+					}
+				}
+			}
+
+			//mencari ada berapa perbedaan lompat bln
+			for ($x = $angkaTerkecil; $x <= $angkaTerbesar; $x++) {
+				for($y=0; $y<count($arr1); $y++){
+					if($x == $arr1[$y][1]){
+						$status = 'data_ada';
+						$posClass = $y;
+					} 
+				}
+		
+				if($status == 'data_ada'){
+					array_push($arrposisi, 1);
+					$posisi = count($arrposisi) - 1;
+					$posisi2 = $posisi - 1;
+
+					if(count($arrposisi) == 1){} else {
+						if( $arrposisi[$posisi] != $arrposisi[$posisi2]){
+							$JmlLompatBln1 = $JmlLompatBln1 + 1;
+						}
+					}
+					array_push($arr11, [$arr1[$posClass][0], $arr1[$posClass][1], $arr1[$posClass][2], $arr1[$posClass][3], $JmlLompatBln1]);
+				} else {           
+					array_push($arrposisi, 0);                     
+				}
+				$posClass = 0;
+				$status = '';
+			}
+
+			$arrposisi = [];
+
+	// tahun kedua
+			$angkaTerkecil = min($bln2);
+			$angkaTerbesar = max($bln2);
+
+			// bubble sort array DataBln (dr kecil ke besar di data bln)
+			for($a=0; $a<count($arr2); $a++){
+				for($b=count($arr2)-1; $b>$a; $b--){
+					if($arr2[$b][1] < $arr2[$b-1][1]){
+						$pos = $arr2[$b-1];
+						$arr2[$b-1] = $arr2[$b];
+						$arr2[$b] = $pos; 
+					}
+				}
+			}
+
+			//mencari ada berapa perbedaan lompat bln
+			for ($x = $angkaTerkecil; $x <= $angkaTerbesar; $x++) {
+				for($y=0; $y<count($arr2); $y++){
+					if($x == $arr2[$y][1]){
+						$status = 'data_ada';
+						$posClass = $y;
+					} 
+				}
+
+				if($status == 'data_ada'){
+					array_push($arr22, [$arr2[$posClass][0], $arr2[$posClass][1], $arr2[$posClass][2], $arr2[$posClass][3], $JmlLompatBln2]);
+				} else {
+					$JmlLompatBln2 = $JmlLompatBln2 + 1;
+				}
+				$posClass = 0;
+				$status = '';
+			}
+
+			$arrposisi = [];
+
+			array_push($hrg1, $arr11[0][2]);
+			array_push($hrg2, $arr22[0][2]);
+			
+			//dapetin bnyknya harga
+			for($a=0; $a<count($arr11); $a++){
+				for($b=0; $b<count($hrg1); $b++){
+					if($arr11[$a][2] == $hrg1[$b]){
+						$status = 'data_ada';
+					} else {
+						$posClass = $a;
+					}
+				}        
+				if($status == 'data_ada'){} else{
+					array_push($hrg1, $arr11[$posClass][2]);
+				}
+
+				$posClass = 0;
+				$status = '';
+			}
+
+			//dapetin bnyknya harga
+			for($a=0; $a<count($arr22); $a++){
+				for($b=0; $b<count($hrg2); $b++){
+					if($arr22[$a][2] == $hrg2[$b]){
+						$status = 'data_ada';
+					} else {
+						$posClass = $a;
+					}
+				}        
+
+				if($status == 'data_ada'){} else{
+					array_push($hrg2, $arr22[$posClass][2]);
+				}
+				$posClass = 0;
+				$status = '';
+			}
+				
+			for($a=0; $a<$JmlLompatBln1+1; $a++){ //muat ad brp jenis lompat bln
+				for($b=0; $b<count($arr11); $b++){ //muat semua data di thn 1
+					if($arr11[$b][4] == $a){ //cek arr jenis bln = lompat bln a
+						for($c=0; $c<count($hrg1); $c++){ // muat semua jenis harga
+							if($arr11[$b][2] == $hrg1[$c]){ // 
+								array_push($arr111, [$arr11[$b][0], $arr11[$b][1], $arr11[$b][2], $arr11[$b][3], $arr11[$b][4], $c]);
+							} 
+						}
+
+					}
+				}            
+			}
+				
+			for($a=0; $a<$JmlLompatBln2+1; $a++){ //muat ad brp jenis lompat bln
+				for($b=0; $b<count($arr22); $b++){ //muat semua data di thn 1
+					if($arr22[$b][4] == $a){ //cek arr jenis bln = lompat bln a
+						for($c=0; $c<count($hrg2); $c++){ // muat semua jenis harga
+							if($arr22[$b][2] == $hrg2[$c]){ // 
+								array_push($arr222, [$arr22[$b][0], $arr22[$b][1], $arr22[$b][2], $arr22[$b][3], $arr22[$b][4], $c]);
+							} 
+						}
+					}
+				}            
+			}
+	
+			$abc = $arr111[count($arr111)-1][4];
+
+			for($a=0; $a<$abc+1; $a++){
+				for($b=0; $b<count($arr111); $b++){
+					if($arr111[$b][4] == $a){
+						if($datapertama == 100){
+							$datapertama = $b;
+						}
+						array_push($jmlData, [$arr111[$b][5], $b]);
+					}
+				}
+
+				if(count($jmlData) != 0){
+					$posSementara = $posSementara + 1;
+					$cba = $datapertama;
+					array_push($posData, $jmlData[0][0]);
+					array_push($arrFinal1, [$arr111[$cba][0], $arr111[$cba][1], $arr111[$cba][2], $arr111[$cba][3], $arr111[$cba][4], $arr111[$cba][5], $posSementara]);
+
+					$jmlPosData = count($posData);
+
+					for ($x = 1; $x<count($jmlData); $x++) {
+						for($y=0; $y<count($posData); $y++){
+							if($jmlData[$x][0] == $posData[$y]){
+								$status = 'data_ada';                            
+							} else {
+								$posClass = $y;
+							}
+						}
+			
+						if($status == 'data_ada'){
+						} else {                        
+							$posSementara = $posSementara + 1;
+							array_push($posData, $jmlData[$posClass][0]);                        
+						}
+						$status = '';
+						$posClass = 0;
+						$abc = $jmlData[$x][1];
+						array_push($arrFinal1, [$arr111[$abc][0], $arr111[$abc][1], $arr111[$abc][2], $arr111[$abc][3], $arr111[$abc][4], $arr111[$abc][5], $posSementara]);
+					}
+					$jmlData = [];
+					$posData = [];
+				}
+				$datapertama = 100;
+			}
+
+			$abc = $arr222[count($arr222)-1][4];
+
+			for($a=0; $a<$abc+1; $a++){
+				for($b=0; $b<count($arr222); $b++){
+					if($arr222[$b][4] == $a){
+						if($datapertama == 100){
+							$datapertama = $b;
+						}
+						array_push($jmlData, [$arr222[$b][5], $b]);
+					}
+				}
+
+				if(count($jmlData) != 0){
+					$posSementara = $posSementara + 1;
+					$cba = $datapertama;
+					array_push($posData, $jmlData[0][0]);
+					array_push($arrFinal2, [$arr222[$cba][0], $arr222[$cba][1], $arr222[$cba][2], $arr222[$cba][3], $arr222[$cba][4], $arr222[$cba][5], $posSementara]);
+
+					$jmlPosData = count($posData);
+
+					for ($x = 1; $x<count($jmlData); $x++) {
+						for($y=0; $y<count($posData); $y++){
+							if($jmlData[$x][0] == $posData[$y]){
+								$status = 'data_ada';                            
+							} else {
+								$posClass = $y;
+							}
+						}
+
+						if($status == 'data_ada'){
+						} else {                        
+							$posSementara = $posSementara + 1;
+							array_push($posData, $jmlData[$posClass][0]);                        
+						}
+						$status = '';
+						$posClass = 0;
+						$abc = $jmlData[$x][1];
+						array_push($arrFinal2, [$arr222[$abc][0], $arr222[$abc][1], $arr222[$abc][2], $arr222[$abc][3], $arr222[$abc][4], $arr222[$abc][5], $posSementara]);
+					}
+					$jmlData = [];
+					$posData = [];
+				}
+				$datapertama = 100;
+			}
+		
+			$pass = ($arrFinal1[count($arrFinal1) - 1][6]);
+
+			for($a=0; $a<$pass; $a++){
+				for($b=0; $b<count($arrFinal1); $b++){
+					if($a+1 == $arrFinal1[$b][6]){
+						$bantuan1 = $bantuan1 + 1;
+						array_push($bantuan2, $b);
+					}
+				}
+
+				$as = count($bantuan2) - 1;
+
+				if($bantuan1 > 1){
+					array_push($Final, [$arr111[$bantuan2[0]][0], $arr111[$bantuan2[0]][1], $arr111[$bantuan2[0]][2], $arr111[$bantuan2[0]][3], $arr111[$bantuan2[0]][4], $arr111[$bantuan2[0]][5], $a]);
+					array_push($Final, [$arr111[$bantuan2[$as]][0], $arr111[$bantuan2[$as]][1], $arr111[$bantuan2[$as]][2], $arr111[$bantuan2[$as]][3], $arr111[$bantuan2[$as]][4], $arr111[$bantuan2[$as]][5], $a]);
+
+				} else {
+					array_push($Final, [$arr111[$bantuan2[0]][0], $arr111[$bantuan2[0]][1], $arr111[$bantuan2[0]][2], $arr111[$bantuan2[0]][3], $arr111[$bantuan2[0]][4], $arr111[$bantuan2[0]][5], $a]);
+
+				}
+				$bantuan1 = 0;
+				$as = 0;
+				$bantuan2 = [];
+			}
+
+			$pass1 = ($arrFinal2[count($arrFinal2) - 1][6] - $pass);
+
+			for($a=0; $a<$pass1; $a++){
+				for($b=0; $b<count($arrFinal2); $b++){
+					if(($a+1)+$pass == $arrFinal2[$b][6]){
+						$bantuan1 = $bantuan1 + 1;
+						array_push($bantuan2, $b);
+					}
+				}
+
+				$as = count($bantuan2) - 1;
+
+				if($bantuan1 > 1){
+					array_push($Final, [$arr222[$bantuan2[0]][0], $arr222[$bantuan2[0]][1], $arr222[$bantuan2[0]][2], $arr222[$bantuan2[0]][3], $arr222[$bantuan2[0]][4], $arr222[$bantuan2[0]][5], $a+$pass]);
+					array_push($Final, [$arr222[$bantuan2[$as]][0], $arr222[$bantuan2[$as]][1], $arr222[$bantuan2[$as]][2], $arr222[$bantuan2[$as]][3], $arr222[$bantuan2[$as]][4], $arr222[$bantuan2[$as]][5], $a+$pass]);
+				} else {
+					array_push($Final, [$arr222[$bantuan2[0]][0], $arr222[$bantuan2[0]][1], $arr222[$bantuan2[0]][2], $arr222[$bantuan2[0]][3], $arr222[$bantuan2[0]][4], $arr222[$bantuan2[0]][5], $a+$pass]);
+
+				}
+				$bantuan1 = 0;
+				$bantuan2 = [];
+			}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+		} else {
+			for($b=0; $b<count($arr); $b++){
+				if($arr[$b][2] == $dataJmlThnFix[0]){
+					array_push($arr1, [$arr[$b][2], $arr[$b][3], $arr[$b][1], $b]);
+					array_push($bln1, $arr[$b][3]);
+				}	
+			}
+
+	/// tahun pertama
+			$angkaTerkecil = min($bln1);
+			$angkaTerbesar = max($bln1);
+		
+			// bubble sort array DataBln (dr kecil ke besar di data bln)
+			for($a=0; $a<count($arr1); $a++){
+				for($b=count($arr1)-1; $b>$a; $b--){
+					if($arr1[$b][1] < $arr1[$b-1][1]){
+						$pos = $arr1[$b-1];
+						$arr1[$b-1] = $arr1[$b];
+						$arr1[$b] = $pos; 
+					}
+				}
+			}
+
+			//mencari ada berapa perbedaan lompat bln
+			for ($x = $angkaTerkecil; $x <= $angkaTerbesar; $x++) {
+				for($y=0; $y<count($arr1); $y++){
+					if($x == $arr1[$y][1]){
+						$status = 'data_ada';
+						$posClass = $y;
+					} 
+				}
+		
+				if($status == 'data_ada'){
+					array_push($arrposisi, 1);
+					$posisi = count($arrposisi) - 1;
+					$posisi2 = $posisi - 1;
+
+					if(count($arrposisi) == 1){} else {
+						if( $arrposisi[$posisi] != $arrposisi[$posisi2]){
+							$JmlLompatBln1 = $JmlLompatBln1 + 1;
+						}
+					}
+					array_push($arr11, [$arr1[$posClass][0], $arr1[$posClass][1], $arr1[$posClass][2], $arr1[$posClass][3], $JmlLompatBln1]);
+				} else {           
+					array_push($arrposisi, 0);                     
+				}
+				$posClass = 0;
+				$status = '';
+			}
+
+			$arrposisi = [];
+			array_push($hrg1, $arr11[0][2]);       
+
+			//dapetin bnyknya harga
+			for($a=0; $a<count($arr11); $a++){
+				for($b=0; $b<count($hrg1); $b++){
+					if($arr11[$a][2] == $hrg1[$b]){
+						$status = 'data_ada';
+					} else {
+						$posClass = $a;
+					}
+				}        
+				if($status == 'data_ada'){} else{
+					array_push($hrg1, $arr11[$posClass][2]);
+				}
+
+				$posClass = 0;
+				$status = '';	
+			}
+		
+			for($a=0; $a<$JmlLompatBln1+1; $a++){ //muat ad brp jenis lompat bln
+				for($b=0; $b<count($arr11); $b++){ //muat semua data di thn 1
+					if($arr11[$b][4] == $a){ //cek arr jenis bln = lompat bln a
+						for($c=0; $c<count($hrg1); $c++){ // muat semua jenis harga
+							if($arr11[$b][2] == $hrg1[$c]){ // 
+								array_push($arr111, [$arr11[$b][0], $arr11[$b][1], $arr11[$b][2], $arr11[$b][3], $arr11[$b][4], $c]);
+							} 
+						}
+					}
+				}            
+			}
+
+			$abc = $arr111[count($arr111)-1][4];
+		
+			for($a=0; $a<$abc+1; $a++){
+				for($b=0; $b<count($arr111); $b++){
+					if($arr111[$b][4] == $a){
+						if($datapertama == 100){
+							$datapertama = $b;
+						}
+						array_push($jmlData, [$arr111[$b][5], $b]);
+					}
+				}
+
+				if(count($jmlData) != 0){
+					$posSementara = $posSementara + 1;
+					$cba = $datapertama;
+					array_push($posData, $jmlData[0][0]);
+					array_push($arrFinal1, [$arr111[$cba][0], $arr111[$cba][1], $arr111[$cba][2], $arr111[$cba][3], $arr111[$cba][4], $arr111[$cba][5], $posSementara]);
+					$jmlPosData = count($posData);
+
+					for ($x = 1; $x<count($jmlData); $x++) {
+						for($y=0; $y<count($posData); $y++){
+							if($jmlData[$x][0] == $posData[$y]){
+								$status = 'data_ada';                            
+							} else {
+								$posClass = $y;
+							}
+						}
+			
+						if($status == 'data_ada'){
+						} else {                        
+							$posSementara = $posSementara + 1;
+							array_push($posData, $jmlData[$posClass][0]);                        
+						}
+						$status = '';
+						$posClass = 0;
+						$abc = $jmlData[$x][1];
+						array_push($arrFinal1, [$arr111[$abc][0], $arr111[$abc][1], $arr111[$abc][2], $arr111[$abc][3], $arr111[$abc][4], $arr111[$abc][5], $posSementara]);
+					}
+					$jmlData = [];
+					$posData = [];
+				}
+				$datapertama = 100;
+			}
+		
+			$pass = ($arrFinal1[count($arrFinal1) - 1][6]);
+
+			for($a=0; $a<$pass; $a++){
+				for($b=0; $b<count($arrFinal1); $b++){
+					if($a+1 == $arrFinal1[$b][6]){
+						$bantuan1 = $bantuan1 + 1;
+						array_push($bantuan2, $b);
+					}
+				}
+			
+				$as = count($bantuan2) - 1;
+			
+				if($bantuan1 > 1){
+					array_push($Final, [$arr111[$bantuan2[0]][0], $arr111[$bantuan2[0]][1], $arr111[$bantuan2[0]][2], $arr111[$bantuan2[0]][3], $arr111[$bantuan2[0]][4], $arr111[$bantuan2[0]][5], $a]);
+					array_push($Final, [$arr111[$bantuan2[$as]][0], $arr111[$bantuan2[$as]][1], $arr111[$bantuan2[$as]][2], $arr111[$bantuan2[$as]][3], $arr111[$bantuan2[$as]][4], $arr111[$bantuan2[$as]][5], $a]);
+				} else {
+					array_push($Final, [$arr111[$bantuan2[0]][0], $arr111[$bantuan2[0]][1], $arr111[$bantuan2[0]][2], $arr111[$bantuan2[0]][3], $arr111[$bantuan2[0]][4], $arr111[$bantuan2[0]][5], $a]);
+				}
+
+				$bantuan1 = 0;
+				$bantuan2 = [];
+			}
+		}
+		
+		return($Final);
+	}
+
 
 /////////////////////////////////////////////////////////////mencetak kuintansi pdf tagihan pembayaran
 	public function cetak_pdf(){
@@ -1618,211 +2108,19 @@ class Main extends CI_Controller {
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 
-		$abc = 0;
-		$jml = 0;
-		$idhasilcek = 0;
-		$posisidata = 2;
-		$kondisitahun = '';
-		$kondisiharga ='';
-		$cekondisi = '';
-		$test = 0;
-//array data pertama
-		$dataharga = array(
-			array(
-			'1',
-			($bulannya[0]->Harga),
-			($bulannya[0]->tahun),
-			($bulannya[0]->bulan)
-			)
-		);
-		
-	
-//cari jumlah bulan yg diinput
-		foreach($bulannya as $item) {
-			$jml = $jml + 1;
+		$arr = [];
+		$namabln = '';
+		$count1 = 0;
+		$totalHrg = 0;
+		$hargaBln = 0;
+
+		for($a=0; $a<count($bulannya); $a++){
+			array_push($arr, [$a, (integer)$bulannya[$a]->Harga, (integer)$bulannya[$a]->tahun, (integer)$bulannya[$a]->bulan]);
 		}
 
-//cek ad brp baris
-		for($i=1; $i<$jml; $i++){
-			foreach($dataharga as $ok) {
-				if($ok[2] == $bulannya[$i]->tahun){					
-					$kondisitahun = 'ada';
-					if($ok[1] == $bulannya[$i]->Harga){					
-						$kondisiharga = 'ada';
-						break;
-					} else {
-						$kondisiharga = "taksama";
-					}	
-				} else {
-					$kondisitahun = "taksama";
-					
-				}		
-			}
-
-//input data ke array
-			if($kondisiharga == 'taksama' || $kondisitahun == 'taksama'){
-				$arraybaru = array(
-					$posisidata,
-					$bulannya[$i]->Harga,
-					$bulannya[$i]->tahun,
-					$bulannya[$i]->bulan					
-				);
-				$posisidata = $posisidata + 1;
-				$abc = $abc + 1;			
-				array_push($dataharga, $arraybaru);
-			} else if($kondisitahun == 'ada'){
-				if($kondisiharga == 'ada'){
-					foreach($dataharga as $cektempat) {
-						if($bulannya[$i]->tahun == $cektempat[2]){
-							if($bulannya[$i]->Harga == $cektempat[1]){
-								$abc = $abc + 1;			
-
-								$arraybaru = array(
-									$cektempat[0],
-									$bulannya[$i]->Harga,
-									$bulannya[$i]->tahun,
-									$bulannya[$i]->bulan					
-								);
-								array_push($dataharga, $arraybaru);
-							break;
-							}
-						}
-					}
-					$idhasilcek = 0;
-				} else if($kondisiharga == 'taksama' && $kondisitahun== 'ada'){
-					$arraybaru = array(
-						$posisidata,
-						$bulannya[$i]->Harga,
-						$bulannya[$i]->tahun,
-						$bulannya[$i]->bulan					
-					);
-					$posisidata = $posisidata + 1;
-					$abc = $abc + 1;			
-					array_push($dataharga, $arraybaru);
-				}
-			}
-
-			$kondisiharga = '';
-			$kondisitahun = '';
-		}
-
-		$tempsementara = array(); //array menyimpan jumlah banyak data tiap id dengan harganya, format (id, harga, jmlbulan)
-		$jumlahdataharga = 0;
-		$jumlahdatahargafix = 0;
-
-		for($i=0; $i<$posisidata-1; $i++){
-
-			for($j=0; $j<$abc+1;$j++){
-				if($dataharga[$j][0] == ($i+1)){
-					$jumlahdataharga = $jumlahdataharga + 1;
-				}	
-
-			}
-			$arrayid = array(($i+1), $dataharga[$i][1], $jumlahdataharga);
-			array_push($tempsementara, $arrayid);
-			
-			$jumlahdatahargafix = $jumlahdatahargafix + $jumlahdataharga;
-
-			$jumlahdataharga = 0;
-
-
-		}
-
-		$dataJmlThnFix = array($dataharga[0][2]);
-
-		//dapetin bnyknya tahun
-		for($a=1; $a<count($dataharga); $a++){
-			if($dataharga[$a][2] != $dataJmlThnFix[0]){
-				if(count($dataJmlThnFix) == 1){
-					array_push($dataJmlThnFix, $dataharga[$a][2]);
-				} else  {
-					for($b=1; $b<count($dataJmlThnFix); $b++){
-						if($dataharga[$a][2] != $dataJmlThnFix[$b]){
-							array_push($dataJmlThnFix, $dataharga[$a][2]);
-						}
-					}
-				}
-			}
-		}
-
-		// $variabel1 = array();
-		// if($data1 != $data2){
-		// 	if($variabel1 == null){
-		// 		$variabel1 = $data1;
-		// 	} else if($variabel1 != $data2){
-		// 		array_push($variabel1, 'harga');
-		// 	} 
-		// }
-
-		$SemuaDataFix = array(array());
-		$Transfer = array();
-		$posisiTransfer = [];
-		$dataNamaBln = [];
-		$pos = 0;
-		$JmlBaris = 0;
-		$posisiterbaru = 0;
-
-	
-		for($d=0; $d<count($dataJmlThnFix); $d++){
-			for($c=0; $c<count($dataharga); $c++){
-				if($dataJmlThnFix[$d] == $dataharga[$c][2]){
-
-					$posisiTransfer[] = $c;
-					$dataNamaBln[] = $dataharga[$c][3];
-					
-				}
-			}
-			for($b=0; $b<count($posisiTransfer); $b++){
-				for ($a=count($posisiTransfer)-1; $a>$b; $a--){
-					if ($dataharga[$posisiTransfer[$a]][3] < $dataharga[$posisiTransfer[$a-1]][3]){
-						$pos = $posisiTransfer[$a-1];
-						$posisiTransfer[$a-1] = $posisiTransfer[$a];
-						$posisiTransfer[$a] = $pos;
-					}
-				}
-			}
-		
-		
-
-			$angkaTerkecil = min($dataNamaBln);
-			$angkaTerbesar = max($dataNamaBln);
-			
-
-			$JmlBaris = $JmlBaris + 1;	
-
-
-			for ($x = $angkaTerkecil; $x <= $angkaTerbesar; $x++) {
-				if (! in_array($x, $dataNamaBln)) {
-					$JmlBaris = $JmlBaris + 1;		
-			
-				} else {
-					$Transfer = array(
-						$dataharga[$posisiTransfer[$posisiterbaru]][0],
-						$dataharga[$posisiTransfer[$posisiterbaru]][1],
-						$dataharga[$posisiTransfer[$posisiterbaru]][2],
-						$dataharga[$posisiTransfer[$posisiterbaru]][3],
-						$JmlBaris
-					);
-					array_push($SemuaDataFix, $Transfer);
-					$posisiterbaru = $posisiterbaru + 1;
-				}
-				
-				
-			}
-
-	
-			$posisiterbaru = 0;
-			unset($posisiTransfer);
-			unset($dataNamaBln);
-			
-		}
-		
-		$jumlah = 0;
-		$hasilBulan = 0;
-		$variabel1 = array();
-		$jmlTambahanHarga = 0;
-
-		// sort($dataharga);
+		$print = $this->cek_array_pdf($arr);
+		$jmlakhir = $print[count($print) - 1][6] + 1;
+		$status = [];
 
 		$yng = $this->terbilang($data[0]->total_awal);
 
@@ -1874,49 +2172,48 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
 		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
-		for($p=1; $p<$JmlBaris+1; $p++){
-			for($q=1; $q<count($SemuaDataFix); $q++){			
-
-				if($p == $SemuaDataFix[$q][4]){
-					$jumlah = $jumlah + 1;
-					$hasilBulan = $q;
+		for($a=0; $a<$jmlakhir; $a++){
+			for($b=0; $b<count($print); $b++){
+				if($print[$b][6] == $a){
+					array_push($status, $b);
 				}
+			}			
 
+			if(count($status) > 1){
+				$namabln = $this->switch_bulan($print[$status[0]][1]).'-'.$this->switch_bulan($print[$status[1]][1]).' '.$print[$status[0]][0];
+				$count1 = ($print[$status[1]][1] - $print[$status[0]][1]) + 1;
+				$totalHrg = $count1 * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
 				
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.$count1 ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
+
+			} else {
+				$namabln = $this->switch_bulan($print[$status[0]][1]).' '.$print[$status[0]][0];
+				$totalHrg = count($status) * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
+
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.count($status) ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
+
 			}
 
-			
-	
-
-			//print hasilnya (arrray[0][1] = harga, arrray[0][2] = tahun, arrray[0][3] = bulan(dlm angka), arrray[0][4] = jenis pisahnya, )
-			if($jumlah == 1){
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}else {
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan-($jumlah-1)][3]).' - '.$this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}
-
-			
-
-			$c_pdf->Cell(50);
-			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
-			$c_pdf->Cell(7,8, ': '.$jumlah ,0,0, 'L');
-			$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
-			$c_pdf->Cell(14,8,  $HrgBln ,0,0, 'L');
-			$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
-			$okee=0;
-
-			$jmlTambahanHarga = 0;
-			$variabel1 = null;
-			$jumlah = 0;
-			$hasilBulan = 0;
+			$namabln = '';
+			$totalHrg = 0;
+			$hargaBln = 0;
+			$count1 = 0;
+			$status = [];
 		}
-
-
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
@@ -1956,217 +2253,20 @@ class Main extends CI_Controller {
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 		
-		$abc = 0;
-		$jml = 0;
-		$idhasilcek = 0;
-		$posisidata = 2;
-		$kondisitahun = '';
-		$kondisiharga ='';
-		$cekondisi = '';
-		
+		$arr = [];
+		$namabln = '';
+		$count1 = 0;
+		$totalHrg = 0;
+		$hargaBln = 0;
 
-		$test = 0;
-
-		//array data pertama
-		$dataharga = array(
-			array(
-			'1',
-			($bulannya[0]->Harga),
-			($bulannya[0]->tahun),
-			($bulannya[0]->bulan)
-			)
-		);
-		
-	
-		//cari jumlah bulan yg diinput
-		foreach($bulannya as $item) {
-			$jml = $jml + 1;
+		for($a=0; $a<count($bulannya); $a++){
+			array_push($arr, [$a, (integer)$bulannya[$a]->Harga, (integer)$bulannya[$a]->tahun, (integer)$bulannya[$a]->bulan]);
 		}
 
-		//cek ad brp baris
-		for($i=1; $i<$jml; $i++){
-			foreach($dataharga as $ok) {
-				if($ok[2] == $bulannya[$i]->tahun){					
-					$kondisitahun = 'ada';
-					if($ok[1] == $bulannya[$i]->Harga){					
-						$kondisiharga = 'ada';
-						break;
-					} else {
-						$kondisiharga = "taksama";
-					}	
-				} else {
-					$kondisitahun = "taksama";
-					
-				}		
-			}
-
-			//input data ke array
-			if($kondisiharga == 'taksama' || $kondisitahun == 'taksama'){
-				$arraybaru = array(
-					$posisidata,
-					$bulannya[$i]->Harga,
-					$bulannya[$i]->tahun,
-					$bulannya[$i]->bulan					
-				);
-				$posisidata = $posisidata + 1;
-				$abc = $abc + 1;			
-				array_push($dataharga, $arraybaru);
-			} else if($kondisitahun == 'ada'){
-				if($kondisiharga == 'ada'){
-					foreach($dataharga as $cektempat) {
-						if($bulannya[$i]->tahun == $cektempat[2]){
-							if($bulannya[$i]->Harga == $cektempat[1]){
-								$abc = $abc + 1;			
-
-								$arraybaru = array(
-									$cektempat[0],
-									$bulannya[$i]->Harga,
-									$bulannya[$i]->tahun,
-									$bulannya[$i]->bulan					
-								);
-								array_push($dataharga, $arraybaru);
-							break;
-							}
-						}
-					}
-					$idhasilcek = 0;
-				} else if($kondisiharga == 'taksama' && $kondisitahun== 'ada'){
-					$arraybaru = array(
-						$posisidata,
-						$bulannya[$i]->Harga,
-						$bulannya[$i]->tahun,
-						$bulannya[$i]->bulan					
-					);
-					$posisidata = $posisidata + 1;
-					$abc = $abc + 1;			
-					array_push($dataharga, $arraybaru);
-				}
-			}
-
-			$kondisiharga = '';
-			$kondisitahun = '';
-		}
-
-		$tempsementara = array(); //array menyimpan jumlah banyak data tiap id dengan harganya, format (id, harga, jmlbulan)
-		$jumlahdataharga = 0;
-		$jumlahdatahargafix = 0;
-
-		for($i=0; $i<$posisidata-1; $i++){
-
-			for($j=0; $j<$abc+1;$j++){
-				if($dataharga[$j][0] == ($i+1)){
-					$jumlahdataharga = $jumlahdataharga + 1;
-				}	
-
-			}
-			$arrayid = array(($i+1), $dataharga[$i][1], $jumlahdataharga);
-			array_push($tempsementara, $arrayid);
-			
-			$jumlahdatahargafix = $jumlahdatahargafix + $jumlahdataharga;
-
-			$jumlahdataharga = 0;
-
-
-		}
-
-
-		$dataJmlThnFix = array($dataharga[0][2]);
-
-		//dapetin bnyknya tahun
-		for($a=1; $a<count($dataharga); $a++){
-			if($dataharga[$a][2] != $dataJmlThnFix[0]){
-				if(count($dataJmlThnFix) == 1){
-					array_push($dataJmlThnFix, $dataharga[$a][2]);
-				} else  {
-					for($b=1; $b<count($dataJmlThnFix); $b++){
-						if($dataharga[$a][2] != $dataJmlThnFix[$b]){
-							array_push($dataJmlThnFix, $dataharga[$a][2]);
-						}
-					}
-				}
-			}
-		}
-
-		// $variabel1 = array();
-		// if($data1 != $data2){
-		// 	if($variabel1 == null){
-		// 		$variabel1 = $data1;
-		// 	} else if($variabel1 != $data2){
-		// 		array_push($variabel1, 'harga');
-		// 	} 
-		// }
-
-		$SemuaDataFix = array(array());
-		$Transfer = array();
-		$posisiTransfer = [];
-		$dataNamaBln = [];
-		$pos = 0;
-		$JmlBaris = 0;
-		$posisiterbaru = 0;
-
-	
-		for($d=0; $d<count($dataJmlThnFix); $d++){
-			for($c=0; $c<count($dataharga); $c++){
-				if($dataJmlThnFix[$d] == $dataharga[$c][2]){
-
-					$posisiTransfer[] = $c;
-					$dataNamaBln[] = $dataharga[$c][3];
-					
-				}
-			}
-			for($b=0; $b<count($posisiTransfer); $b++){
-				for ($a=count($posisiTransfer)-1; $a>$b; $a--){
-					if ($dataharga[$posisiTransfer[$a]][3] < $dataharga[$posisiTransfer[$a-1]][3]){
-						$pos = $posisiTransfer[$a-1];
-						$posisiTransfer[$a-1] = $posisiTransfer[$a];
-						$posisiTransfer[$a] = $pos;
-					}
-				}
-			}
+		$print = $this->cek_array_pdf($arr);
+		$jmlakhir = $print[count($print) - 1][6] + 1;
+		$status = [];
 		
-		
-
-			$angkaTerkecil = min($dataNamaBln);
-			$angkaTerbesar = max($dataNamaBln);
-			
-
-			$JmlBaris = $JmlBaris + 1;	
-
-
-			for ($x = $angkaTerkecil; $x <= $angkaTerbesar; $x++) {
-				if (! in_array($x, $dataNamaBln)) {
-					$JmlBaris = $JmlBaris + 1;		
-			
-				} else {
-					$Transfer = array(
-						$dataharga[$posisiTransfer[$posisiterbaru]][0],
-						$dataharga[$posisiTransfer[$posisiterbaru]][1],
-						$dataharga[$posisiTransfer[$posisiterbaru]][2],
-						$dataharga[$posisiTransfer[$posisiterbaru]][3],
-						$JmlBaris
-					);
-					array_push($SemuaDataFix, $Transfer);
-					$posisiterbaru = $posisiterbaru + 1;
-				}
-				
-				
-			}
-
-	
-			$posisiterbaru = 0;
-			unset($posisiTransfer);
-			unset($dataNamaBln);
-			
-		}
-		
-		$jumlah = 0;
-		$hasilBulan = 0;
-		$variabel1 = array();
-		$jmlTambahanHarga = 0;
-
-
-		// sort($dataharga);
-
 		$yng = $this->terbilang($data[0]->total_setelah_diskon);
 
         $c_pdf = new FPDF('P', 'mm', 'A4');
@@ -2217,46 +2317,47 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
 		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
-		for($p=1; $p<$JmlBaris+1; $p++){
-			for($q=1; $q<count($SemuaDataFix); $q++){			
-
-				if($p == $SemuaDataFix[$q][4]){
-					$jumlah = $jumlah + 1;
-					$hasilBulan = $q;
+		for($a=0; $a<$jmlakhir; $a++){
+			for($b=0; $b<count($print); $b++){
+				if($print[$b][6] == $a){
+					array_push($status, $b);
 				}
+			}			
 
+			if(count($status) > 1){
+				$namabln = $this->switch_bulan($print[$status[0]][1]).'-'.$this->switch_bulan($print[$status[1]][1]).' '.$print[$status[0]][0];
+				$count1 = ($print[$status[1]][1] - $print[$status[0]][1]) + 1;
+				$totalHrg = $count1 * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
 				
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.$count1 ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
+
+			} else {
+				$namabln = $this->switch_bulan($print[$status[0]][1]).' '.$print[$status[0]][0];
+				$totalHrg = count($status) * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
+
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.count($status) ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
+
 			}
 
-			
-	
-
-			//print hasilnya (arrray[0][1] = harga, arrray[0][2] = tahun, arrray[0][3] = bulan(dlm angka), arrray[0][4] = jenis pisahnya, )
-			if($jumlah == 1){
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}else {
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan-($jumlah-1)][3]).' - '.$this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}
-
-			
-
-			$c_pdf->Cell(50);
-			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
-			$c_pdf->Cell(7,8, ': '.$jumlah ,0,0, 'L');
-			$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
-			$c_pdf->Cell(14,8,  $HrgBln ,0,0, 'L');
-			$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
-			$okee=0;
-
-			$jmlTambahanHarga = 0;
-			$variabel1 = null;
-			$jumlah = 0;
-			$hasilBulan = 0;
+			$namabln = '';
+			$totalHrg = 0;
+			$hargaBln = 0;
+			$count1 = 0;
+			$status = [];
 		}
 
 		$c_pdf->Cell(10);
@@ -2308,234 +2409,50 @@ class Main extends CI_Controller {
 		$hargatotal = 0;
 		$namastaff = str_replace('"', "",json_encode($namauser[0]["nama_user"]));
 
-		$no = 1;
-		$abc = 0;
-		$jml = 0;
-		$idhasilcek = 0;
-		$posisidata = 2;
-		$kondisitahun = '';
-		$kondisiharga ='';
-		$cekondisi = '';
-		
+		$arr = [];
+		$namabln = '';
+		$count1 = 0;
+		$count2 = 0;
+		$totalHrg = 0;
+		$totalHrg2 = 0;
+		$hargaBln = 0;
+		$yng = '';
+		$TotalSemua = 0;
+		$posHrg = [];
 
-		$test = 0;
-
-
-		foreach($bulannya as $jmlharga){
-			if($jmlharga->status == '0'){
-				$hargatotal = $hargatotal + $jmlharga->Harga;
+		for($a=0; $a<count($bulannya); $a++){
+			if($bulannya[$a]->status == 0){
+				array_push($arr, [$a, (integer)$bulannya[$a]->Harga, (integer)$bulannya[$a]->tahun, (integer)$bulannya[$a]->bulan]);
 			}
 		}
 
-		//array data pertama
-		$dataharga = array(
-			array(
-			'1',
-			($bulannya[0]->Harga),
-			($bulannya[0]->tahun),
-			($bulannya[0]->bulan),
-			($bulannya[0]->status)
-			)
-		);
-		
-	
-		//cari jumlah bulan yg diinput
-		foreach($bulannya as $item) {
-			$jml = $jml + 1;
-		}
+		$print = $this->cek_array_pdf($arr);
+		$jmlakhir = $print[count($print) - 1][6] + 1;
+		$status = [];
 
-		//cek ad brp baris
-		for($i=1; $i<$jml; $i++){
-			if($bulannya[$i]->status == '0') {
-				$no = $no+1;
-
-				foreach($dataharga as $ok) {
-					if($ok[2] == $bulannya[$i]->tahun){					
-						$kondisitahun = 'ada';
-						if($ok[1] == $bulannya[$i]->Harga){					
-							$kondisiharga = 'ada';
-							break;
-						} else {
-							$kondisiharga = "taksama";
-						}	
-					} else {
-						$kondisitahun = "taksama";
-						
-					}		
+		for($a=0; $a<$jmlakhir; $a++){
+			for($b=0; $b<count($print); $b++){
+				if($print[$b][6] == $a){
+					array_push($posHrg, $b);
 				}
+			}	
 
-				//input data ke array
-				if($kondisiharga == 'taksama' || $kondisitahun == 'taksama'){
-					$arraybaru = array(
-						$posisidata,
-						$bulannya[$i]->Harga,
-						$bulannya[$i]->tahun,
-						$bulannya[$i]->bulan,
-						$bulannya[$i]->status				
-					);
-					$posisidata = $posisidata + 1;
-					$abc = $abc + 1;			
-					array_push($dataharga, $arraybaru);
-				} else if($kondisitahun == 'ada'){
-					if($kondisiharga == 'ada'){
-						foreach($dataharga as $cektempat) {
-							if($bulannya[$i]->tahun == $cektempat[2]){
-								if($bulannya[$i]->Harga == $cektempat[1]){
-									$abc = $abc + 1;			
-
-									$arraybaru = array(
-										$cektempat[0],
-										$bulannya[$i]->Harga,
-										$bulannya[$i]->tahun,
-										$bulannya[$i]->bulan,
-										$bulannya[$i]->status									
-									);
-									array_push($dataharga, $arraybaru);
-								break;
-								}
-							}
-						}
-						$idhasilcek = 0;
-					} else if($kondisiharga == 'taksama' && $kondisitahun== 'ada'){
-						$arraybaru = array(
-							$posisidata,
-							$bulannya[$i]->Harga,
-							$bulannya[$i]->tahun,
-							$bulannya[$i]->bulan,
-							$bulannya[$i]->status									
-						);
-						$posisidata = $posisidata + 1;
-						$abc = $abc + 1;			
-						array_push($dataharga, $arraybaru);
-					}
-				}
-
-			}
-			$kondisiharga = '';
-			$kondisitahun = '';
-		}
-
-		$tempsementara = array(); //array menyimpan jumlah banyak data tiap id dengan harganya, format (id, harga, jmlbulan)
-		$jumlahdataharga = 0;
-		$jumlahdatahargafix = 0;
-
-		for($i=0; $i<$posisidata-1; $i++){
-
-			for($j=0; $j<$abc+1;$j++){
-				if($dataharga[$j][0] == ($i+1)){
-					$jumlahdataharga = $jumlahdataharga + 1;
-				}	
-
-			}
-			$arrayid = array(($i+1), $dataharga[$i][1], $jumlahdataharga);
-			array_push($tempsementara, $arrayid);
-			
-			$jumlahdatahargafix = $jumlahdatahargafix + $jumlahdataharga;
-
-			$jumlahdataharga = 0;
-
-
-		}
-
-		
-		$dataJmlThnFix = array($dataharga[0][2]);
-
-		//dapetin bnyknya tahun
-		for($a=1; $a<count($dataharga); $a++){
-			if($dataharga[$a][2] != $dataJmlThnFix[0]){
-				if(count($dataJmlThnFix) == 1){
-					array_push($dataJmlThnFix, $dataharga[$a][2]);
-				} else  {
-					for($b=1; $b<count($dataJmlThnFix); $b++){
-						if($dataharga[$a][2] != $dataJmlThnFix[$b]){
-							array_push($dataJmlThnFix, $dataharga[$a][2]);
-						}
-					}
-				}
-			}
-		}
-
-		// $variabel1 = array();
-		// if($data1 != $data2){
-		// 	if($variabel1 == null){
-		// 		$variabel1 = $data1;
-		// 	} else if($variabel1 != $data2){
-		// 		array_push($variabel1, 'harga');
-		// 	} 
-		// }
-
-		$SemuaDataFix = array(array());
-		$Transfer = array();
-		$posisiTransfer = [];
-		$dataNamaBln = [];
-		$pos = 0;
-		$JmlBaris = 0;
-		$posisiterbaru = 0;
-
-	
-		for($d=0; $d<count($dataJmlThnFix); $d++){
-			for($c=0; $c<count($dataharga); $c++){
-				if($dataJmlThnFix[$d] == $dataharga[$c][2]){
-
-					$posisiTransfer[] = $c;
-					$dataNamaBln[] = $dataharga[$c][3];
-					
-				}
-			}
-			for($b=0; $b<count($posisiTransfer); $b++){
-				for ($a=count($posisiTransfer)-1; $a>$b; $a--){
-					if ($dataharga[$posisiTransfer[$a]][3] < $dataharga[$posisiTransfer[$a-1]][3]){
-						$pos = $posisiTransfer[$a-1];
-						$posisiTransfer[$a-1] = $posisiTransfer[$a];
-						$posisiTransfer[$a] = $pos;
-					}
-				}
-			}
-		
-		
-
-			$angkaTerkecil = min($dataNamaBln);
-			$angkaTerbesar = max($dataNamaBln);
-			
-
-			$JmlBaris = $JmlBaris + 1;	
-
-
-			for ($x = $angkaTerkecil; $x <= $angkaTerbesar; $x++) {
-				if (! in_array($x, $dataNamaBln)) {
-					$JmlBaris = $JmlBaris + 1;		
-			
+			if($posHrg != null){
+				if(count($posHrg) > 1){
+					$count2 = ($print[$posHrg[1]][1] - $print[$posHrg[0]][1]) + 1;
+					$totalHrg2 = $count2 * $print[$posHrg[0]][2] ;
+					$TotalSemua = $TotalSemua + $totalHrg2;
 				} else {
-					$Transfer = array(
-						$dataharga[$posisiTransfer[$posisiterbaru]][0],
-						$dataharga[$posisiTransfer[$posisiterbaru]][1],
-						$dataharga[$posisiTransfer[$posisiterbaru]][2],
-						$dataharga[$posisiTransfer[$posisiterbaru]][3],
-						$JmlBaris
-					);
-					array_push($SemuaDataFix, $Transfer);
-					$posisiterbaru = $posisiterbaru + 1;
+					$TotalSemua = $TotalSemua + $print[$posHrg[0]][2];
 				}
-				
-				
 			}
 
-	
-			$posisiterbaru = 0;
-			unset($posisiTransfer);
-			unset($dataNamaBln);
-			
+			$count2 = 0;
+			$totalHrg2 = 0;
+			$posHrg = [];
 		}
-		
-		$jumlah = 0;
-		$hasilBulan = 0;
-		$variabel1 = array();
-		$jmlTambahanHarga = 0;
-
-		// sort($dataharga);
-
-		$yng = $this->terbilang($hargatotal);
-
+			
+		$yng = $this->terbilang($TotalSemua);
 
         $c_pdf = new FPDF('P', 'mm', 'A4');
         $c_pdf->AddPage();
@@ -2585,48 +2502,48 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
 		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
-		for($p=1; $p<$JmlBaris+1; $p++){
-			for($q=1; $q<count($SemuaDataFix); $q++){			
-
-				if($p == $SemuaDataFix[$q][4]){
-					$jumlah = $jumlah + 1;
-					$hasilBulan = $q;
+		for($a=0; $a<$jmlakhir; $a++){
+			for($b=0; $b<count($print); $b++){
+				if($print[$b][6] == $a){
+					array_push($status, $b);
 				}
+			}			
 
+			if(count($status) > 1){
+				$namabln = $this->switch_bulan($print[$status[0]][1]).'-'.$this->switch_bulan($print[$status[1]][1]).' '.$print[$status[0]][0];
+				$count1 = ($print[$status[1]][1] - $print[$status[0]][1]) + 1;
+				$totalHrg = $count1 * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
 				
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.$count1 ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
+
+			} else {
+				$namabln = $this->switch_bulan($print[$status[0]][1]).' '.$print[$status[0]][0];
+				$totalHrg = count($status) * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
+
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.count($status) ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
+
 			}
 
-			
-	
-
-			//print hasilnya (arrray[0][1] = harga, arrray[0][2] = tahun, arrray[0][3] = bulan(dlm angka), arrray[0][4] = jenis pisahnya, )
-			if($jumlah == 1){
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}else {
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan-($jumlah-1)][3]).' - '.$this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}
-
-			
-
-			$c_pdf->Cell(50);
-			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
-			$c_pdf->Cell(7,8, ': '.$jumlah ,0,0, 'L');
-			$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
-			$c_pdf->Cell(14,8,  $HrgBln ,0,0, 'L');
-			$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
-			$okee=0;
-
-			$jmlTambahanHarga = 0;
-			$variabel1 = null;
-			$jumlah = 0;
-			$hasilBulan = 0;
+			$namabln = '';
+			$totalHrg = 0;
+			$hargaBln = 0;
+			$count1 = 0;
+			$status = [];
 		}
-		
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
@@ -2666,232 +2583,51 @@ class Main extends CI_Controller {
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 
-		$abc = 0;
-		$jml = 0;
-		$idhasilcek = 0;
-		$posisidata = 2;
-		$kondisitahun = '';
-		$kondisiharga ='';
-		$cekondisi = '';
-		$test = 0;
+		$arr = [];
+		$namabln = '';
+		$count1 = 0;
+		$count2 = 0;
+		$totalHrg = 0;
+		$totalHrg2 = 0;
+		$hargaBln = 0;
+		$yng = '';
+		$TotalSemua = 0;
+		$posHrg = [];
 
+		for($a=0; $a<count($bulannya); $a++){
+			array_push($arr, [$a, (integer)$bulannya[$a]->Harga, (integer)$bulannya[$a]->tahun, (integer)$bulannya[$a]->bulan]);
+		}
+
+		$print = $this->cek_array_pdf($arr);
+		$jmlakhir = $print[count($print) - 1][6] + 1;
+		$status = [];
+		
 		$blnbayar = $this->switch_bulan(substr($data[0]->tanggal, 5, 2));
 		$thnbayar = substr($data[0]->tanggal, 0, 4);
 		$tglbayar = substr($data[0]->tanggal, 8, 3);
 		
-		//array data pertama
-		$dataharga = array(
-			array(
-			'1',
-			($bulannya[0]->Harga),
-			($bulannya[0]->tahun),
-			($bulannya[0]->bulan)
-			)
-		);
+		for($a=0; $a<$jmlakhir; $a++){
+			for($b=0; $b<count($print); $b++){
+				if($print[$b][6] == $a){
+					array_push($posHrg, $b);
+				}
+			}	
+			if(count($posHrg) > 1){
+				$count2 = ($print[$posHrg[1]][1] - $print[$posHrg[0]][1]) + 1;
+				$totalHrg2 = $count2 * $print[$posHrg[0]][2] ;
+				$TotalSemua = $TotalSemua + $totalHrg2;
+			} else {
+				$TotalSemua = $TotalSemua + $print[$posHrg[0]][2];
+			}
 
-		//array data pertama
-		$notfix = array(
-			array(
-			'0',
-			'0',
-			'0',
-			'0'
-			)
-		);
-		
-	
-		//cari jumlah bulan yg diinput
-		foreach($bulannya as $item) {
-			$jml = $jml + 1;
+			$count2 = 0;
+			$totalHrg2 = 0;
+			$posHrg = [];
 		}
-
-		//cek ad brp baris
-		for($i=1; $i<$jml; $i++){
-			foreach($dataharga as $ok) {
-				if($ok[2] == $bulannya[$i]->tahun){					
-					$kondisitahun = 'ada';
-					if($ok[1] == $bulannya[$i]->Harga){					
-						$kondisiharga = 'ada';
-						break;
-					} else {
-						$kondisiharga = "taksama";
-					}	
-				} else {
-					$kondisitahun = "taksama";
-					
-				}		
-			}
-
-  			//input data ke array
-			if($kondisiharga == 'taksama' || $kondisitahun == 'taksama'){
-				$arraybaru = array(
-					$posisidata,
-					$bulannya[$i]->Harga,
-					$bulannya[$i]->tahun,
-					$bulannya[$i]->bulan					
-				);
-				$posisidata = $posisidata + 1;
-				$abc = $abc + 1;			
-				array_push($dataharga, $arraybaru);
-			} else if($kondisitahun == 'ada'){
-				if($kondisiharga == 'ada'){
-					foreach($dataharga as $cektempat) {
-						if($bulannya[$i]->tahun == $cektempat[2]){
-							if($bulannya[$i]->Harga == $cektempat[1]){
-								$abc = $abc + 1;			
-
-								$arraybaru = array(
-									$cektempat[0],
-									$bulannya[$i]->Harga,
-									$bulannya[$i]->tahun,
-									$bulannya[$i]->bulan					
-								);
-								array_push($dataharga, $arraybaru);
-							break;
-							}
-						}
-					}
-					$idhasilcek = 0;
-				} else if($kondisiharga == 'taksama' && $kondisitahun== 'ada'){
-					$arraybaru = array(
-						$posisidata,
-						$bulannya[$i]->Harga,
-						$bulannya[$i]->tahun,
-						$bulannya[$i]->bulan					
-					);
-					$posisidata = $posisidata + 1;
-					$abc = $abc + 1;			
-					array_push($dataharga, $arraybaru);
-				}
-			}
-
-			$kondisiharga = '';
-			$kondisitahun = '';
-		}
-
-		// $tempsementara = array(); //array menyimpan jumlah banyak data tiap id dengan harganya, format (id, harga, jmlbulan)
-		// $jumlahdataharga = 0;
-		// $jumlahdatahargafix = 0;
-
-
-		// for($i=0; $i<$posisidata-1; $i++){
-
-		// 	for($j=0; $j<$abc+1;$j++){
-		// 		if($dataharga[$j][0] == ($i+1)){
-		// 			$jumlahdataharga = $jumlahdataharga + 1;
-		// 		}	
-
-		// 	}
-		// 	$arrayid = array(($i+1), $dataharga[$i][1], $jumlahdataharga);
-		// 	array_push($tempsementara, $arrayid);
 			
-		// 	$jumlahdatahargafix = $jumlahdatahargafix + $jumlahdataharga;
-
-		// 	$jumlahdataharga = 0;
-
-
-		// }
-
-
-		$dataJmlThnFix = array($dataharga[0][2]);
-
-		//dapetin bnyknya tahun
-		for($a=1; $a<count($dataharga); $a++){
-			if($dataharga[$a][2] != $dataJmlThnFix[0]){
-				if(count($dataJmlThnFix) == 1){
-					array_push($dataJmlThnFix, $dataharga[$a][2]);
-				} else  {
-					for($b=1; $b<count($dataJmlThnFix); $b++){
-						if($dataharga[$a][2] != $dataJmlThnFix[$b]){
-							array_push($dataJmlThnFix, $dataharga[$a][2]);
-						}
-					}
-				}
-			}
-		}
-
-		// $variabel1 = array();
-		// if($data1 != $data2){
-		// 	if($variabel1 == null){
-		// 		$variabel1 = $data1;
-		// 	} else if($variabel1 != $data2){
-		// 		array_push($variabel1, 'harga');
-		// 	} 
-		// }
-
-		$SemuaDataFix = array(array());
-		$Transfer = array();
-		$posisiTransfer = [];
-		$dataNamaBln = [];
-		$pos = 0;
-		$JmlBaris = 0;
-		$posisiterbaru = 0;
-
-	
-		for($d=0; $d<count($dataJmlThnFix); $d++){
-			for($c=0; $c<count($dataharga); $c++){
-				if($dataJmlThnFix[$d] == $dataharga[$c][2]){
-
-					$posisiTransfer[] = $c;
-					$dataNamaBln[] = $dataharga[$c][3];
-					
-				}
-			}
-			for($b=0; $b<count($posisiTransfer); $b++){
-				for ($a=count($posisiTransfer)-1; $a>$b; $a--){
-					if ($dataharga[$posisiTransfer[$a]][3] < $dataharga[$posisiTransfer[$a-1]][3]){
-						$pos = $posisiTransfer[$a-1];
-						$posisiTransfer[$a-1] = $posisiTransfer[$a];
-						$posisiTransfer[$a] = $pos;
-					}
-				}
-			}
-		
+		$yng = $this->terbilang($TotalSemua);
 		
 
-			$angkaTerkecil = min($dataNamaBln);
-			$angkaTerbesar = max($dataNamaBln);
-			
-
-			$JmlBaris = $JmlBaris + 1;	
-
-
-			for ($x = $angkaTerkecil; $x <= $angkaTerbesar; $x++) {
-				if (! in_array($x, $dataNamaBln)) {
-					$JmlBaris = $JmlBaris + 1;		
-			
-				} else {
-					$Transfer = array(
-						$dataharga[$posisiTransfer[$posisiterbaru]][0],
-						$dataharga[$posisiTransfer[$posisiterbaru]][1],
-						$dataharga[$posisiTransfer[$posisiterbaru]][2],
-						$dataharga[$posisiTransfer[$posisiterbaru]][3],
-						$JmlBaris
-					);
-					array_push($SemuaDataFix, $Transfer);
-					$posisiterbaru = $posisiterbaru + 1;
-				}
-				
-				
-			}
-
-	
-			$posisiterbaru = 0;
-			unset($posisiTransfer);
-			unset($dataNamaBln);
-			
-		}
-		
-		$jumlah = 0;
-		$hasilBulan = 0;
-		$variabel1 = array();
-		$jmlTambahanHarga = 0;
-
-
-		
-
-
-		$yng = $this->terbilang($data[0]->total_awal);
 
         $c_pdf = new FPDF('P', 'mm', 'A4');
         $c_pdf->AddPage();
@@ -2941,88 +2677,48 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
 		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
-		// $okee = 0;
-
-		// for($t=1; $t<$posisidata; $t++){
-		// 	for($r=0; $r<$jml; $r++){
-		// 		if($dataharga[$r][0] == $t){
-		// 			$ihi = $this->switch_bulan($dataharga[$r][3]);
-		// 			$thn = $dataharga[$r][2];
-		// 			$okee = $okee + 1;				
-		// 		}
-		// 	}
-
-
-		// 	for($p=0; $p<$jml; $p++){
-		// 		if($dataharga[$p][0] == $t){
-		// 			$aha = $this->switch_bulan($dataharga[$p][3]);
-		// 		break;
-		// 		}
-		// 	}
-
-		// 	$totalakhir = $okee * $dataharga[$t-1][1];
-		// 	$namabulan;
-
-		// 	if($okee == 1){
-		// 		$namabulan = str_replace('"', "",json_encode($aha)).' '.$thn; 
-		// 	} else {
-		// 		$namabulan = str_replace('"', "",json_encode($aha)).'-'.str_replace('"', "",json_encode($ihi)).' '.$thn; 
-		// 	}
-
-
-			// $c_pdf->Cell(50);
-			// $c_pdf->Cell(55,8, $aha ,0,0, 'L');
-			// $c_pdf->Cell(7,8, ': '.$okee ,0,0, 'L');
-			// $c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
-			// $c_pdf->Cell(14,8,  number_format(str_replace('"', "",json_encode($dataharga[$t-1][1])), 0, ',', '.') ,0,0, 'L');
-			// $c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
-			// $c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
-			// $okee=0;
-		// }
-
-
-		for($p=1; $p<$JmlBaris+1; $p++){
-			for($q=1; $q<count($SemuaDataFix); $q++){			
-
-				if($p == $SemuaDataFix[$q][4]){
-					$jumlah = $jumlah + 1;
-					$hasilBulan = $q;
+		for($a=0; $a<$jmlakhir; $a++){
+			for($b=0; $b<count($print); $b++){
+				if($print[$b][6] == $a){
+					array_push($status, $b);
 				}
+			}			
 
+			if(count($status) > 1){
+				$namabln = $this->switch_bulan($print[$status[0]][1]).'-'.$this->switch_bulan($print[$status[1]][1]).' '.$print[$status[0]][0];
+				$count1 = ($print[$status[1]][1] - $print[$status[0]][1]) + 1;
+				$totalHrg = $count1 * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
+				
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.$count1 ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
+
+			} else {
+				$namabln = $this->switch_bulan($print[$status[0]][1]).' '.$print[$status[0]][0];
+				$totalHrg = count($status) * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
+
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.count($status) ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
 				
 			}
 
-			
-	
-
-			//print hasilnya (arrray[0][1] = harga, arrray[0][2] = tahun, arrray[0][3] = bulan(dlm angka), arrray[0][4] = jenis pisahnya, )
-			if($jumlah == 1){
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}else {
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan-($jumlah-1)][3]).' - '.$this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}
-
-			
-
-			$c_pdf->Cell(50);
-			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
-			$c_pdf->Cell(7,8, ': '.$jumlah ,0,0, 'L');
-			$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
-			$c_pdf->Cell(14,8,  $HrgBln ,0,0, 'L');
-			$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
-			$okee=0;
-
-			$jmlTambahanHarga = 0;
-			$variabel1 = null;
-			$jumlah = 0;
-			$hasilBulan = 0;
+			$namabln = '';
+			$totalHrg = 0;
+			$hargaBln = 0;
+			$count1 = 0;
+			$status = [];
 		}
-
 
 		$c_pdf->Cell(10);
         $c_pdf->Cell(48,8, 'Jumlah Rupiah       : Rp.',0,0, 'L');
@@ -3062,217 +2758,23 @@ class Main extends CI_Controller {
 		$dt = new DateTime(null, new DateTimeZone('Asia/Jakarta')); 
 		$c_pdf = $this->pdf->getInstance();
 		
-		$abc = 0;
-		$jml = 0;
-		$idhasilcek = 0;
-		$posisidata = 2;
-		$kondisitahun = '';
-		$kondisiharga ='';
-		$cekondisi = '';
-		$test = 0;
+		$arr = [];
+		$namabln = '';
+		$count1 = 0;
+		$totalHrg = 0;
+		$hargaBln = 0;
 
+		for($a=0; $a<count($bulannya); $a++){
+			array_push($arr, [$a, (integer)$bulannya[$a]->Harga, (integer)$bulannya[$a]->tahun, (integer)$bulannya[$a]->bulan]);
+		}
+
+		$print = $this->cek_array_pdf($arr);
+		$jmlakhir = $print[count($print) - 1][6] + 1;
+		$status = [];
+		
 		$blnbayar = $this->switch_bulan(substr($data[0]->tanggal, 5, 2));
 		$thnbayar = substr($data[0]->tanggal, 0, 4);
 		$tglbayar = substr($data[0]->tanggal, 8, 3);
-
-		//array data pertama
-		$dataharga = array(
-			array(
-			'1',
-			($bulannya[0]->Harga),
-			($bulannya[0]->tahun),
-			($bulannya[0]->bulan)
-			)
-		);
-		
-	
-		//cari jumlah bulan yg diinput
-		foreach($bulannya as $item) {
-			$jml = $jml + 1;
-		}
-
-		//cek ad brp baris
-		for($i=1; $i<$jml; $i++){
-			foreach($dataharga as $ok) {
-				if($ok[2] == $bulannya[$i]->tahun){					
-					$kondisitahun = 'ada';
-					if($ok[1] == $bulannya[$i]->Harga){					
-						$kondisiharga = 'ada';
-						break;
-					} else {
-						$kondisiharga = "taksama";
-					}	
-				} else {
-					$kondisitahun = "taksama";
-					
-				}		
-			}
-
-			//input data ke array
-			if($kondisiharga == 'taksama' || $kondisitahun == 'taksama'){
-				$arraybaru = array(
-					$posisidata,
-					$bulannya[$i]->Harga,
-					$bulannya[$i]->tahun,
-					$bulannya[$i]->bulan					
-				);
-				$posisidata = $posisidata + 1;
-				$abc = $abc + 1;			
-				array_push($dataharga, $arraybaru);
-			} else if($kondisitahun == 'ada'){
-				if($kondisiharga == 'ada'){
-					foreach($dataharga as $cektempat) {
-						if($bulannya[$i]->tahun == $cektempat[2]){
-							if($bulannya[$i]->Harga == $cektempat[1]){
-								$abc = $abc + 1;			
-
-								$arraybaru = array(
-									$cektempat[0],
-									$bulannya[$i]->Harga,
-									$bulannya[$i]->tahun,
-									$bulannya[$i]->bulan					
-								);
-								array_push($dataharga, $arraybaru);
-							break;
-							}
-						}
-					}
-					$idhasilcek = 0;
-				} else if($kondisiharga == 'taksama' && $kondisitahun== 'ada'){
-					$arraybaru = array(
-						$posisidata,
-						$bulannya[$i]->Harga,
-						$bulannya[$i]->tahun,
-						$bulannya[$i]->bulan					
-					);
-					$posisidata = $posisidata + 1;
-					$abc = $abc + 1;			
-					array_push($dataharga, $arraybaru);
-				}
-			}
-
-			$kondisiharga = '';
-			$kondisitahun = '';
-		}
-
-		$tempsementara = array(); //array menyimpan jumlah banyak data tiap id dengan harganya, format (id, harga, jmlbulan)
-		$jumlahdataharga = 0;
-		$jumlahdatahargafix = 0;
-
-		for($i=0; $i<$posisidata-1; $i++){
-
-			for($j=0; $j<$abc+1;$j++){
-				if($dataharga[$j][0] == ($i+1)){
-					$jumlahdataharga = $jumlahdataharga + 1;
-				}	
-
-			}
-			$arrayid = array(($i+1), $dataharga[$i][1], $jumlahdataharga);
-			array_push($tempsementara, $arrayid);
-			
-			$jumlahdatahargafix = $jumlahdatahargafix + $jumlahdataharga;
-
-			$jumlahdataharga = 0;
-
-
-		}
-
-		
-		$dataJmlThnFix = array($dataharga[0][2]);
-
-		//dapetin bnyknya tahun
-		for($a=1; $a<count($dataharga); $a++){
-			if($dataharga[$a][2] != $dataJmlThnFix[0]){
-				if(count($dataJmlThnFix) == 1){
-					array_push($dataJmlThnFix, $dataharga[$a][2]);
-				} else  {
-					for($b=1; $b<count($dataJmlThnFix); $b++){
-						if($dataharga[$a][2] != $dataJmlThnFix[$b]){
-							array_push($dataJmlThnFix, $dataharga[$a][2]);
-						}
-					}
-				}
-			}
-		}
-
-		// $variabel1 = array();
-		// if($data1 != $data2){
-		// 	if($variabel1 == null){
-		// 		$variabel1 = $data1;
-		// 	} else if($variabel1 != $data2){
-		// 		array_push($variabel1, 'harga');
-		// 	} 
-		// }
-
-		$SemuaDataFix = array(array());
-		$Transfer = array();
-		$posisiTransfer = [];
-		$dataNamaBln = [];
-		$pos = 0;
-		$JmlBaris = 0;
-		$posisiterbaru = 0;
-
-	
-		for($d=0; $d<count($dataJmlThnFix); $d++){
-			for($c=0; $c<count($dataharga); $c++){
-				if($dataJmlThnFix[$d] == $dataharga[$c][2]){
-
-					$posisiTransfer[] = $c;
-					$dataNamaBln[] = $dataharga[$c][3];
-					
-				}
-			}
-			for($b=0; $b<count($posisiTransfer); $b++){
-				for ($a=count($posisiTransfer)-1; $a>$b; $a--){
-					if ($dataharga[$posisiTransfer[$a]][3] < $dataharga[$posisiTransfer[$a-1]][3]){
-						$pos = $posisiTransfer[$a-1];
-						$posisiTransfer[$a-1] = $posisiTransfer[$a];
-						$posisiTransfer[$a] = $pos;
-					}
-				}
-			}
-		
-		
-
-			$angkaTerkecil = min($dataNamaBln);
-			$angkaTerbesar = max($dataNamaBln);
-			
-
-			$JmlBaris = $JmlBaris + 1;	
-
-
-			for ($x = $angkaTerkecil; $x <= $angkaTerbesar; $x++) {
-				if (! in_array($x, $dataNamaBln)) {
-					$JmlBaris = $JmlBaris + 1;		
-			
-				} else {
-					$Transfer = array(
-						$dataharga[$posisiTransfer[$posisiterbaru]][0],
-						$dataharga[$posisiTransfer[$posisiterbaru]][1],
-						$dataharga[$posisiTransfer[$posisiterbaru]][2],
-						$dataharga[$posisiTransfer[$posisiterbaru]][3],
-						$JmlBaris
-					);
-					array_push($SemuaDataFix, $Transfer);
-					$posisiterbaru = $posisiterbaru + 1;
-				}
-				
-				
-			}
-
-	
-			$posisiterbaru = 0;
-			unset($posisiTransfer);
-			unset($dataNamaBln);
-			
-		}
-		
-		$jumlah = 0;
-		$hasilBulan = 0;
-		$variabel1 = array();
-		$jmlTambahanHarga = 0;
-
-		// sort($dataharga);
 
 		$yng = $this->terbilang($data[0]->total_setelah_diskon);
 
@@ -3324,46 +2826,47 @@ class Main extends CI_Controller {
 		$c_pdf->Cell(16,8, 'Bulan :',0,0, 'L');
 		$c_pdf->Cell(40,8, '' ,0,1, 'L');
 
-		for($p=1; $p<$JmlBaris+1; $p++){
-			for($q=1; $q<count($SemuaDataFix); $q++){			
-
-				if($p == $SemuaDataFix[$q][4]){
-					$jumlah = $jumlah + 1;
-					$hasilBulan = $q;
+		for($a=0; $a<$jmlakhir; $a++){
+			for($b=0; $b<count($print); $b++){
+				if($print[$b][6] == $a){
+					array_push($status, $b);
 				}
+			}			
 
+			if(count($status) > 1){
+				$namabln = $this->switch_bulan($print[$status[0]][1]).'-'.$this->switch_bulan($print[$status[1]][1]).' '.$print[$status[0]][0];
+				$count1 = ($print[$status[1]][1] - $print[$status[0]][1]) + 1;
+				$totalHrg = $count1 * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
 				
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.$count1 ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
+
+			} else {
+				$namabln = $this->switch_bulan($print[$status[0]][1]).' '.$print[$status[0]][0];
+				$totalHrg = count($status) * $print[$status[0]][2] ;
+				$hargaBln = $print[$status[0]][2];
+
+				$c_pdf->Cell(50);
+				$c_pdf->Cell(55,8, $namabln ,0,0, 'L');
+				$c_pdf->Cell(7,8, ': '.count($status) ,0,0, 'L');
+				$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
+				$c_pdf->Cell(14,8,  $hargaBln ,0,0, 'L');
+				$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
+				$c_pdf->Cell(15,8, number_format($totalHrg, 0, ',', '.') ,0,1, 'L');
+
 			}
 
-			
-	
-
-			//print hasilnya (arrray[0][1] = harga, arrray[0][2] = tahun, arrray[0][3] = bulan(dlm angka), arrray[0][4] = jenis pisahnya, )
-			if($jumlah == 1){
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}else {
-				$namabulan = $this->switch_bulan($SemuaDataFix[$hasilBulan-($jumlah-1)][3]).' - '.$this->switch_bulan($SemuaDataFix[$hasilBulan][3]).' '.$SemuaDataFix[$hasilBulan][2];
-				$HrgBln = $SemuaDataFix[$hasilBulan][1];
-				$totalakhir = $jumlah * $HrgBln;
-			}
-
-			
-
-			$c_pdf->Cell(50);
-			$c_pdf->Cell(55,8, $namabulan ,0,0, 'L');
-			$c_pdf->Cell(7,8, ': '.$jumlah ,0,0, 'L');
-			$c_pdf->Cell(22,8, 'bulan x Rp.',0,0, 'L');
-			$c_pdf->Cell(14,8,  $HrgBln ,0,0, 'L');
-			$c_pdf->Cell(25,8, ': Total = Rp.',0,0, 'L');
-			$c_pdf->Cell(15,8, number_format($totalakhir, 0, ',', '.') ,0,1, 'L');
-			$okee=0;
-
-			$jmlTambahanHarga = 0;
-			$variabel1 = null;
-			$jumlah = 0;
-			$hasilBulan = 0;
+			$namabln = '';
+			$totalHrg = 0;
+			$hargaBln = 0;
+			$count1 = 0;
+			$status = [];
 		}
 
 		$c_pdf->Cell(10);
